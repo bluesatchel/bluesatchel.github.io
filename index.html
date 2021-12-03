@@ -185,7 +185,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-12-04 02:03:57 / 修改时间：03:16:09" itemprop="dateCreated datePublished" datetime="2021-12-04T02:03:57+08:00">2021-12-04</time>
+              <time title="创建时间：2021-12-04 02:03:57 / 修改时间：03:22:56" itemprop="dateCreated datePublished" datetime="2021-12-04T02:03:57+08:00">2021-12-04</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -244,6 +244,10 @@
 <p>提交成功之后,source分支就是保存博客的部署文件,让自己更新维护,master保存博客的静态页面,提供访问</p>
 <p>,新电脑只需要拉取source分支并安装需要的软件就能写博客了</p>
 <p>需要注意的点是,每当需要切换设备更新博客时候,一定要先将原设备中source分支下的内容push到github上,再由新设备拉取才能撰写博客push到master分支</p>
+<p>如果不嫌麻烦的话,每次写完文章</p>
+<p>git bash 五连击</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo d</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;new page&quot;</span></span><br><span class="line">git push origin <span class="built_in">source</span></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
