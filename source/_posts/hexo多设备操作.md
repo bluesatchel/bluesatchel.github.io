@@ -104,3 +104,4 @@ git commit -m "new page"
 git push origin source
 ```
 
+换设备之后只需要在hexo目录下git pull即可写文章了
