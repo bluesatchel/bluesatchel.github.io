@@ -12,7 +12,7 @@ typora-root-url: ..
 
 接着在项目中新建一个分支,或者将main分支改名为source分支并设置为默认分支
 
-<img src="/images/hexo%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%93%8D%E4%BD%9C/image-20211204020927875.png" alt="image-20211204020927875" style="zoom: 33%;" />
+![image-20211204031522619](/images/hexo%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%93%8D%E4%BD%9C/image-20211204031522619.png)
 
 确保该分支中文件为空
 
@@ -42,8 +42,6 @@ typora-root-url: ..
 
 接着将原来设备中的Hexo目录下的所有文件复制新建的hexo目录
 
-<img src="/images/hexo%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%93%8D%E4%BD%9C/image-20211204021049789.png" alt="image-20211204021049789" style="zoom:25%;" />
-
 接着安装hexo 
 
 `npm install -g hexo cli`
@@ -70,7 +68,7 @@ npm install hexo-generator-searchdb --save
 
 接下来在有.git文件夹的目录下打开git bash
 
-开始准备push文件,提交前将.gitignore文件中有的文件名删掉,防止部分传不上去
+开始准备push文件,提交前将.gitignore文件中的node_modules依赖库删掉,把它也传上去
 
 `git init`
 
@@ -92,4 +90,4 @@ npm install hexo-generator-searchdb --save
 
 ,新电脑只需要拉取source分支并安装需要的软件就能写博客了
 
-需要注意的点是,每当需要切换设备更新博客时候,一定要先将原设备中source分支下的内容push到github上,再由新设备拉取才行
+需要注意的点是,每当需要切换设备更新博客时候,一定要先将原设备中source分支下的内容push到github上,再由新设备拉取才能撰写博客push到master分支
