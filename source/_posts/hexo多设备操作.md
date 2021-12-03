@@ -91,3 +91,16 @@ npm install hexo-generator-searchdb --save
 ,新电脑只需要拉取source分支并安装需要的软件就能写博客了
 
 需要注意的点是,每当需要切换设备更新博客时候,一定要先将原设备中source分支下的内容push到github上,再由新设备拉取才能撰写博客push到master分支
+
+如果不嫌麻烦的话,每次写完文章
+
+git bash 五连击
+
+```bash
+hexo g
+hexo d
+git add .
+git commit -m "new page"
+git push origin source
+```
+
