@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>git新建仓库</title>
+    <url>/2021/12/04/git%E6%96%B0%E5%BB%BA%E4%BB%93%E5%BA%93/</url>
+    <content><![CDATA[<p>git新建仓库上传代码</p>
+<img src="/images/git%E6%96%B0%E5%BB%BA%E4%BB%93%E5%BA%93/image-20211204165449892.png" alt="image-20211204165449892" style="zoom: 67%;" />
+
+<p>首先create a new repository新建一个仓库,接下来找到本地要上传代码的文件夹</p>
+<p>在该文件夹下打开git bash</p>
+<p>输入下列命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;用户名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱&quot;</span><br><span class="line">git init  会生成.git文件夹</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git branch -M master</span><br><span class="line">//使用ssh之前要先配置公钥</span><br><span class="line">git remote add origin git@github.com:用户名/仓库名.git</span><br><span class="line">git push -u origin main</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo多设备操作</title>
     <url>/2021/12/04/hexo%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%93%8D%E4%BD%9C/</url>
     <content><![CDATA[<p>在终于解决掉hexo图片路径的问题后,再次着手解决hexo多设备更新文章的问题</p>
@@ -55,6 +74,18 @@
       </tags>
   </entry>
   <entry>
+    <title>mypage1</title>
+    <url>/2021/12/02/mypage1/</url>
+    <content><![CDATA[<p>1111111</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>111</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo上传图片</title>
     <url>/2021/12/02/pic-hexo/</url>
     <content><![CDATA[<p>参考文章:</p>
@@ -75,18 +106,6 @@
       </categories>
       <tags>
         <tag>hexo上传图片</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>mypage1</title>
-    <url>/2021/12/02/mypage1/</url>
-    <content><![CDATA[<p>1111111</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>111</tag>
       </tags>
   </entry>
   <entry>
@@ -146,25 +165,6 @@
       </categories>
       <tags>
         <tag>sqli-labs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>git新建仓库</title>
-    <url>/2021/12/04/git%E6%96%B0%E5%BB%BA%E4%BB%93%E5%BA%93/</url>
-    <content><![CDATA[<p>git新建仓库上传代码</p>
-<img src="/images/git%E6%96%B0%E5%BB%BA%E4%BB%93%E5%BA%93/image-20211204165449892.png" alt="image-20211204165449892" style="zoom: 67%;" />
-
-<p>首先create a new repository新建一个仓库,接下来找到本地要上传代码的文件夹</p>
-<p>在该文件夹下打开git bash</p>
-<p>输入下列命令</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;用户名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱&quot;</span><br><span class="line">git init  会生成.git文件夹</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git branch -M master</span><br><span class="line">//使用ssh之前要先配置公钥</span><br><span class="line">git remote add origin git@github.com:用户名/仓库名.git</span><br><span class="line">git push -u origin main</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>github</tag>
       </tags>
   </entry>
   <entry>
