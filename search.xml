@@ -180,4 +180,27 @@
         <tag>-cpp -数据结构 -二叉树</tag>
       </tags>
   </entry>
+  <entry>
+    <title>hexo的next主题配置搜索功能</title>
+    <url>/2021/12/04/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/</url>
+    <content><![CDATA[<p>1.安装插件</p>
+<p><code>npm install hexo-generator-searchdb --save</code></p>
+<p>2.修改next主题的_config.yml配置文件,找到local_search,将其中的enable设置为true</p>
+<p>3.将下列参数添加到hexo的配置文件中(_config.yml)</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">search:</span><br><span class="line">  path: search.xml   #在public目录的根目录下生成search.xml 文件，用于存储网站文章的文字数据.</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></table></figure>
+
+<p>然后</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>即可在线使用搜索功能</p>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项:"></a>注意事项:</h4><p>安装searchdb插件后</p>
+<p>如果不配置第三部的参数,在在线页面中会出现一直转圈的搜索框</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>-hexo -Next主题搜索功能</tag>
+      </tags>
+  </entry>
 </search>
