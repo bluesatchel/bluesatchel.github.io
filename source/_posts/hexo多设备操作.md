@@ -4,6 +4,7 @@ date: 2021-12-04 02:03:57
 tags: 
     - hexo 
     - github
+    - github公钥设置
 categories: hexo
 typora-root-url: ..
 ---
