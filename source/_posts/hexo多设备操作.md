@@ -1,7 +1,9 @@
 ---
 title: hexo多设备操作
 date: 2021-12-04 02:03:57
-tags: hexo多设备操作
+tags: 
+    - hexo 
+    - github
 categories: hexo
 typora-root-url: ..
 ---
