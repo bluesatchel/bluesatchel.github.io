@@ -248,4 +248,88 @@
         <tag>hexo</tag>
       </tags>
   </entry>
+  <entry>
+    <title>java正则表达式</title>
+    <url>/2021/12/06/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<h4 id="正则匹配中贪婪模式和非贪婪模式的区别"><a href="#正则匹配中贪婪模式和非贪婪模式的区别" class="headerlink" title="正则匹配中贪婪模式和非贪婪模式的区别"></a>正则匹配中贪婪模式和非贪婪模式的区别</h4><p>我个人理解为,贪婪模式情况下,会尽可能多的进行每一次的匹配,非贪婪模式每一次进行匹配都会找尽可能短的满足问号前条件的字符完成本次匹配</p>
+<h4 id="java正则简单实现"><a href="#java正则简单实现" class="headerlink" title="java正则简单实现"></a>java正则简单实现</h4><p>简单实践,后面记录各个类和方法的信息</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.regex.Matcher;</span><br><span class="line"><span class="keyword">import</span> java.util.regex.Pattern;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">r1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String content=<span class="string">&quot;2000年5月，JDK1.3、JDK1.4和J2SE1.3相继发布，几周后其获得了Apple公司Mac OS X的工业标准的支持。2001年9月24日，J2EE1.3发布。&quot;</span> +</span><br><span class="line">                <span class="string">&quot;2002年2月26日，J2SE1.4发布。自此Java的计算能力有了大幅提升，与J2SE1.3相比，其多了近62%的类和接口。在这些新特性当中，还提供了广泛的XML支持、安全套接字（Socket）支持（通过SSL与TLS协议）、全新的I/OAPI、正则表达式、日志与断言。&quot;</span> +</span><br><span class="line">                <span class="string">&quot;2004年9月30日，J2SE1.5发布，成为Java语言发展史上的又一里程碑。为了表示该版本的重要性，J2SE 1.5更名为Java SE 5.0（内部版本号1.5.0），&quot;</span> +</span><br><span class="line">                <span class="string">&quot;代号为“Tiger”，Tiger包含了从1996年发布1.0版本以来的最重大的更新，其中包括泛型支持、基本类型的自动装箱、改进的循环、枚举类型、&quot;</span> +</span><br><span class="line">                <span class="string">&quot;格式化I/O及可变参数。&quot;</span>;</span><br><span class="line">		<span class="comment">//匹配数字或者单词</span></span><br><span class="line">        Pattern pattern = Pattern.compile(<span class="string">&quot;\\d\\d\\d\\d&quot;</span>);</span><br><span class="line">        <span class="comment">//2.创建一个匹配器对象</span></span><br><span class="line">        Matcher matcher= pattern.matcher(content);</span><br><span class="line">        <span class="comment">//可以循环匹配</span></span><br><span class="line">        <span class="keyword">while</span>(matcher.find())&#123;</span><br><span class="line">            <span class="comment">//匹配文本放到matcher.group(0)</span></span><br><span class="line">            System.out.println(<span class="string">&quot;找到&quot;</span>+matcher.group(<span class="number">0</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="matcher-find-完成的任务"><a href="#matcher-find-完成的任务" class="headerlink" title="matcher.find()完成的任务:"></a><code>matcher.find()</code>完成的任务:</h5><p>1.根据指定的规则定位满足规则的子字符串(比如2000)</p>
+<p>2.找到后,将子字符串的开始索引记录到matcher对象的属性int[] groups;</p>
+<p><img src="../images/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20211207000454930.png" alt="image-20211207000454930"></p>
+<p><img src="../images/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20211207000542796.png" alt="image-20211207000542796"></p>
+<p>groups[0]=0,把该子字符串的结束的索引+1的值记录到groups[1]=4</p>
+<p>3.同时记录oldLast值为子字符串的结束的索引+1,即下次执行find方法时就从记录的索引位置4开始匹配</p>
+<p>group()源码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">group</span><span class="params">(<span class="keyword">int</span> group)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (first &lt; <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">&quot;No match found&quot;</span>);</span><br><span class="line">        <span class="keyword">if</span> (group &lt; <span class="number">0</span> || group &gt; groupCount())</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IndexOutOfBoundsException(<span class="string">&quot;No group &quot;</span> + group);</span><br><span class="line">        <span class="keyword">if</span> ((groups[group*<span class="number">2</span>] == -<span class="number">1</span>) || (groups[group*<span class="number">2</span>+<span class="number">1</span>] == -<span class="number">1</span>))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">return</span> getSubSequence(groups[group * <span class="number">2</span>], groups[group * <span class="number">2</span> + <span class="number">1</span>]).toString();<span class="comment">//截取字符串</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>1.根据groups[0]和groups[1]的记录位置,从content开始截取,从content开始截取字符串返回就是[0,4),包含0但是不包含索引为4的位置</p>
+<p>如果再次执行find方法,仍然按照上面的方法,groups[0]和groups[1]记录本次的开始和结束位置,group[0]记录的是下次<img src="../images/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20211207001258292.png" alt="image-20211207001258292"></p>
+<p><code>Pattern pattern = Pattern.compile(&quot;(\\d\\d)(\\d\\d)&quot;);</code>加上括号,分组匹配:</p>
+<p>根据指定的规则，定位满足规则的子字符串(比如(20)(00))</p>
+<p>1.找到后将 子字符串的开始索引 group[0]=0 记录到 matcher 对象的熟悉 int[] groups数组中；<br>2.1 groups[0] = 0, 把该子字符串的结束的索引+1的值记录到 groups[1] = 4<br>2.2 记录1组()匹配到的子字符串 groups[2] = 0 groups[3] = 2<br>2.3 记录2组()匹配到的子字符串 groups[4] = 2 groups[5] = 4</p>
+<p><img src="../images/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20211207004146025.png" alt="image-20211207004146025"></p>
+<p>2.4 如果有更多的分组，同理</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> (matcher.find()) &#123;</span><br><span class="line"></span><br><span class="line">            System.out.println(<span class="string">&quot;找到：&quot;</span> + matcher.group(<span class="number">0</span>)); <span class="comment">// 2000</span></span><br><span class="line">            System.out.println(<span class="string">&quot;第一组匹配到的值: &quot;</span> + matcher.group(<span class="number">1</span>)); <span class="comment">// 2</span></span><br><span class="line">            System.out.println(<span class="string">&quot;第二组匹配到的值: &quot;</span> + matcher.group(<span class="number">2</span>)); <span class="comment">// 000</span></span><br><span class="line">            <span class="comment">// System.out.println(&quot;找到：&quot; + matcher.group(3)); 索引越界</span></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="../images/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/image-20211207004834793.png" alt="image-20211207004834793"></p>
+<p>3.同时记录 oldLast 的值为 子字符串的结束的 索引+1的值即69，即下次执行find时，就从69开始匹配。</p>
+<p><strong>我的理解是,group[0]永远获取的是每次整个表达式匹配的结果,group(1)和group(2)则是每次匹配到的括号内的内容</strong></p>
+<h5 id="转义字符的使用"><a href="#转义字符的使用" class="headerlink" title="转义字符的使用"></a>转义字符的使用</h5><p>注:在java的正则表达式中,两个\\代表一个\</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        String content = <span class="string">&quot;abc$(a.bc(123(&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 俩个 \\ 字符表示 \</span></span><br><span class="line">        Pattern compile = Pattern.compile(<span class="string">&quot;\\(&quot;</span>);</span><br><span class="line">        <span class="comment">// 2.创建一个匹配器对象</span></span><br><span class="line">        Matcher matcher = compile.matcher(content);</span><br><span class="line">        <span class="comment">// 3. 可以循环匹配</span></span><br><span class="line">        <span class="keyword">while</span> (matcher.find()) &#123;</span><br><span class="line">            <span class="comment">// 匹配内容，文本，放到 m.group(0)</span></span><br><span class="line">            System.out.println(<span class="string">&quot;找到：&quot;</span> + matcher.group(<span class="number">0</span>));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="元字符"><a href="#元字符" class="headerlink" title="元字符"></a>元字符</h5><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.</td>
+<td>匹配除换行符（\n、\r）之外的任何单个字符。要匹配包括 ‘\n’ 在内的任何字符，可使用(.|\n)</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配一个数字字符。等价于 [0-9]。</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>匹配一个非数字字符。等价于 [^0-9]。</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配前面的子表达式一次或多次。例如，’zo+’ 能匹配 “zo” 以及 “zoo”，但不能匹配 “z”。+ 等价于 {1,}。</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配前面的子表达式零次或多次。例如，zo* 能匹配 “z” 以及 “zoo”。* 等价于{0,}。</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配输入字符串的结束位置。如果设置了RegExp 对象的 Multiline 属性，$ 也匹配 ‘\n’ 或 ‘\r’ 之前的位置。</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配输入字符串的开始位置。如果设置了 RegExp 对象的 Multiline 属性，^ 也匹配 ‘\n’ 或 ‘\r’ 之后的位置。</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>正则表达式</tag>
+      </tags>
+  </entry>
 </search>
