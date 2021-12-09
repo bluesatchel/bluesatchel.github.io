@@ -10,6 +10,8 @@ typora-root-url: ..
 
 git新建仓库上传代码
 
+<!--more-->
+
 <img src="/images/git%E6%96%B0%E5%BB%BA%E4%BB%93%E5%BA%93/image-20211204165449892.png" alt="image-20211204165449892" style="zoom: 67%;" />
 
 首先create a new repository新建一个仓库,接下来找到本地要上传代码的文件夹

@@ -12,6 +12,8 @@ https://yinyoupoet.github.io/2019/09/03/hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92
 
 所有的博客文件保存在_post目录下
 
+<!--more-->
+
 在source下新建一个images文件夹
 
 打开Typora的 文件->偏好设置

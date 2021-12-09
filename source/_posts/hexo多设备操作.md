@@ -9,7 +9,7 @@ categories: hexo
 typora-root-url: ..
 ---
 
-在终于解决掉hexo图片路径的问题后,再次着手解决hexo多设备更新文章的问题
+在解决掉hexo图片路径的问题后,着手解决hexo多设备更新文章的问题<!--more-->
 
 首先在新设备上面安装Node.js和Git
 
