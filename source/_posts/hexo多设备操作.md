@@ -108,3 +108,12 @@ git push origin source
 ```
 
 换设备之后只需要在hexo目录下git pull即可写文章了
+
+有时因为一些文件并不是直接创建或者删除,而是做了修改,git可能提示会需要merge
+
+这个时候采用强制覆盖本地文件的方式
+
+`git fetch --all`
+
+`git reset --hard origin/分支名称`
+
