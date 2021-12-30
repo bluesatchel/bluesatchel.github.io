@@ -274,32 +274,47 @@ JmenuBar  Jmenu  JmenuItem
 import javax.swing.*;
 import java.awt.*;
 
-public class jFrameTest {
+public class S9_3 {
     public static void main(String[] args) {
-        JFrame jf=new JFrame();
-        jf.setBounds(400,300,400,250);
-        jf.setLayout(new FlowLayout());//设置流式布局
-        jf.setTitle("hello");//设置标题
-        JMenuBar bar=new JMenuBar();//类比于菜单栏
-        JMenu menu=new JMenu("菜单一");
-        JMenuItem item1=new JMenuItem("二级菜单1");
-        JMenuItem item2=new JMenuItem("二级菜单2");
-        JMenuItem item3=new JMenuItem("二级菜单3");
-        //逐级套娃
-        menu.add(item1);
-        menu.add(item2);
-        menu.add(item3);
-        bar.add(menu);
-        jf.add(bar);
-        //
-        jf.setVisible(true);
-        jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-    }
-}
+        JFrame jFrame=new JFrame("记事本");
+        jFrame.setBounds(500,400,700,700);
+        jFrame.setLayout(new FlowLayout(FlowLayout.LEFT));
+        JMenuBar bar=new JMenuBar();
+        JMenu menu1=new JMenu("文件(F)");
+        JMenuItem item1=new JMenuItem("新建");
+        JMenuItem item2=new JMenuItem("保存");
+        JMenuItem item3=new JMenuItem("另存为");
+        menu1.add(item1);
+        menu1.add(item2);
+        menu1.add(item3);
+        JMenu menu2=new JMenu("编辑(E)");
+        JMenu menu3=new JMenu("格式(O)");
+        JMenu menu4=new JMenu("查看(V)");
+        JMenu menu5=new JMenu("帮助(H)");
+        JMenuItem item4=new JMenuItem("查看帮助(H)");
+        JMenuItem item5=new JMenuItem("发送反馈(F)");
+        JMenuItem item6=new JMenuItem("关于记事本(A)");
+        menu5.add(item4);
+        menu5.add(item5);
+        menu5.add(item6);
+        bar.add(menu1);
+        bar.add(menu2);
+        bar.add(menu3);
+        bar.add(menu4);
+        bar.add(menu5);
 
+
+        jFrame.add(bar);
+        JTextArea jTextArea=new JTextArea(40,63);
+        jFrame.add(jTextArea);
+        jFrame.setVisible(true);
+        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+
+}
 ```
 
-<img src="/images/java-ui/image-20211228132643288.png" alt="image-20211228132643288" style="zoom:67%;" />
+<img src="/images/java-ui/image-20211229002557142.png" alt="image-20211229002557142" style="zoom:67%;" />
 
 ##### 文本组件JTextField
 
@@ -401,7 +416,7 @@ FlowLayout.RIGHT=2;
 
 `jf.add(button,BorderLayout.NORTH);`
 
-<img src="../images/java-ui/image-20211228135034235.png" alt="image-20211228135034235" style="zoom:67%;" />
+<img src="/images/java-ui/image-20211228135034235.png" alt="image-20211228135034235" style="zoom:67%;" />
 
 ##### 网格布局GridLayout
 
@@ -530,3 +545,120 @@ public class jFrameTest {
 ```
 
 <img src="/images/java-ui/image-20211228141558056.png" alt="image-20211228141558056" style="zoom:67%;" />
+
+##### 综合实践
+
+```java
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+
+public class S9_2 {
+    static String path;
+    public static void readText(String path,Object obj) throws Exception{
+        JTextArea jTextArea=(JTextArea) obj;
+        FileReader fileReader=new FileReader(path);
+        BufferedReader bufferedReader=new BufferedReader(fileReader);
+
+        String line;
+        while((line=bufferedReader.readLine())!=null){
+            jTextArea.append(line);
+        }
+        bufferedReader.close();
+        fileReader.close();
+    }
+    public static void saveText(String path,Object obj)throws Exception{
+        JTextArea jTextArea=(JTextArea) obj;
+        BufferedWriter bufferedWriter=new BufferedWriter(new FileWriter(path));
+        bufferedWriter.write(jTextArea.getText());
+        bufferedWriter.flush();
+        bufferedWriter.close();
+    }
+    public static void main(String[] args) {
+        JFrame jFrame=new JFrame("S9_2");
+        jFrame.setLayout(new FlowLayout(FlowLayout.CENTER));
+        jFrame.setBounds(500,500,600,500);
+        JTextArea jTextArea=new JTextArea(20,50);
+        JTextField jTextField=new JTextField(35);
+        //把文本域放进jScrollPane让其拥有滚动条
+        JScrollPane jScrollPane=new JScrollPane(jTextArea);
+        JLabel jLabel=new JLabel("File:");
+        JButton Browse=new JButton("Browse");
+        Browse.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+             	//文件选择组件
+                JFileChooser chooser =new JFileChooser("C:/");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                        "文本文档", "txt");
+                chooser.setFileFilter(filter);
+                int returnVal = chooser.showOpenDialog(jFrame);
+                if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    path=chooser.getSelectedFile().getAbsolutePath();
+                    jTextField.setText(path);
+                }
+            }
+        });
+        JButton Clear=new JButton("Clear");
+        Clear.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jTextArea.setText("");
+            }
+        });
+        JButton Read=new JButton("Read");
+        Read.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                try{
+                    readText(path,jTextArea);
+                }catch (Exception ex){
+
+                }
+            }
+        });
+        JButton Save=new JButton("Save");
+        Save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                try{
+                    saveText(path,jTextArea);
+                }catch (Exception ex){
+
+                }
+            }
+        });
+        JButton Exit=new JButton("Exit");
+        Exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        //设置滚动条一直显示
+        jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        jFrame.add(jLabel);
+        jFrame.add(jTextField);
+        jFrame.add(Browse);
+        jFrame.add(jScrollPane);
+        jFrame.add(Clear);
+        jFrame.add(Read);
+        jFrame.add(Save);
+        jFrame.add(Exit);
+        jFrame.setVisible(true);
+        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    }
+}
+
+```
+
+<img src="/images/java-ui/image-20211229002852293.png" alt="image-20211229002852293" style="zoom:67%;" />
