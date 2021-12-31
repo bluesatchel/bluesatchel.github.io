@@ -236,23 +236,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo的next主题设置文章摘要显示</title>
-    <url>/2021/12/03/hexo%E8%AE%BE%E7%BD%AE%E6%96%87%E7%AB%A0%E6%91%98%E8%A6%81%E6%98%BE%E7%A4%BA/</url>
-    <content><![CDATA[<p>打开next配置文件</p>
-<p>将该项设置为true</p>
-<p><img src="/images/hexo%E8%AE%BE%E7%BD%AE%E6%96%87%E7%AB%A0%E6%98%BE%E7%A4%BA%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9/image-20211205134957202.png" alt="image-20211205134957202"></p>
-<p>显示文章摘要有两种方法</p>
-<p>1.在需要显示截断的地方添加<code>&lt;!--more--&gt;</code>标签</p>
-<p>2.在<code>front-matter</code>中添加<code>description</code>,<code>description</code>中的内容就会添加到首页上面,并且它的优先级高于<code>&lt;!--more--&gt;</code>标签</p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>java正则表达式</title>
     <url>/2021/12/06/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
     <content><![CDATA[<p>首先感谢<a href="https://www.bilibili.com/video/BV1Eq4y1E79W?p=1&spm_id_from=pageDriver">韩顺平老师的课程</a>!!</p>
@@ -1141,5 +1124,270 @@
 <p>基本思想:相同散列地址的记录链成一单链表</p>
 <p>m个散列地址就设m个单链表,然后用一个数组将m个单链表的表头指针存储起来,形成一个动态的结构</p>
 <h4 id="建立一个公共溢出区"><a href="#建立一个公共溢出区" class="headerlink" title="建立一个公共溢出区"></a>建立一个公共溢出区</h4>]]></content>
+  </entry>
+  <entry>
+    <title>排序</title>
+    <url>/2021/12/31/%E6%8E%92%E5%BA%8F/</url>
+    <content><![CDATA[<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h4 id="排序的分类"><a href="#排序的分类" class="headerlink" title="排序的分类"></a>排序的分类</h4><h5 id="按照存储介质可以分为"><a href="#按照存储介质可以分为" class="headerlink" title="按照存储介质可以分为:"></a>按照存储介质可以分为:</h5><ul>
+<li>内部排序: 数据量不大,数据在内存,无需内外村交换数据</li>
+<li>外部排序: 数据量不大,数据在外存  (文件排序)</li>
+</ul>
+<p>外部排序时,要将<span id="more"></span>数据分批调入内存来排序,中间结果还要及时放入外存,显然外部排序更复杂</p>
+<h5 id="按照比较器个数可以分为"><a href="#按照比较器个数可以分为" class="headerlink" title="按照比较器个数可以分为:"></a>按照比较器个数可以分为:</h5><ul>
+<li>串行排序: 单处理机 (同一时刻比较一对元素)</li>
+<li>并行排序: 多处理机 (同一时刻比较多对元素) </li>
+</ul>
+<h5 id="按主要操作可分为"><a href="#按主要操作可分为" class="headerlink" title="按主要操作可分为:"></a>按主要操作可分为:</h5><ul>
+<li>比较排序:用比较的方法</li>
+</ul>
+<p>插入排序,交换排序,选择排序,归并排序</p>
+<ul>
+<li>基数排序:不比较元素的大小,仅仅根据元素本身的取值确定其有序位置</li>
+</ul>
+<h5 id="按辅助空间可分为"><a href="#按辅助空间可分为" class="headerlink" title="按辅助空间可分为:"></a>按辅助空间可分为:</h5><ul>
+<li>原地排序: 辅助空间用量为O(1)的排序方法</li>
+</ul>
+<p>(所占的辅助存储空间与参加排序的数据量大小无关)</p>
+<ul>
+<li>非原地排序: 辅助空间用量超过O(1)的排序方法</li>
+</ul>
+<h5 id="按稳定排序可分为"><a href="#按稳定排序可分为" class="headerlink" title="按稳定排序可分为:"></a>按稳定排序可分为:</h5><ul>
+<li>稳定排序:能够使任何数值相等的元素,排序前后相对次序不变</li>
+<li>非稳定排序:不是稳定排序的方法</li>
+</ul>
+<p><strong>排序的稳定性只对结构类型数据排序有意义</strong>,排序方法是否稳定并不能衡量一个排序算法的优劣</p>
+<h5 id="按自然性可分为"><a href="#按自然性可分为" class="headerlink" title="按自然性可分为:"></a>按自然性可分为:</h5><ul>
+<li>自然排序:输入数据越有序,排序的速度越快的排序方法</li>
+<li>非自然排序:不是自然排序的方法</li>
+</ul>
+<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><h3 id="直接插入排序"><a href="#直接插入排序" class="headerlink" title="直接插入排序"></a>直接插入排序</h3><p>边插入边排序,保证子序列都是排好序的,选取元素插入到已经有序的序列中</p>
+<p>在插入排序中也可以使用哨兵,0号位置做哨兵</p>
+<h5 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h5><p>基本操作有两个,1.比较关键字大小,2.移动记录</p>
+<ul>
+<li>最好情况(已经有序)</li>
+</ul>
+<p>比较次数n-1,移动次数0</p>
+<ul>
+<li>最坏情况(逆序有序)</li>
+</ul>
+<p>比较次数n(n-1)/2</p>
+<h5 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h5><p>原始数据越接近有序,排序速度越快</p>
+<p>最坏情况下(逆序有序) O(n<sup>2</sup>)</p>
+<p>最好情况,已经有序,0+1+1+1…… -&gt;O(n)</p>
+<p>平均情况下耗时差不多是最坏情况的一半O(n<sup>2</sup>)</p>
+<h3 id="折半插入排序"><a href="#折半插入排序" class="headerlink" title="折半插入排序"></a>折半插入排序</h3><p>插入位置为high+1</p>
+<img src="/images/%E6%8E%92%E5%BA%8F/image-20211231155924001.png" alt="image-20211231155924001" style="zoom:67%;" />
+
+<p><strong>二分插入排序比较次数与待排序的记录的初始排列状态无关</strong></p>
+<p>在对象的初始排列已经有序或者接近有序的情况下,直接插入排序比较次数比折半插入排序少</p>
+<p>减少了比较次数,不能减少移动次数</p>
+<p>平均性能优于直接插入排序</p>
+<h5 id="时间复杂度-1"><a href="#时间复杂度-1" class="headerlink" title="时间复杂度"></a>时间复杂度</h5><p>O(n<sup>2</sup>)</p>
+<h5 id="空间复杂度"><a href="#空间复杂度" class="headerlink" title="空间复杂度"></a>空间复杂度</h5><p>O(1)</p>
+<p><strong>是一种稳定的排序方法</strong></p>
+<h3 id="希尔排序"><a href="#希尔排序" class="headerlink" title="希尔排序"></a>希尔排序</h3><p>基本思想:先将整个待排记录序列分割成若干子序列,分别进行直接插入排序,待整个序列中的记录”基本有序”时,再对全体记录进行一次直接插入排序</p>
+<h5 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h5><ul>
+<li>一次移动,移动位置较大,跳跃式地接近排序后的最终位置</li>
+<li>最后一次只需要少量移动</li>
+<li>增量序列必须是递减的,最后一个必须是1</li>
+<li>增量序列应该是<strong>互质</strong>的</li>
+</ul>
+<p>以特定间隔的元素分为一组进行插入排序,最后递减成1间隔的插入排序</p>
+<p>步骤</p>
+<ul>
+<li>1.定义增量序列D<sub>k</sub>:D<sub>M</sub>&gt;D<sub>M-1</sub>&gt;…&gt;D<sub>1</sub>=1</li>
+<li>2.对每个D<sub>k</sub>进行”D<sub>k</sub>间隔”插入排序</li>
+</ul>
+<img src="/images/%E6%8E%92%E5%BA%8F/image-20211231161243485.png" alt="image-20211231161243485" style="zoom:67%;" />
+
+
+
+<p><label style="color:red">希尔排序算法是一种不稳定的排序算法</lable></p>
+<h5 id="时间复杂度-2"><a href="#时间复杂度-2" class="headerlink" title="时间复杂度"></a>时间复杂度</h5><p>O(n<sup>1.25</sup>)~O(1.6n<sup>1.25</sup>) —-经验公式</p>
+<p>O(Nlog<sub>2</sub>N)   —平均时间复杂度</p>
+<p>最差时间复杂度O(n<sup>2</sup>)</p>
+<h5 id="空间复杂度-1"><a href="#空间复杂度-1" class="headerlink" title="空间复杂度"></a>空间复杂度</h5><p>O(1)    –本质还是插入排序</p>
+<h5 id="注意"><a href="#注意" class="headerlink" title="注意:"></a>注意:</h5><ul>
+<li>如何选取最佳增量序列,<label style="color:blue">目前尚未解决</label></li>
+<li>增量因子中<label style="color:red">除1外没有公因子(也就是增量因子互质)，且最后一个增量因子必须为1</lable></li>
+<li><label style="background:yellow">不适合在链式存储结构上实现</lable></li>
+</ul>
+<h2 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h2><h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><p><strong>冒泡排序算法是稳定的</strong></p>
+<h5 id="冒泡排序算法改进"><a href="#冒泡排序算法改进" class="headerlink" title="冒泡排序算法改进"></a>冒泡排序算法改进</h5><p>如果某一趟发现没有产生任何交换,则说明该序列已经有序,后面的几趟就不需要比了,所以可以做出冒泡算法的改进</p>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bubble_sort</span><span class="params">(SqList &amp;L)</span></span>&#123;<span class="comment">//改进的冒泡算法</span></span><br><span class="line">    <span class="keyword">int</span> m,i,j,flag=<span class="number">1</span>;</span><br><span class="line">    RedType x;<span class="comment">//temp变量</span></span><br><span class="line">    <span class="keyword">for</span>(m=<span class="number">1</span>;m&lt;n<span class="number">-1</span>&amp;&amp;flag==<span class="number">1</span>;m++)&#123;</span><br><span class="line">        flag=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(j=<span class="number">1</span>;j&lt;=m;j++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(L.r[j].key&gt;L.r[j+<span class="number">1</span>].key)&#123;<span class="comment">//发生逆序</span></span><br><span class="line">                flag=<span class="number">1</span>;<span class="comment">//发生交换,flag置为1,若本趟没发生交换,flag保持为0</span></span><br><span class="line">                x=L.r[j];</span><br><span class="line">                L.r[j]=L.r[j+<span class="number">1</span>];</span><br><span class="line">                L.r[j+<span class="number">1</span>]=x;<span class="comment">//交换</span></span><br><span class="line">            &#125;<span class="comment">//endif</span></span><br><span class="line">        &#125;<span class="comment">//for</span></span><br><span class="line">    &#125;<span class="comment">//for</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>优点</strong>:每趟结束时,不仅能挤出一个最大值到最后面位置,还能同时部分理顺其他元素</p>
+<h5 id="时间复杂度-3"><a href="#时间复杂度-3" class="headerlink" title="时间复杂度"></a>时间复杂度</h5><ul>
+<li><p>最好情况(正序)</p>
+<ul>
+<li><p>比较次数:n-1</p>
+</li>
+<li><p>移动次数:0</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>时间复杂度 O(n)</p>
+<ul>
+<li><p>最坏情况(逆序)</p>
+<ul>
+<li><p>比较次数:1/2(n<sup>2</sup>-n)</p>
+</li>
+<li><p>移动次数:3/2(n<sup>2</sup>-n)</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>时间复杂度O(n<sup>2</sup>)</p>
+<p><strong>平均时间复杂度O(n<sup>2</sup>)</strong></p>
+<p><strong>空间复杂度O(1)</strong></p>
+<h3 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h3><p><strong>快速排序算法是<label style="background:yellow">不稳定的</strong></label></p>
+<p><strong>快速排序算法<label style="background:yellow">不是自然排序方法</strong></label></p>
+<h5 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想:"></a>基本思想:</h5><ul>
+<li><p>任取一个元素为中心(枢轴)</p>
+</li>
+<li><p>所有比它小的元素往前放,比他大的元素往后放,形成左右两个子表</p>
+</li>
+<li><p>对各个子表重新选择中心元素并依次规则调整</p>
+</li>
+<li><p>直到每个子表的元素<label style="background:yellow">只剩一个</label></p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Partition</span><span class="params">(SqList &amp;L,<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">    L.r[<span class="number">0</span>]=L.r[low];</span><br><span class="line">    pivotkey=L.r[low].key;</span><br><span class="line">    <span class="keyword">while</span>(low&lt;high)&#123;</span><br><span class="line">        <span class="keyword">while</span>(low&lt;high&amp;&amp;L.r[high].key&gt;=pivotkey)</span><br><span class="line">            --high;</span><br><span class="line">        L.r[low]=L.r[high];</span><br><span class="line">        <span class="keyword">while</span>(low&lt;high&amp;&amp;L.r[high].key&lt;=pivotkey)</span><br><span class="line">            ++low;</span><br><span class="line">        L.r[high]=L.r[low];</span><br><span class="line">    &#125;</span><br><span class="line">    L.r[low]=L.r[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">return</span> low;<span class="comment">//返回枢轴最终的位置</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">QSort</span><span class="params">(SqList &amp;L,<span class="keyword">int</span> low,<span class="keyword">int</span> high)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(low &lt;high)&#123;<span class="comment">//low==high即各个子表都只有一个元素</span></span><br><span class="line">        pivotloc=<span class="built_in">Partition</span>(L,low,high);</span><br><span class="line">        <span class="comment">//将L.r[low...high]一分为二,pivotloc为枢轴元素排好序的位置</span></span><br><span class="line">        <span class="built_in">QSort</span>(L,low,pivotloc<span class="number">-1</span>);<span class="comment">//对低子表递归排序</span></span><br><span class="line">        <span class="built_in">QSort</span>(L,low,pivotloc<span class="number">-1</span>);<span class="comment">//对高子表递归排序     </span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="built_in">QSort</span>(L,<span class="number">1</span>,L.length);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="时间复杂度O-nlog2n"><a href="#时间复杂度O-nlog2n" class="headerlink" title="时间复杂度O(nlog2n)"></a>时间复杂度O(nlog<sub>2</sub>n)</h5><ul>
+<li>QSort(); ——O(log<sub>2</sub>n)</li>
+<li>Partition();——-O(n)</li>
+</ul>
+<p>实验结果表明,就平均计算时间而言,快速排序是我们所讨论的<label style="background:yellow">所有内排序方法中最好的一个</label></p>
+<h5 id="空间复杂度-2"><a href="#空间复杂度-2" class="headerlink" title="空间复杂度"></a>空间复杂度</h5><p><label style="background:yellow">快速排序不是原地排序</label></p>
+<p>由于程序中使用了递归,需要递归调用栈的支持,而栈的长度取决于递归调用的深度,(即使不用递归,也需要用用户栈)</p>
+<ul>
+<li>在平均情况下需要O(log<sub>2</sub>n)的栈空间</li>
+<li>最快情况下:栈空间可达O(n)</li>
+</ul>
+<h5 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h5><ul>
+<li>冒泡排序不适合对原本有序或者基本有序的记录序列进行排序,此时会退化成没有改进的<strong>冒泡排序</strong>时间复杂度O(n<sup>2</sup>)</li>
+</ul>
+<h3 id="简单选择排序"><a href="#简单选择排序" class="headerlink" title="简单选择排序"></a>简单选择排序</h3><p><strong>简单选择排序算法是<label style="background:yellow">不稳定的</strong></label></p>
+<p>基本思想:在待排序的数据中选出最大(小)的元素放在其最终的位置</p>
+<p>基本操作</p>
+<ol>
+<li>首先通过n-1次关键字比较,从n个记录中找出关键字最小的记录,将它与第一个记录交换</li>
+<li>再通过n-2次比较,从剩余的n-1个记录中找出关键字次小的记录,将它与第二个记录交换</li>
+<li>重复上述操作,共进行n-1趟排序后,排序结束</li>
+</ol>
+<p>移动次数</p>
+<ul>
+<li>最好情况 0</li>
+<li>最好情况 3(n-1)</li>
+</ul>
+<p><strong>比较次数是”定”值</strong>n(n-1)/2</p>
+<h5 id="时间复杂度-4"><a href="#时间复杂度-4" class="headerlink" title="时间复杂度"></a>时间复杂度</h5><p>O(n<sup>2</sup>)</p>
+<h3 id="堆排序"><a href="#堆排序" class="headerlink" title="堆排序"></a>堆排序</h3><p><strong>堆排序是<label style="background:yellow">不稳定的</strong></label></p>
+<p>若在输出对堆顶的最小值(最大值)后,使得剩余n-1个元素的序列又建成一个堆,则得到n个元素的次小值(次大值)….如此反复,便能得到一个有序序列,这个过程称之为堆排序</p>
+<h5 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h5><p>在数据元素各种情况下时间复杂度都是O(nlog<sub>2</sub>n)</p>
+<h4 id="如何调整剩余元素成为一个新的堆"><a href="#如何调整剩余元素成为一个新的堆" class="headerlink" title="如何调整剩余元素成为一个新的堆"></a>如何调整剩余元素成为一个新的堆</h4><h5 id="小根堆"><a href="#小根堆" class="headerlink" title="小根堆"></a>小根堆</h5><ol>
+<li>输出堆顶元素之后,以堆中最后一个元素替代之,(堆中元素一般用顺序存储结构)</li>
+<li>然后将根节点值与左,右子树的根节点值进行比较,并与区中小者进行交换</li>
+<li>重复上述操作,直到叶子结点,将得到新的堆,称这个从顶堆至叶子的调整过程为”筛选”</li>
+</ol>
+<h5 id="大根堆"><a href="#大根堆" class="headerlink" title="大根堆"></a>大根堆</h5><p>同上</p>
+<h4 id="堆的建立"><a href="#堆的建立" class="headerlink" title="堆的建立"></a>堆的建立</h4><p>单节点的二叉树是堆</p>
+<p>在完全二叉树中所有以叶子结点(序号i&gt;n/2)为根的子树是堆</p>
+<p>这样,只需依次将以序号为n/2,n/2-1,n/2-2,…,1的结点为根的子树均调整为堆即可</p>
+<h5 id="时间复杂度O-nlog2n-1"><a href="#时间复杂度O-nlog2n-1" class="headerlink" title="时间复杂度O(nlog2n)"></a>时间复杂度O(nlog<sub>2</sub>n)</h5><p>O(n)+O(nlog<sub>2</sub>n)=O(nlog<sub>2</sub>n)</p>
+<p>初始化堆所需时间不超过—O(n)</p>
+<p>排序阶段(不含初始化堆)—O(nlog<sub>2</sub>n)</p>
+<h5 id="空间复杂度O-1"><a href="#空间复杂度O-1" class="headerlink" title="空间复杂度O(1)"></a>空间复杂度O(1)</h5><h5 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h5><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line">堆排序</span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Heap</span> &#123;</span><span class="comment">//创建堆对象</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">       <span class="function"><span class="keyword">void</span> <span class="title">heap</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> lenth,<span class="keyword">int</span> index)</span></span>&#123;<span class="comment">//创建建立大根堆的函数</span></span><br><span class="line">              <span class="keyword">if</span> (lenth &lt;= <span class="number">1</span>)</span><br><span class="line">                      <span class="keyword">return</span>;<span class="comment">//当剩余长度小于等于1的时候推出</span></span><br><span class="line">              <span class="keyword">int</span> left = index * <span class="number">2</span> + <span class="number">1</span>;<span class="comment">//左节点等于父节点*2+1</span></span><br><span class="line">              <span class="keyword">int</span> right = index * <span class="number">2</span> + <span class="number">2</span>;<span class="comment">//右节点等于父节点*2+2</span></span><br><span class="line">              <span class="keyword">int</span> max = index;<span class="comment">//初始化一个max为传入的根节点</span></span><br><span class="line">              <span class="keyword">if</span> (left&lt;lenth &amp;&amp; arr[left]&gt;arr[max])</span><br><span class="line">                      max = left;<span class="comment">//判断子节点是否大于父节点,并且更改max指向的值</span></span><br><span class="line">              <span class="keyword">if</span> (right&lt;lenth &amp;&amp; arr[right]&gt;arr[max])</span><br><span class="line">                      max = right;</span><br><span class="line">              <span class="keyword">if</span> (arr[index] != arr[max]) &#123;<span class="comment">//判断根节点是否为最大值,若不是则交换</span></span><br><span class="line">                      <span class="built_in">swap</span>(arr[index], arr[max]);</span><br><span class="line">                      <span class="built_in">heap</span>(arr, lenth, max);<span class="comment">//递归调用,将</span></span><br><span class="line">              &#125;</span><br><span class="line">                             </span><br><span class="line">       &#125;</span><br><span class="line">       <span class="function"><span class="keyword">void</span> <span class="title">heapSort</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> size)</span> </span>&#123;</span><br><span class="line">              <span class="keyword">for</span> (<span class="keyword">int</span> i = size / <span class="number">2</span> - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">                      <span class="built_in">heap</span>(arr, size, i);<span class="comment">//建立一个大根堆</span></span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">for</span> (<span class="keyword">int</span> i = size - <span class="number">1</span>; i &gt;= <span class="number">1</span>; i--) &#123;</span><br><span class="line">                      <span class="built_in">swap</span>(arr[<span class="number">0</span>], arr[i]);</span><br><span class="line">                      <span class="built_in">heap</span>(arr, i, <span class="number">0</span>);<span class="comment">//重新调整大根堆</span></span><br><span class="line">              &#125;</span><br><span class="line">       &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Heap A;</span><br><span class="line">       <span class="keyword">int</span> arr[<span class="number">5</span>] = &#123; <span class="number">5</span>,<span class="number">7</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">8</span> &#125;;</span><br><span class="line">       A.<span class="built_in">heapSort</span>(arr, <span class="number">5</span>);</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">              cout &lt;&lt; arr[i] &lt;&lt; endl;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h3><p><strong>归并排序是<label style="background:yellow">稳定的</strong></label></p>
+<h5 id="时间复杂度O-nlog2n-2"><a href="#时间复杂度O-nlog2n-2" class="headerlink" title="时间复杂度O(nlog2n)"></a>时间复杂度O(nlog<sub>2</sub>n)</h5><h5 id="空间复杂度O-n"><a href="#空间复杂度O-n" class="headerlink" title="空间复杂度O(n)"></a>空间复杂度O(n)</h5><p>因为需要一个与原始序列同样大小的辅助序列,这正是此算法的缺点(归并排序后的值往辅助序列中填)</p>
+<h5 id="代码实现-递归"><a href="#代码实现-递归" class="headerlink" title="代码实现(递归)"></a>代码实现(递归)</h5><figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="comment">//引入vector是为了定义可变数组</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Merge</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">       <span class="function"><span class="keyword">void</span> <span class="title">merge</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> left,<span class="keyword">int</span> mid,<span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">              <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">help</span><span class="params">(right -left+<span class="number">1</span>)</span></span>;</span><br><span class="line">                  <span class="comment">//定义一个长度为right -left+1的数组,进行内排</span></span><br><span class="line">                <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">              <span class="keyword">int</span> p1 = left, p2 = mid+<span class="number">1</span>;</span><br><span class="line">              <span class="keyword">while</span> (p1 &lt;= mid &amp;&amp; p2 &lt;= right) &#123;</span><br><span class="line">                      help[i++] = arr[p1] &lt; arr[p2] ? arr[p1++] : arr[p2++];</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">while</span> (p1 &lt;= mid)</span><br><span class="line">                      help[i++] = arr[p1++];</span><br><span class="line">              <span class="keyword">while</span> (p2 &lt;= right)</span><br><span class="line">                      help[i++] = arr[p2++];</span><br><span class="line">              <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; help.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                      arr[left+j] = help[j];</span><br><span class="line">              &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="function"><span class="keyword">void</span> <span class="title">mergeSort</span><span class="params">(<span class="keyword">int</span> arr[],<span class="keyword">int</span> left,<span class="keyword">int</span> right)</span> </span>&#123;</span><br><span class="line">              <span class="keyword">if</span> (left == right)</span><br><span class="line">                      <span class="keyword">return</span>;</span><br><span class="line">              <span class="keyword">int</span> mid = left + ((right-left)&gt;&gt; <span class="number">1</span>);</span><br><span class="line">              <span class="built_in">mergeSort</span>(arr, left, mid);</span><br><span class="line">              <span class="built_in">mergeSort</span>(arr, mid + <span class="number">1</span>, right);</span><br><span class="line">              <span class="built_in">merge</span>(arr, left, mid, right);</span><br><span class="line">       &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       Merge A;</span><br><span class="line">       <span class="keyword">int</span> arr[<span class="number">10</span>] = &#123; <span class="number">3</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">1</span>,<span class="number">4</span>,<span class="number">3</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">9</span>,<span class="number">87</span> &#125;;</span><br><span class="line">       A.<span class="built_in">mergeSort</span>(arr, <span class="number">0</span>, <span class="number">9</span>);</span><br><span class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">              cout &lt;&lt;<span class="string">&quot;  &quot;</span>&lt;&lt; arr[i]&lt;&lt;flush;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="基数排序"><a href="#基数排序" class="headerlink" title="基数排序"></a>基数排序</h3><p>也叫桶排序或箱排序:设置若干个箱子,将关键字为k的记录放入第k个箱子,然后再按照序号将非空的连接</p>
+<p>数字是有范围的,只需要设置0-9十个箱子,相继按照个,十,百,….进行排序</p>
+<h5 id="基本思想-1"><a href="#基本思想-1" class="headerlink" title="基本思想"></a>基本思想</h5><p>分配+收集</p>
+<h5 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h5><ul>
+<li><p>第一趟收集保证个位有序</p>
+</li>
+<li><p>第二趟收集保证十位有序</p>
+</li>
+<li><p>………..</p>
+</li>
+</ul>
+<h5 id="时间复杂度O-k-n-m"><a href="#时间复杂度O-k-n-m" class="headerlink" title="时间复杂度O(k*(n+m))"></a>时间复杂度O(k*(n+m))</h5><ul>
+<li>k:  关键字个数</li>
+<li>m: 关键字取值范围为m个值</li>
+</ul>
+<h5 id="空间复杂度O-n-m"><a href="#空间复杂度O-n-m" class="headerlink" title="空间复杂度O(n+m)"></a>空间复杂度O(n+m)</h5><p>​    </p>
+<h2 id="各种常见内排序算法复杂度以及稳定性表格"><a href="#各种常见内排序算法复杂度以及稳定性表格" class="headerlink" title="各种常见内排序算法复杂度以及稳定性表格"></a>各种常见内排序算法复杂度以及稳定性表格</h2><p>自己总结完再填</p>
+<table>
+<thead>
+<tr>
+<th>排序方法</th>
+<th>时间复杂度(平均)</th>
+<th>时间复杂度(最坏)</th>
+<th>时间复杂度(最好)</th>
+<th>空间复杂度</th>
+<th>稳定性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>插入排序</td>
+<td>O(n<sup>2</sup>)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>希尔排序</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>直接选择排序</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><img src="/images/%E6%8E%92%E5%BA%8F/image-20211231183851129.png" alt="image-20211231183851129"></p>
+]]></content>
+      <categories>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>数据结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>hexo的一些小技巧</title>
+    <url>/2021/12/03/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%8A%80%E5%B7%A7/</url>
+    <content><![CDATA[<h4 id="设置文章摘要"><a href="#设置文章摘要" class="headerlink" title="设置文章摘要"></a>设置文章摘要</h4><p>打开next配置文件</p>
+<p>将该项设置为true</p>
+<p><img src="/images/hexo%E8%AE%BE%E7%BD%AE%E6%96%87%E7%AB%A0%E6%98%BE%E7%A4%BA%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9/image-20211205134957202.png" alt="image-20211205134957202"></p>
+<p>显示文章摘要有两种方法</p>
+<p>1.在需要显示截断的地方添加<code>&lt;!--more--&gt;</code>标签</p>
+<p>2.在<code>front-matter</code>中添加<code>description</code>,<code>description</code>中的内容就会添加到首页上面,并且它的优先级高于<code>&lt;!--more--&gt;</code>标签</p>
+<h4 id="设置字体高亮"><a href="#设置字体高亮" class="headerlink" title="设置字体高亮"></a>设置字体高亮</h4><p><code>&lt;label style=&quot;background:yellow&quot;&gt;字体背景高亮&lt;/lable&gt;</code></p>
+<p><label style="background:yellow">字体背景高亮</lable></p>
+<p><code>&lt;label style=&quot;color:red&quot;&gt;修改字体颜色&lt;/lable&gt;</code></p>
+<p><label style="color:red">修改字体颜色</lable></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
   </entry>
 </search>
