@@ -19,7 +19,7 @@ typora-root-url: ..
 
 确保该分支中文件为空
 
-新建一个hexo文件夹,在该文件夹内打开git bash,生成SSH公钥添加到Github
+在要安装hexo的地方打开git bash,生成SSH公钥添加到Github
 
 `git config --global user.name "yourname"`
 
@@ -48,6 +48,8 @@ typora-root-url: ..
 接着安装hexo 
 
 `npm install -g hexo cli`
+
+这个时候记得将当前目录切换为hexo目录
 
 安装一些依赖,不知道哪些有用,反正都装上吧
 
