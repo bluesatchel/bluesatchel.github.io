@@ -1,11 +1,13 @@
 ---
-title: hexo的next主题设置文章摘要显示
+title: hexo的一些使用技巧
 date: 2021-12-03 13:48:36
 tags:
     - hexo
 categories: hexo
 typora-root-url: ..
 ---
+
+##### 配置文章摘要显示
 
 打开next配置文件
 
@@ -18,3 +20,7 @@ typora-root-url: ..
 1.在需要显示截断的地方添加`<!--more-->`标签
 
 2.在`front-matter`中添加`description`,`description`中的内容就会添加到首页上面,并且它的优先级高于`<!--more-->`标签
+
+##### 配置评论邮件提醒
+
+https://blog.51cto.com/u_11378682/3661775
