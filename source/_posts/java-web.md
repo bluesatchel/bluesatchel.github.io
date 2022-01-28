@@ -499,7 +499,7 @@ private int globalVar = 0;
 - Application      (ServletContext)存东西
 - config            (ServletConfig)
 - out
-- page    几乎不用
+- page    用来导包
 - exception
 
 对象设置的值的作用域和时间比较

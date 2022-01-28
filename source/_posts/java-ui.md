@@ -6,7 +6,7 @@ tags:
       - UI
 categories: java
 typora-root-url: ..
-description: java折磨人的ui
+description: java折磨人的swing体验,都是我太菜呜呜
 ---
 
 #### JFrame

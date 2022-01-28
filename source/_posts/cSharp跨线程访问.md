@@ -2,8 +2,7 @@
 title: cSharp跨线程访问
 date: 2021-12-27 16:20:17
 tags: 
-    -c#
-    -异常处理
+      -c#跨线程调用
 categories: c#
 typora-root-url: ..
 ---
