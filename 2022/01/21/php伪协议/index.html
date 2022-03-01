@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="php伪协议PHP带有很多内置URL风格的封装协议,可用于fopen,copy,file_exists和filesize等文件系统函数.除了这些内置封装协议,还能通过stream_wrapper_register注册自定义的封装协议,这些协议都被称为伪协议">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php伪协议">
+<meta property="og:url" content="http://example.com/2022/01/21/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/index.html">
+<meta property="og:site_name" content="blueSatchel&#39;s blog">
+<meta property="og:description" content="php伪协议PHP带有很多内置URL风格的封装协议,可用于fopen,copy,file_exists和filesize等文件系统函数.除了这些内置封装协议,还能通过stream_wrapper_register注册自定义的封装协议,这些协议都被称为伪协议">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220121184629529.png">
+<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220121183621592.png">
+<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220121184145894.png">
+<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220121184329051.png">
+<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/Image(17).png">
+<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220121183215673.png">
+<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220121184409047.png">
+<meta property="article:published_time" content="2022-01-21T10:14:55.000Z">
+<meta property="article:modified_time" content="2022-01-21T10:48:09.530Z">
+<meta property="article:author" content="blueSatchel">
+<meta property="article:tag" content="ctf">
+<meta property="article:tag" content="php">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="文件包含">
+<meta property="article:tag" content="php伪协议">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220121184629529.png">
+
+<link rel="canonical" href="http://example.com/2022/01/21/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>php伪协议 | blueSatchel's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blueSatchel's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/21/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          php伪协议
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-01-21 18:14:55 / 修改时间：18:48:09" itemprop="dateCreated datePublished" datetime="2022-01-21T18:14:55+08:00">2022-01-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index"><span itemprop="name">php</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="php伪协议"><a href="#php伪协议" class="headerlink" title="php伪协议"></a>php伪协议</h1><p>PHP带有很多内置URL风格的封装协议,可用于fopen,copy,file_exists和filesize等文件系统函数.除了这些内置封装协议,还能通过stream_wrapper_register注册自定义的封装协议,这些协议都被称为伪协议<span id="more"></span></p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220121184629529.png" alt="image-20220121184629529"></p>
+<p>常见的php伪协议如下:</p>
+<ul>
+<li><strong>php:// 访问各个输入输出流</strong></li>
+<li>file://  访问本地文件系统</li>
+<li>http://访问HTTP(S)网址</li>
+<li>tfp://访问FTP(S)URLzlib://处理压缩流</li>
+<li>data://读取数据</li>
+<li>glob://查找匹配的文件路径模式</li>
+<li>phar:// PHP归档</li>
+<li>ssh2:// Secure Shell2</li>
+<li>rar:// RAR数据压缩</li>
+<li>ogg:// 处理音频流</li>
+<li>expect:// 处理交互式的流</li>
+</ul>
+<h3 id="1-php-伪协议"><a href="#1-php-伪协议" class="headerlink" title="1.php://伪协议"></a>1.php://伪协议</h3><h4 id="php-filter"><a href="#php-filter" class="headerlink" title="php://filter"></a>php://filter</h4><h5 id="参数列表"><a href="#参数列表" class="headerlink" title="参数列表"></a>参数列表</h5><p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220121183621592.png" alt="image-20220121183621592"></p>
+<p>示例代码:</p>
+<p><code>?filename=php://filter/read=convert.base64-encode/resource=xxx.php</code>  </p>
+<p>或者</p>
+<p><code>?filename=php://filter/convert.base64-encode/resource=xxx.php</code></p>
+<h4 id="php-input"><a href="#php-input" class="headerlink" title="php://input"></a>php://input</h4><p>php://input可以访问请求的原始数据的只读流,即可以直接读取POST上没有经过解析的原始数据,<label style="background:yellow">但是使用entype=”multipart/form-data”(form表单的一个可选参数)的时候php://input是无效的</label></p>
+<p><em><strong>php://input有以下三种用法</strong></em></p>
+<h5 id="1-读取POST数据"><a href="#1-读取POST数据" class="headerlink" title="1)读取POST数据"></a>1)读取POST数据</h5><p>php://input可以直接读取POST上没有经过解析的原始数据利用php://input读取POST数据时,PHP配置文件不需要开启<code>allow_url_fopen</code>和<code>allow_url_include</code>示例代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$data</span>=file_get_contents(<span class="string">&quot;php://input&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="variable">$data</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2-写入木马"><a href="#2-写入木马" class="headerlink" title="2)写入木马"></a>2)写入木马</h5><p><label style="background:yellow">利用php://input写入木马时,PHP配置文件需要开启allow_url_include,不需要开启allow_url_fopen</label></p>
+<p>如果不开启allow_url_include则会报错</p>
+<p>如果POST传入的数据时PHP代码,就可以写入木马</p>
+<p>示例代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$filename</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;filename&#x27;</span>];</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$filename</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220121184145894.png" alt="image-20220121184145894"></p>
+<p>访问shell.php即可查看是否写入成功</p>
+<h5 id="3-执行命令"><a href="#3-执行命令" class="headerlink" title="3)执行命令"></a>3)执行命令</h5><p><label style="background:yellow">利用php://input执行命令时,PHP配置文件需开启allow_url_include,不需要开启allow_url_fopen</label></p>
+<p>如果post传入的数据是PHP代码,就可以执行任意代码,如果次PHP代码调用了系统函数,就可以执行命令</p>
+<p>示例代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$filename</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;filename&#x27;</span>];</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$filename</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220121184329051.png" alt="image-20220121184329051"></p>
+<h3 id="2-file-伪协议"><a href="#2-file-伪协议" class="headerlink" title="2.file://伪协议"></a>2.file://伪协议</h3><p>file://伪协议可以访问<code>本地文件系统</code>,读取文件的内容</p>
+<p>利用file://时,PHP配置文件不需要开启allow_url_fopen和allow_url_include</p>
+<p><code>?filename=file://c:/boot.ini</code></p>
+<p>file://伪协议示例代码如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$filename</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;filename&#x27;</span>];</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$filename</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-data-伪协议"><a href="#3-data-伪协议" class="headerlink" title="3.data://伪协议"></a>3.data://伪协议</h3><p>自PHP5.2.0起,数据流封装器开始有效,主要用于数据流的读取,如果传入的数据是php代码,就会执行任意代码使用方法如下:</p>
+<p>data://text/plain;base64,xxxxxxxxx(base64编码后的数据)</p>
+<p>利用data://时,PHP配置文件需开启allow_url_include和allow_url_fopen</p>
+<p>data://伪协议示例代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="variable">$filename</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;filename&#x27;</span>];</span><br><span class="line">	<span class="keyword">include</span>(<span class="variable">$filename</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>通过data://伪协议传送<code>&lt;?php phpinfo();?&gt;</code>代码的base64编码,这样就可以执行代码</p>
+<p><code>?filename=data://text/plain;base64,PD9waHAgcGhwaW5mbygpOz8%2b</code></p>
+<p>注意点:要对<code>+</code>进行手动url编码为%2b<img src="https://gitee.com/blue_satchel/images/raw/master/Image(17).png" alt="img"></p>
+<h3 id="4-phar-伪协议"><a href="#4-phar-伪协议" class="headerlink" title="4.phar://伪协议"></a>4.phar://伪协议</h3><p>phar://是用来进行解压的伪协议,phar://参数中的文件不管是什么扩展名都会被当作压缩包</p>
+<p>用法如下:</p>
+<p>?file=phar://压缩包/内部文件</p>
+<p><code>phar://xxx.png/shell.php</code></p>
+<p>利用phar://时,PHP的版本应高于5.3.0,PHP配置文件需开启<code>allow_url_include</code>和<code>allow_url_fopen</code></p>
+<p>注意:压缩包需要使用zip://伪协议压缩,而不能用rar://伪协议压缩.将木马文件压缩后,改为其他任意格式的文件都可以正常使用</p>
+<p>示例代码如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$filename</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;filename&#x27;</span>];</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$filename</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>利用步骤:通常phar://伪协议用在有上传功能的网站中,写一个木马文件shell.php,然后用zip://伪协议压缩为shell.zip,</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220121183215673.png" alt="image-20220121183215673"></p>
+<p>phar://伪协议把shell.png当做zip文件解压并访问其中的shell.php文件,执行了shell.php文件中的代码</p>
+<p>再将扩展名改为.png等,上传到网站</p>
+<h3 id="5-zip-伪协议"><a href="#5-zip-伪协议" class="headerlink" title="5.zip://伪协议"></a>5.zip://伪协议</h3><p>zip://伪协议和phar://伪协议在原理上类似,但是用法不一样</p>
+<p>用法如下:(在浏览器中#要手动转换成url编码%23)</p>
+<p><code>?filename=zip://xxx.png#shell.php</code></p>
+<p>示例代码如下:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$filename</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;filename&#x27;</span>];</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$filename</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220121184409047.png" alt="image-20220121184409047"></p>
+<h3 id="6-expect-伪协议"><a href="#6-expect-伪协议" class="headerlink" title="6.expect://伪协议"></a>6.expect://伪协议</h3><p>expect://伪协议主要用来执行系统命令,但是需要安装扩展</p>
+<p>用法如下:</p>
+<p><code>?filename=expect://ls</code></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ctf/" rel="tag"># ctf</a>
+              <a href="/tags/php/" rel="tag"># php</a>
+              <a href="/tags/web/" rel="tag"># web</a>
+              <a href="/tags/%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB/" rel="tag"># 文件包含</a>
+              <a href="/tags/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" rel="tag"># php伪协议</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/21/PHP%E6%AD%A3%E5%88%99%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" rel="prev" title="PHP正则绕过总结">
+      <i class="fa fa-chevron-left"></i> PHP正则绕过总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/21/%E5%91%BD%E4%BB%A4%E8%BF%9E%E6%8E%A5%E7%AC%A6%E6%80%BB%E7%BB%93/" rel="next" title="命令连接符总结">
+      命令连接符总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#php%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.</span> <span class="nav-text">php伪协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-php-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.php:&#x2F;&#x2F;伪协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#php-filter"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">php:&#x2F;&#x2F;filter</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%88%97%E8%A1%A8"><span class="nav-number">1.0.1.1.1.</span> <span class="nav-text">参数列表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#php-input"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">php:&#x2F;&#x2F;input</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E8%AF%BB%E5%8F%96POST%E6%95%B0%E6%8D%AE"><span class="nav-number">1.0.1.2.1.</span> <span class="nav-text">1)读取POST数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E5%86%99%E5%85%A5%E6%9C%A8%E9%A9%AC"><span class="nav-number">1.0.1.2.2.</span> <span class="nav-text">2)写入木马</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="nav-number">1.0.1.2.3.</span> <span class="nav-text">3)执行命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-file-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.file:&#x2F;&#x2F;伪协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-data-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.0.3.</span> <span class="nav-text">3.data:&#x2F;&#x2F;伪协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-phar-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.0.4.</span> <span class="nav-text">4.phar:&#x2F;&#x2F;伪协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-zip-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.0.5.</span> <span class="nav-text">5.zip:&#x2F;&#x2F;伪协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-expect-%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.0.6.</span> <span class="nav-text">6.expect:&#x2F;&#x2F;伪协议</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="blueSatchel"
+      src="/../images/avatar.PNG">
+  <p class="site-author-name" itemprop="name">blueSatchel</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bluesatchel" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bluesatchel" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">blueSatchel</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
