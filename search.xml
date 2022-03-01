@@ -3944,11 +3944,34 @@
 <p>其中<code>aClass.getMethod(&quot;getRuntime&quot;).invoke(aClass)</code>,用来获取Runtime对象</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">            aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(aClass.getMethod(<span class="string">&quot;getRuntime&quot;</span>).invoke(aClass),<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException | NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 
-<p>两个问题</p>
+<h3 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h3><h4 id="如果一个类没有无参构造方法-也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？"><a href="#如果一个类没有无参构造方法-也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？" class="headerlink" title="如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？"></a>如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？</h4><p>需要使用到getConstructor()方法获取无参构造函数,因为构造函数也支持重载,所以必须用参数列表类型才能唯一确定一个构造函数</p>
+<p>比如经常使用的另一种执行命令的类ProcessBuilder,使用反射来获取其有参的构造函数,然后调用<code>start()</code>来执行命令</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processBuilder</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">        ((ProcessBuilder)aClass.getConstructor(List.class).newInstance(Arrays.asList(<span class="string">&quot;calc&quot;</span>))).start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果不能强制类型转换的时候,利用反射的getMethod和invoke来执行</p>
+<p>通过 getMethod(“start”) 获取到start方法，然后 invoke 执行， invoke 的第一个参数就是 ProcessBuilder Object了。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">aClass.getMethod(<span class="string">&quot;start&quot;</span>).invoke(aClass.getConstructor(List.class).newInstance(Arrays.asList(<span class="string">&quot;calc&quot;</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>那么，如果我们要使用 <code>public ProcessBuilder(String... command) </code>这个构造函数，需要怎样用反 射执行呢？</p>
+<p>这个<code>String... command</code>参数表示可变长参数,在Java中编译的时候会编译成一个数组</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">((ProcessBuilder)clazz.getConstructor(String[].class).newInstance(<span class="keyword">new</span> String[][]&#123;&#123;<span class="string">&quot;calc.exe&quot;</span>&#125;&#125;)).start();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">aClass.getMethod(<span class="string">&quot;start&quot;</span>).invoke(aClass.getConstructor(String[].class).newInstance(<span class="keyword">new</span> String[][]&#123;&#123;<span class="string">&quot;calc&quot;</span>&#125;&#125;));</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="如果一个方法或构造方法是私有方法，我们是否能执行它呢？"><a href="#如果一个方法或构造方法是私有方法，我们是否能执行它呢？" class="headerlink" title="如果一个方法或构造方法是私有方法，我们是否能执行它呢？"></a>如果一个方法或构造方法是私有方法，我们是否能执行它呢？</h4><p>此时就需要getDeclared系列的反射了</p>
 <ul>
-<li>如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？</li>
-<li>如果一个方法或构造方法是私有方法，我们是否能执行它呢？</li>
+<li><p>getMethod 系列方法获取的是当前类中所有公共方法，包括从父类继承的方法 </p>
+</li>
+<li><p>getDeclaredMethod 系列方法获取的是当前类中“声明”的方法，是实在写在这个类里的，包括私 有的方法，但从父类里继承来的就不包含了</p>
+</li>
 </ul>
+<p>之前提到过,Runtime的构造方法时私有的,现在可以通过getDeclaredConstructor来获取这个私有的构造方法,使用setAccessible(true)来设置私有方法的作用域来调用它</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">declar</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">        Constructor&lt;?&gt; declaredConstructor = aClass.getDeclaredConstructor();</span><br><span class="line">        declaredConstructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(declaredConstructor.newInstance(),<span class="string">&quot;calc&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>java安全</category>

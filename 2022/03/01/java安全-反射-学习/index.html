@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220301222222222.png">
 <meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220302002903587.png">
 <meta property="article:published_time" content="2022-03-01T14:03:55.000Z">
-<meta property="article:modified_time" content="2022-03-01T16:41:41.154Z">
+<meta property="article:modified_time" content="2022-03-01T17:23:03.888Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="java安全">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-02 00:41:41" itemprop="dateModified" datetime="2022-03-02T00:41:41+08:00">2022-03-02</time>
+                <time title="修改时间：2022-03-02 01:23:03" itemprop="dateModified" datetime="2022-03-02T01:23:03+08:00">2022-03-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -315,11 +315,34 @@
 <p>其中<code>aClass.getMethod(&quot;getRuntime&quot;).invoke(aClass)</code>,用来获取Runtime对象</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">            aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(aClass.getMethod(<span class="string">&quot;getRuntime&quot;</span>).invoke(aClass),<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException | NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
 
-<p>两个问题</p>
+<h3 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h3><h4 id="如果一个类没有无参构造方法-也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？"><a href="#如果一个类没有无参构造方法-也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？" class="headerlink" title="如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？"></a>如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？</h4><p>需要使用到getConstructor()方法获取无参构造函数,因为构造函数也支持重载,所以必须用参数列表类型才能唯一确定一个构造函数</p>
+<p>比如经常使用的另一种执行命令的类ProcessBuilder,使用反射来获取其有参的构造函数,然后调用<code>start()</code>来执行命令</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processBuilder</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">        ((ProcessBuilder)aClass.getConstructor(List.class).newInstance(Arrays.asList(<span class="string">&quot;calc&quot;</span>))).start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果不能强制类型转换的时候,利用反射的getMethod和invoke来执行</p>
+<p>通过 getMethod(“start”) 获取到start方法，然后 invoke 执行， invoke 的第一个参数就是 ProcessBuilder Object了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aClass.getMethod(<span class="string">&quot;start&quot;</span>).invoke(aClass.getConstructor(List.class).newInstance(Arrays.asList(<span class="string">&quot;calc&quot;</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>那么，如果我们要使用 <code>public ProcessBuilder(String... command) </code>这个构造函数，需要怎样用反 射执行呢？</p>
+<p>这个<code>String... command</code>参数表示可变长参数,在Java中编译的时候会编译成一个数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">((ProcessBuilder)clazz.getConstructor(String[].class).newInstance(<span class="keyword">new</span> String[][]&#123;&#123;<span class="string">&quot;calc.exe&quot;</span>&#125;&#125;)).start();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aClass.getMethod(<span class="string">&quot;start&quot;</span>).invoke(aClass.getConstructor(String[].class).newInstance(<span class="keyword">new</span> String[][]&#123;&#123;<span class="string">&quot;calc&quot;</span>&#125;&#125;));</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="如果一个方法或构造方法是私有方法，我们是否能执行它呢？"><a href="#如果一个方法或构造方法是私有方法，我们是否能执行它呢？" class="headerlink" title="如果一个方法或构造方法是私有方法，我们是否能执行它呢？"></a>如果一个方法或构造方法是私有方法，我们是否能执行它呢？</h4><p>此时就需要getDeclared系列的反射了</p>
 <ul>
-<li>如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？</li>
-<li>如果一个方法或构造方法是私有方法，我们是否能执行它呢？</li>
+<li><p>getMethod 系列方法获取的是当前类中所有公共方法，包括从父类继承的方法 </p>
+</li>
+<li><p>getDeclaredMethod 系列方法获取的是当前类中“声明”的方法，是实在写在这个类里的，包括私 有的方法，但从父类里继承来的就不包含了</p>
+</li>
 </ul>
+<p>之前提到过,Runtime的构造方法时私有的,现在可以通过getDeclaredConstructor来获取这个私有的构造方法,使用setAccessible(true)来设置私有方法的作用域来调用它</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">declar</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">        Constructor&lt;?&gt; declaredConstructor = aClass.getDeclaredConstructor();</span><br><span class="line">        declaredConstructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(declaredConstructor.newInstance(),<span class="string">&quot;calc&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -401,7 +424,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">java安全,反射学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E4%B8%AD%E2%80%9D%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95%E2%80%9D%E7%9A%84%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E4%B8%8E%E5%8C%BA%E5%88%AB"><span class="nav-number">1.0.1.</span> <span class="nav-text">类中”初始化方法”的调用顺序与区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.0.2.</span> <span class="nav-text">实践</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E7%B1%BB%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81"><span class="nav-number">1.1.</span> <span class="nav-text">调用类中的方法执行恶意代码</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">java安全,反射学习</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E4%B8%AD%E2%80%9D%E5%88%9D%E5%A7%8B%E5%8C%96%E6%96%B9%E6%B3%95%E2%80%9D%E7%9A%84%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F%E4%B8%8E%E5%8C%BA%E5%88%AB"><span class="nav-number">1.0.1.</span> <span class="nav-text">类中”初始化方法”的调用顺序与区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5"><span class="nav-number">1.0.2.</span> <span class="nav-text">实践</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E7%B1%BB%E4%B8%AD%E7%9A%84%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81"><span class="nav-number">1.1.</span> <span class="nav-text">调用类中的方法执行恶意代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">两个问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E4%B8%80%E4%B8%AA%E7%B1%BB%E6%B2%A1%E6%9C%89%E6%97%A0%E5%8F%82%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95-%E4%B9%9F%E6%B2%A1%E6%9C%89%E7%B1%BB%E4%BC%BC%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E9%87%8C%E7%9A%84%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95%EF%BC%8C%E6%88%91%E4%BB%AC%E6%80%8E%E6%A0%B7%E9%80%9A%E8%BF%87%E5%8F%8D%E5%B0%84%E5%AE%9E%E4%BE%8B%E5%8C%96%E8%AF%A5%E7%B1%BB%E5%91%A2%EF%BC%9F"><span class="nav-number">1.2.1.</span> <span class="nav-text">如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E4%B8%80%E4%B8%AA%E6%96%B9%E6%B3%95%E6%88%96%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E6%98%AF%E7%A7%81%E6%9C%89%E6%96%B9%E6%B3%95%EF%BC%8C%E6%88%91%E4%BB%AC%E6%98%AF%E5%90%A6%E8%83%BD%E6%89%A7%E8%A1%8C%E5%AE%83%E5%91%A2%EF%BC%9F"><span class="nav-number">1.2.2.</span> <span class="nav-text">如果一个方法或构造方法是私有方法，我们是否能执行它呢？</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
