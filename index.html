@@ -211,10 +211,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-03-01 22:03:55 / 修改时间：22:42:20" itemprop="dateCreated datePublished" datetime="2022-03-01T22:03:55+08:00">2022-03-01</time>
+              <time title="创建时间：2022-03-01 22:03:55" itemprop="dateCreated datePublished" datetime="2022-03-01T22:03:55+08:00">2022-03-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-02 00:41:41" itemprop="dateModified" datetime="2022-03-02T00:41:41+08:00">2022-03-02</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -269,6 +275,34 @@
 <p>通过加载该类就可以执行<code>static&#123;&#125;</code>中的代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exe</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;com.reflect.test.exeCommand&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="调用类中的方法执行恶意代码"><a href="#调用类中的方法执行恶意代码" class="headerlink" title="调用类中的方法执行恶意代码"></a>调用类中的方法执行恶意代码</h3><p>在正常情况下，除了系统类，如果我们想拿到一个类，需要先 import 才能使用。而使用forName就不 需要，这样对于我们的攻击者来说就十分有利，我们可以加载任意类。</p>
+<p>ava的普通类 C1 中支持编写内部类 C2 ，而在编译的时候，会生成两个文件： C1.class 和 C1$C2.class ，我们可以把他们看作两个无关的类，通过 Class.forName(“C1$C2”) 即可加载这个内 部类。 </p>
+<p>获得类以后，我们可以继续使用反射来获取这个类中的属性、方法，也可以实例化这个类，并调用方 法。</p>
+<p><code>class.newInstance()</code> 的作用就是调用这个类的无参构造函数，这个比较好理解。不过，我们有时候 在写漏洞利用方法的时候，会发现使用 <code>newInstance</code> 总是不成功，这时候原因可能是：</p>
+<ul>
+<li>类没有无参构造函数</li>
+<li>类的构造函数是私有的</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">runtime</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">            aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(aClass.newInstance(),<span class="string">&quot;cmd /C whoami&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>会报一个这样的错</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220302002903587.png" alt="image-20220302002903587"></p>
+<p>为什么会将构造方法设置为private呢</p>
+<p>很常见的一个设计模式就是”单例模式”</p>
+<p>比如对于web应用来说,数据库只需要建立一次连接,而不是每次用到数据库的时候再建立一个连接,此时就可以将数据库连接使用的类的构造方法设置为私有,再通过一个static方法来获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">connection</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> connection instance=<span class="keyword">new</span> connection();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> connection <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">connection</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;数据库连接建立&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样只有类初始化的时候会执行一个构造函数,后面只能通过<code>getInstance</code>获取这个对象,避免建立多个数据库连接</p>
+<p>Runtime类就是”单例模式”,只能通过<code>Runtime.getRuntime()</code>来获取到<code>Runtime</code>对象</p>
+<p>对代码做出修改之后成功执行命令</p>
+<p>其中<code>aClass.getMethod(&quot;getRuntime&quot;).invoke(aClass)</code>,用来获取Runtime对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">            aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(aClass.getMethod(<span class="string">&quot;getRuntime&quot;</span>).invoke(aClass),<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException | NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>两个问题</p>
+<ul>
+<li>如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？</li>
+<li>如果一个方法或构造方法是私有方法，我们是否能执行它呢？</li>
+</ul>
 
       
     </div>
