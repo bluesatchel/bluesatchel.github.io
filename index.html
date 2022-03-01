@@ -213,7 +213,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-03-01 22:03:55 / 修改时间：22:23:42" itemprop="dateCreated datePublished" datetime="2022-03-01T22:03:55+08:00">2022-03-01</time>
+              <time title="创建时间：2022-03-01 22:03:55 / 修改时间：22:42:20" itemprop="dateCreated datePublished" datetime="2022-03-01T22:03:55+08:00">2022-03-01</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -236,12 +236,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="java安全-反射学习"><a href="#java安全-反射学习" class="headerlink" title="java安全,反射学习"></a>java安全,反射学习</h2><p>java中反射赋予了java动态的特性</p>
+          <h2 id="java安全-反射学习"><a href="#java安全-反射学习" class="headerlink" title="java安全,反射学习"></a>java安全,反射学习</h2><p>加入了p神的知识星球之后,通过p神发的java安全漫谈学习Java安全,p神讲解很好,恶补了java反射有关知识后,将知识点和代码自己边写边理解一遍</p>
+<hr>
+<p>java中反射赋予了java动态的特性</p>
 <p>Class.forName()可以通过类的路径获取到一个类</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class.forName(className)  <span class="comment">//这个可以理解为下一个的封装</span></span><br><span class="line"><span class="comment">//等于</span></span><br><span class="line">Class.forName(className,<span class="keyword">true</span>,currentLoader)</span><br><span class="line">    <span class="comment">//第一个参数是类名,第二个参数表示是否初始化,第三个参数是ClassLoader</span></span><br></pre></td></tr></table></figure>
 
 <p>Java默认的 ClassLoader 就是根据类名来加载类， 这个类名是类完整路径，如 java.lang.Runtime </p>
-<h4 id="类中”初始化方法”的调用顺序与区别"><a href="#类中”初始化方法”的调用顺序与区别" class="headerlink" title="类中”初始化方法”的调用顺序与区别"></a>类中”初始化方法”的调用顺序与区别</h4><p><code>static&#123;&#125;</code>静态代码块在”类初始化”的时候调用,<code>&#123;&#125;</code>代码块的内容会在父类构造函数<code>super()</code>之后调用,最后调用构造函数</p>
+<h4 id="类中”初始化方法”的调用顺序与区别"><a href="#类中”初始化方法”的调用顺序与区别" class="headerlink" title="类中”初始化方法”的调用顺序与区别"></a>类中”初始化方法”的调用顺序与区别</h4><ul>
+<li><p><code>static&#123;&#125;</code>静态代码块在”类初始化”的时候调用</p>
+</li>
+<li><p><code>&#123;&#125;</code>代码块的内容会在父类构造函数<code>super()</code>之后调用</p>
+</li>
+<li><p>最后调用构造函数</p>
+</li>
+</ul>
 <p>还记得学java的时候说super必须写在构造函数的第一行</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TrainPrint</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;类内代码块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;静态代码块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TrainPrint</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;无参构造方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -255,6 +264,11 @@
 <p>运行后的顺序</p>
 <p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220301222222222.png" alt="image-20220301222222222"></p>
 <h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><p>综上所述,其中静态代码块可以写入恶意代码从而在”类初始化”的时候调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">exeCommand</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        Runtime runtime = Runtime.getRuntime();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            runtime.exec(<span class="string">&quot;cmd /C calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过加载该类就可以执行<code>static&#123;&#125;</code>中的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exe</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;com.reflect.test.exeCommand&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
