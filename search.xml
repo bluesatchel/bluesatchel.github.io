@@ -3904,6 +3904,17 @@
 </li>
 </ul>
 <p>还记得学java的时候说super必须写在构造函数的第一行</p>
+<hr>
+<p>**Person p = new Person(“zhangsan”,20); 该句话都做了什么事情？ **</p>
+<p>1，因为new用到了Person.class.所以会先找到Person.class文件并加载到内存中。 </p>
+<p>2，执行该类中的static代码块，如果有的话，给Person.class类进行初始化。</p>
+<p>3，在堆内存中开辟空间，分配内存地址。 </p>
+<p>4，在堆内存中建立对象的特有属性。并进行默认初始化。 </p>
+<p>5，对属性进行显示初始化。 </p>
+<p>6，对对象进行构造代码块初始化。 </p>
+<p>7，对对象进行对应的构造函数初始化。 </p>
+<p>8，将内存地址付给栈内存中的p变量。</p>
+<hr>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TrainPrint</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;类内代码块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;静态代码块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TrainPrint</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;无参构造方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>在获取类对象的时候静态代码块就会执行</p>
@@ -4024,6 +4035,55 @@
         <tag>java</tag>
         <tag>web</tag>
         <tag>java木马</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java安全-RMI</title>
+    <url>/2022/03/04/java%E5%AE%89%E5%85%A8-RMI/</url>
+    <content><![CDATA[<p>RMI全称是Remote Method Invocation，远程⽅法调⽤。</p>
+<p>从这个名字就可以看出，他的⽬标和RPC其实 是类似的，是让某个Java虚拟机上的对象调⽤另⼀个Java虚拟机中对象上的⽅法，只不过RMI是Java独 有的⼀种机制</p>
+<p>要调用远程方法肯定要先注册一个服务器</p>
+<p>P牛这里的server类使用了内部类,对于内部类不是很熟悉,先去学习一下内部类再回来看</p>
+]]></content>
+      <categories>
+        <category>java安全</category>
+      </categories>
+      <tags>
+        <tag>java安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java内部类</title>
+    <url>/2022/03/04/java%E5%86%85%E9%83%A8%E7%B1%BB/</url>
+    <content><![CDATA[<h1 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h1><p>一般情况下,类和类之间是互相独立的,内部类的意思是是打破这种独立,让一个类称为另外一个类的内部成员,和成员变量,成员方法相同级别</p>
+<blockquote>
+<p>为什么要使用内部类?</p>
+<p>采用内部类这种技术,可以隐藏细节和内部结构,封装性更好,让程序的结构更加合理</p>
+</blockquote>
+<h3 id="非静态内部类"><a href="#非静态内部类" class="headerlink" title="非静态内部类"></a>非静态内部类</h3><p>内部类在创建的时候不能直接new,需要加个前缀才能new出来,加的这个前缀是已经实例化的外部类对象</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">OuterClass outerClass = <span class="keyword">new</span> OuterClass();</span><br><span class="line">        InnerClass innerClass = outerClass.<span class="function">new <span class="title">InnerClass</span><span class="params">()</span></span>;</span><br><span class="line">        innerClass.display();</span><br></pre></td></tr></table></figure>
+
+<p>非静态内部类的使用就是将内部类当做外部类的一个成员变量去使用,所以必须依赖于外部类的对象才能调用</p>
+<p>如果在类的内部去创建一个内部类对象,就不需要加前缀,和正常的创建方式一样</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">outclass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String outerName;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">innerClass</span></span>&#123;</span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">                System.out.println(<span class="string">&quot;内部类方法&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        innerClass innerClass = <span class="keyword">new</span> innerClass();</span><br><span class="line">        innerClass.print();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        outclass outerClass = <span class="keyword">new</span> outclass();</span><br><span class="line">        outerClass.display();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="静态内部类"><a href="#静态内部类" class="headerlink" title="静态内部类"></a>静态内部类</h3><p>静态内部类的构造不需要依赖于外部类对象,类中的所有静态组件都不需要依赖于任何对象,可以直接通过类本身进行构造</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OuterClass</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String outerName;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;外部类显示&quot;</span>);</span><br><span class="line">        System.out.println(outerName);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//内部类</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerClass</span></span>&#123;</span><br><span class="line">        <span class="keyword">private</span> String innerName;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">display</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">            System.out.println(<span class="string">&quot;内部类显示&quot;</span>);</span><br><span class="line">            System.out.println(innerName);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">InnerClass</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.innerName = <span class="string">&quot;inner Class&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        OuterClass outerClass = <span class="keyword">new</span> OuterClass();</span><br><span class="line">        outerClass.display();</span><br><span class="line">        OuterClass.InnerClass innerClass = <span class="keyword">new</span> InnerClass();</span><br><span class="line">        innerClass.display();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h3><p>匿名内部类的本质是接口的匿名实现</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Myinterface</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//匿名内部类</span></span><br><span class="line">        Myinterface myinterface=<span class="keyword">new</span> Myinterface() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;匿名内部类方法&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        myinterface.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>java内部类</tag>
       </tags>
   </entry>
 </search>
