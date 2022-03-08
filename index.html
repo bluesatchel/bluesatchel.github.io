@@ -219,7 +219,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-08 14:21:01" itemprop="dateModified" datetime="2022-03-08T14:21:01+08:00">2022-03-08</time>
+                <time title="修改时间：2022-03-08 14:31:54" itemprop="dateModified" datetime="2022-03-08T14:31:54+08:00">2022-03-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -302,7 +302,10 @@
 <p>ClassLoader.loadClass不进行初始化</p>
 <p>ClassLoader-&gt;SecureClassLoader-&gt;URLClassLoader-&gt;AppClassLoader</p>
 <p>loadClass-&gt;findClass(重写的方法)-&gt;defineClass(从字节码加载类)</p>
-<h4 id="URLClassLoader-任意类加载-file-http-jar"><a href="#URLClassLoader-任意类加载-file-http-jar" class="headerlink" title="URLClassLoader 任意类加载: file http  jar"></a>URLClassLoader 任意类加载: file http  jar</h4><p>Test.java</p>
+<h3 id="任意类加载"><a href="#任意类加载" class="headerlink" title="任意类加载"></a>任意类加载</h3><p>URLClassLoader </p>
+<p>ClassLoader.defineClass 字节码加载类</p>
+<p>Unsafe.defineClass 字节码加载    :Spring中有一个可以直接生成的方法</p>
+<h4 id="URLClassLoader-file-http-jar"><a href="#URLClassLoader-file-http-jar" class="headerlink" title="URLClassLoader : file http  jar"></a>URLClassLoader : file http  jar</h4><p>Test.java</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h5 id="file协议"><a href="#file协议" class="headerlink" title="file协议"></a>file协议</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadClassTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        URLClassLoader urlClassLoader=<span class="keyword">new</span> URLClassLoader(<span class="keyword">new</span> URL[]&#123;<span class="keyword">new</span> URL(<span class="string">&quot;file:///C:\\Temp\\classes\\&quot;</span>)&#125;);</span><br><span class="line">        Class&lt;?&gt; test = urlClassLoader.loadClass(<span class="string">&quot;Test&quot;</span>);</span><br><span class="line">        Object o = test.newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -331,9 +334,16 @@
 <li>根据名称或位置加载.class字节码,然后使用defineClass</li>
 <li>通常由子类去实现</li>
 </ul>
-<h5 id="definclass"><a href="#definclass" class="headerlink" title="definclass()"></a>definclass()</h5><ul>
+<h5 id="defineClass"><a href="#defineClass" class="headerlink" title="defineClass()"></a>defineClass()</h5><ul>
 <li>把字节码转化为Class</li>
 </ul>
+<h4 id="Unsafe"><a href="#Unsafe" class="headerlink" title="Unsafe"></a>Unsafe</h4><p>Unface类采用了单例模式设计,但是它其中也有defineClass方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;Unsafe&gt; unsafeClass = Unsafe.class;</span><br><span class="line">        Field theUnsafe = unsafeClass.getDeclaredField(<span class="string">&quot;theUnsafe&quot;</span>);</span><br><span class="line">        <span class="keyword">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="string">&quot;C:\\Temp\\classes\\Test.class&quot;</span>));</span><br><span class="line">        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();</span><br><span class="line">        theUnsafe.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        Unsafe unsafe=(Unsafe) theUnsafe.get(<span class="keyword">null</span>);</span><br><span class="line">        Class test=(Class) unsafe.defineClass(<span class="string">&quot;Test&quot;</span>,code,<span class="number">0</span>,code.length,systemClassLoader,<span class="keyword">null</span>);</span><br><span class="line">        test.newInstance();</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
       
     </div>
