@@ -188,6 +188,130 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/13/find&grep/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/13/find&grep/" class="post-title-link" itemprop="url">find&grep</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-13 18:20:25" itemprop="dateCreated datePublished" datetime="2021-01-13T18:20:25+08:00">2021-01-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-13 18:23:35" itemprop="dateModified" datetime="2022-01-13T18:23:35+08:00">2022-01-13</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="find-和-grep命令"><a href="#find-和-grep命令" class="headerlink" title="find 和 grep命令"></a>find 和 grep命令</h2><p>在使用linux时，经常需要进行文件查找。其中查找的命令主要有find和grep。两个命令是有区的。</p>
+<p>　　区别：</p>
+<ul>
+<li><p>find命令是根据文件的属性进行查找，如文件名，文件大小，所有者，所属组，是否为空，访问时间，修改时间等。 </p>
+</li>
+<li><p>grep是根据文件的内容进行查找，会对文件的每一行按照给定的模式(patter)进行匹配查找。</p>
+</li>
+</ul>
+<h3 id="find命令"><a href="#find命令" class="headerlink" title="find命令"></a>find命令</h3><h4 id="基本格式"><a href="#基本格式" class="headerlink" title="基本格式"></a>基本格式</h4><p>​                       find  path expression</p>
+<h5 id="1-按照文件名查找"><a href="#1-按照文件名查找" class="headerlink" title="1.按照文件名查找"></a>1.按照文件名查找</h5><p>　　　　(1)find / -name httpd.conf　　#在根目录下查找文件httpd.conf，表示在整个硬盘查找</p>
+<p>　　　　(2)find /etc -name httpd.conf　　#在/etc目录下文件httpd.conf</p>
+<p>　　　　(3)find /etc -name ‘<em>srm</em>‘　　#使用通配符*(0或者任意多个)。表示在/etc目录下查找文件名中含有字符串‘srm’的文件</p>
+<p>　　　　(4)find . -name ‘srm*’ 　　#表示当前目录下查找文件名开头是字符串‘srm’的文件</p>
+<h5 id="2-按照文件特征查找"><a href="#2-按照文件特征查找" class="headerlink" title="2.按照文件特征查找"></a>2.按照文件特征查找</h5><p>　　　　(1)find / -amin -10 　　# 查找在系统中最后10分钟访问的文件(access time)</p>
+<p>　　　　(2)find / -atime -2　　 # 查找在系统中最后48小时访问的文件</p>
+<p>　　　　(3)find / -empty 　　# 查找在系统中为空的文件或者文件夹</p>
+<p>　　　　(4)find / -group cat 　　# 查找在系统中属于 group为cat的文件</p>
+<p>　　　　(5)find / -mmin -5 　　# 查找在系统中最后5分钟里修改过的文件(modify time)</p>
+<p>　　　　(6)find / -mtime -1 　　#查找在系统中最后24小时里修改过的文件</p>
+<p>　　　　(7)find / -user fred 　　#查找在系统中属于fred这个用户的文件</p>
+<p>　　　　(8)find / -size +10000c　　#查找出大于10000000字节的文件(c:字节，w:双字，k:KB，M:MB，G:GB)</p>
+<p>　　　　(9)find / -size -1000k 　　#查找出小于1000KB的文件</p>
+<h5 id="3-使用混合查找方式查找文件"><a href="#3-使用混合查找方式查找文件" class="headerlink" title="3.使用混合查找方式查找文件"></a>3.使用混合查找方式查找文件</h5><p>　　　　参数有： ！，-and(-a)，-or(-o)。</p>
+<p>　　 (1)find /tmp -size +10000c -and -mtime +2    #在/tmp目录下查找大于10000字节并在最后2分钟内修改的文件</p>
+<p>  　   (2)find / -user fred -or -user george 　　#在/目录下查找用户是fred或者george的文件文件</p>
+<p>  　   (3)find /tmp ! -user panda　　#在/tmp目录中查找所有不属于panda用户的文件</p>
+<h3 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h3><p>　　　  基本格式：find  expression</p>
+<h5 id="1-主要参数"><a href="#1-主要参数" class="headerlink" title="1.主要参数"></a>1.主要参数</h5><p>　　　　[options]主要参数：</p>
+<p>　　　　－c：只输出匹配行的计数。</p>
+<p>　　　　－i：不区分大小写</p>
+<p>　　　　－h：查询多文件时不显示文件名。</p>
+<p>　　　　－l：查询多文件时只输出包含匹配字符的文件名。</p>
+<p>　　　　－n：显示匹配行及行号。</p>
+<p>　　　　－s：不显示不存在或无匹配文本的错误信息。</p>
+<p>　　　　－v：显示不包含匹配文本的所有行。</p>
+<p>　　　　pattern正则表达式主要参数：</p>
+<p>　　　　\： 忽略正则表达式中特殊字符的原有含义。</p>
+<p>　　　　^：匹配正则表达式的开始行。</p>
+<p>　　　　$: 匹配正则表达式的结束行。</p>
+<p>　　　　&lt;：从匹配正则表达 式的行开始。</p>
+<p>　　　　&gt;：到匹配正则表达式的行结束。</p>
+<p>　　　　[ ]：单个字符，如[A]即A符合要求 。</p>
+<p>　　　　[ - ]：范围，如[A-Z]，即A、B、C一直到Z都符合要求 。</p>
+<p>　　　　.：所有的单个字符。</p>
+<p>　　　　* ：有字符，长度可以为0。</p>
+<h5 id="2-实例"><a href="#2-实例" class="headerlink" title="2.实例"></a>2.实例</h5><p>　　(1)grep ‘test’ d*　　#显示所有以d开头的文件中包含 test的行</p>
+<p>　　(2)grep ‘test’ aa bb cc 　　 #显示在aa，bb，cc文件中包含test的行</p>
+<p>　　(3)grep ‘[a-z]{5}’ aa 　　#显示所有包含每行字符串至少有5个连续小写字符的字符串的行</p>
+<p>　　(4)grep magic /usr/src　　#显示/usr/src目录下的文件(不含子目录)包含magic的行</p>
+<p>　　(5)grep -r magic /usr/src　　#显示/usr/src目录下的文件(包含子目录)包含magic的行</p>
+<p>　　(6)grep -w pattern files ：只匹配整个单词，而不是字符串的一部分(如匹配’magic’，而不是’magical’)，</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/13/kali%E6%9B%B4%E6%96%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -424,7 +548,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-count">53</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
