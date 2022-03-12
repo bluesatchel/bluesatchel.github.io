@@ -188,6 +188,82 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/11/java%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/11/java%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">java调试环境配置</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-11 22:54:01 / 修改时间：23:07:09" itemprop="dateCreated datePublished" datetime="2022-03-11T22:54:01+08:00">2022-03-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>java代码调试环境配置</p>
+<p>首先需要有对应版本的jdk文件,由于windows上的jdk都是exe,所以可以让它安装到虚拟机里面,再把安装的jdk文件夹拷贝出来</p>
+<p>接着去下载对应的openjdk</p>
+<p>解压jdk中的src压缩包</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220311225711001.png" alt="image-20220311225711001"></p>
+<p>将<code>openjdk</code>中<code>src\share\classes</code>目录下的sun文件夹复制到<code>jdk</code>src目录中</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220311225744162.png" alt="image-20220311225744162"></p>
+<p>接着在idea中将<code>src</code>目录添加到</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220311230642856.png" alt="image-20220311230642856"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/08/CommonsCollections/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -219,7 +295,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-11 18:23:37" itemprop="dateModified" datetime="2022-03-11T18:23:37+08:00">2022-03-11</time>
+                <time title="修改时间：2022-03-12 23:32:33" itemprop="dateModified" datetime="2022-03-12T23:32:33+08:00">2022-03-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -245,6 +321,7 @@
           <p>实验环境</p>
 <p>jdk8u65</p>
 <p>commonsCollections 3.2.1</p>
+<p>这个学的很吃力,但是每天都坚持,争取一周之内将其理解</p>
 <hr>
 <p>首先先熟悉一下Runtime类的使用</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Runtime类是一个单例模式,需要先通过反射获取到它的class对象,然后通过getDeclaredField获取到它对应的私有属性,然后setAccessible</span></span><br><span class="line">        Class&lt;Runtime&gt; runtimeClass = Runtime.class;</span><br><span class="line">        Field field = runtimeClass.getDeclaredField(<span class="string">&quot;currentRuntime&quot;</span>);</span><br><span class="line">        field.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        Runtime runtime =(Runtime) field.get(<span class="keyword">null</span>);</span><br><span class="line">        runtime.exec(<span class="string">&quot;calc&quot;</span>);</span><br></pre></td></tr></table></figure>
@@ -300,6 +377,30 @@
 <h5 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Transformer[] transformers= <span class="keyword">new</span> Transformer[]&#123;</span><br><span class="line">                <span class="keyword">new</span> ConstantTransformer(Runtime.class),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">&quot;getMethod&quot;</span>, <span class="keyword">new</span> Class[]&#123;String.class, Class[].class&#125;, <span class="keyword">new</span> Object[]&#123;<span class="string">&quot;getRuntime&quot;</span>, <span class="keyword">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">&quot;invoke&quot;</span>, <span class="keyword">new</span> Class[]&#123;Object.class, Object[].class&#125;, <span class="keyword">new</span> Object[]&#123;<span class="keyword">null</span>, <span class="keyword">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">&quot;exec&quot;</span>, <span class="keyword">new</span> Class[]&#123;String.class&#125;, <span class="keyword">new</span> Object[]&#123;<span class="string">&quot;calc&quot;</span>&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        Transformer Chainedtransform = <span class="keyword">new</span> ChainedTransformer(transformers);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        HashMap&lt;Object,Object&gt; map=<span class="keyword">new</span> HashMap&lt;Object, Object&gt;() ;</span><br><span class="line">        map.put(<span class="string">&quot;value&quot;</span>,<span class="string">&quot;value&quot;</span>);</span><br><span class="line">        Map&lt;Object,Object&gt; transformedMap = TransformedMap.decorate(map, <span class="keyword">null</span>, Chainedtransform);</span><br><span class="line">        Class&lt;?&gt; c = Class.forName(<span class="string">&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;</span>);</span><br><span class="line">        Constructor&lt;?&gt; declaredConstructor = c.getDeclaredConstructor(Class.class, Map.class);</span><br><span class="line">        declaredConstructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        Object o = declaredConstructor.newInstance(Target.class, transformedMap);</span><br><span class="line">        SerializeTest.serialize(o);</span><br><span class="line">        UnSerializeTest.unserialize(<span class="string">&quot;C:\\Temp\\test.bin&quot;</span>);</span><br></pre></td></tr></table></figure>
 
 
+
+
+
+<h4 id="LazyMap"><a href="#LazyMap" class="headerlink" title="LazyMap"></a>LazyMap</h4><p>lazyMap中的<code>get</code>方法也调用了<code>transform</code>方法,可以使用其替代<code>TransformedMap.checkSetValue</code></p>
+<p>分析一下lazyMap中的<code>get</code>方法的使用</p>
+<p>LazyMap顾名思义,就是在创建map的时候不创建key,再get的时候才创建key,并且LazyMap是public的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Map <span class="title">decorate</span><span class="params">(Map map, Transformer factory)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">new</span> LazyMap(map, factory);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用上述”构造方法”创建LazyMap,接着先调用get试试,分析其只有没有key的map才能进入if循环中调用<code>transform</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// create value for key if key is not currently in the map</span></span><br><span class="line">        <span class="keyword">if</span> (map.containsKey(key) == <span class="keyword">false</span>) &#123;</span><br><span class="line">            Object value = factory.transform(key);</span><br><span class="line">            map.put(key, value);</span><br><span class="line">            <span class="keyword">return</span> value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> map.get(key);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Transformer[] transformers= <span class="keyword">new</span> Transformer[]&#123;</span><br><span class="line">                <span class="keyword">new</span> ConstantTransformer(Runtime.class),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">&quot;getMethod&quot;</span>, <span class="keyword">new</span> Class[]&#123;String.class, Class[].class&#125;, <span class="keyword">new</span> Object[]&#123;<span class="string">&quot;getRuntime&quot;</span>, <span class="keyword">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">&quot;invoke&quot;</span>, <span class="keyword">new</span> Class[]&#123;Object.class, Object[].class&#125;, <span class="keyword">new</span> Object[]&#123;<span class="keyword">null</span>, <span class="keyword">null</span>&#125;),</span><br><span class="line">                <span class="keyword">new</span> InvokerTransformer(<span class="string">&quot;exec&quot;</span>, <span class="keyword">new</span> Class[]&#123;String.class&#125;, <span class="keyword">new</span> Object[]&#123;<span class="string">&quot;calc&quot;</span>&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        Transformer Chainedtransform = <span class="keyword">new</span> ChainedTransformer(transformers);</span><br><span class="line">        HashMap&lt;Object,Object&gt; map=<span class="keyword">new</span> HashMap&lt;Object, Object&gt;() ;</span><br><span class="line">        map.put(<span class="string">&quot;aaa&quot;</span>,<span class="string">&quot;bbb&quot;</span>);</span><br><span class="line">     </span><br><span class="line">        Map lazyMap = LazyMap.decorate(map, Chainedtransform);</span><br><span class="line">        lazyMap.get(Chainedtransform);</span><br></pre></td></tr></table></figure>
+
+<p>为什么map添加了键值对,还能成功进入<code>if</code>循环</p>
+<p>找到<code>containsKey</code>方法的解释是<code>map中的containsKey（key）方法是判断该key在map中是否有key存在。如果存在则返回true。如果不存在则返回false</code>换言之,其判断的是map里面是key是不是在map中存在,而<code>Chainedtransform</code>显然不存在,所以便调用了key的<code>transform方法</code></p>
+<p>接下来找能调用<code>get</code>方法的类</p>
+<p>还得是<code>AnnotationInvocationHandler</code>类</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220312160852089.png" alt="image-20220312160852089"></p>
+<p>readObject中的memberTypes是注解的成员变量,无法控制</p>
+<p>在该类的<code>invoke</code>方法中有一个get方法的调用</p>
+<p>这个类实现了<code>InvocationHandler</code>接口,根据之前学习的java动态代理的使用,只要有它的代理调用了该类中的任何方法,都会调用invoke从而走到调用<code>get</code></p>
+<p>如何在<code>Object result = memberValues.get(member);</code>中将member改为<code>ChainedTransformer</code></p>
+<p>这块理解出了问题,我觉得还是因为自己动态代理的部分的机制理解不到位,继续去学习一下动态代理再来理解</p>
+
       
     </div>
 
@@ -349,7 +450,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-08 14:31:54" itemprop="dateModified" datetime="2022-03-08T14:31:54+08:00">2022-03-08</time>
+                <time title="修改时间：2022-03-13 03:35:03" itemprop="dateModified" datetime="2022-03-13T03:35:03+08:00">2022-03-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -411,14 +512,59 @@
 <li>高扩展，只要实现了接口，都可以用代理。</li>
 <li>智能化，动态代理。</li>
 </ul>
-<h4 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h4><p>个人理解:静态代理就是两个实现了同一个接口的类,其中一个类当被代理类,另一个类的构造器接收一个实现的上述接口类型的参数,这样在传递参数的时候就可以把实现了接口的类当成参数传递给代理的构造函数,可以在该类中调用被代理类中的方法</p>
+<h4 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h4><p>个人理解:<strong>静态代理就是两个实现了同一个接口的类,其中一个类当被代理类,另一个类中实现实例化被代理的类,并在其同名方法中增加自己的个性化内容,必须”收中介费”</strong>,代理类也可以有多个,必须二手房产可以有不同的品牌</p>
 <p>以知乎上租房子的例子为例</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IRentHouse</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rentHouse</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">--------------------------</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RentHouse</span> <span class="keyword">implements</span> <span class="title">IRentHouse</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rentHouse</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;租房子&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">---------------------------</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RentHouseProxy</span> <span class="keyword">implements</span> <span class="title">IRentHouse</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IRentHouse rentHouse;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RentHouseProxy</span><span class="params">(IRentHouse rentHouse)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.rentHouse = rentHouse;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rentHouse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;交中介费&quot;</span>);</span><br><span class="line">        rentHouse.rentHouse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">--------------------------------</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        RentHouse rentHouse=<span class="keyword">new</span> RentHouse();</span><br><span class="line">        RentHouseProxy rentHouseProxy=<span class="keyword">new</span> RentHouseProxy(rentHouse);</span><br><span class="line"></span><br><span class="line">        rentHouseProxy.rentHouse();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">最后结果是:</span><br><span class="line">交中介费</span><br><span class="line">租房子</span><br></pre></td></tr></table></figure>
 
-<h4 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h4><p>静态代理对于后续增加方法等极为不便,代理类要跟着原来类的方法而变化</p>
+<h5 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h5><p>方便实现</p>
+<p>但是当目标类增加了,代理类可能也需要成倍的增加,代理类数量过多,接口增加一个方法,所有实现类都需要增加重写方法</p>
+<h4 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h4><p><strong>在程序执行过程中,使用jdk的反射机制,创建代理类对象</strong>,并动态的指定要代理目标类,换句话说,动态类是一种创建java对象的能力,帮调用者自动创建对象</p>
+<p>动态代理的实现方式常用的有两种:</p>
+<ul>
+<li>使用jdk代理代理</li>
+</ul>
+<p>使用java反射包中的类和接口实现动态代理的功能,反射包 java.lang.reflect ,里面有三个类: InvocationHandler,Method,Proxy</p>
+<ul>
+<li>通过CGLIB动态代理</li>
+</ul>
+<p>cglib是第三方的工具库,创建代理对象,  cglib的原理是继承,     cglib通过继承目标类,创建它的子类,在子类中重写父类中同名的方法,实现功能的修改</p>
+<p>要求目标类和方法不能是final的</p>
 <p>动态代理则可以根据传递的方法而自动调用对应方法,类似于<code>反射</code>中的getMethod和invoke结合起来使用了</p>
 <p>首先要定义一个InvocationHandler对象并实现InvocationHandler接口</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RentHouseInvocationHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    IRentHouse rentHouse;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RentHouseInvocationHandler</span><span class="params">(IRentHouse rentHouse)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.rentHouse = rentHouse;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        method.invoke(rentHouse,args);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>InvocationHandler(调用处理器)接口,就一个方法invoke(),</p>
+<p>​        invoke():表示代理对象要执行的功能代码,代理类要完成的功能就写在invoke()方法中</p>
+<p>怎么使用?</p>
+<ol>
+<li>创建类实现接口InvocationHandler</li>
+<li>重写invoke()方法,把原来静态代理中代理类要完成的功能,写在这里</li>
+</ol>
+<p>Method类:表示方法的,确切的说急速目标类中的方法</p>
+<p>作用:通过Method可以执行某个目标类的方法 method.invoke(目标对象,方法的参数),这个Invoke和InvocationHandler中的Invoke没有关系</p>
+<p>Proxy类 :核心的对象,创建代理对象,之前创建对象都是new 类的构造方法,现在我们是使用Proxy类的方法,代理new的使用</p>
+<p>方法:静态方法 newProxyInstance()</p>
+<p>作用是:创建代理对象,等同于静态代理中的new RentHouseProxy</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader,</span></span></span><br><span class="line"><span class="params"><span class="function">                                          Class&lt;?&gt;[] interfaces,</span></span></span><br><span class="line"><span class="params"><span class="function">                                          InvocationHandler h)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>参数:</p>
+<ol>
+<li>ClassLoader  loader类加载器,负责向内存中加载对象的,使用反射获取对象的ClassLoader类</li>
+<li>Class&lt;?&gt;[] interfaces: 接口,目标对象实现的接口,也是反射获取的</li>
+<li>InvocationHandler h :自己写的代理类要完成的功能</li>
+</ol>
+<p>返回值:            就是代理对象</p>
+<p>实现动态代理的步骤:</p>
+<ol>
+<li>创建接口,定义目标类要完成的功能</li>
+<li>创建目标类实现接口</li>
+<li>创建InvocationHandler接口的实现类,在invoke方法中完成代理类的功能<ol>
+<li>调用目标方法</li>
+<li>增强功能</li>
+</ol>
+</li>
+<li>使用Proxy类的静态方法    创建代理对象,并把返回值转为接口类型</li>
+</ol>
+<p>为什么能转换成接口类型,因为它代理的类实现了该接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RentHouseInvocationHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">    IRentHouse rentHouse;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RentHouseInvocationHandler</span><span class="params">(IRentHouse rentHouse)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.rentHouse = rentHouse;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line"></span><br><span class="line">        method.invoke(rentHouse,args);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        RentHouse rentHouse=<span class="keyword">new</span> RentHouse();</span><br><span class="line">        </span><br><span class="line">        RentHouseInvocationHandler rentHouseInvocationHandler = <span class="keyword">new</span> RentHouseInvocationHandler(rentHouse);</span><br><span class="line">        IRentHouse o = (IRentHouse)Proxy.newProxyInstance(rentHouse.getClass().getClassLoader(), rentHouse.getClass().getInterfaces(), rentHouseInvocationHandler);</span><br><span class="line">        o.rentHouse();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
@@ -1209,87 +1355,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/01/SpringBoot%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/02/01/SpringBoot%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">SpringBoot初步学习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-02-01 18:54:54" itemprop="dateCreated datePublished" datetime="2022-02-01T18:54:54+08:00">2022-02-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-02-16 23:33:20" itemprop="dateModified" datetime="2022-02-16T23:33:20+08:00">2022-02-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="1-SpringBoot简介"><a href="#1-SpringBoot简介" class="headerlink" title="1. SpringBoot简介"></a>1. SpringBoot简介
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/02/01/SpringBoot%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1361,7 +1426,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">53</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
