@@ -4335,7 +4335,7 @@
   </entry>
   <entry>
     <title>CommonsCollections</title>
-    <url>/2022/03/08/CommonsCollections/</url>
+    <url>/2022/03/14/CommonsCollections/</url>
     <content><![CDATA[<p>实验环境</p>
 <p>jdk8u65</p>
 <p>commonsCollections 3.2.1</p>
@@ -4501,7 +4501,7 @@
   </entry>
   <entry>
     <title>java调试环境配置</title>
-    <url>/2022/03/11/java%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    <url>/2022/03/09/java%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<p>java代码调试环境配置</p>
 <p>首先需要有对应版本的jdk文件,由于windows上的jdk都是exe,所以可以让它安装到虚拟机里面,再把安装的jdk文件夹拷贝出来</p>
 <p>接着去下载对应的openjdk</p>
