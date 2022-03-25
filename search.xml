@@ -4147,200 +4147,6 @@
       </tags>
   </entry>
   <entry>
-    <title>java反序列化学习</title>
-    <url>/2022/03/06/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
-    <content><![CDATA[<h3 id="java反序列化"><a href="#java反序列化" class="headerlink" title="java反序列化"></a>java反序列化</h3><p>Java序列化是指把java对象转换为字节序列的过程,而java反序列化是指把字节序列恢复为java对象的过程</p>
-<p>序列化分将数据分解成字节流,以便存储在文件中或在网络上传输,反序列化就是打开字节流并重构对象,对象序列化不仅要将基本数据类型转换成字节表示,有时还要恢复数据,恢复数据要求有恢复数据的对象实例</p>
-<p>应用场景:</p>
-<p>1.想把内存中的对象保存到一个文件中或者数据库中的时候</p>
-<p>2.想用套接字在网络上传送对象的时候</p>
-<p>3.想通过RMI传输对象的时候</p>
-<p>java现在有很多种不同的序列化方式,先从原生的开始</p>
-<h4 id="java原生序列化"><a href="#java原生序列化" class="headerlink" title="java原生序列化"></a>java原生序列化</h4><p>先通过简单的代码来了解java反序列化的流程</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>序列化代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">serializeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Object obj)</span><span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line">        ObjectOutputStream oos=<span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">&quot;C:\\Temp\\test.bin&quot;</span>));</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        Person person = <span class="keyword">new</span> Person(<span class="string">&quot;张三&quot;</span>, <span class="number">29</span>);</span><br><span class="line">        serialize(person);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>反序列化代码</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">unserializeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">unserialize</span><span class="params">(String filename)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">        ObjectInputStream ois=<span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(filename));</span><br><span class="line">        Object o = ois.readObject();</span><br><span class="line">        <span class="keyword">return</span> o;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">        Person person=(Person)unserialize(<span class="string">&quot;C:\\Temp\\test.bin&quot;</span>);</span><br><span class="line">        System.out.println(person);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>transient标记的变量不参与反序列化</strong></p>
-<p>Java反序列化的很多操作,是需要开发者深入参与的,所以你会发现大量的库会实现<code>readObject</code>,<code>writeObject</code>方法</p>
-<h5 id="objectAnnotation是什么"><a href="#objectAnnotation是什么" class="headerlink" title="objectAnnotation是什么?"></a>objectAnnotation是什么?</h5><p>在执行完默认的 <code>s.defaultWriteObject()</code> 后，向stream里写入了一个字符串 This is a object 。</p>
-<p>然后在radObject中调用readObject()方法取出该字符串并打印</p>
-<p>其实<code>writeObject</code>和<code>readObject</code>方法默认都支持重写,重写之后就不会执行到try catch了</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220323004013073.png" alt="image-20220323004013073"></p>
-<p>它调用的<code>writeObjectOverride</code>方法这样描述</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220323004127574.png" alt="image-20220323004127574"></p>
-<p>该方法就是给子类重写默认writeObject方法准备的</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Person&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line">    Person(String name, <span class="keyword">int</span> age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeObject</span><span class="params">(java.io.ObjectOutputStream s)</span> <span class="keyword">throws</span></span></span><br><span class="line"><span class="function">            IOException </span>&#123;</span><br><span class="line">        s.defaultWriteObject();</span><br><span class="line">        s.writeObject(<span class="string">&quot;This is a object&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(java.io.ObjectInputStream s)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">        s.defaultReadObject();</span><br><span class="line">        String message = (String) s.readObject();</span><br><span class="line">        System.out.println(message);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Person person = <span class="keyword">new</span> Person(<span class="string">&quot;张三&quot;</span>, <span class="number">19</span>);</span><br><span class="line">        ByteArrayOutputStream buf=<span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">        ObjectOutputStream objectOutputStream= <span class="keyword">new</span> ObjectOutputStream(buf);</span><br><span class="line">        objectOutputStream.writeObject(person);</span><br><span class="line"></span><br><span class="line">        ObjectInputStream objectInputStream=<span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> ByteArrayInputStream(buf.toByteArray()));</span><br><span class="line">        person=(Person) objectInputStream.readObject();</span><br><span class="line">        System.out.println(person);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="C:/Users/MSI/AppData/Roaming/Typora/typora-user-images/image-20220323011106351.png" alt="image-20220323011106351"></p>
-<p>可以在objectAnnotation中看到 This is a object</p>
-<h5 id="classAnnotations是什么？"><a href="#classAnnotations是什么？" class="headerlink" title="classAnnotations是什么？"></a>classAnnotations是什么？</h5><p><code>ObjectOutputStream</code>类中有一个方法<code>annotateClass</code>方法,<code>ObjectOutputStream</code>的子类需要向序列化后的数据里放任何内容,都可以重写这个方法,写入自己想要写入的数据,然后反序列化的时候就可以读取到这个信息并使用</p>
-<p>比如，RMI的 类 <code>MarshalOutputStream</code> 就将当前的 <code>codebase</code> 写入</p>
-<p>所以在分析序列化数据的时候看到<code>classAnnotations</code>,实际上就是<code>annotateClass</code>方法写入的内容</p>
-<p>有些快递打包和拆包有特殊需求,比如易碎朝上,类比重写writeObject和readObject</p>
-<p>使用<code>SerializationDumper</code>需要的是16进制字符串</p>
-<h5 id="16进制字符串和byte相互转换"><a href="#16进制字符串和byte相互转换" class="headerlink" title="16进制字符串和byte相互转换"></a>16进制字符串和byte相互转换</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Convert byte[] to hex string.这里我们可以将byte转换成int，然后利用Integer.toHexString(int)来转换成16进制字符串。</span></span><br><span class="line"><span class="comment"> * @param src byte[] data</span></span><br><span class="line"><span class="comment"> * @return hex string</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">bytesToHexString</span><span class="params">(<span class="keyword">byte</span>[] src)</span></span>&#123;</span><br><span class="line">    StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder(<span class="string">&quot;&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (src == <span class="keyword">null</span> || src.length &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; src.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> v = src[i] &amp; <span class="number">0xFF</span>;</span><br><span class="line">        String hv = Integer.toHexString(v);</span><br><span class="line">        <span class="keyword">if</span> (hv.length() &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            stringBuilder.append(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        stringBuilder.append(hv);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> stringBuilder.toString();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Convert hex string to byte[]</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> hexString the hex string</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> byte[]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] hexStringToBytes(String hexString) &#123;</span><br><span class="line">    <span class="keyword">if</span> (hexString == <span class="keyword">null</span> || hexString.equals(<span class="string">&quot;&quot;</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    hexString = hexString.toUpperCase();</span><br><span class="line">    <span class="keyword">int</span> length = hexString.length() / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">char</span>[] hexChars = hexString.toCharArray();</span><br><span class="line">    <span class="keyword">byte</span>[] d = <span class="keyword">new</span> <span class="keyword">byte</span>[length];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> pos = i * <span class="number">2</span>;</span><br><span class="line">        d[i] = (<span class="keyword">byte</span>) (charToByte(hexChars[pos]) &lt;&lt; <span class="number">4</span> | charToByte(hexChars[pos + <span class="number">1</span>]));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> d;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h5 id="为什么会产生安全问题"><a href="#为什么会产生安全问题" class="headerlink" title="为什么会产生安全问题?"></a>为什么会产生安全问题?</h5><p>只要服务器端反序列化数据,客户端传递类的readObject中代码会自动执行,给予攻击者在服务器上运行代码的能力</p>
-<p>可能的形式</p>
-<p>1.入口类的readObject直接调用危险方法</p>
-<p>2.入口类参数中包含可控类,该类有危险方法,readObject时调用</p>
-<p>入口A HashMap 接收参数O</p>
-<p>3.入口类参数中包含可控类,该类又调用其他有危险方法的类,readObject时调用</p>
-<p>4.构造函数/静态代码块等类加载时隐式执行</p>
-<p>直接在readObject进行攻击是不现实的,最好包一个类</p>
-<p>共同条件    继承Serializeable</p>
-<p>入口类 source (重写readObject   参数类型宽泛   最好jdk自带)   </p>
-<p>调用链  </p>
-<p>反射在序列化中的应用</p>
-<p>定制需要的对象</p>
-<p>通过invoke调用除了同名函数以外的函数</p>
-<p>通过Class类创建对象,引入不能序列化的类</p>
-<h3 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h3><h4 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h4><p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220307121128637.png" alt="image-20220307121128637"></p>
-<h5 id="代理模式优点"><a href="#代理模式优点" class="headerlink" title="代理模式优点"></a>代理模式优点</h5><ul>
-<li>职责清晰</li>
-<li>高扩展，只要实现了接口，都可以用代理。</li>
-<li>智能化，动态代理。</li>
-</ul>
-<h4 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h4><p>个人理解:<strong>静态代理就是两个实现了同一个接口的类,其中一个类当被代理类,另一个类中实现实例化被代理的类,并在其同名方法中增加自己的个性化内容,必须”收中介费”</strong>,代理类也可以有多个,必须二手房产可以有不同的品牌</p>
-<p>以知乎上租房子的例子为例</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IRentHouse</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rentHouse</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">--------------------------</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RentHouse</span> <span class="keyword">implements</span> <span class="title">IRentHouse</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rentHouse</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;租房子&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">---------------------------</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RentHouseProxy</span> <span class="keyword">implements</span> <span class="title">IRentHouse</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IRentHouse rentHouse;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RentHouseProxy</span><span class="params">(IRentHouse rentHouse)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.rentHouse = rentHouse;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rentHouse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;交中介费&quot;</span>);</span><br><span class="line">        rentHouse.rentHouse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">--------------------------------</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        RentHouse rentHouse=<span class="keyword">new</span> RentHouse();</span><br><span class="line">        RentHouseProxy rentHouseProxy=<span class="keyword">new</span> RentHouseProxy(rentHouse);</span><br><span class="line"></span><br><span class="line">        rentHouseProxy.rentHouse();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">最后结果是:</span><br><span class="line">交中介费</span><br><span class="line">租房子</span><br></pre></td></tr></table></figure>
-
-<h5 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h5><p>方便实现</p>
-<p>但是当目标类增加了,代理类可能也需要成倍的增加,代理类数量过多,接口增加一个方法,所有实现类都需要增加重写方法</p>
-<h4 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h4><p><strong>在程序执行过程中,使用jdk的反射机制,创建代理类对象</strong>,并动态的指定要代理目标类,换句话说,动态类是一种创建java对象的能力,帮调用者自动创建对象</p>
-<p>动态代理的实现方式常用的有两种:</p>
-<ul>
-<li>使用jdk代理代理</li>
-</ul>
-<p>使用java反射包中的类和接口实现动态代理的功能,反射包 java.lang.reflect ,里面有三个类: InvocationHandler,Method,Proxy</p>
-<ul>
-<li>通过CGLIB动态代理</li>
-</ul>
-<p>cglib是第三方的工具库,创建代理对象,  cglib的原理是继承,     cglib通过继承目标类,创建它的子类,在子类中重写父类中同名的方法,实现功能的修改</p>
-<p>要求目标类和方法不能是final的</p>
-<p>动态代理则可以根据传递的方法而自动调用对应方法,类似于<code>反射</code>中的getMethod和invoke结合起来使用了</p>
-<p>首先要定义一个InvocationHandler对象并实现InvocationHandler接口</p>
-<p>InvocationHandler(调用处理器)接口,就一个方法invoke(),</p>
-<p>​        invoke():表示代理对象要执行的功能代码,代理类要完成的功能就写在invoke()方法中</p>
-<p>怎么使用?</p>
-<ol>
-<li>创建类实现接口InvocationHandler</li>
-<li>重写invoke()方法,把原来静态代理中代理类要完成的功能,写在这里</li>
-</ol>
-<p>Method类:表示方法的,确切的说就是目标类中的方法</p>
-<p>作用:通过Method可以执行某个目标类的方法 method.invoke(目标对象,方法的参数),这个Invoke和InvocationHandler中的Invoke没有关系</p>
-<p>Proxy类 :核心的对象,创建代理对象,之前创建对象都是new 类的构造方法,现在我们是使用Proxy类的方法,代理new的使用</p>
-<p>方法:静态方法 newProxyInstance()</p>
-<p>作用是:创建代理对象,等同于静态代理中的new RentHouseProxy</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader,</span></span></span><br><span class="line"><span class="params"><span class="function">                                          Class&lt;?&gt;[] interfaces,</span></span></span><br><span class="line"><span class="params"><span class="function">                                          InvocationHandler h)</span></span></span><br></pre></td></tr></table></figure>
-
-<p>参数:</p>
-<ol>
-<li>ClassLoader  loader类加载器,负责向内存中加载对象的,使用反射获取对象的ClassLoader类</li>
-<li>Class&lt;?&gt;[] interfaces: 接口,目标对象实现的接口,也是反射获取的</li>
-<li>InvocationHandler h :自己写的代理类要完成的功能</li>
-</ol>
-<p>返回值:            就是代理对象</p>
-<p>实现动态代理的步骤:</p>
-<ol>
-<li>创建接口,定义目标类要完成的功能</li>
-<li>创建目标类实现接口</li>
-<li>创建InvocationHandler接口的实现类,在invoke方法中完成代理类的功能<ol>
-<li>调用目标方法</li>
-<li>增强功能</li>
-</ol>
-</li>
-<li>使用Proxy类的静态方法    创建代理对象,并把返回值转为接口类型</li>
-</ol>
-<p>为什么能转换成接口类型,因为它代理的类实现了该接口</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RentHouseInvocationHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">    IRentHouse rentHouse;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RentHouseInvocationHandler</span><span class="params">(IRentHouse rentHouse)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.rentHouse = rentHouse;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line"></span><br><span class="line">        method.invoke(rentHouse,args);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        RentHouse rentHouse=<span class="keyword">new</span> RentHouse();</span><br><span class="line">        </span><br><span class="line">        RentHouseInvocationHandler rentHouseInvocationHandler = <span class="keyword">new</span> RentHouseInvocationHandler(rentHouse);</span><br><span class="line">        IRentHouse o = (IRentHouse)Proxy.newProxyInstance(rentHouse.getClass().getClassLoader(), rentHouse.getClass().getInterfaces(), rentHouseInvocationHandler);</span><br><span class="line">        o.rentHouse();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>动态代理在漏洞利用的用法,</p>
-<p>如果某个类是动态代理类,里面调用传入类的f方法,那么就可以传入B从而调用B的f方法</p>
-<p>readObject-&gt;反序列化自动执行</p>
-<p>invoke-&gt;有函数调用</p>
-<h4 id="动态类加载方法"><a href="#动态类加载方法" class="headerlink" title="动态类加载方法"></a>动态类加载方法</h4><p>Class.forName    可以设置是否初始化</p>
-<p>ClassLoader.loadClass不进行初始化</p>
-<p>ClassLoader-&gt;SecureClassLoader-&gt;URLClassLoader-&gt;AppClassLoader</p>
-<p>loadClass-&gt;findClass(重写的方法)-&gt;defineClass(从字节码加载类)</p>
-<h3 id="任意类加载"><a href="#任意类加载" class="headerlink" title="任意类加载"></a>任意类加载</h3><p>URLClassLoader </p>
-<p>ClassLoader.defineClass 字节码加载类</p>
-<p>Unsafe.defineClass 字节码加载    :Spring中有一个可以直接生成的方法</p>
-<h4 id="URLClassLoader-file-http-jar"><a href="#URLClassLoader-file-http-jar" class="headerlink" title="URLClassLoader : file http  jar"></a>URLClassLoader : file http  jar</h4><p>Test.java</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="file协议"><a href="#file协议" class="headerlink" title="file协议"></a>file协议</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadClassTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        URLClassLoader urlClassLoader=<span class="keyword">new</span> URLClassLoader(<span class="keyword">new</span> URL[]&#123;<span class="keyword">new</span> URL(<span class="string">&quot;file:///C:\\Temp\\classes\\&quot;</span>)&#125;);</span><br><span class="line">        Class&lt;?&gt; test = urlClassLoader.loadClass(<span class="string">&quot;Test&quot;</span>);</span><br><span class="line">        Object o = test.newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="jar协议"><a href="#jar协议" class="headerlink" title="jar协议"></a>jar协议</h5><p>jar协议中可以使用http,file</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">jar -cvf Test.jar .\Test.class   <span class="comment">//先编译成class文件再打包</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadClassTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        URLClassLoader urlClassLoader=<span class="keyword">new</span> URLClassLoader(<span class="keyword">new</span> URL[]&#123;<span class="keyword">new</span> URL(<span class="string">&quot;jar:file:///C:\\Temp\\classes\\Test.jar!/&quot;</span>)&#125;);</span><br><span class="line">        Class&lt;?&gt; test = urlClassLoader.loadClass(<span class="string">&quot;Test&quot;</span>);</span><br><span class="line">        Object o = test.newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="DefineClass通过字节码加载类"><a href="#DefineClass通过字节码加载类" class="headerlink" title="DefineClass通过字节码加载类"></a>DefineClass通过字节码加载类</h4><p><strong>defineClass只是将字节码转换为Class,而不会主动加载类,需要再次实例化,才能调用到静态代码块</strong></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Method defineClass = ClassLoader.class.getDeclaredMethod(<span class="string">&quot;defineClass&quot;</span>, String.class, <span class="keyword">byte</span>[].class, <span class="keyword">int</span>.class, <span class="keyword">int</span>.class);</span><br><span class="line">        defineClass.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();</span><br><span class="line">        <span class="keyword">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="string">&quot;C:\\Temp\\classes\\Test.class&quot;</span>));</span><br><span class="line">        Class o= (Class)defineClass.invoke(systemClassLoader, <span class="string">&quot;Test&quot;</span>, code, <span class="number">0</span>, code.length);</span><br><span class="line">        o.newInstance();</span><br></pre></td></tr></table></figure>
-
-<h4 id="loadClass-findClass-defineClass区别"><a href="#loadClass-findClass-defineClass区别" class="headerlink" title="loadClass,findClass,defineClass区别"></a>loadClass,findClass,defineClass区别</h4><h5 id="loadClass"><a href="#loadClass" class="headerlink" title="loadClass"></a>loadClass</h5><ul>
-<li><p>findLoadedClass(String) 调用这个方法，查看这个Class是否已经被加载</p>
-</li>
-<li><p>如果没有被加载，继续往下走，查看父类加载器，递归调用loadClass()</p>
-</li>
-<li><p>如果父类加载器是null，说明是启动类加载器，查找对应的Class</p>
-</li>
-<li><p>如果都没有找到，就调用findClass(String)</p>
-</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">protected</span> Class&lt;?&gt; loadClass(String name, <span class="keyword">boolean</span> resolve)</span><br><span class="line">    <span class="keyword">throws</span> ClassNotFoundException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (getClassLoadingLock(name)) &#123;</span><br><span class="line">        <span class="comment">// First, check if the class has already been loaded</span></span><br><span class="line">        Class&lt;?&gt; c = findLoadedClass(name);</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">long</span> t0 = System.nanoTime();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (parent != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    c = parent.loadClass(name, <span class="keyword">false</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    c = findBootstrapClassOrNull(name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">                <span class="comment">// ClassNotFoundException thrown if class not found</span></span><br><span class="line">                <span class="comment">// from the non-null parent class loader</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// If still not found, then invoke findClass in order</span></span><br><span class="line">                <span class="comment">// to find the class.</span></span><br><span class="line">                <span class="keyword">long</span> t1 = System.nanoTime();</span><br><span class="line">                c = findClass(name);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// this is the defining class loader; record the stats</span></span><br><span class="line">                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);</span><br><span class="line">                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);</span><br><span class="line">                sun.misc.PerfCounter.getFindClasses().increment();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (resolve) &#123;</span><br><span class="line">            resolveClass(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="findClass"><a href="#findClass" class="headerlink" title="findClass()"></a>findClass()</h5><ul>
-<li>根据名称或位置加载.class字节码,然后使用defineClass</li>
-<li>通常由子类去实现</li>
-</ul>
-<h5 id="defineClass"><a href="#defineClass" class="headerlink" title="defineClass()"></a>defineClass()</h5><ul>
-<li>把字节码转化为Class</li>
-</ul>
-<h4 id="Unsafe"><a href="#Unsafe" class="headerlink" title="Unsafe"></a>Unsafe</h4><p>Unsafe类采用了单例模式设计,但是它其中也有defineClass方法</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class&lt;Unsafe&gt; unsafeClass = Unsafe.class;</span><br><span class="line">        Field theUnsafe = unsafeClass.getDeclaredField(<span class="string">&quot;theUnsafe&quot;</span>);</span><br><span class="line">        <span class="keyword">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="string">&quot;C:\\Temp\\classes\\Test.class&quot;</span>));</span><br><span class="line">        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();</span><br><span class="line">        theUnsafe.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        Unsafe unsafe=(Unsafe) theUnsafe.get(<span class="keyword">null</span>);</span><br><span class="line">        Class test=(Class) unsafe.defineClass(<span class="string">&quot;Test&quot;</span>,code,<span class="number">0</span>,code.length,systemClassLoader,<span class="keyword">null</span>);</span><br><span class="line">        test.newInstance();</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java反序列化</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>java安全-RMI</title>
     <url>/2022/03/04/java%E5%AE%89%E5%85%A8-RMI%20-%20%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/</url>
     <content><![CDATA[<h3 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h3><p>JSON和XML是通用数据交互格式，通常用于不同语言、不同环境下数据的交互，比如前端的JavaScript 通过JSON和后端服务通信、微信服务器通过XML和公众号服务器通信。但这两个数据格式都有一个共 同的问题：不支持复杂的数据类型。</p>
@@ -4785,6 +4591,200 @@
       </categories>
       <tags>
         <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java反序列化学习</title>
+    <url>/2022/03/06/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h3 id="java反序列化"><a href="#java反序列化" class="headerlink" title="java反序列化"></a>java反序列化</h3><p>Java序列化是指把java对象转换为字节序列的过程,而java反序列化是指把字节序列恢复为java对象的过程</p>
+<p>序列化分将数据分解成字节流,以便存储在文件中或在网络上传输,反序列化就是打开字节流并重构对象,对象序列化不仅要将基本数据类型转换成字节表示,有时还要恢复数据,恢复数据要求有恢复数据的对象实例</p>
+<p>应用场景:</p>
+<p>1.想把内存中的对象保存到一个文件中或者数据库中的时候</p>
+<p>2.想用套接字在网络上传送对象的时候</p>
+<p>3.想通过RMI传输对象的时候</p>
+<p>java现在有很多种不同的序列化方式,先从原生的开始</p>
+<h4 id="java原生序列化"><a href="#java原生序列化" class="headerlink" title="java原生序列化"></a>java原生序列化</h4><p>先通过简单的代码来了解java反序列化的流程</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>序列化代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">serializeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Object obj)</span><span class="keyword">throws</span> IOException</span>&#123;</span><br><span class="line">        ObjectOutputStream oos=<span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">&quot;C:\\Temp\\test.bin&quot;</span>));</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        Person person = <span class="keyword">new</span> Person(<span class="string">&quot;张三&quot;</span>, <span class="number">29</span>);</span><br><span class="line">        serialize(person);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>反序列化代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">unserializeTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">unserialize</span><span class="params">(String filename)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">        ObjectInputStream ois=<span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(filename));</span><br><span class="line">        Object o = ois.readObject();</span><br><span class="line">        <span class="keyword">return</span> o;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">        Person person=(Person)unserialize(<span class="string">&quot;C:\\Temp\\test.bin&quot;</span>);</span><br><span class="line">        System.out.println(person);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>transient标记的变量不参与反序列化</strong></p>
+<p>Java反序列化的很多操作,是需要开发者深入参与的,所以你会发现大量的库会实现<code>readObject</code>,<code>writeObject</code>方法</p>
+<h5 id="objectAnnotation是什么"><a href="#objectAnnotation是什么" class="headerlink" title="objectAnnotation是什么?"></a>objectAnnotation是什么?</h5><p>在执行完默认的 <code>s.defaultWriteObject()</code> 后，向stream里写入了一个字符串 This is a object 。</p>
+<p>然后在radObject中调用readObject()方法取出该字符串并打印</p>
+<p>其实<code>writeObject</code>和<code>readObject</code>方法默认都支持重写,重写之后就不会执行到try catch了</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220323004013073.png" alt="image-20220323004013073"></p>
+<p>它调用的<code>writeObjectOverride</code>方法这样描述</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220323004127574.png" alt="image-20220323004127574"></p>
+<p>该方法就是给子类重写默认writeObject方法准备的</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Person&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String name;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> age;</span><br><span class="line">    Person(String name, <span class="keyword">int</span> age) &#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeObject</span><span class="params">(java.io.ObjectOutputStream s)</span> <span class="keyword">throws</span></span></span><br><span class="line"><span class="function">            IOException </span>&#123;</span><br><span class="line">        s.defaultWriteObject();</span><br><span class="line">        s.writeObject(<span class="string">&quot;This is a object&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">readObject</span><span class="params">(java.io.ObjectInputStream s)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> IOException, ClassNotFoundException </span>&#123;</span><br><span class="line">        s.defaultReadObject();</span><br><span class="line">        String message = (String) s.readObject();</span><br><span class="line">        System.out.println(message);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Person person = <span class="keyword">new</span> Person(<span class="string">&quot;张三&quot;</span>, <span class="number">19</span>);</span><br><span class="line">        ByteArrayOutputStream buf=<span class="keyword">new</span> ByteArrayOutputStream();</span><br><span class="line">        ObjectOutputStream objectOutputStream= <span class="keyword">new</span> ObjectOutputStream(buf);</span><br><span class="line">        objectOutputStream.writeObject(person);</span><br><span class="line"></span><br><span class="line">        ObjectInputStream objectInputStream=<span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> ByteArrayInputStream(buf.toByteArray()));</span><br><span class="line">        person=(Person) objectInputStream.readObject();</span><br><span class="line">        System.out.println(person);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/serializeDu.png" alt="serializeDu"></p>
+<p>可以在objectAnnotation中看到 This is a object</p>
+<h5 id="classAnnotations是什么？"><a href="#classAnnotations是什么？" class="headerlink" title="classAnnotations是什么？"></a>classAnnotations是什么？</h5><p><code>ObjectOutputStream</code>类中有一个方法<code>annotateClass</code>方法,<code>ObjectOutputStream</code>的子类需要向序列化后的数据里放任何内容,都可以重写这个方法,写入自己想要写入的数据,然后反序列化的时候就可以读取到这个信息并使用</p>
+<p>比如，RMI的 类 <code>MarshalOutputStream</code> 就将当前的 <code>codebase</code> 写入</p>
+<p>所以在分析序列化数据的时候看到<code>classAnnotations</code>,实际上就是<code>annotateClass</code>方法写入的内容</p>
+<p>有些快递打包和拆包有特殊需求,比如易碎朝上,类比重写writeObject和readObject</p>
+<p>使用<code>SerializationDumper</code>需要的是16进制字符串</p>
+<h5 id="16进制字符串和byte相互转换"><a href="#16进制字符串和byte相互转换" class="headerlink" title="16进制字符串和byte相互转换"></a>16进制字符串和byte相互转换</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/* Convert byte[] to hex string.这里我们可以将byte转换成int，然后利用Integer.toHexString(int)来转换成16进制字符串。</span></span><br><span class="line"><span class="comment"> * @param src byte[] data</span></span><br><span class="line"><span class="comment"> * @return hex string</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">bytesToHexString</span><span class="params">(<span class="keyword">byte</span>[] src)</span></span>&#123;</span><br><span class="line">    StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder(<span class="string">&quot;&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (src == <span class="keyword">null</span> || src.length &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; src.length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> v = src[i] &amp; <span class="number">0xFF</span>;</span><br><span class="line">        String hv = Integer.toHexString(v);</span><br><span class="line">        <span class="keyword">if</span> (hv.length() &lt; <span class="number">2</span>) &#123;</span><br><span class="line">            stringBuilder.append(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        stringBuilder.append(hv);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> stringBuilder.toString();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Convert hex string to byte[]</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> hexString the hex string</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> byte[]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">byte</span>[] hexStringToBytes(String hexString) &#123;</span><br><span class="line">    <span class="keyword">if</span> (hexString == <span class="keyword">null</span> || hexString.equals(<span class="string">&quot;&quot;</span>)) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    hexString = hexString.toUpperCase();</span><br><span class="line">    <span class="keyword">int</span> length = hexString.length() / <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">char</span>[] hexChars = hexString.toCharArray();</span><br><span class="line">    <span class="keyword">byte</span>[] d = <span class="keyword">new</span> <span class="keyword">byte</span>[length];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">int</span> pos = i * <span class="number">2</span>;</span><br><span class="line">        d[i] = (<span class="keyword">byte</span>) (charToByte(hexChars[pos]) &lt;&lt; <span class="number">4</span> | charToByte(hexChars[pos + <span class="number">1</span>]));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> d;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h5 id="为什么会产生安全问题"><a href="#为什么会产生安全问题" class="headerlink" title="为什么会产生安全问题?"></a>为什么会产生安全问题?</h5><p>只要服务器端反序列化数据,客户端传递类的readObject中代码会自动执行,给予攻击者在服务器上运行代码的能力</p>
+<p>可能的形式</p>
+<p>1.入口类的readObject直接调用危险方法</p>
+<p>2.入口类参数中包含可控类,该类有危险方法,readObject时调用</p>
+<p>入口A HashMap 接收参数O</p>
+<p>3.入口类参数中包含可控类,该类又调用其他有危险方法的类,readObject时调用</p>
+<p>4.构造函数/静态代码块等类加载时隐式执行</p>
+<p>直接在readObject进行攻击是不现实的,最好包一个类</p>
+<p>共同条件    继承Serializeable</p>
+<p>入口类 source (重写readObject   参数类型宽泛   最好jdk自带)   </p>
+<p>调用链  </p>
+<p>反射在序列化中的应用</p>
+<p>定制需要的对象</p>
+<p>通过invoke调用除了同名函数以外的函数</p>
+<p>通过Class类创建对象,引入不能序列化的类</p>
+<h3 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h3><h4 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h4><p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220307121128637.png" alt="image-20220307121128637"></p>
+<h5 id="代理模式优点"><a href="#代理模式优点" class="headerlink" title="代理模式优点"></a>代理模式优点</h5><ul>
+<li>职责清晰</li>
+<li>高扩展，只要实现了接口，都可以用代理。</li>
+<li>智能化，动态代理。</li>
+</ul>
+<h4 id="静态代理"><a href="#静态代理" class="headerlink" title="静态代理"></a>静态代理</h4><p>个人理解:<strong>静态代理就是两个实现了同一个接口的类,其中一个类当被代理类,另一个类中实现实例化被代理的类,并在其同名方法中增加自己的个性化内容,必须”收中介费”</strong>,代理类也可以有多个,必须二手房产可以有不同的品牌</p>
+<p>以知乎上租房子的例子为例</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IRentHouse</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rentHouse</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">--------------------------</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RentHouse</span> <span class="keyword">implements</span> <span class="title">IRentHouse</span></span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rentHouse</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;租房子&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">---------------------------</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RentHouseProxy</span> <span class="keyword">implements</span> <span class="title">IRentHouse</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> IRentHouse rentHouse;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RentHouseProxy</span><span class="params">(IRentHouse rentHouse)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.rentHouse = rentHouse;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rentHouse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;交中介费&quot;</span>);</span><br><span class="line">        rentHouse.rentHouse();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">--------------------------------</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        RentHouse rentHouse=<span class="keyword">new</span> RentHouse();</span><br><span class="line">        RentHouseProxy rentHouseProxy=<span class="keyword">new</span> RentHouseProxy(rentHouse);</span><br><span class="line"></span><br><span class="line">        rentHouseProxy.rentHouse();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">最后结果是:</span><br><span class="line">交中介费</span><br><span class="line">租房子</span><br></pre></td></tr></table></figure>
+
+<h5 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h5><p>方便实现</p>
+<p>但是当目标类增加了,代理类可能也需要成倍的增加,代理类数量过多,接口增加一个方法,所有实现类都需要增加重写方法</p>
+<h4 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h4><p><strong>在程序执行过程中,使用jdk的反射机制,创建代理类对象</strong>,并动态的指定要代理目标类,换句话说,动态类是一种创建java对象的能力,帮调用者自动创建对象</p>
+<p>动态代理的实现方式常用的有两种:</p>
+<ul>
+<li>使用jdk代理代理</li>
+</ul>
+<p>使用java反射包中的类和接口实现动态代理的功能,反射包 java.lang.reflect ,里面有三个类: InvocationHandler,Method,Proxy</p>
+<ul>
+<li>通过CGLIB动态代理</li>
+</ul>
+<p>cglib是第三方的工具库,创建代理对象,  cglib的原理是继承,     cglib通过继承目标类,创建它的子类,在子类中重写父类中同名的方法,实现功能的修改</p>
+<p>要求目标类和方法不能是final的</p>
+<p>动态代理则可以根据传递的方法而自动调用对应方法,类似于<code>反射</code>中的getMethod和invoke结合起来使用了</p>
+<p>首先要定义一个InvocationHandler对象并实现InvocationHandler接口</p>
+<p>InvocationHandler(调用处理器)接口,就一个方法invoke(),</p>
+<p>​        invoke():表示代理对象要执行的功能代码,代理类要完成的功能就写在invoke()方法中</p>
+<p>怎么使用?</p>
+<ol>
+<li>创建类实现接口InvocationHandler</li>
+<li>重写invoke()方法,把原来静态代理中代理类要完成的功能,写在这里</li>
+</ol>
+<p>Method类:表示方法的,确切的说就是目标类中的方法</p>
+<p>作用:通过Method可以执行某个目标类的方法 method.invoke(目标对象,方法的参数),这个Invoke和InvocationHandler中的Invoke没有关系</p>
+<p>Proxy类 :核心的对象,创建代理对象,之前创建对象都是new 类的构造方法,现在我们是使用Proxy类的方法,代理new的使用</p>
+<p>方法:静态方法 newProxyInstance()</p>
+<p>作用是:创建代理对象,等同于静态代理中的new RentHouseProxy</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(ClassLoader loader,</span></span></span><br><span class="line"><span class="params"><span class="function">                                          Class&lt;?&gt;[] interfaces,</span></span></span><br><span class="line"><span class="params"><span class="function">                                          InvocationHandler h)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>参数:</p>
+<ol>
+<li>ClassLoader  loader类加载器,负责向内存中加载对象的,使用反射获取对象的ClassLoader类</li>
+<li>Class&lt;?&gt;[] interfaces: 接口,目标对象实现的接口,也是反射获取的</li>
+<li>InvocationHandler h :自己写的代理类要完成的功能</li>
+</ol>
+<p>返回值:            就是代理对象</p>
+<p>实现动态代理的步骤:</p>
+<ol>
+<li>创建接口,定义目标类要完成的功能</li>
+<li>创建目标类实现接口</li>
+<li>创建InvocationHandler接口的实现类,在invoke方法中完成代理类的功能<ol>
+<li>调用目标方法</li>
+<li>增强功能</li>
+</ol>
+</li>
+<li>使用Proxy类的静态方法    创建代理对象,并把返回值转为接口类型</li>
+</ol>
+<p>为什么能转换成接口类型,因为它代理的类实现了该接口</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RentHouseInvocationHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;</span><br><span class="line">    IRentHouse rentHouse;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RentHouseInvocationHandler</span><span class="params">(IRentHouse rentHouse)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.rentHouse = rentHouse;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line"></span><br><span class="line">        method.invoke(rentHouse,args);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        RentHouse rentHouse=<span class="keyword">new</span> RentHouse();</span><br><span class="line">        </span><br><span class="line">        RentHouseInvocationHandler rentHouseInvocationHandler = <span class="keyword">new</span> RentHouseInvocationHandler(rentHouse);</span><br><span class="line">        IRentHouse o = (IRentHouse)Proxy.newProxyInstance(rentHouse.getClass().getClassLoader(), rentHouse.getClass().getInterfaces(), rentHouseInvocationHandler);</span><br><span class="line">        o.rentHouse();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>动态代理在漏洞利用的用法,</p>
+<p>如果某个类是动态代理类,里面调用传入类的f方法,那么就可以传入B从而调用B的f方法</p>
+<p>readObject-&gt;反序列化自动执行</p>
+<p>invoke-&gt;有函数调用</p>
+<h4 id="动态类加载方法"><a href="#动态类加载方法" class="headerlink" title="动态类加载方法"></a>动态类加载方法</h4><p>Class.forName    可以设置是否初始化</p>
+<p>ClassLoader.loadClass不进行初始化</p>
+<p>ClassLoader-&gt;SecureClassLoader-&gt;URLClassLoader-&gt;AppClassLoader</p>
+<p>loadClass-&gt;findClass(重写的方法)-&gt;defineClass(从字节码加载类)</p>
+<h3 id="任意类加载"><a href="#任意类加载" class="headerlink" title="任意类加载"></a>任意类加载</h3><p>URLClassLoader </p>
+<p>ClassLoader.defineClass 字节码加载类</p>
+<p>Unsafe.defineClass 字节码加载    :Spring中有一个可以直接生成的方法</p>
+<h4 id="URLClassLoader-file-http-jar"><a href="#URLClassLoader-file-http-jar" class="headerlink" title="URLClassLoader : file http  jar"></a>URLClassLoader : file http  jar</h4><p>Test.java</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="file协议"><a href="#file协议" class="headerlink" title="file协议"></a>file协议</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadClassTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        URLClassLoader urlClassLoader=<span class="keyword">new</span> URLClassLoader(<span class="keyword">new</span> URL[]&#123;<span class="keyword">new</span> URL(<span class="string">&quot;file:///C:\\Temp\\classes\\&quot;</span>)&#125;);</span><br><span class="line">        Class&lt;?&gt; test = urlClassLoader.loadClass(<span class="string">&quot;Test&quot;</span>);</span><br><span class="line">        Object o = test.newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="jar协议"><a href="#jar协议" class="headerlink" title="jar协议"></a>jar协议</h5><p>jar协议中可以使用http,file</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">jar -cvf Test.jar .\Test.class   <span class="comment">//先编译成class文件再打包</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LoadClassTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        URLClassLoader urlClassLoader=<span class="keyword">new</span> URLClassLoader(<span class="keyword">new</span> URL[]&#123;<span class="keyword">new</span> URL(<span class="string">&quot;jar:file:///C:\\Temp\\classes\\Test.jar!/&quot;</span>)&#125;);</span><br><span class="line">        Class&lt;?&gt; test = urlClassLoader.loadClass(<span class="string">&quot;Test&quot;</span>);</span><br><span class="line">        Object o = test.newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="DefineClass通过字节码加载类"><a href="#DefineClass通过字节码加载类" class="headerlink" title="DefineClass通过字节码加载类"></a>DefineClass通过字节码加载类</h4><p><strong>defineClass只是将字节码转换为Class,而不会主动加载类,需要再次实例化,才能调用到静态代码块</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Method defineClass = ClassLoader.class.getDeclaredMethod(<span class="string">&quot;defineClass&quot;</span>, String.class, <span class="keyword">byte</span>[].class, <span class="keyword">int</span>.class, <span class="keyword">int</span>.class);</span><br><span class="line">        defineClass.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();</span><br><span class="line">        <span class="keyword">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="string">&quot;C:\\Temp\\classes\\Test.class&quot;</span>));</span><br><span class="line">        Class o= (Class)defineClass.invoke(systemClassLoader, <span class="string">&quot;Test&quot;</span>, code, <span class="number">0</span>, code.length);</span><br><span class="line">        o.newInstance();</span><br></pre></td></tr></table></figure>
+
+<h4 id="loadClass-findClass-defineClass区别"><a href="#loadClass-findClass-defineClass区别" class="headerlink" title="loadClass,findClass,defineClass区别"></a>loadClass,findClass,defineClass区别</h4><h5 id="loadClass"><a href="#loadClass" class="headerlink" title="loadClass"></a>loadClass</h5><ul>
+<li><p>findLoadedClass(String) 调用这个方法，查看这个Class是否已经被加载</p>
+</li>
+<li><p>如果没有被加载，继续往下走，查看父类加载器，递归调用loadClass()</p>
+</li>
+<li><p>如果父类加载器是null，说明是启动类加载器，查找对应的Class</p>
+</li>
+<li><p>如果都没有找到，就调用findClass(String)</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">protected</span> Class&lt;?&gt; loadClass(String name, <span class="keyword">boolean</span> resolve)</span><br><span class="line">    <span class="keyword">throws</span> ClassNotFoundException</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (getClassLoadingLock(name)) &#123;</span><br><span class="line">        <span class="comment">// First, check if the class has already been loaded</span></span><br><span class="line">        Class&lt;?&gt; c = findLoadedClass(name);</span><br><span class="line">        <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">long</span> t0 = System.nanoTime();</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (parent != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    c = parent.loadClass(name, <span class="keyword">false</span>);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    c = findBootstrapClassOrNull(name);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">                <span class="comment">// ClassNotFoundException thrown if class not found</span></span><br><span class="line">                <span class="comment">// from the non-null parent class loader</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (c == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="comment">// If still not found, then invoke findClass in order</span></span><br><span class="line">                <span class="comment">// to find the class.</span></span><br><span class="line">                <span class="keyword">long</span> t1 = System.nanoTime();</span><br><span class="line">                c = findClass(name);</span><br><span class="line"></span><br><span class="line">                <span class="comment">// this is the defining class loader; record the stats</span></span><br><span class="line">                sun.misc.PerfCounter.getParentDelegationTime().addTime(t1 - t0);</span><br><span class="line">                sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);</span><br><span class="line">                sun.misc.PerfCounter.getFindClasses().increment();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (resolve) &#123;</span><br><span class="line">            resolveClass(c);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="findClass"><a href="#findClass" class="headerlink" title="findClass()"></a>findClass()</h5><ul>
+<li>根据名称或位置加载.class字节码,然后使用defineClass</li>
+<li>通常由子类去实现</li>
+</ul>
+<h5 id="defineClass"><a href="#defineClass" class="headerlink" title="defineClass()"></a>defineClass()</h5><ul>
+<li>把字节码转化为Class</li>
+</ul>
+<h4 id="Unsafe"><a href="#Unsafe" class="headerlink" title="Unsafe"></a>Unsafe</h4><p>Unsafe类采用了单例模式设计,但是它其中也有defineClass方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Class&lt;Unsafe&gt; unsafeClass = Unsafe.class;</span><br><span class="line">        Field theUnsafe = unsafeClass.getDeclaredField(<span class="string">&quot;theUnsafe&quot;</span>);</span><br><span class="line">        <span class="keyword">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="string">&quot;C:\\Temp\\classes\\Test.class&quot;</span>));</span><br><span class="line">        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();</span><br><span class="line">        theUnsafe.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        Unsafe unsafe=(Unsafe) theUnsafe.get(<span class="keyword">null</span>);</span><br><span class="line">        Class test=(Class) unsafe.defineClass(<span class="string">&quot;Test&quot;</span>,code,<span class="number">0</span>,code.length,systemClassLoader,<span class="keyword">null</span>);</span><br><span class="line">        test.newInstance();</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java反序列化</tag>
       </tags>
   </entry>
 </search>
