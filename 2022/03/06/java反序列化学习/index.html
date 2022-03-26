@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="java反序列化Java序列化是指把java对象转换为字节序列的过程,而java反序列化是指把字节序列恢复为java对象的过程 序列化分将数据分解成字节流,以便存储在文件中或在网络上传输,反序列化就是打开字节流并重构对象,对象序列化不仅要将基本数据类型转换成字节表示,有时还要恢复数据,恢复数据要求有恢复数据的对象实例 应用场景: 1.想把内存中的对象保存到一个文件中或者数据库中的时候 2.想用套接">
+  <meta name="description" content="java反序列化反序列化特征">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java反序列化学习">
 <meta property="og:url" content="http://example.com/2022/03/06/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="blueSatchel&#39;s blog">
-<meta property="og:description" content="java反序列化Java序列化是指把java对象转换为字节序列的过程,而java反序列化是指把字节序列恢复为java对象的过程 序列化分将数据分解成字节流,以便存储在文件中或在网络上传输,反序列化就是打开字节流并重构对象,对象序列化不仅要将基本数据类型转换成字节表示,有时还要恢复数据,恢复数据要求有恢复数据的对象实例 应用场景: 1.想把内存中的对象保存到一个文件中或者数据库中的时候 2.想用套接">
+<meta property="og:description" content="java反序列化反序列化特征">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220323004013073.png">
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220323004127574.png">
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/serializeDu.png">
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220307121128637.png">
 <meta property="article:published_time" content="2022-03-06T04:34:42.000Z">
-<meta property="article:modified_time" content="2022-03-25T09:18:46.981Z">
+<meta property="article:modified_time" content="2022-03-26T08:27:17.049Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="java反序列化">
 <meta name="twitter:card" content="summary">
@@ -229,7 +229,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
+                <time title="修改时间：2022-03-26 16:27:17" itemprop="dateModified" datetime="2022-03-26T16:27:17+08:00">2022-03-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -273,7 +273,12 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="java反序列化"><a href="#java反序列化" class="headerlink" title="java反序列化"></a>java反序列化</h3><p>Java序列化是指把java对象转换为字节序列的过程,而java反序列化是指把字节序列恢复为java对象的过程</p>
+        <h3 id="java反序列化"><a href="#java反序列化" class="headerlink" title="java反序列化"></a>java反序列化</h3><h5 id="反序列化特征"><a href="#反序列化特征" class="headerlink" title="反序列化特征"></a>反序列化特征<span id="more"></span></h5><p>下方的特征可以作为序列化的标志参考:</p>
+<ul>
+<li>一段数据以<code>rO0AB</code>开头，你基本可以确定这串就是Java序列化base64加密的数据。</li>
+<li>或者如果以<code>aced</code>开头，那么他就是这一段Java序列化的16进制。</li>
+</ul>
+<p>Java序列化是指把java对象转换为字节序列的过程,而java反序列化是指把字节序列恢复为java对象的过程</p>
 <p>序列化分将数据分解成字节流,以便存储在文件中或在网络上传输,反序列化就是打开字节流并重构对象,对象序列化不仅要将基本数据类型转换成字节表示,有时还要恢复数据,恢复数据要求有恢复数据的对象实例</p>
 <p>应用场景:</p>
 <p>1.想把内存中的对象保存到一个文件中或者数据库中的时候</p>
@@ -540,7 +545,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">java反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#java%E5%8E%9F%E7%94%9F%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">1.1.</span> <span class="nav-text">java原生序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#objectAnnotation%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.1.</span> <span class="nav-text">objectAnnotation是什么?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#classAnnotations%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">classAnnotations是什么？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#16%E8%BF%9B%E5%88%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8Cbyte%E7%9B%B8%E4%BA%92%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.1.3.</span> <span class="nav-text">16进制字符串和byte相互转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E4%BA%A7%E7%94%9F%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.4.</span> <span class="nav-text">为什么会产生安全问题?</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">JDK动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">代理模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E4%BC%98%E7%82%B9"><span class="nav-number">2.1.1.</span> <span class="nav-text">代理模式优点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">2.2.</span> <span class="nav-text">静态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">2.2.1.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">2.3.</span> <span class="nav-text">动态代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%96%B9%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">动态类加载方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="nav-number">3.</span> <span class="nav-text">任意类加载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#URLClassLoader-file-http-jar"><span class="nav-number">3.1.</span> <span class="nav-text">URLClassLoader : file http  jar</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#file%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.1.1.</span> <span class="nav-text">file协议</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jar%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.1.2.</span> <span class="nav-text">jar协议</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DefineClass%E9%80%9A%E8%BF%87%E5%AD%97%E8%8A%82%E7%A0%81%E5%8A%A0%E8%BD%BD%E7%B1%BB"><span class="nav-number">3.2.</span> <span class="nav-text">DefineClass通过字节码加载类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#loadClass-findClass-defineClass%E5%8C%BA%E5%88%AB"><span class="nav-number">3.3.</span> <span class="nav-text">loadClass,findClass,defineClass区别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#loadClass"><span class="nav-number">3.3.1.</span> <span class="nav-text">loadClass</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#findClass"><span class="nav-number">3.3.2.</span> <span class="nav-text">findClass()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#defineClass"><span class="nav-number">3.3.3.</span> <span class="nav-text">defineClass()</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Unsafe"><span class="nav-number">3.4.</span> <span class="nav-text">Unsafe</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">java反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E7%89%B9%E5%BE%81"><span class="nav-number">1.0.1.</span> <span class="nav-text">反序列化特征</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java%E5%8E%9F%E7%94%9F%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">1.1.</span> <span class="nav-text">java原生序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#objectAnnotation%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.1.</span> <span class="nav-text">objectAnnotation是什么?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#classAnnotations%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">classAnnotations是什么？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#16%E8%BF%9B%E5%88%B6%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8Cbyte%E7%9B%B8%E4%BA%92%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.1.3.</span> <span class="nav-text">16进制字符串和byte相互转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E4%BA%A7%E7%94%9F%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">1.1.4.</span> <span class="nav-text">为什么会产生安全问题?</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">JDK动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">代理模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E4%BC%98%E7%82%B9"><span class="nav-number">2.1.1.</span> <span class="nav-text">代理模式优点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">2.2.</span> <span class="nav-text">静态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">2.2.1.</span> <span class="nav-text">优缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">2.3.</span> <span class="nav-text">动态代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%96%B9%E6%B3%95"><span class="nav-number">2.4.</span> <span class="nav-text">动态类加载方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="nav-number">3.</span> <span class="nav-text">任意类加载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#URLClassLoader-file-http-jar"><span class="nav-number">3.1.</span> <span class="nav-text">URLClassLoader : file http  jar</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#file%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.1.1.</span> <span class="nav-text">file协议</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jar%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.1.2.</span> <span class="nav-text">jar协议</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DefineClass%E9%80%9A%E8%BF%87%E5%AD%97%E8%8A%82%E7%A0%81%E5%8A%A0%E8%BD%BD%E7%B1%BB"><span class="nav-number">3.2.</span> <span class="nav-text">DefineClass通过字节码加载类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#loadClass-findClass-defineClass%E5%8C%BA%E5%88%AB"><span class="nav-number">3.3.</span> <span class="nav-text">loadClass,findClass,defineClass区别</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#loadClass"><span class="nav-number">3.3.1.</span> <span class="nav-text">loadClass</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#findClass"><span class="nav-number">3.3.2.</span> <span class="nav-text">findClass()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#defineClass"><span class="nav-number">3.3.3.</span> <span class="nav-text">defineClass()</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Unsafe"><span class="nav-number">3.4.</span> <span class="nav-text">Unsafe</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -556,7 +561,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -569,7 +574,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">60</span>
+        <span class="site-state-item-count">55</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

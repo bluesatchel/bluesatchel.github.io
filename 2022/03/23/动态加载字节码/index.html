@@ -20,16 +20,16 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="什么是java的”字节码”严格来说，Java字节码（ByteCode）其实仅仅指的是Java虚拟机执行使用的一类指令，通常被存储 在.class文件中。  众所周知，不同平台、不同CPU的计算机指令有差异，但因为Java是一门跨平台的编译型语言，所以这 些差异对于上层开发者来说是透明的，上层开发者只需要将自己的代码编译一次，即可运行在不同平台 的JVM虚拟机中。  甚至，开发者可以用类似Scala">
+  <meta name="description" content="什么是java的”字节码”">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java动态加载字节码">
 <meta property="og:url" content="http://example.com/2022/03/23/%E5%8A%A8%E6%80%81%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81/index.html">
 <meta property="og:site_name" content="blueSatchel&#39;s blog">
-<meta property="og:description" content="什么是java的”字节码”严格来说，Java字节码（ByteCode）其实仅仅指的是Java虚拟机执行使用的一类指令，通常被存储 在.class文件中。  众所周知，不同平台、不同CPU的计算机指令有差异，但因为Java是一门跨平台的编译型语言，所以这 些差异对于上层开发者来说是透明的，上层开发者只需要将自己的代码编译一次，即可运行在不同平台 的JVM虚拟机中。  甚至，开发者可以用类似Scala">
+<meta property="og:description" content="什么是java的”字节码”">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220323213706173.png">
 <meta property="article:published_time" content="2022-03-23T13:31:52.000Z">
-<meta property="article:modified_time" content="2022-03-25T09:18:46.913Z">
+<meta property="article:modified_time" content="2022-03-26T08:30:17.585Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -226,7 +226,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
+                <time title="修改时间：2022-03-26 16:30:17" itemprop="dateModified" datetime="2022-03-26T16:30:17+08:00">2022-03-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -270,7 +270,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="什么是java的”字节码”"><a href="#什么是java的”字节码”" class="headerlink" title="什么是java的”字节码”"></a>什么是java的”字节码”</h3><p>严格来说，Java字节码（ByteCode）其实仅仅指的是Java虚拟机执行使用的一类指令，通常被存储 在.class文件中。 </p>
+        <h3 id="什么是java的”字节码”"><a href="#什么是java的”字节码”" class="headerlink" title="什么是java的”字节码”"></a>什么是java的”字节码”</h3><span id="more"></span>
+
+<p>严格来说，Java字节码（ByteCode）其实仅仅指的是Java虚拟机执行使用的一类指令，通常被存储 在.class文件中。 </p>
 <p>众所周知，不同平台、不同CPU的计算机指令有差异，但因为Java是一门跨平台的编译型语言，所以这 些差异对于上层开发者来说是透明的，上层开发者只需要将自己的代码编译一次，即可运行在不同平台 的JVM虚拟机中。</p>
 <p> 甚至，开发者可以用类似Scala、Kotlin这样的语言编写代码，只要你的编译器能够将代码编译成.class文 件，都可以在JVM虚拟机中运行：</p>
 <p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220323213706173.png" alt="image-20220323213706173"></p>
@@ -307,6 +309,7 @@
 <h3 id="利用BCEL-ClassLoader加载字节码"><a href="#利用BCEL-ClassLoader加载字节码" class="headerlink" title="利用BCEL ClassLoader加载字节码"></a>利用BCEL ClassLoader加载字节码</h3><p>BCEL的全名应该是Apache Commons BCEL，属于Apache Commons项目下的一个子项目，但其因为 被Apache Xalan所使用，而Apache Xalan又是Java内部对于JAXP的实现，所以BCEL也被包含在了JDK的 原生库中。</p>
 <p>我们可以通过BCEL提供的两个类<code> Repository</code> 和<code>Utility</code>来利用： <code>Repository </code>用于将一个Java Class 先转换成原生字节码，当然这里也可以直接使用javac命令来编译java文件生成字节码； Utility 用于将 原生的字节码转换成BCEL格式的字节码：</p>
 <p>BCEL ClassLoader在Fastjson等漏洞的利用链构造时都有被用到，其实这个类和前面的<code> TemplatesImpl</code> 都出自于同一个第三方库，Apache Xalan。但是由于各种原因，在Java 8u251的更新中，这个ClassLoader被移除了.</p>
+<p>待续…..</p>
 
     </div>
 
@@ -407,7 +410,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-count">54</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -420,7 +423,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">60</span>
+        <span class="site-state-item-count">55</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
