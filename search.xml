@@ -4100,7 +4100,7 @@
   <entry>
     <title>shiro</title>
     <url>/2022/03/19/shiro/</url>
-    <content><![CDATA[<h3 id="shiro反序列化学习"><a href="#shiro反序列化学习" class="headerlink" title="shiro反序列化学习"></a>shiro反序列化学习</h3><p>首先idea导入shiro自带的<code>shiro\samples\web</code>maven项目，快速搭建一个shiro项目</p>
+    <content><![CDATA[<h3 id="shiro550反序列化学习"><a href="#shiro550反序列化学习" class="headerlink" title="shiro550反序列化学习"></a>shiro550反序列化学习<span id="more"></span></h3><p>首先idea导入shiro自带的<code>shiro\samples\web</code>maven项目，快速搭建一个shiro项目</p>
 <p>分析其中包含的依赖（使用maven helper插件），只有runtime和compile的依赖会在项目运行时存在于项目中，其他test的则无法访问到</p>
 <p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220319180339512.png" alt="image-20220319180339512"></p>
 <p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220319180428213.png" alt="image-20220319180428213"></p>
