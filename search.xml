@@ -4680,7 +4680,9 @@
   <entry>
     <title>cc7</title>
     <url>/2022/03/31/cc7/</url>
-    <content><![CDATA[<h3 id="CC7"><a href="#CC7" class="headerlink" title="CC7"></a>CC7</h3><p>之前的链都是看的别人的讲解,剩的这条链要自己分析一下</p>
+    <content><![CDATA[<h3 id="CC7"><a href="#CC7" class="headerlink" title="CC7"></a>CC7</h3><span id="more"></span>
+
+<p>之前的链都是看的别人的讲解,剩的这条链要自己分析一下</p>
 <p>后半段依然用的是LazyMap的get方法,</p>
 <p><code>AbstractMap.equals</code>方法中调用了get方法</p>
 <h5 id="Hashtable"><a href="#Hashtable" class="headerlink" title="Hashtable"></a>Hashtable</h5><p>Hashtable可以理解为线程安全的散列表hashMap</p>
@@ -4699,7 +4701,29 @@
 <blockquote>
 <p>来捋一捋调用链的流程</p>
 </blockquote>
-<p>找hashCode相等的字符串的脚本:</p>
+<p>首先需要满足Hashtable中的两个元素的hashCode相等,那么这里是怎么计算hashCode的呢</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220331224615938.png" alt="image-20220331224615938" style="zoom:67%;" />
+
+<p>起初tab是空的,反序列化取出第一个元素后才会进入for循环,其中e.hash是第一个元素的hash值,这里的hash来自于key的hashCode,而Hashtable的key是构造好的lazyMap,由于if语句中执行顺序的关系,需要先满足第一个条件才会接着执行下一个条件的语句</p>
+<p>由于此时求得是lazyMap的hashCode,所以直接去看lazyMap的hashCode方法,但是lazyMap没有hashCode方法,找到它继承的抽象父类<code>AbstractMapDecorator</code>里面有hashCode方法,和equls一样,它也调用的是当前map的方法</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220331225017982.png" alt="image-20220331225017982" style="zoom:67%;" />
+
+<p>由于map实际上是<code>HashMap</code>类型的,所以直接去看<code>HashMap</code>的<code>hashCode</code>,它里面也没有<code>hashCode</code>方法,在它的抽象父类<code>AbstractMap</code>中找到了<code>hashCode</code>方法</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220331225222273.png" alt="image-20220331225222273" style="zoom:67%;" />
+
+<p>这里的i.next().hashCode调用了Object的hashCode分别计算key和value的hash并做异或</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> Objects.hashCode(key) ^ Objects.hashCode(value);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>Object的hashCode方法只要传入的参数不为null,则调用该参数自身的hashCode</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">(Object o)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> o != <span class="keyword">null</span> ? o.hashCode() : <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于key来说,也就是String 的hashCode</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> h = hash;</span><br><span class="line">       <span class="keyword">if</span> (h == <span class="number">0</span> &amp;&amp; value.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">           <span class="keyword">char</span> val[] = value;</span><br><span class="line"></span><br><span class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; value.length; i++) &#123;</span><br><span class="line">               h = <span class="number">31</span> * h + val[i];</span><br><span class="line">           &#125;</span><br><span class="line">           hash = h;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> h;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>而value Integer类型的hashCode函数则返回其本身</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据String计算hashCode的方式编写找hashCode相等的字符串的脚本:</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="comment">#获取全部字母的数组</span></span><br><span class="line">letter=string.ascii_letters</span><br><span class="line"><span class="built_in">print</span>(letter)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hashCode</span>(<span class="params"><span class="built_in">str</span></span>):</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">31</span>*<span class="built_in">ord</span>(<span class="built_in">str</span>[<span class="number">0</span>])+<span class="built_in">ord</span>(<span class="built_in">str</span>[<span class="number">1</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">#随机组合成两个的字符串</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> letter:</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> letter:</span><br><span class="line">        <span class="keyword">for</span> k <span class="keyword">in</span> letter:</span><br><span class="line">            <span class="keyword">for</span> l <span class="keyword">in</span> letter:</span><br><span class="line">                str1=i+j</span><br><span class="line">                str2=k+l</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (str1!=str2 <span class="keyword">and</span> hashCode(str1)==hashCode(str2)):</span><br><span class="line">                    <span class="built_in">print</span>(str1+<span class="string">&quot;  hash===  &quot;</span>+str2)</span><br></pre></td></tr></table></figure>
 
 <p>首先通过Hashtable的readObject触发<code>Hashtable.reconstitutionPut</code>,由于<code>yy</code>和<code>zZ</code>的hashCode相等,所以触发<code>equals</code>方法,LazyMap是没有equals方法的,但是它继承的抽象类<code>AbstractMapDecorator</code>实现了<code>equals</code>方法</p>
