@@ -188,6 +188,260 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/17/filter%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/17/filter%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">filter内存马学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-17 16:26:54" itemprop="dateCreated datePublished" datetime="2022-04-17T16:26:54+08:00">2022-04-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-19 00:07:47" itemprop="dateModified" datetime="2022-04-19T00:07:47+08:00">2022-04-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/17/filter%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/17/filter%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h5 id="调试前的准备"><a href="#调试前的准备" class="headerlink" title="调试前的准备"></a>调试前的准备</h5><p>首先配置环境和调试用的代码</p>
+<p>新建java-web maven项目,在pom.xml中导入对应依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--Servlet 依赖--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--JSP依赖--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet.jsp<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet.jsp-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--JSTL表达式的依赖--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet.jsp.jstl<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jstl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--standard标签库--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>taglibs<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>standard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接着在filter处打断点,debug,但是出现了无法在此处step into的问题,和之前一样,去下载tomcat的源码给sourcepath中添加tomcat源码目录,调试的时候能正常进入,但是有很多报红,并不影响代码跟进调试,之后再解决这个问题</p>
+<p>好吧,我是儍狗,原来maven可以直接导入tomcat依赖然后下载源码……</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tomcat-catalina<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>9.0.58<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>接下来跟进到代码,跟进filter的代码流程</p>
+</blockquote>
+<p>首先进入doFilter方法中,会直接进入<code>internalDoFilter()</code>方法中,这个才是Tomcat中真正实现过滤的类</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417184815764.png" alt="image-20220417184815764"></p>
+<p>当到最后一个Filter,就会调用对应servlet的service方法</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417185013757.png" alt="image-20220417185013757"></p>
+<p>总而言之,所有Filter就是一条独木桥上面的木板,少了哪一块都会导致后面的Filter的doFilter方法调用不到从而导致调用不到对应Servlet的service方法</p>
+<p>在tomcat的组成中,一部分为服务器用于与外界交流,一部分是容器,里面运行的就是servlet,filter….</p>
+<h5 id="tomcat和servlet的关系"><a href="#tomcat和servlet的关系" class="headerlink" title="tomcat和servlet的关系"></a>tomcat和servlet的关系</h5><p>Tomcat将http请求文本接收并解析,然后封装成HttpServletResquest类型的request对象,</p>
+<p>servlet将要响应的信息封装成HttpServletResponse对象给tomcat,tomcat就会将其编程响应文本的格式发送给浏览器</p>
+<h4 id="容器组件Container"><a href="#容器组件Container" class="headerlink" title="容器组件Container"></a>容器组件Container</h4><p> 容器代表一类组件，这类组件的作用就是接收客户端请求并返回响应数据，具体操作委派到子组件完成。</p>
+<p>​    Engine、Host、Context、Wrapper均继承自Container</p>
+<p>Tomcat中的Container用于封装和管理Servlet,以及具体处理Request请求,在Container中包含了四个子容器</p>
+<h5 id="Engine"><a href="#Engine" class="headerlink" title="Engine"></a>Engine</h5><p>​        最顶层容器组件,其下可以包含多个Host</p>
+<p>实现类为<code>org.apache.catalina.core.StandardEngine</code></p>
+<h5 id="Host"><a href="#Host" class="headerlink" title="Host"></a>Host</h5><pre><code>     为了提供对多个域名的服务，我们可以将每个域名视为一个虚拟的主机。在每个Host下包含多个Context
+</code></pre>
+<p>实现类为<code>org.apache.catalina.core.StandardHost</code></p>
+<h5 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h5><p>​        一个Context代表一个Web应用,其下可以包含多个Wrapper</p>
+<p>实现类为<code>org.apache.catalina.core.StandardContext</code></p>
+<h5 id="Wrapper"><a href="#Wrapper" class="headerlink" title="Wrapper"></a>Wrapper</h5><p>​        一个Wrapper代表一个Servlet</p>
+<p>实现类为<code>org.apache.catalina.core.StandardWrapper</code></p>
+<p>总而言之,Host是主机,Context是web应用,wrapper是servlet</p>
+<h5 id="一些会用到的类"><a href="#一些会用到的类" class="headerlink" title="一些会用到的类"></a>一些会用到的类</h5><p>FilterDefs:</p>
+<p>存放FilterDef的数组,,FilterDef中存放这过滤器名,过滤器实例,作用url等基本信息,(调试的时候没找到作用url的成员变量)</p>
+<p>FilterConfigs:存放FilterConfig的数组,FilterConfig主要存放FilterDef和Filter对象等信息</p>
+<p>FilterMaps:存放FilterMap数组,在FilterMap中主要存放了FilterName和对应的URLPattern    </p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418151626862.png" alt="image-20220418151626862" style="zoom:50%;" />
+
+<p>FilterChain: 过滤器链,该对象上的doFilter方法能依次调用链上的Filter</p>
+<p>StandardContext: Context接口的标准实现类,一个Context代表一个Web应用,其下可以包含多个Wrapper(servlet)</p>
+<p>StandardWrapperValue: 一个Wrapper的标准实现类,一个Wrapper代表一个Servlet</p>
+<p>在StandardWrapperValue中会利用ApplicationFilterFactory来创建filterChain</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418152549816.png" alt="image-20220418152549816" style="zoom:67%;" />
+
+<p>在<code>ApplicationFilterFactory</code>中的createFilterChain方法中,首先通过getParent获取当前wrapper的爹,也就是Context,然后获取到当前context中的所有filterMap,我自己写的是testFilter1和testFilter2两个</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418153140872.png" alt="image-20220418153140872" style="zoom:80%;" />
+
+<p>接下来</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418153636868.png" alt="image-20220418153636868" style="zoom:80%;" />
+
+<p>会对FilterMap进行遍历,如果当前请求中的url与遍历中的filterMap相对应,则把filterMap对应的FilterConfig添加到filterChain中去</p>
+<p>添加完成后会调用doFilter方法</p>
+<p>doFilter方法会调用internalDoFilter方法,该方法会依次从filters中取出filterConfig,调用filter的doFilter方法,从而调用到过滤器中重写的doFilter方法,触发自定义的代码</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418154301503.png" alt="image-20220418154301503" style="zoom:80%;" />
+
+
+
+<h4 id="获取context"><a href="#获取context" class="headerlink" title="获取context"></a>获取context</h4><p>要想实现动态添加filter,首先要获取到context,因为根据前面的分析,filterMaps是通过context获取到的</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418155818702.png" alt="image-20220418155818702"></p>
+<p>按照大佬的方法,首先web容器启动的时候会为每个web应用创建一个ServletContext对象,代表当前应用,而有一个类很特殊,就是<code>ApplicationContext</code>类,它是ServletContext的实现类,并且它的成员变量中包含了<code>context</code>的标准实现类<code>StandardContext</code></p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418160009434.png" alt="image-20220418160009434" style="zoom:67%;" />
+
+<p>可以通过反射来获取到它的这个成员变量,即为当前的context,然后就可以添加filterMaps,进行一系列操作了</p>
+<p>获取到context后,就可以进行动态注入filter了,但是注入之前要明确注入的参数,注入内存马实际上是在模拟写xml文件的过程</p>
+<p>filterDefs存放了filter的定义,对应的类和名称就相当于web.xml中这部分代码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>testFilter1<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>com.test.filter.testFilter1<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>filterMaps存放了filter的路径和对应filter的对应关系,还暗含了filter的调用顺序,相当于这部分代码</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>testFilter1<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>FilterConfigs</p>
+<p>存放了FilterConfig数组,在FilterConfig中主要存放FilterDef和Filter对象的信息,调用的时候就是从这里面获取的filter</p>
+<p>这里不得不提到一点,就是getClass方法其实得到的是当前正在运行的对象对应的类</p>
+<p>ServletContext接口当前正在运行的对象所对应的类就是ApplicationContextFacade</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220418232736182.png" alt="image-20220418232736182"></p>
+<p>而这个类中的Context的类型是ApplicationContext</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220418233017639.png" alt="image-20220418233017639"></p>
+<p>ApplicationContext中有StandardContext类型的变量context,通过这样就能获取到对应的context</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ServletContext servletContext = request.getSession().getServletContext();</span><br><span class="line">    Field appctx = servletContext.getClass().getDeclaredField(<span class="string">&quot;context&quot;</span>);</span><br><span class="line"><span class="comment">//这里获取到的class是ApplicationContextFacade</span></span><br><span class="line">    appctx.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// ApplicationContext 为 ServletContext 的实现类</span></span><br><span class="line">    ApplicationContext applicationContext = (ApplicationContext) appctx.get(servletContext);</span><br><span class="line"></span><br><span class="line">    Field stdctx = applicationContext.getClass().getDeclaredField(<span class="string">&quot;context&quot;</span>);</span><br><span class="line">    stdctx.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// standardContext为context接口标准实现类</span></span><br><span class="line">    StandardContext standardContext = (StandardContext) stdctx.get(applicationContext);</span><br></pre></td></tr></table></figure>
+
+<p>获取当前context的方法还有好几种,完事再补学一手</p>
+<h4 id="添加filter到当前context"><a href="#添加filter到当前context" class="headerlink" title="添加filter到当前context"></a>添加filter到当前context</h4>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/01/swagger%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/01/swagger%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">swagger学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-01 15:32:13 / 修改时间：16:07:45" itemprop="dateCreated datePublished" datetime="2022-04-01T15:32:13+08:00">2022-04-01</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/01/swagger%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/01/swagger%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在项目中使用swagger需要springfox</p>
+<ul>
+<li><p>swagger2</p>
+</li>
+<li><p>ui</p>
+</li>
+</ul>
+<p>SpringBoot导入swagger依赖</p>
+<p>2.5.7springboot—–2.9.2 swagger无报错</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Swagger配置扫描接口</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/31/cc7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -827,7 +1081,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-31 16:57:24" itemprop="dateModified" datetime="2022-03-31T16:57:24+08:00">2022-03-31</time>
+                <time title="修改时间：2022-04-01 00:39:02" itemprop="dateModified" datetime="2022-04-01T00:39:02+08:00">2022-04-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -871,196 +1125,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/03/14/CommonsCollections/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/09/java%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/09/java%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">java调试环境配置</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-09 22:54:01" itemprop="dateCreated datePublished" datetime="2022-03-09T22:54:01+08:00">2022-03-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-27 00:52:01" itemprop="dateModified" datetime="2022-03-27T00:52:01+08:00">2022-03-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/09/java%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/09/java%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>java代码调试环境配置
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/09/java%E8%B0%83%E8%AF%95%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/06/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/06/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">java反序列化学习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-06 12:34:42" itemprop="dateCreated datePublished" datetime="2022-03-06T12:34:42+08:00">2022-03-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-26 16:27:17" itemprop="dateModified" datetime="2022-03-26T16:27:17+08:00">2022-03-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/06/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/06/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="java反序列化"><a href="#java反序列化" class="headerlink" title="java反序列化"></a>java反序列化</h3><h5 id="反序列化特征"><a href="#反序列化特征" class="headerlink" title="反序列化特征"></a>反序列化特征
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/06/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1151,7 +1215,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-count">58</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1164,7 +1228,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">56</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

