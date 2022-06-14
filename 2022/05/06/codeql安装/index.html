@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="本文章为多次尝试之后,自己成功安装并运行成功codeql的记录,没啥技术含量…">
+<meta property="og:type" content="article">
+<meta property="og:title" content="codeql安装">
+<meta property="og:url" content="http://example.com/2022/05/06/codeql%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:site_name" content="blueSatchel&#39;s blog">
+<meta property="og:description" content="本文章为多次尝试之后,自己成功安装并运行成功codeql的记录,没啥技术含量…">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506121927675.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506121845766.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506121953523.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506122124707.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506122629448.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124421164.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124308766.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124042825.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124111095.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124535532.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124610207.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124647783.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124801886.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124822269.png">
+<meta property="article:published_time" content="2022-05-06T04:14:36.000Z">
+<meta property="article:modified_time" content="2022-05-06T05:04:32.000Z">
+<meta property="article:author" content="blueSatchel">
+<meta property="article:tag" content="codeql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506121927675.png">
+
+<link rel="canonical" href="http://example.com/2022/05/06/codeql%E5%AE%89%E8%A3%85/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>codeql安装 | blueSatchel's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blueSatchel's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/06/codeql%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          codeql安装
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-06 12:14:36 / 修改时间：13:04:32" itemprop="dateCreated datePublished" datetime="2022-05-06T12:14:36+08:00">2022-05-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/codeql/" itemprop="url" rel="index"><span itemprop="name">codeql</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/06/codeql%E5%AE%89%E8%A3%85/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/06/codeql%E5%AE%89%E8%A3%85/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文章为多次尝试之后,自己成功安装并运行成功codeql的记录,没啥技术含量…<span id="more"></span></p>
+<h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>首先安装最新版的vsCode</p>
+<h4 id="安装扩展"><a href="#安装扩展" class="headerlink" title="安装扩展"></a>安装扩展</h4><p>在其中搜索并安装CodeQl拓展</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506121927675.png" alt="image-20220506121927675"></p>
+<h4 id="下载codeql引擎"><a href="#下载codeql引擎" class="headerlink" title="下载codeql引擎"></a>下载codeql引擎</h4><p>接着下载codeql引擎,选择对应版本即可</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506121845766.png" alt="image-20220506121845766" style="zoom:80%;" />
+
+<p>点击小齿轮,Extension Settings 打开拓展设置</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506121953523.png" alt="image-20220506121953523"></p>
+<p>把刚才下载并解压的ql引擎文件中的<code>codeql.exe</code>的路径填写上去</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506122124707.png" alt="image-20220506122124707"></p>
+<p>同时把codeql.exe的路径配置到环境变量<code>path</code>中去,这一步是为了后面使用命令行构建数据库做准备</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506122629448.png" alt="image-20220506122629448"></p>
+<h4 id="设置workspace"><a href="#设置workspace" class="headerlink" title="设置workspace"></a>设置workspace</h4><p>接下来设置workspace</p>
+<p>直接去clone这个项目<a target="_blank" rel="noopener" href="https://github.com/github/vscode-codeql-starter,%E8%BF%99%E4%B8%AA%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%9C%89%E5%A4%A7%E4%BD%AC%E8%AE%BE%E7%BD%AE%E5%A5%BD%E7%9A%84workspace,%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E6%8B%BF%E6%9D%A5%E7%94%A8">https://github.com/github/vscode-codeql-starter,这个项目中有大佬设置好的workspace,可以直接拿来用</a></p>
+<p>在clone的时候因为其包含子项目,不能直接git clone,需要加一个<code>--recursive</code>参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recursive https://github.com/github/vscode-codeql-starter.git</span><br></pre></td></tr></table></figure>
+
+<p>如果https的报ssl错误,记得换成ssh的连接clone</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --recursive git@github.com:github/vscode-codeql-starter.git</span><br></pre></td></tr></table></figure>
+
+<h3 id="构建数据库"><a href="#构建数据库" class="headerlink" title="构建数据库"></a>构建数据库</h3><p>现在需要下载的东西都下载完成了,接下来是很重要的一步,也就是构建数据库</p>
+<p>这里以java为例,建议第一次先新建一个maven项目,随便写点东西进去</p>
+<p>给一个简单的maven项目建立数据库</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codeql database create D:\TOOLS\codeql\database\jndi --language=&quot;java&quot; --command=&quot;mvn clean install --file pom.xml&quot; --source-root=E:\java\jndi --overwrite</span><br></pre></td></tr></table></figure>
+
+<p>第一部分是给建立数据库指定的文件夹,</p>
+<p><code>--source-root</code>顾名思义就是源码文件夹</p>
+<p><code>--command</code>则是指定使用maven来帮助进行编译打包,这里是最容易出问题的地方,各种依赖呀啥的都需要编译打包之后才能添加进数据库里面进行查询</p>
+<p>也就是说codeql需要mvn帮助打包才能构建数据库</p>
+<p><code>--overwrite</code>参数表示可以覆盖旧的数据库</p>
+<p>对于java来说,如果在构建数据库的过程中出错了,那么一般都是因为mvn打包出了问题,可以单独在idea终端中尝试<code>mvn clean install --file pom.xml</code>根据报错信息来推断哪里出了问题</p>
+<h3 id="执行查询语句"><a href="#执行查询语句" class="headerlink" title="执行查询语句"></a>执行查询语句</h3><p>首先打开vscode,通过<code>file-&gt; Open Workspace from file</code>打开刚才clone好的那个workspace项目中的<code>.code-workspace</code>文件</p>
+<p>这样就成功引入了workspace</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124421164.png" alt="image-20220506124421164"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124308766.png" alt="image-20220506124308766"></p>
+<p>接着在vsCode的侧边栏</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124042825.png" alt="image-20220506124042825"></p>
+<p>点击这个QL,进去之后,就可以添加数据库了</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124111095.png" alt="image-20220506124111095" style="zoom:67%;" />
+
+<p>通过目录引入刚才新建好的数据库</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124535532.png" alt="image-20220506124535532"></p>
+<p>接着在custom这个目录下新建test.ql文件,编写ql语句,进行第一次查询</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124610207.png" alt="image-20220506124610207" style="zoom:80%;" />
+
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124647783.png" alt="image-20220506124647783"></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> <span class="type">int</span> x, <span class="type">int</span> y</span><br><span class="line"><span class="keyword">where</span> x <span class="operator">=</span> <span class="number">3</span> <span class="keyword">and</span> y <span class="keyword">in</span> [<span class="number">0</span> .. <span class="number">2</span>]</span><br><span class="line"><span class="keyword">select</span> x, y, x <span class="operator">*</span> y <span class="keyword">as</span> product, &quot;product: &quot; <span class="operator">+</span> product</span><br><span class="line"><span class="keyword">as</span> res <span class="keyword">order</span> <span class="keyword">by</span>  res <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
+
+<p>右键在当前数据库Run query</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124801886.png" alt="image-20220506124801886"></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124822269.png" alt="image-20220506124822269"></p>
+<p>成功执行了</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/codeql/" rel="tag"># codeql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/04/jndi%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" rel="prev" title="jndi注入学习">
+      <i class="fa fa-chevron-left"></i> jndi注入学习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/" rel="next" title="构建Connons-Colletions3.2_x 的Codeql数据库">
+      构建Connons-Colletions3.2_x 的Codeql数据库 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">下载</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%89%A9%E5%B1%95"><span class="nav-number">1.1.</span> <span class="nav-text">安装扩展</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDcodeql%E5%BC%95%E6%93%8E"><span class="nav-number">1.2.</span> <span class="nav-text">下载codeql引擎</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AEworkspace"><span class="nav-number">1.3.</span> <span class="nav-text">设置workspace</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">2.</span> <span class="nav-text">构建数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.</span> <span class="nav-text">执行查询语句</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="blueSatchel"
+      src="/../images/avatar.PNG">
+  <p class="site-author-name" itemprop="name">blueSatchel</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bluesatchel" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bluesatchel" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">blueSatchel</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Aps2pGDp4GmAT5ebqUw6RUat-gzGzoHsz',
+      appKey     : 'mikzA3qOg4gHjM10U4N8h52T',
+      placeholder: "来说两句吧呜呜呜",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
