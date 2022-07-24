@@ -31,3 +31,9 @@ https://yinyoupoet.github.io/2019/09/03/hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92
 ![](/images/pic-hexo/image-20211202174427901.png)
 
 然后在每次写文章时加上上面这句话,就能保证根目录正确了
+
+
+
+#### 后记
+
+这种方式还是很不稳定,最后采用了腾讯云COS+picgo+typora的方式

@@ -15,6 +15,8 @@ categories: hexo
 
 3.将下列参数添加到hexo的配置文件中(_config.yml)
 
+hexo的搜索功能是基于public下的search.xml文件实现的
+
 ```
 search:
   path: search.xml   #在public目录的根目录下生成search.xml 文件，用于存储网站文章的文字数据.
