@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="线程的常用方法currentThread方法java中的任何一段代码都是执行在某个线程当中的,执行当前代码的线程就是 当前线程 同一段代码可能被不用的线程执行,因此当前线程是相对的,Thread.currentThread()方法的返回值是在代码实际运行时候的 大概来说就是调用某个方法的线程就是其currentThread() isAlive()判断当前线程是否处于活动状态(线程已启动且尚未终止)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java多线程学习记录">
+<meta property="og:url" content="http://example.com/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="blueSatchel&#39;s blog">
+<meta property="og:description" content="线程的常用方法currentThread方法java中的任何一段代码都是执行在某个线程当中的,执行当前代码的线程就是 当前线程 同一段代码可能被不用的线程执行,因此当前线程是相对的,Thread.currentThread()方法的返回值是在代码实际运行时候的 大概来说就是调用某个方法的线程就是其currentThread() isAlive()判断当前线程是否处于活动状态(线程已启动且尚未终止)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220805135545694.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220805225223525.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812155935083.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812160208655.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812164219675.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812224758071.png">
+<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812224743210.png">
+<meta property="article:published_time" content="2022-08-04T14:46:29.000Z">
+<meta property="article:modified_time" content="2022-08-12T14:47:59.310Z">
+<meta property="article:author" content="blueSatchel">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220805135545694.png">
+
+<link rel="canonical" href="http://example.com/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>java多线程学习记录 | blueSatchel's blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blueSatchel's blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          java多线程学习记录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-04 22:46:29" itemprop="dateCreated datePublished" datetime="2022-08-04T22:46:29+08:00">2022-08-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-12 22:47:59" itemprop="dateModified" datetime="2022-08-12T22:47:59+08:00">2022-08-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="线程的常用方法"><a href="#线程的常用方法" class="headerlink" title="线程的常用方法"></a>线程的常用方法</h3><h5 id="currentThread方法"><a href="#currentThread方法" class="headerlink" title="currentThread方法"></a>currentThread方法</h5><p>java中的任何一段代码都是执行在某个线程当中的,执行当前代码的线程就是 当前线程</p>
+<p>同一段代码可能被不用的线程执行,因此当前线程是相对的,Thread.currentThread()方法的返回值是在代码实际运行时候的</p>
+<p>大概来说就是调用某个方法的线程就是其currentThread()</p>
+<h5 id="isAlive"><a href="#isAlive" class="headerlink" title="isAlive()"></a>isAlive()</h5><p>判断当前线程是否处于活动状态(线程已启动且尚未终止)</p>
+<h5 id="sleep"><a href="#sleep" class="headerlink" title="sleep()"></a>sleep()</h5><p>让当前线程休眠指定的毫秒数</p>
+<h5 id="getId"><a href="#getId" class="headerlink" title="getId()"></a>getId()</h5><p>返回线程的唯一编号</p>
+<h5 id="yield"><a href="#yield" class="headerlink" title="yield()"></a>yield()</h5><p>作用是放弃当前的cpu资源</p>
+<h5 id="setPriority-num"><a href="#setPriority-num" class="headerlink" title="setPriority(num)"></a>setPriority(num)</h5><p>1&lt;=num&lt;=10</p>
+<p>本质上是给线程调度器一个提示信息,以便于调度器决定先调度哪些线程,不能完全保证优先级高的先运行</p>
+<h5 id="interrupt"><a href="#interrupt" class="headerlink" title="interrupt()"></a>interrupt()</h5><p>仅仅是跟线程打一个中断标志</p>
+<h5 id="setDaemon"><a href="#setDaemon" class="headerlink" title="setDaemon()"></a>setDaemon()</h5><p>java中的线程分为用户线程与守护线程</p>
+<p>守护线程是为其他线程提供服务的线程,如GC就是一个典型的守护线程</p>
+<p>守护线程不能单独运行,当JVM中没有其他用户线程,只有守护线程时,守护线程会自动销毁,jvm会退出</p>
+<p><strong>启动</strong>之前就设置为守护线程</p>
+<h3 id="线程的生命周期"><a href="#线程的生命周期" class="headerlink" title="线程的生命周期"></a>线程的生命周期</h3><p>可以通过<code>getState()</code>方法来获取是Thread.State枚举类型定义的,有以下几种:</p>
+<table>
+<thead>
+<tr>
+<th>Thread.State的值</th>
+<th>具体含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NEW</td>
+<td>创建了线程对象但还没有启动</td>
+</tr>
+<tr>
+<td>RUNNABLE</td>
+<td>它是一个复合状态,包含READY和RUNNING两个状态,READY表示可以被调度器调度从而使它处于RUNNING状态</td>
+</tr>
+<tr>
+<td>BLOCKED</td>
+<td>阻塞状态,线程发起阻塞的I/O操作,或者申请由其他线程占用的独占资源,线程会转换为BLOCKED阻塞状态,处于阻塞状态的线程不会占用CPU资源,当阻塞I/O操作执行完,或者线程获得了由其申请的资源,线程就可以转换为RUNNABLE状态</td>
+</tr>
+<tr>
+<td>WAITING</td>
+<td>线程执行了Object.wait方法,或者Thread.join方法,执行Object.notify方法或者加入的线程执行完毕,就会转换为RUNNABLE状态</td>
+</tr>
+<tr>
+<td>TIMED_WAITING</td>
+<td>一般调用Thread.sleep或者Object.wait()方法进入,与WAITING有点像,但是这个状态如果超过指定的时间范围,就会自动转换为RUNNABLE</td>
+</tr>
+<tr>
+<td>TERMINATED</td>
+<td>线程结束,处于终止状态</td>
+</tr>
+</tbody></table>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220805135545694.png" alt="image-20220805135545694"></p>
+<h3 id="多线程存在的问题与风险"><a href="#多线程存在的问题与风险" class="headerlink" title="多线程存在的问题与风险"></a>多线程存在的问题与风险</h3><h4 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h4><p>多线程共享数据时,如果没有采取正确的并发访问控制措施,就可能会产生数据一致性问题,如读脏数据(过期的数据),如丢失数据更新</p>
+<h4 id="线程活性"><a href="#线程活性" class="headerlink" title="线程活性"></a>线程活性</h4><p>由于程序自身的缺陷或者由资源稀缺性导致线程一直处于非RUNNABLE状态,这就是线程活性问题,常见的活性故障有以下几种</p>
+<h5 id="死锁-Deadlock"><a href="#死锁-Deadlock" class="headerlink" title="死锁(Deadlock)"></a>死锁(Deadlock)</h5><h5 id="锁死-Lockout-类似于睡美人故事中王子挂了"><a href="#锁死-Lockout-类似于睡美人故事中王子挂了" class="headerlink" title="锁死(Lockout),类似于睡美人故事中王子挂了"></a>锁死(Lockout),类似于睡美人故事中王子挂了</h5><h5 id="活锁-Livelock"><a href="#活锁-Livelock" class="headerlink" title="活锁(Livelock)"></a>活锁(Livelock)</h5><h5 id="饥饿-starvation-资源总是被别的线程抢走了"><a href="#饥饿-starvation-资源总是被别的线程抢走了" class="headerlink" title="饥饿(starvation)资源总是被别的线程抢走了"></a>饥饿(starvation)资源总是被别的线程抢走了</h5><h4 id="上下文切换"><a href="#上下文切换" class="headerlink" title="上下文切换"></a>上下文切换</h4><h4 id="可靠性"><a href="#可靠性" class="headerlink" title="可靠性"></a>可靠性</h4><p>可能会由一个线程导致JVM意外终止,其他的线程也无法执行</p>
+<h3 id="线程安全问题"><a href="#线程安全问题" class="headerlink" title="线程安全问题"></a>线程安全问题</h3><p>线程安全主要表现为三个方面:原子性,可见性和有序性</p>
+<h4 id="原子性-Atomic"><a href="#原子性-Atomic" class="headerlink" title="原子性(Atomic)"></a>原子性(Atomic)</h4><p>就是不可分割的意思,原子操作的不可分割有两层含义:</p>
+<ul>
+<li>访问(读,写)某个共享变量的操作从其他线程来看,这个操作要么已经执行完毕,要么尚未发生,其他线程看不到当前这个操作的中间结果</li>
+<li>访问同一组共享变量的原子操作时不能够交叉的</li>
+</ul>
+<p>java有两种方式实现原子性:一种是使用锁,另一种是利用处理器的CAS指令</p>
+<ul>
+<li><p>锁具有排他性,保证共享变量在某一时刻只能被一个线程访问</p>
+</li>
+<li><p>CAS指令直接在硬件(处理器和内存)层次上实现,看做是硬件锁</p>
+</li>
+</ul>
+<h4 id="可见性-visibility"><a href="#可见性-visibility" class="headerlink" title="可见性(visibility)"></a>可见性(visibility)</h4><p>在多线程环境中,一个线程对某个共享变量进行更新之后,后续其他的线程可能无法立即读取到这个更新的结果,这就是线程安全问题的另外一种形式</p>
+<p>如果一个线程对共享变量更新后,后序访问该变量的其他线程可以读取到更新的结果,称这个线程对共享变量的更新对其他线程可见,否则称这个线程对共享变量的更新对其他线程不可见</p>
+<h4 id="有序性-Ordering"><a href="#有序性-Ordering" class="headerlink" title="有序性(Ordering)"></a>有序性(Ordering)</h4><p>有序性是指在什么情况下一个处理器上运行的一个线程所执行的,内存访问操作在另外一个处理器运行的其他线程看起来是乱序的</p>
+<p>乱序是指内存访问操作的顺序看起来发生了变化</p>
+<h5 id="重排序"><a href="#重排序" class="headerlink" title="重排序"></a>重排序</h5><p>在多核处理器的环境下,编写的顺序结构,这种操作执行的顺序可能是没有保障的:</p>
+<p>编译器可能会改变两个操作的先后顺序</p>
+<p>处理器也可能不会按照目标代码的顺序执行</p>
+<p>这种一个处理器上执行的多个操作,在其他处理器看来它的顺序与目标代码指定的顺序可能不一样,这种现象称为重排序</p>
+<p>重排序是对内存访问有序操作的一种优化,可以在不影响单线程顺序正确的情况下提升程序的性能,但是可能对多线程程序的正确性产生影响,即可能导致线程安全问题</p>
+<h5 id="与内存操作顺序有关的几个概念"><a href="#与内存操作顺序有关的几个概念" class="headerlink" title="与内存操作顺序有关的几个概念"></a>与内存操作顺序有关的几个概念</h5><p>源代码顺序:源码中指定的内存访问顺序</p>
+<p>程序顺序:处理器上运行的目标代码所指定的内存访问顺序</p>
+<p>执行顺序:内存访问操作在处理器上的实际执行顺序</p>
+<p>感知顺序:给定处理器所感知到的该处理器及其他处理器的内存访问操作的顺序</p>
+<p>可以把重排序分为指令重排序与存储子系统重排序两种</p>
+<ul>
+<li>指令重排序</li>
+</ul>
+<p>在源码顺序与程序顺序不一致,或者程序顺序与执行顺序不一致的情况下,我们就说发生了指令重排序</p>
+<p>指令重拍是一种动作,确实对指令的顺序做了调整,重排序的对象是指令</p>
+<p>javac编译器一般不会执行指令重排序,而jit编译器可能执行指令重排序</p>
+<p>处理器也可能执行指令重排序,使得执行顺序与程序顺序不一致</p>
+<p>指令重排序不会对单线程程序的结果产生影响,可能导致多线程程序出现非预期的结果</p>
+<ul>
+<li>存储子系统重排序</li>
+</ul>
+<p>存储子系统是指写缓冲器与高速缓存</p>
+<p>高速缓存是CPU中为了匹配与主内存处理速度不匹配而设计的一个高速缓存,写缓冲器用来提高写告诉缓存操作的效率</p>
+<p>即使处理器严格按照程序顺序执行两个内存访问操作,在存储子系统的作用下,其他处理器对这两个操作的感知顺序也可能与程序顺序不一致,即这两个操作的顺序看起来像是发生了变化,这种现象称为存储子系统重排序</p>
+<p>存储子系统重排序对象是内存操作的结果</p>
+<p>内存重排序分类</p>
+<p>从处理器角度来看,读内存就是从指定的RAM地址中加载数据到寄存器,称为Load操作;写内存就是把数据存储到指定的地址表示的RAM存储单元中,称为Store操作,内存重排序有以下四种可能</p>
+<p>LoadLoad重排序,一个处理器先后执行两个读操作L1和L2,其他处理器对两个内存操作的感知顺序可能是L2,L1</p>
+<p>StoreStore重排序,一个处理器先后执行两个读操作W1和W2,其他处理器对两个内存操作的感知顺序可能是W2,W1</p>
+<p>同理还有两种</p>
+<p>LoadStore和StoreLoad重排序</p>
+<h5 id="貌似串行语义"><a href="#貌似串行语义" class="headerlink" title="貌似串行语义"></a>貌似串行语义</h5><p>JIT编译器,处理器,存储子系统是按照一定的规则对指令内存操作的结果进行重排序,给单线程程序造成一种假象—指令是按照源码的顺序执行的,这种假象称为貌似串行语义</p>
+<p>并不能保证多线程环境下程序的正确性</p>
+<p>为了保证貌似串行语义,有数据依赖关系的语句不会被重排序,只有不存在数据依赖关系的语句才会被重排序</p>
+<p>存在控制依赖关系的语句允许重拍,一条语句(指令)的执行结果会决定另一条语句(指令)能否被执行,这两条语句(指令)存在控制依赖关系,如在if语句中允许重排,可能存在处理器先执行if代码块,再判断If条件是否成立</p>
+<h5 id="保证内存访问的顺序性"><a href="#保证内存访问的顺序性" class="headerlink" title="保证内存访问的顺序性"></a>保证内存访问的顺序性</h5><p>可以使用volatile关键字,synchronized关键字实现有序性</p>
+<h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><p>1.每个线程都有独立的栈空间</p>
+<p>2.每个线程都可以访问堆内存</p>
+<p>3.计算机的cpu不直接从内存读取数据,读的是从主存映射到cache的数据</p>
+<p>4.jvm中的共享的数据可能会被分配到Register寄存器中,每个cpu都有自己的register寄存器,一个cpu不能读取其他cpu寄存器中的内容,如果两个线程分别运行在不同的处理器上</p>
+<p>5.即使jvm中的共享数据分配到主内存中,也不能保证数据的可见性,cpu不直接对主内存访问,而是通过cache高速缓存进行的,一个处理器上运行的线程对数据的更新可能只是更新到处理器的写缓冲器中,还没有到达cache缓存,更不用说主内存了,另外一个处理器不能读取到该处理器写缓冲器上的内容,会产生运行在另外一个处理器上的线程无法看到该处理器对共享数据的更新</p>
+<p>6.一个处理器的cache不能直接读取另外一个处理器的cache,但是一个处理器可以通过缓存一致性协议(Cache Coherence Protocol)来读取其他处理器缓存中的数据,并将读取到的数据更新到该处理器的cache中,这个过程称为缓存同步,缓存同步使得一个处理器上运行的线程可以读取到另外一个处理器上运行的线程对共享数据的所做的更新,即保障了可见性</p>
+<p><strong>为了保障可见性,必须使一个处理器对共享数据的更新最终被写入该处理器的cache中,这个过程称为冲刷处理器缓存</strong></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220805225223525.png" alt="image-20220805225223525"></p>
+<h3 id="锁概述"><a href="#锁概述" class="headerlink" title="锁概述"></a>锁概述</h3><p>将多个线程对共享数据的并发访问转换为串行访问,即一个共享数据一次只能被一个线程访问</p>
+<p>锁可以理解为对共享数据进行保护的一个许可证,对于同一个许可证保护的共享数据来说,任何相乘想要访问这些共享数据必须先持有该许可证,一个线程只有在持有许可证的情况下才能对这些共享数据进行访问,并且一个许可证一次只能被衣蛾线程持有,许可证线程在结束对共享数据的访问后必须释放其持有的许可证</p>
+<p>一个线程在访问共享数据前必须先获得锁,获得锁的线程称为锁的持有线程,一个锁一次只能被一个线程持有.锁的持有线程在获得锁之后和释放锁之前这段时间锁执行的代码称为临界区(Critical Section)</p>
+<p>锁具有排他性,即一个锁一次只能被一个线程持有,这种锁称为排它锁或互斥锁</p>
+<p>jvm把锁分为内部锁和显示锁两种,内部锁通过synchronized关键字实现;显示锁通过Lock接口的实现类来实现</p>
+<p>锁能够保障有序性,写线程在临界区所执行的在读线程所执行的临界区看来像是完全按照源码顺序执行的</p>
+<p>注意:</p>
+<p>使用锁保障线程的安全性,必须满足以下条件:</p>
+<p><strong>这些线程在访问共享数据时必须使用同一个锁</strong></p>
+<p><strong>即使是读取共享数据的线程也需要使用同步锁</strong></p>
+<p><strong>锁的获得隐含着刷新处理器缓存的动作,释放锁隐含着处理器缓存冲刷的动作</strong>(拿进来改完再扔回去)</p>
+<ul>
+<li><strong>冲刷处理器缓存</strong>:当一个处理器对共享变量进行更新后,必须让它的更新最终被写入到高速缓冲或者主内存中.</li>
+<li><strong>刷新处理器缓存</strong>:当处理器操作一个共享变量的时候,其它处理器在此之前已经对这个共享变量进行了更新,那么必须要对高速缓存或者主内存进行缓存同步.</li>
+</ul>
+<h4 id="锁相关的概念"><a href="#锁相关的概念" class="headerlink" title="锁相关的概念"></a>锁相关的概念</h4><h5 id="可重入性"><a href="#可重入性" class="headerlink" title="可重入性"></a>可重入性</h5><p>描述这样一个问题:一个线程持有该锁的时候能再次申请该锁</p>
+<p>如果一个线程持有一个锁的时候还能够继续成功申请该锁,称该锁是可重入的,否则就称该锁为不可重入的</p>
+<h5 id="锁的争用与调度"><a href="#锁的争用与调度" class="headerlink" title="锁的争用与调度"></a>锁的争用与调度</h5><p>java平台中内部锁属于非公平锁,显示Lock锁既支持公平锁又支持非公平锁</p>
+<h5 id="锁的粒度"><a href="#锁的粒度" class="headerlink" title="锁的粒度"></a>锁的粒度</h5><p>一个锁可以保护的共享数据的数量大小称为锁的粒度</p>
+<p>锁保护共享数据量大,称该锁的粒度粗,否则就称该锁的粒度细</p>
+<p>锁的粒度过粗会导致线程在申请锁时会进行不必要的等待,锁的粒度过细会增加锁调度的开销</p>
+<h5 id="内部锁synchronized关键字"><a href="#内部锁synchronized关键字" class="headerlink" title="内部锁synchronized关键字"></a>内部锁synchronized关键字</h5><p>java中的每个对象都有一个与之关联的内部锁,这种锁也称为监视器,这种内部锁是一种排他锁,可以保障原子性,可见性与有序性</p>
+<p>内部锁是通过synchronized关键字实现的,synchronized关键字可以修饰代码块,修饰方法</p>
+<p>修饰代码块的语法:</p>
+<p>synchronized(锁对象,一般用this){</p>
+<p>同步代码块,可以在同步代码块中访问共享数据</p>
+<p>}</p>
+<p>synchronized修饰实例对象,默认<strong>this</strong>作为锁对象</p>
+<p>synchronized修饰静态方法,默认<strong>运行时类</strong>作为锁对象</p>
+<p><strong>同步方法锁的粒度粗,同步代码块锁的粒度细</strong></p>
+<h4 id="脏读"><a href="#脏读" class="headerlink" title="脏读"></a>脏读</h4><p>不仅对修改数据的代码块进行同步,还要对读取数据的代码块进行同步</p>
+<p>如果不这样操作,可能会出现脏读的问题</p>
+<h4 id="线程出现异常"><a href="#线程出现异常" class="headerlink" title="线程出现异常"></a>线程出现异常</h4><p>线程出现异常会自动释放锁</p>
+<h4 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h4><p>如何避免死锁?</p>
+<p>所有线程获得锁的顺序保持一致即可</p>
+<h3 id="轻量级同步机制-volatile关键字"><a href="#轻量级同步机制-volatile关键字" class="headerlink" title="轻量级同步机制:volatile关键字"></a>轻量级同步机制:volatile关键字</h3><p>volatile关键字可以强制线程从公共内存中读取变量的值,而不是从工作内存中读取</p>
+<h5 id="volatile与synchronized关键字比较"><a href="#volatile与synchronized关键字比较" class="headerlink" title="volatile与synchronized关键字比较"></a>volatile与synchronized关键字比较</h5><p>1.volatile关键字是线程同步的轻量级实现,所以volatile性能肯定比synchronized要好,volatile只能修饰变量,而synchronized可以修饰方法,代码块,随着jdk新版本的发布,synchronized的执行效率也就较大的提升,在开发中使用synchronized的比率还是很大的</p>
+<p>2.多线程访问volatile变量不会发生阻塞,而synchronized可能会阻塞</p>
+<p>3.volatile能保证数据的可见性,但是不能保证原子性,而synchronized既可以保证原子性,也可以保证可见性</p>
+<p>4.关键字volatile解决的是变量在多个线程之间的可见性,  synchronized解决的是多个线程之间访问公共资源的同步性</p>
+<h5 id="volatile不能保证原子性的例子"><a href="#volatile不能保证原子性的例子" class="headerlink" title="volatile不能保证原子性的例子"></a>volatile不能保证原子性的例子</h5><p>是直接公共内存拿过来的,说不定其他线程对其的操作还未结束,拿到的是中间值</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">new</span> MyThread().start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">        <span class="keyword">volatile</span>  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> num;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">1000</span>;i++)&#123;</span><br><span class="line">                num++;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">&quot;num===&quot;</span>+num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            add();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812155935083.png" alt="image-20220812155935083" style="zoom:67%;" />
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">///改为synchronized即可保证原子性</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">new</span> MyThread().start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> num;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">()</span></span>&#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">1000</span>;i++)&#123;</span><br><span class="line">                num++;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">&quot;num===&quot;</span>+num);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            add();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812160208655.png" alt="image-20220812160208655" style="zoom:67%;" />
+
+<h3 id="CAS原理"><a href="#CAS原理" class="headerlink" title="CAS原理"></a>CAS原理</h3><p>是由硬件实现的</p>
+<p>CAS可以将read-modify-write这类的操作转换为原子操作</p>
+<p>i++自增包括三个子操作</p>
+<ul>
+<li>从主内存读取i变量值</li>
+<li>对i的值加1</li>
+<li>再把加1后的值保存到主内存</li>
+</ul>
+<p>CAS原理:在把数据更新到主内存时,再次读取主内存变量的值,如果现在变量的值与期望的值(操作起始时读取的值)一样就更新</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812164219675.png" alt="image-20220812164219675"></p>
+<p>使用代码模拟CAS算法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">casTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> CASCounter casCounter=<span class="keyword">new</span> CASCounter();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(() -&gt; System.out.println(casCounter.incrementAndGet())).start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CASCounter</span></span>&#123;</span><br><span class="line">    <span class="keyword">volatile</span> <span class="keyword">private</span> <span class="keyword">long</span> value;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义一个Compare and swap方法</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">cas</span><span class="params">(<span class="keyword">long</span> expectedValue,<span class="keyword">long</span> newValue)</span></span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span>(value==expectedValue)&#123;</span><br><span class="line">                value=newValue;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">long</span> <span class="title">incrementAndGet</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">long</span> oldValue;</span><br><span class="line">        <span class="keyword">long</span> newValue;</span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            oldValue=value;</span><br><span class="line">            newValue=oldValue+<span class="number">1</span>;</span><br><span class="line">            <span class="comment">//cas() return false之后撤销本次递增,再增加一次</span></span><br><span class="line">        &#125;<span class="keyword">while</span> (!cas(oldValue,newValue));</span><br><span class="line">        <span class="keyword">return</span> value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>CAS实现原子操作背后有一个假设:共享变量的当前值与当前线程提供的期望值相同,就认为这个变量没有被其他线程修改过</p>
+<p>实际上这种假设不一定总是成立,如有共享变量count=0</p>
+<p>A线程将count修改为10,B线程将count修改为20,C线程将count值修改为0</p>
+<p>当前线程看到count的值为0,<strong>不能简单的认为count的值没有被其他线程更新</strong></p>
+<p>这就是CAS中的ABA问题,即共享变量经历了A-&gt;B-&gt;A,是否能够接受ABA问题跟实现的算法有关,如果想要规避ABA问题,可以为共享变量引入一个修订号(时间戳),每次修改共享变量时,相应的修订号发生变化AtmicStampedReference类就是基于这种思想产生的</p>
+<h4 id="原子变量类概述"><a href="#原子变量类概述" class="headerlink" title="原子变量类概述"></a>原子变量类概述</h4><p>原子变量类基于CAS实现,其内部就是借助一个volatile变量</p>
+<table>
+<thead>
+<tr>
+<th>分组</th>
+<th>原子变量类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>基础数据型</td>
+<td>AtomicInteger,AtomicLong,AtomicBoolean</td>
+</tr>
+<tr>
+<td>数组型</td>
+<td>AtomicArray,AtomicLongArray,AtomicReferenceArray</td>
+</tr>
+<tr>
+<td>字段更新器</td>
+<td>AtomicIntegerFieldUpdater,AtomicLongFieldUpdater,AtomicReferenceFieldUpdater</td>
+</tr>
+<tr>
+<td>引用型</td>
+<td>AtomicReference,AtomicStampedReference,AtomicMarkableReference</td>
+</tr>
+</tbody></table>
+<h5 id="AtomicIntegerFieldUpdater"><a href="#AtomicIntegerFieldUpdater" class="headerlink" title="AtomicIntegerFieldUpdater"></a>AtomicIntegerFieldUpdater</h5><p>AtomicIntegerFieldUpdater可以对原子整数字段进行更新,要求:</p>
+<p>1.字符必须使用volatile修饰,使线程之间可见</p>
+<p>2.只能是实例变量,不能是静态变量,也不能使用final修饰</p>
+<p>例子</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        User user=<span class="keyword">new</span> User(<span class="number">1</span>,<span class="number">5</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> SubThread(user).start();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SubThread</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> User user;</span><br><span class="line">    <span class="keyword">private</span> AtomicIntegerFieldUpdater&lt;User&gt; updater=AtomicIntegerFieldUpdater.newUpdater(User.class,<span class="string">&quot;age&quot;</span>);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SubThread</span><span class="params">(User user)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.user=user;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;<span class="number">10</span>; i++) &#123;</span><br><span class="line">            System.out.println(updater.getAndIncrement(user));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">volatile</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;test&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;id=&quot;</span> + id +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">User</span><span class="params">(<span class="keyword">int</span> id, <span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类似的几种也是这样的使用方式</p>
+<h5 id="AtomicReference可能会出现CAS的ABA问题"><a href="#AtomicReference可能会出现CAS的ABA问题" class="headerlink" title="AtomicReference可能会出现CAS的ABA问题"></a>AtomicReference可能会出现CAS的ABA问题</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicReference&lt;String&gt; atomicReference=<span class="keyword">new</span> AtomicReference&lt;&gt;(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        Thread t1=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                atomicReference.compareAndSet(<span class="string">&quot;abc&quot;</span>,<span class="string">&quot;def&quot;</span>);</span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">&quot;---&quot;</span>+atomicReference.get());</span><br><span class="line">                atomicReference.compareAndSet(<span class="string">&quot;def&quot;</span>,<span class="string">&quot;abc&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        Thread t2=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    TimeUnit.SECONDS.sleep(<span class="number">1</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(atomicReference.compareAndSet(<span class="string">&quot;abc&quot;</span>,<span class="string">&quot;hello&quot;</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t1.join();</span><br><span class="line">        t2.join();</span><br><span class="line">        System.out.println(atomicReference.get());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812224758071.png" alt="image-20220812224758071"></p>
+<h5 id="使用AtomicStampReference中的版本号来解决ABA问题"><a href="#使用AtomicStampReference中的版本号来解决ABA问题" class="headerlink" title="使用AtomicStampReference中的版本号来解决ABA问题"></a>使用AtomicStampReference中的版本号来解决ABA问题</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> AtomicStampedReference&lt;String&gt; stampedReference=<span class="keyword">new</span> AtomicStampedReference&lt;&gt;(<span class="string">&quot;abc&quot;</span>,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line"></span><br><span class="line">        Thread t1=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                stampedReference.compareAndSet(<span class="string">&quot;abc&quot;</span>,<span class="string">&quot;def&quot;</span>,stampedReference.getStamp(),stampedReference.getStamp()+<span class="number">1</span>);</span><br><span class="line">                System.out.println(Thread.currentThread().getName()+<span class="string">&quot;----&quot;</span>+stampedReference.getReference());</span><br><span class="line">                stampedReference.compareAndSet(<span class="string">&quot;def&quot;</span>,<span class="string">&quot;abc&quot;</span>,stampedReference.getStamp(),stampedReference.getStamp()+<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        Thread t2=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">int</span> stamp=stampedReference.getStamp();</span><br><span class="line">                <span class="comment">//先获得了版本号,但是sleep期间上面的线程导致版本号+1了</span></span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    TimeUnit.SECONDS.sleep(<span class="number">1</span>);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">//此处版本号不一致,所以并没有做出修改</span></span><br><span class="line">                System.out.println(stampedReference.compareAndSet(<span class="string">&quot;abc&quot;</span>,<span class="string">&quot;hello&quot;</span>,stamp,stamp+<span class="number">1</span>));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t1.join();</span><br><span class="line">        t2.join();</span><br><span class="line">        System.out.println(stampedReference.getReference());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812224743210.png" alt="image-20220812224743210"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/02/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0/" rel="prev" title="lambda表达式学习">
+      <i class="fa fa-chevron-left"></i> lambda表达式学习
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">线程的常用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#currentThread%E6%96%B9%E6%B3%95"><span class="nav-number">1.0.1.</span> <span class="nav-text">currentThread方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#isAlive"><span class="nav-number">1.0.2.</span> <span class="nav-text">isAlive()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sleep"><span class="nav-number">1.0.3.</span> <span class="nav-text">sleep()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#getId"><span class="nav-number">1.0.4.</span> <span class="nav-text">getId()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#yield"><span class="nav-number">1.0.5.</span> <span class="nav-text">yield()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#setPriority-num"><span class="nav-number">1.0.6.</span> <span class="nav-text">setPriority(num)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#interrupt"><span class="nav-number">1.0.7.</span> <span class="nav-text">interrupt()</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#setDaemon"><span class="nav-number">1.0.8.</span> <span class="nav-text">setDaemon()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">2.</span> <span class="nav-text">线程的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%98%E5%9C%A8%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E9%A3%8E%E9%99%A9"><span class="nav-number">3.</span> <span class="nav-text">多线程存在的问题与风险</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="nav-number">3.1.</span> <span class="nav-text">线程安全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B4%BB%E6%80%A7"><span class="nav-number">3.2.</span> <span class="nav-text">线程活性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%BB%E9%94%81-Deadlock"><span class="nav-number">3.2.1.</span> <span class="nav-text">死锁(Deadlock)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%94%81%E6%AD%BB-Lockout-%E7%B1%BB%E4%BC%BC%E4%BA%8E%E7%9D%A1%E7%BE%8E%E4%BA%BA%E6%95%85%E4%BA%8B%E4%B8%AD%E7%8E%8B%E5%AD%90%E6%8C%82%E4%BA%86"><span class="nav-number">3.2.2.</span> <span class="nav-text">锁死(Lockout),类似于睡美人故事中王子挂了</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B4%BB%E9%94%81-Livelock"><span class="nav-number">3.2.3.</span> <span class="nav-text">活锁(Livelock)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%A5%A5%E9%A5%BF-starvation-%E8%B5%84%E6%BA%90%E6%80%BB%E6%98%AF%E8%A2%AB%E5%88%AB%E7%9A%84%E7%BA%BF%E7%A8%8B%E6%8A%A2%E8%B5%B0%E4%BA%86"><span class="nav-number">3.2.4.</span> <span class="nav-text">饥饿(starvation)资源总是被别的线程抢走了</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2"><span class="nav-number">3.3.</span> <span class="nav-text">上下文切换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">3.4.</span> <span class="nav-text">可靠性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">4.</span> <span class="nav-text">线程安全问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7-Atomic"><span class="nav-number">4.1.</span> <span class="nav-text">原子性(Atomic)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%A7%81%E6%80%A7-visibility"><span class="nav-number">4.2.</span> <span class="nav-text">可见性(visibility)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%BA%8F%E6%80%A7-Ordering"><span class="nav-number">4.3.</span> <span class="nav-text">有序性(Ordering)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E6%8E%92%E5%BA%8F"><span class="nav-number">4.3.1.</span> <span class="nav-text">重排序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8E%E5%86%85%E5%AD%98%E6%93%8D%E4%BD%9C%E9%A1%BA%E5%BA%8F%E6%9C%89%E5%85%B3%E7%9A%84%E5%87%A0%E4%B8%AA%E6%A6%82%E5%BF%B5"><span class="nav-number">4.3.2.</span> <span class="nav-text">与内存操作顺序有关的几个概念</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B2%8C%E4%BC%BC%E4%B8%B2%E8%A1%8C%E8%AF%AD%E4%B9%89"><span class="nav-number">4.3.3.</span> <span class="nav-text">貌似串行语义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%9D%E8%AF%81%E5%86%85%E5%AD%98%E8%AE%BF%E9%97%AE%E7%9A%84%E9%A1%BA%E5%BA%8F%E6%80%A7"><span class="nav-number">4.3.4.</span> <span class="nav-text">保证内存访问的顺序性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98"><span class="nav-number">5.</span> <span class="nav-text">内存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%81%E6%A6%82%E8%BF%B0"><span class="nav-number">6.</span> <span class="nav-text">锁概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E7%9B%B8%E5%85%B3%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">6.1.</span> <span class="nav-text">锁相关的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5%E6%80%A7"><span class="nav-number">6.1.1.</span> <span class="nav-text">可重入性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E4%BA%89%E7%94%A8%E4%B8%8E%E8%B0%83%E5%BA%A6"><span class="nav-number">6.1.2.</span> <span class="nav-text">锁的争用与调度</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E7%B2%92%E5%BA%A6"><span class="nav-number">6.1.3.</span> <span class="nav-text">锁的粒度</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E9%83%A8%E9%94%81synchronized%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">6.1.4.</span> <span class="nav-text">内部锁synchronized关键字</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%84%8F%E8%AF%BB"><span class="nav-number">6.2.</span> <span class="nav-text">脏读</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%87%BA%E7%8E%B0%E5%BC%82%E5%B8%B8"><span class="nav-number">6.3.</span> <span class="nav-text">线程出现异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%BB%E9%94%81"><span class="nav-number">6.4.</span> <span class="nav-text">死锁</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%BB%E9%87%8F%E7%BA%A7%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6-volatile%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">7.</span> <span class="nav-text">轻量级同步机制:volatile关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#volatile%E4%B8%8Esynchronized%E5%85%B3%E9%94%AE%E5%AD%97%E6%AF%94%E8%BE%83"><span class="nav-number">7.0.1.</span> <span class="nav-text">volatile与synchronized关键字比较</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#volatile%E4%B8%8D%E8%83%BD%E4%BF%9D%E8%AF%81%E5%8E%9F%E5%AD%90%E6%80%A7%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="nav-number">7.0.2.</span> <span class="nav-text">volatile不能保证原子性的例子</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CAS%E5%8E%9F%E7%90%86"><span class="nav-number">8.</span> <span class="nav-text">CAS原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E5%8F%98%E9%87%8F%E7%B1%BB%E6%A6%82%E8%BF%B0"><span class="nav-number">8.1.</span> <span class="nav-text">原子变量类概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#AtomicIntegerFieldUpdater"><span class="nav-number">8.1.1.</span> <span class="nav-text">AtomicIntegerFieldUpdater</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AtomicReference%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%87%BA%E7%8E%B0CAS%E7%9A%84ABA%E9%97%AE%E9%A2%98"><span class="nav-number">8.1.2.</span> <span class="nav-text">AtomicReference可能会出现CAS的ABA问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8AtomicStampReference%E4%B8%AD%E7%9A%84%E7%89%88%E6%9C%AC%E5%8F%B7%E6%9D%A5%E8%A7%A3%E5%86%B3ABA%E9%97%AE%E9%A2%98"><span class="nav-number">8.1.3.</span> <span class="nav-text">使用AtomicStampReference中的版本号来解决ABA问题</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="blueSatchel"
+      src="/../images/avatar.PNG">
+  <p class="site-author-name" itemprop="name">blueSatchel</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/bluesatchel" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;bluesatchel" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">blueSatchel</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Aps2pGDp4GmAT5ebqUw6RUat-gzGzoHsz',
+      appKey     : 'mikzA3qOg4gHjM10U4N8h52T',
+      placeholder: "来说两句吧呜呜呜",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+</body>
+</html>
