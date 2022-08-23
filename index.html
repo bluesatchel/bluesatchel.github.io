@@ -219,7 +219,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-23 12:19:09" itemprop="dateModified" datetime="2022-08-23T12:19:09+08:00">2022-08-23</time>
+                <time title="修改时间：2022-08-23 15:54:25" itemprop="dateModified" datetime="2022-08-23T15:54:25+08:00">2022-08-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -265,92 +265,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/02/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/02/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">lambda表达式学习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-08-02 20:22:40 / 修改时间：21:44:58" itemprop="dateCreated datePublished" datetime="2022-08-02T20:22:40+08:00">2022-08-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/08/02/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/08/02/lambda%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/7102d3f864ad">https://www.jianshu.com/p/7102d3f864ad</a></p>
-<h3 id="核心原则"><a href="#核心原则" class="headerlink" title="核心原则"></a>核心原则</h3><p>可推导,可省略</p>
-<p>接口且单抽象方法</p>
-<h4 id="例1"><a href="#例1" class="headerlink" title="例1"></a>例1</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;线程run&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line"><span class="comment">//参数是个接口并且只有一个抽象方法可以直接这样写</span></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;线程run&quot;</span>);</span><br><span class="line">        &#125;).start();</span><br></pre></td></tr></table></figure>
-
-
       
     </div>
 
@@ -496,7 +410,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-02 22:21:36" itemprop="dateModified" datetime="2022-08-02T22:21:36+08:00">2022-08-02</time>
+                <time title="修改时间：2022-08-23 15:57:22" itemprop="dateModified" datetime="2022-08-23T15:57:22+08:00">2022-08-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -533,66 +447,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="vue学习记录"><a href="#vue学习记录" class="headerlink" title="vue学习记录"></a>vue学习记录</h2><p>这篇文章主要用于自己开发[背忘录]项目中遇到的一些问题和解决方法</p>
-<p>项目开发中使用的是vue 和element-ui</p>
-<h3 id="界面问题"><a href="#界面问题" class="headerlink" title="界面问题"></a>界面问题</h3><p>在本项目中对于界面采用的是element-ui的container容器</p>
-<p>在该组件中的<code>&lt;el-main&gt;</code>组件里嵌套<code>&lt;router-view&gt;&lt;/router-view&gt;</code>标签用来作为整个单页面应用（spa）的显示窗口</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220718204211612.png" alt="image-20220718204211612"></p>
-<p>同时头部和footer都自定义组件并引入从而实现统一性,需要注意的是引入组件后标签需要采用小写和-的方式来替代驼峰命名</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220718204332102.png" alt="image-20220718204332102"></p>
-<p>比如原来是<code>CommonHeader</code>现在就需要写成<code>&lt;common-header&gt;&lt;/common-header&gt;</code></p>
-<h4 id="默认页面"><a href="#默认页面" class="headerlink" title="默认页面"></a>默认页面</h4><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220718204613496.png" alt="image-20220718204613496"></p>
-<p>由于本项目是单页面应用,只需要通过路由跳转让主页面的<code>&lt;router-view&gt;&lt;/router-view&gt;</code>替换内容即可,但是由于<code>/</code>需要引入<code>Main.vue</code>这个总的布局模板,而<code>&lt;router-view&gt;</code>就写在<code>Main.vue</code>中,所以不能直接在<code>Main.vue</code>中写主页面的内容,这时候就需要给<code>/</code>这个路由添加一个重定向属性’redirect’让其重定向到<code>/</code>的子路由<code>/index</code></p>
-<h3 id="axios使用"><a href="#axios使用" class="headerlink" title="axios使用"></a>axios使用</h3><p>先npm安装axios</p>
-<p>在main.js中引入axios后还需要将其绑定到Vue的prototype属性上才能用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import axios from &#x27;axios&#x27;</span><br><span class="line">Vue.prototype.$axios=axios</span><br></pre></td></tr></table></figure>
-
-<p>或者不绑定prototype直接在每个需要使用axios的地方再引入一次</p>
-<p>对于请求的格式,按照这样的格式来写,就可以在最后的then里面访问到返回的res和做赋值给return里面的变量值的操作</p>
-<p>如果把<code>data</code>改为<code>params</code>就会将参数拼接到url后面,类似get传参,但是好像不会进行url编码</p>
-<p>至于header头,则按需添加</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">axios(&#123;</span><br><span class="line">        method: &#x27;post&#x27;,</span><br><span class="line">        url: &#x27;api&#x27;,</span><br><span class="line">        headers: &#123; &#x27;content-type&#x27;: &#x27;application/x-www-form-urlencoded&#x27; &#125;,</span><br><span class="line">        data: this.$qs.stringify(&#123;</span><br><span class="line">          q: &quot;12312312&quot;</span><br><span class="line">        &#125;),</span><br><span class="line">      &#125;).then((res) =&gt; &#123;</span><br><span class="line">        console.log(res)</span><br><span class="line">      &#125;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="axios配置跨域请求"><a href="#axios配置跨域请求" class="headerlink" title="axios配置跨域请求"></a>axios配置跨域请求</h3><p>仅适用于使用vue-cli创建的vue项目中</p>
-<p>在vue.config.js文件中输入内容如下,并且之后请求的时候,使用<code>api</code>来替代target</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">devServer</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="attr">proxy</span>: &#123;</span><br><span class="line">      <span class="string">&#x27;/api&#x27;</span>: &#123;</span><br><span class="line">        <span class="attr">target</span>: <span class="string">&#x27;https://openapi.youdao.com/api&#x27;</span>,</span><br><span class="line">        <span class="comment">//ws:true,</span></span><br><span class="line">        <span class="attr">changeOrigin</span>: <span class="literal">true</span>,</span><br><span class="line">        <span class="attr">pathRewrite</span>: &#123;</span><br><span class="line">          <span class="string">&#x27;^/api&#x27;</span>: <span class="string">&#x27;&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220719185901835.png" alt="image-20220719185901835"></p>
-<p>axios配置传统的post键值对传值方式</p>
-<p>需要引入<code>qs</code>插件</p>
-<p>在项目目录下<code>npm install qs</code></p>
-<p>在<code>main.js</code>中</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> qs <span class="keyword">from</span> <span class="string">&#x27;qs&#x27;</span></span><br><span class="line">Vue.prototype.$qs = qs</span><br></pre></td></tr></table></figure>
-
-<p>接下来就可以使用<code>this.$qs.stringify(&#123;&#125;)</code>将值包裹再传递给data,这样发送的就不再是json数据了</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220719190156526.png" alt="image-20220719190156526"></p>
-<h3 id="在vue中使用md5等哈希函数"><a href="#在vue中使用md5等哈希函数" class="headerlink" title="在vue中使用md5等哈希函数"></a>在vue中使用md5等哈希函数</h3><p>直接npm install js-md5 , js-sha256等</p>
-<p>一样绑定到prototype上</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Vue.prototype.$md5 = md5</span><br><span class="line">Vue.prototype.$sha256 = sha256</span><br></pre></td></tr></table></figure>
-
-<p>调用的时候直接,</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">this</span>.$md5(plaintext)</span><br><span class="line"><span class="built_in">this</span>.$sha256()</span><br></pre></td></tr></table></figure>
-
-<h3 id="vue项目打包-生成dist文件"><a href="#vue项目打包-生成dist文件" class="headerlink" title="vue项目打包,生成dist文件"></a>vue项目打包,生成dist文件</h3><p>由于是使用vue-cli生成的项目</p>
-<p>所以需要在根目录下面新建vue.config.js</p>
-<p>不过前面配置跨域的时候弄过了,所以直接加一段进去就行</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">assetsDir</span>: <span class="string">&#x27;static&#x27;</span>,</span><br><span class="line">  <span class="attr">parallel</span>: <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>然后直接<code>npm run build</code></p>
-<h3 id="通过iframe内嵌B站视频的问题"><a href="#通过iframe内嵌B站视频的问题" class="headerlink" title="通过iframe内嵌B站视频的问题"></a>通过iframe内嵌B站视频的问题</h3><p>需要给链接<code>src</code>加上<code>https://</code>,否则请求路径有问题</p>
-<h3 id="配置按键对应事件"><a href="#配置按键对应事件" class="headerlink" title="配置按键对应事件"></a>配置按键对应事件</h3><p>main.js</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Vue.prototype.$keyBoard = <span class="function"><span class="keyword">function</span> (<span class="params">vm, methodName, code</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">document</span>.onkeydown = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> key = <span class="built_in">window</span>.event.keyCode;</span><br><span class="line">    <span class="keyword">if</span> (key == code) &#123;</span><br><span class="line">      vm[methodName](code); <span class="comment">// 触发methodName事件</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>具体的vue代码中</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">mounted() &#123;</span><br><span class="line">    this.$keyBoard(this, &#x27;onClickEnter&#x27;, 13)     //13是enter按键  其他按键码自己查</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">methods: &#123;</span><br><span class="line">    onClickEnter() &#123;</span><br><span class="line"></span><br><span class="line">		//按下按键后要实现的代码写在这里</span><br><span class="line"></span><br><span class="line">	&#125;,    //这里使用绑定的按键事件</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="vue中页面布局需要刷新才正常显示的问题"><a href="#vue中页面布局需要刷新才正常显示的问题" class="headerlink" title="vue中页面布局需要刷新才正常显示的问题"></a>vue中页面布局需要刷新才正常显示的问题</h3><p>其实这个问题的起因是自己前端代码写的太烂,只需要在style添加scoped即可</p>
-<p>因为每个vue文件都有自己对应的css样式。<br>因此需要在每个页面的style标签上加上scoped属性以表示它的样式仅对于当前页面生效。否则在从别的页面回退或跳转时因为相同的class 样式而导致冲突</p>
-
+          <p>写第一个vue项目时遇到的一些问题和解决方法</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1248,6 +1111,95 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/06/codeql%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/06/codeql%E5%AE%89%E8%A3%85/" class="post-title-link" itemprop="url">codeql安装</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-06 12:14:36 / 修改时间：13:04:32" itemprop="dateCreated datePublished" datetime="2022-05-06T12:14:36+08:00">2022-05-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/codeql/" itemprop="url" rel="index"><span itemprop="name">codeql</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/06/codeql%E5%AE%89%E8%A3%85/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/06/codeql%E5%AE%89%E8%A3%85/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本文章为多次尝试之后,自己成功安装并运行成功codeql的记录,没啥技术含量…
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/06/codeql%E5%AE%89%E8%A3%85/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1319,7 +1271,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-count">64</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1332,7 +1284,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">63</span>
+        <span class="site-state-item-count">62</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
