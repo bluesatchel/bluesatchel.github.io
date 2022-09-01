@@ -6633,4 +6633,56 @@
         <tag>springBoot</tag>
       </tags>
   </entry>
+  <entry>
+    <title>java多线程下载器</title>
+    <url>/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<p>记录一些<a href="https://github.com/bluesatchel/MultiThreadDownloader">java多线程下载器</a>学习过程中遇到的问题和解决方法</p>
+<h3 id="断点续传实现"><a href="#断点续传实现" class="headerlink" title="断点续传实现"></a>断点续传实现</h3><h4 id="RandomAccessFile类"><a href="#RandomAccessFile类" class="headerlink" title="RandomAccessFile类"></a>RandomAccessFile类</h4><p>RandomAccessFile支持”随机访问”的方式，程序可以直接跳转到文件的任意地方来<strong>读写</strong>数据。</p>
+<ol>
+<li>RandomAccessFile<strong>可以自由访问文件的任意位置</strong>。</li>
+<li>RandomAccessFile<strong>允许自由定位文件记录指针</strong>。</li>
+<li>RandomAccessFile<strong>只能读写文件</strong>而不是流。</li>
+</ol>
+<p>使用<code>accessFile.seek(accessFile.length());</code>方法将指针移动到文件的末尾</p>
+<p>同时再结合HTTP协议中关于文件的一个请求头<code>Content-Range </code>来实现从某个字节到某个字节之间的文件数据的获取即可实现简单的http断点续传功能</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> HttpURLConnection <span class="title">getHttpURLConnection</span><span class="params">(String url,<span class="keyword">long</span> startPos,<span class="keyword">long</span> endPos)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        HttpURLConnection httpURLConnection = getHttpURLConnection(url);</span><br><span class="line">        log.info(<span class="string">&quot;下载的区间是:&#123;&#125;--&#123;&#125;&quot;</span>,startPos,endPos);</span><br><span class="line">      <span class="keyword">if</span>(endPos!=<span class="number">0</span>)&#123;</span><br><span class="line">          httpURLConnection.setRequestProperty(<span class="string">&quot;RANGE&quot;</span>,<span class="string">&quot;bytes=&quot;</span>+startPos+<span class="string">&quot;-&quot;</span>+endPos);</span><br><span class="line"></span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          <span class="comment">//最后一块只需要传入开始的字节位置即可</span></span><br><span class="line">          httpURLConnection.setRequestProperty(<span class="string">&quot;RANGE&quot;</span>,<span class="string">&quot;bytes=&quot;</span>+startPos+<span class="string">&quot;-&quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> httpURLConnection;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220901175702361.png" alt="image-20220901175702361"></p>
+<h3 id="下载信息的获取"><a href="#下载信息的获取" class="headerlink" title="下载信息的获取"></a>下载信息的获取</h3><p>在多个线程同时进行下载时,需要实时获取下载的进度</p>
+<p>例如:已经下载的文件大小数据,它需要被各个线程按照自己已经下载的数据大小实时更新</p>
+<p>有几种选择:</p>
+<ul>
+<li>原子类</li>
+<li>LOCK锁</li>
+<li>Synchronized内部锁</li>
+</ul>
+<p>在这里综合考量下,使用原子类更为方便</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//本地已下载文件的大小，</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> LongAdder finishedSize=<span class="keyword">new</span> LongAdder();</span><br></pre></td></tr></table></figure>
+
+<p>原因如下:</p>
+<p>​    如果使用synchronized内部锁,一般直接锁的是对象,并且还需要向外暴露一个同步方法或者包含同步代码块的方法给各个线程使用</p>
+<p>​    如果使用LOCK锁也有同样的麻烦,这里只是简单的一个对象中属性的操作,使用原子类无疑是粒度最小的</p>
+<p>接着单独开启一个线程,让其按照固定的时间去检测已经下载的文件的大小<code>finishedSize</code>属性,并在控制台做出输出即可</p>
+<p>这里使用<code>Executors.newScheduledThreadPool(1);</code>线程池最佳,使用其中的<code>scheduledExecutorService.scheduleAtFixedRate</code>方法添加任务进去即可</p>
+]]></content>
+      <tags>
+        <tag>java</tag>
+        <tag>多线程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu安装Jdk11</title>
+    <url>/2021/09/01/ubuntu%E5%AE%89%E8%A3%85Jdk11/</url>
+    <content><![CDATA[<h5 id="1-首先去官网下载jdk11"><a href="#1-首先去官网下载jdk11" class="headerlink" title="1.首先去官网下载jdk11"></a>1.首先去官网下载jdk11</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220901181241699.png" alt="image-20220901181241699"></p>
+<p>上传到linux服务器</p>
+<h5 id="2-在-usr-local-创建jdk目录，并解压到jdk目录，并改名为jdk11"><a href="#2-在-usr-local-创建jdk目录，并解压到jdk目录，并改名为jdk11" class="headerlink" title="2.在/usr/local/创建jdk目录，并解压到jdk目录，并改名为jdk11"></a>2.在/usr/local/创建jdk目录，并解压到jdk目录，并改名为jdk11</h5><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">mkdir -p /usr/<span class="built_in">local</span>/jdk</span><br><span class="line"><span class="comment">#解压jdk11到jdk目录</span></span><br><span class="line">tar zxvf jdk-11.0.16_linux-x64_bin.tar.gz -C /usr/<span class="built_in">local</span>/jdk/</span><br><span class="line"><span class="comment">#改名进行区分</span></span><br><span class="line">mv /usr/<span class="built_in">local</span>/jdk/jdk-11.0.16 /usr/<span class="built_in">local</span>/jdk/jdk11</span><br></pre></td></tr></table></figure>
+
+<h5 id="3、使用update-alternatives对java版本进行管理，方便后续使用时需要切换"><a href="#3、使用update-alternatives对java版本进行管理，方便后续使用时需要切换" class="headerlink" title="3、使用update-alternatives对java版本进行管理，方便后续使用时需要切换"></a>3、使用update-alternatives对java版本进行管理，方便后续使用时需要切换</h5><p><strong>这个工具的使用知识需要补充一下,解决了传统的手工配置环境变量的麻烦</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#添加java到update-alternatives进行管理(100这个值是可以调整的，越小越优先！！！)</span></span><br><span class="line">update-alternatives --install /usr/bin/java java /usr/<span class="built_in">local</span>/jdk/jdk11/bin/java 100</span><br><span class="line"><span class="comment">##这里是指导你怎么切换java版本，如果只有一个默认就是jdk11，就不用执行这条命令了</span></span><br><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
 </search>

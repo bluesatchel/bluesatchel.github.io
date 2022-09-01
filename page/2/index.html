@@ -188,6 +188,151 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">构建Connons-Colletions3.2_x 的Codeql数据库</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-06 13:41:35" itemprop="dateCreated datePublished" datetime="2022-05-06T13:41:35+08:00">2022-05-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-12 16:21:02" itemprop="dateModified" datetime="2022-05-12T16:21:02+08:00">2022-05-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/codeql/" itemprop="url" rel="index"><span itemprop="name">codeql</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="构建Connons-Colletions3-2-x-的Codeql数据库"><a href="#构建Connons-Colletions3-2-x-的Codeql数据库" class="headerlink" title="构建Connons-Colletions3.2_x 的Codeql数据库"></a>构建Connons-Colletions3.2_x 的Codeql数据库</h1><p>安装配置好codeql也有一段时间了,期间看了一些简单的语法和例子,最近学校期末了,老师安排的屁事有点多,导致好几天没学习了</p>
+<p>之前就听说codeql分析利用链特别厉害,java中反序列化利用链最出名的就是cc链了吧(个人观点),我学习codeql的目标就是自己能仿照着编写cc链的ql语句</p>
+<p>但是codeql现在的java模块有个问题,就是生成数据库的时候,只能生成一个项目的代码数据库,它的依赖只有在代码中引入并加载的类才会被添加到数据库当中去</p>
+<p>对此,我去github提问了一下(这也是我第一次在github提问…)</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/4e3482e87f6c59f7fb66e9d7f4c6645b.png" alt="image-20220512152353868"></p>
+<p>这是维护者大佬做出的回复</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/05cf854bb259eefe20bbb18ed9314c4d.png" alt="image-20220512152328284"></p>
+<p>总而言之,就是想分析哪个依赖,就得单独为它创建数据库,我点了大佬的链接进去,下载下来的数据库是cc4的最新版本的数据库,可能是因为master分支放的是cc4吧…..</p>
+<p>那没办法只能自己建cc3的库了…..</p>
+<p>于是参照这篇文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/mole_exp/article/details/122330521">https://blog.csdn.net/mole_exp/article/details/122330521</a></p>
+<p>这篇文章中提到两种数据库获取方式,第一种就是去lgtm直接下载,第二种是自己clone一份代码下来,然后上传到github仓库并配置lgtm让lgtm扫描后再去下载数据库,但是转念一想,既然它能生成,那我自己用clone的代码来搞不也一样吗</p>
+<p>于是开始了痛苦之路</p>
+<h2 id="建立CC3数据库"><a href="#建立CC3数据库" class="headerlink" title="建立CC3数据库"></a>建立CC3数据库</h2><p>接下来的东西需要对git的基础命令和原理有一定的了解,可以先去b站看<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1FE411P7B3?spm_id_from=333.337.search-card.all.click">狂神的git视频</a>学习一下</p>
+<p>git clone并切换源码到指定分支</p>
+<p>先打开git bash  然后 clone cc项目</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/apache/commons-collections.git</span><br></pre></td></tr></table></figure>
+
+<p>接下来cd进入项目目录,切换分支为cc3</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout COLLECTIONS_3_2_X</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>错误方式</p>
+</blockquote>
+<p>一看里面有pom.xml文件,大喜过望,开始mvn clean install生成数据库,然后一个大大的fatal甩在脸上……</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codeql database create D:\TOOLS\codeql\database\commons-collection3.2 --language=<span class="string">&quot;java&quot;</span> --<span class="built_in">command</span>=<span class="string">&quot;mvn clean install --file pom.xml&quot;</span> --source-root=D:\TOOLS\codeql\soutce-project\commons-collections --overwrite </span><br></pre></td></tr></table></figure>
+
+<p>之前的文章中说过,生成数据库出错了不能着急,要一步步排查,首先codeql命令行是不会给出具体的错误提示的,只会说是mvn这条命令报错了</p>
+<p>总的来说有两个错误,我们一一来分析解决</p>
+<h4 id="错误一"><a href="#错误一" class="headerlink" title="错误一"></a>错误一</h4><p>然后我们打开idea,在idea命令行中使用mvn clean install –file pom.xml进行编译,出现了这样返回类型不一致的报错,打开报错的类的源码,发现这几个名字牛逼轰轰的Map类中remove方法返回的是Object类型的,这和其间接继承的Map接口中定义的boolean截然不同,怪不得报错</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/8d6d61815dec7b21aa543fcb46fa45c0.png" alt="image-20220512153751430"></p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/bc39db9b1d776707a9b8c386825b546c.png" alt="image-20220512154328441"></p>
+<h6 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h6><p>当我在idea的Project Structure中把jdk版本从平时用的1.8下调到1.7的时候,这个报错就消失了,欧耶!!!</p>
+<h4 id="错误二"><a href="#错误二" class="headerlink" title="错误二"></a>错误二</h4><p>但是与此同时,还有个问题也发生了,使用idea右侧边连的maven 依次 clean和install的时候,报了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">错误: 不再支持目标选项 1.2。请使用 7 或更高版本。</span><br></pre></td></tr></table></figure>
+
+<p>的错误</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/5c58d7e1dc433f315606b54789280a6c.png" alt="image-20220512154036543"></p>
+<p>去百度之后发现大概意思就是说,jdk版本太低了,咋了咋了的</p>
+<p>在cc3的pom.xml最下面发现它自己指定了编译的jdk版本是1.2</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/b7c35e183f5f612933fc48656b934440.png" alt="image-20220512154601318"></p>
+<h6 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h6><p>为了一次性到位,首先把pom.xml中的版本改成1.7</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/fdf861fb56261b5ff30edf2d38ee09a3.png" alt="image-20220512154736745"></p>
+<p>接着在最下面的plugins中添加这两个</p>
+<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220512154819016.png" alt="image-20220512154819016" style="zoom:80%;" />
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.22.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">testFailureIgnore</span>&gt;</span>true<span class="tag">&lt;/<span class="name">testFailureIgnore</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>并且,打开本地maven的setting.xml文件</p>
+<p>找到对应的位置,就是<code>&lt;profiles&gt;</code>标签下面就行,添加如下语句,指定默认jdk版本</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">profile</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">id</span>&gt;</span>jdk-1.7<span class="tag">&lt;/<span class="name">id</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">activation</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">activeByDefault</span>&gt;</span>true<span class="tag">&lt;/<span class="name">activeByDefault</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">jdk</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">jdk</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">activation</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">maven.compiler.compilerVersion</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.compilerVersion</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是还是报错了,最后去环境变量里面把JAVA_HOME改成1.7的就行了(到这里终于目标为啥配环境变量的时候非得搞个叫JAVA_HOME的,而不是直接往path里面添加,改起来是真滴快啊)</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/3ec4b8d3b4b6e92bacb55f064798a99f.png" alt="image-20220512155048464"></p>
+<h4 id="成功"><a href="#成功" class="headerlink" title="成功"></a>成功</h4><p>最后再次打开命令行输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codeql database create D:\TOOLS\codeql\database\commons-collection3.2 --language=<span class="string">&quot;java&quot;</span> --<span class="built_in">command</span>=<span class="string">&quot;mvn clean install --file pom.xml&quot;</span> --source-root=D:\TOOLS\codeql\soutce-project\commons-collections --overwrite </span><br></pre></td></tr></table></figure>
+
+<p>成功构建cc3的数据库</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/25f2a1ac18122cb378b43056fe34a42f.png" alt="image-20220512155241642"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/06/codeql%E5%AE%89%E8%A3%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1025,92 +1170,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/24/7u21/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/24/7u21/" class="post-title-link" itemprop="url">7u21</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-24 11:18:48" itemprop="dateCreated datePublished" datetime="2022-03-24T11:18:48+08:00">2022-03-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-26 16:32:16" itemprop="dateModified" datetime="2022-03-26T16:32:16+08:00">2022-03-26</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/24/7u21/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/24/7u21/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>首先去下载个jdk7u21
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/24/7u21/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1182,7 +1241,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
