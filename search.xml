@@ -6298,6 +6298,10 @@
 
 <p>以5个为一轮,固定的5个线程执行任务</p>
 <p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220822161546596.png" alt="image-20220822161546596"></p>
+<h5 id="线程池的关闭"><a href="#线程池的关闭" class="headerlink" title="线程池的关闭"></a>线程池的关闭</h5><p>两个方法</p>
+<h6 id="shutdown"><a href="#shutdown" class="headerlink" title="shutdown()"></a>shutdown()</h6><p>​    该方法执行后,线程池状态变为SHUTDOWN,不会接收新任务,但是会执行完已提交的任务,此方法不会阻塞调用线程的执行</p>
+<p>shutdownNow()</p>
+<p>​    该方法执行后,线程池状态变为STOP,不会接收新任务,会将队列中的任务返回,并用interrupt的方式中断正在执行的</p>
 <h5 id="Execurors提供的线程池和特点"><a href="#Execurors提供的线程池和特点" class="headerlink" title="Execurors提供的线程池和特点"></a>Execurors提供的线程池和特点</h5><ol>
 <li><code>newSingleThreadExecutor()</code> 创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。</li>
 <li><code>newFixedThreadPool() </code>创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。</li>
@@ -6316,7 +6320,7 @@
 </thead>
 <tbody><tr>
 <td>corePoolSize</td>
-<td>指定线程池中核心线程的数量</td>
+<td>指定线程池中核心线程的数量                                                                                       CPU 密集型： CPU 核数  + 1                                                               IO 密集型： 2 倍 CPU 核数 + 1</td>
 </tr>
 <tr>
 <td>maximumPoolSize</td>
@@ -6555,5 +6559,78 @@
 <p>在linux上部署则遇见了一个问题<br><code>ImportError: The &#39;enchant&#39; C library was not found and maybe needs to be installed.</code><br>原因按照字面意思就是缺少了enchant这个字符库<br>所以需要进行一下安装<br>CentOS 7安装Enchant：<br><code>yum install enchant</code><br>Ubuntu 安装Enchant：<br><code>apt-get install libenchant1c2a</code></p>
 <p>顺利解决之后改一改路径就可以实现了</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>springboot防御xss的方法学习记录</title>
+    <url>/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<p>大多数流程是:</p>
+<ol>
+<li>拦截请求</li>
+<li>重新包装请求</li>
+<li>重写<strong>HttpServletRequest</strong>中的获取参数的方法</li>
+<li>将获得的参数进行XSS处理</li>
+<li>拦截器放行</li>
+</ol>
+<p>可以重写Filter的将request中的请求参数进行html实体编码</p>
+<h3 id="主要使用的方法HtmlUtils-htmlEscape"><a href="#主要使用的方法HtmlUtils-htmlEscape" class="headerlink" title="主要使用的方法HtmlUtils.htmlEscape"></a>主要使用的方法HtmlUtils.htmlEscape</h3><p>该方法可以将字符串中的一些特殊字符进行转义,进行转义处理后再存入数据库,这样前端请求之后获取到的字符串中可能会导致xss的特殊字符都会转义成html实体编码</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220901174343546.png" alt="image-20220901174343546"></p>
+<h3 id="mica-xss"><a href="#mica-xss" class="headerlink" title="mica-xss"></a><a href="https://gitee.com/596392912/mica/tree/master/mica-xss">mica-xss</a></h3><p>有一个特别好用的插件,<code>mica-xss</code></p>
+<h5 id="对应springboot版本信息"><a href="#对应springboot版本信息" class="headerlink" title="对应springboot版本信息"></a>对应springboot版本信息</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220831191455575.png" alt="image-20220831191455575"></p>
+<p>使用起来也及其简单,只需要两步</p>
+<h5 id="1-导入依赖"><a href="#1-导入依赖" class="headerlink" title="1.导入依赖"></a>1.导入依赖</h5><p>由于我这里使用的springBoot版本为2.5.7,所以导入2.5.8版本</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.dreamlu<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mica-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.dreamlu<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mica-xss<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.8<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="2-配置"><a href="#2-配置" class="headerlink" title="2.配置"></a>2.配置</h5><p>导入依赖之后就已经可以运行了,可以在配置文件中进行一些简单的设置</p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>默认值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mica.xss.enabled</td>
+<td>true</td>
+<td>开启xss</td>
+</tr>
+<tr>
+<td>mica.xss.trim-text</td>
+<td>true</td>
+<td>【全局】是否去除文本首尾空格</td>
+</tr>
+<tr>
+<td>mica.xss.mode</td>
+<td>clear</td>
+<td>模式：clear 清理（默认）、escape 转义、validate 校验（3.7.4新增）</td>
+</tr>
+<tr>
+<td>mica.xss.pretty-print</td>
+<td>false</td>
+<td><code>clear 专用</code> prettyPrint，默认关闭： 保留换行</td>
+</tr>
+<tr>
+<td>mica.xss.enable-escape</td>
+<td>false</td>
+<td><code>clear 专用</code> 转义，默认关闭</td>
+</tr>
+<tr>
+<td>mica.xss.path-patterns</td>
+<td><code>/**</code></td>
+<td>拦截的路由，例如: <code>/api/order/**</code></td>
+</tr>
+<tr>
+<td>mica.xss.path-exclude-patterns</td>
+<td></td>
+<td>放行的路由，默认为空</td>
+</tr>
+</tbody></table>
+<p>同时也提供了对应的可以自定义过滤规则的方式</p>
+]]></content>
+      <tags>
+        <tag>java</tag>
+        <tag>xss</tag>
+        <tag>springBoot</tag>
+      </tags>
   </entry>
 </search>
