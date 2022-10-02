@@ -4,6 +4,7 @@ date: 2022-07-18 20:38:40
 tags:
       - vue
 categories: vue
+description: 写第一个vue项目时遇到的一些问题和解决方法
 ---
 
 ## vue学习记录
@@ -151,3 +152,51 @@ module.exports = {
 ### 通过iframe内嵌B站视频的问题
 
 需要给链接`src`加上`https://`,否则请求路径有问题
+
+
+
+### 配置按键对应事件
+
+main.js
+
+```js
+Vue.prototype.$keyBoard = function (vm, methodName, code) {
+  document.onkeydown = function () {
+    let key = window.event.keyCode;
+    if (key == code) {
+      vm[methodName](code); // 触发methodName事件
+    }
+  };
+}
+
+```
+
+具体的vue代码中
+
+```vue
+mounted() {
+    this.$keyBoard(this, 'onClickEnter', 13)     //13是enter按键  其他按键码自己查
+}
+
+
+methods: {
+    onClickEnter() {
+
+		//按下按键后要实现的代码写在这里
+
+	},    //这里使用绑定的按键事件
+}
+
+```
+
+
+
+### vue中页面布局需要刷新才正常显示的问题
+
+其实这个问题的起因是自己前端代码写的太烂,只需要在style添加scoped即可
+
+因为每个vue文件都有自己对应的css样式。
+因此需要在每个页面的style标签上加上scoped属性以表示它的样式仅对于当前页面生效。否则在从别的页面回退或跳转时因为相同的class 样式而导致冲突
+
+
+
