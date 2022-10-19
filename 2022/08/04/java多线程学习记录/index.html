@@ -65,7 +65,7 @@
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220823105618999.png">
 <meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220823123326082.png">
 <meta property="article:published_time" content="2022-08-04T14:46:29.000Z">
-<meta property="article:modified_time" content="2022-08-24T15:51:39.844Z">
+<meta property="article:modified_time" content="2022-09-09T15:53:09.254Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
@@ -262,7 +262,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-24 23:51:39" itemprop="dateModified" datetime="2022-08-24T23:51:39+08:00">2022-08-24</time>
+                <time title="修改时间：2022-09-09 23:53:09" itemprop="dateModified" datetime="2022-09-09T23:53:09+08:00">2022-09-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -933,6 +933,7 @@
 <p>​    偏向锁,轻量级锁都是乐观锁,重量级锁是悲观锁</p>
 <p>​    一个对象刚开始实例化时,没有任何线程访问它,它是可偏向的,即它任务只可能有一个线程来访问它,所以当第一个线程来访问它的时候,它会偏向这个线程,偏向第一个线程,这个线程在修改对象搜称为偏向锁时使用CAS操作,将对象头中ThreadId改为自己的Id,之后再访问这个对象时,只需要对比id即可,一旦有第二个线程访问该对象,因为偏向锁不会主动释放,所以第二个线程可以查看对象的偏向状态,当第二个线程访问对象时,表示在这个对象上已经存在竞争了,检查原来持有对象锁的线程是否存活,如果挂了则将对象变为无锁状态,然后重新偏向新的线程,如果原来的线程依然存活,则马上执行原来线程的操作栈,检查该对象的使用情况,如果仍然需要偏向锁,则偏向锁升级为轻量级锁.</p>
 <p>​    轻量级锁认为竞争存在,但是竞争的程度很轻,一般两个线程对同一个锁的操作会错开,或者稍微等待一下(自旋)另外一个线程就会释放锁.又来第三个线程访问时,轻量级锁会膨胀为重量级锁,重量级锁除了持有锁的线程外,其他的线程都阻塞.</p>
+<p>[TOC]</p>
 
     </div>
 
@@ -1033,7 +1034,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">70</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1046,7 +1047,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-count">67</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

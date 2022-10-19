@@ -188,6 +188,283 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/01/java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84-%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/01/java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84-%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">java安全-反射-学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-01 22:03:55" itemprop="dateCreated datePublished" datetime="2022-03-01T22:03:55+08:00">2022-03-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">java安全</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/03/01/java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84-%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/01/java%E5%AE%89%E5%85%A8-%E5%8F%8D%E5%B0%84-%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="java安全-反射学习"><a href="#java安全-反射学习" class="headerlink" title="java安全,反射学习"></a>java安全,反射学习</h2><p>加入了p神的知识星球之后,通过p神发的java安全漫谈学习Java安全,p神讲解很好,恶补了java反射有关知识后,将知识点和代码自己边写边理解一遍</p>
+<hr>
+<p>java中反射赋予了java动态的特性</p>
+<p>Class.forName()可以通过类的路径获取到一个类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Class.forName(className)  <span class="comment">//这个可以理解为下一个的封装</span></span><br><span class="line"><span class="comment">//等于</span></span><br><span class="line">Class.forName(className,<span class="keyword">true</span>,currentLoader)</span><br><span class="line">    <span class="comment">//第一个参数是类名,第二个参数表示是否初始化,第三个参数是ClassLoader</span></span><br></pre></td></tr></table></figure>
+
+<p>Java默认的 ClassLoader 就是根据类名来加载类， 这个类名是类完整路径，如 java.lang.Runtime </p>
+<h4 id="类中”初始化方法”的调用顺序与区别"><a href="#类中”初始化方法”的调用顺序与区别" class="headerlink" title="类中”初始化方法”的调用顺序与区别"></a>类中”初始化方法”的调用顺序与区别</h4><ul>
+<li><p><code>static&#123;&#125;</code>静态代码块在”类初始化”的时候调用</p>
+</li>
+<li><p><code>&#123;&#125;</code>代码块的内容会在父类构造函数<code>super()</code>之后调用</p>
+</li>
+<li><p>最后调用构造函数</p>
+</li>
+</ul>
+<p>还记得学java的时候说super必须写在构造函数的第一行</p>
+<hr>
+<p>**Person p = new Person(“zhangsan”,20); 该句话都做了什么事情？ **</p>
+<p>1，因为new用到了Person.class.所以会先找到Person.class文件并加载到内存中。 </p>
+<p>2，执行该类中的static代码块，如果有的话，给Person.class类进行初始化。</p>
+<p>3，在堆内存中开辟空间，分配内存地址。 </p>
+<p>4，在堆内存中建立对象的特有属性。并进行默认初始化。 </p>
+<p>5，对属性进行显示初始化。 </p>
+<p>6，对对象进行构造代码块初始化。 </p>
+<p>7，对对象进行对应的构造函数初始化。 </p>
+<p>8，将内存地址付给栈内存中的p变量。</p>
+<hr>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TrainPrint</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;类内代码块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;静态代码块&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">TrainPrint</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;无参构造方法&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在获取类对象的时候静态代码块就会执行</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//需要抛出一个类找不到的异常</span></span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;com.reflect.test.TrainPrint&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220301221808194.png" alt="image-20220301221808194"></p>
+<p><strong>注:如果在forName获取Class对象的时候将是否初始化关闭(也就是 第二个参数 为 <code>false</code>),则不会执行静态代码块</strong></p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220307130344019.png" alt="image-20220307130344019"></p>
+<p>剩下两个”初始化方法”必须在实例化的时候才会调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//需要抛出一个类找不到的异常</span></span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;com.reflect.test.TrainPrint&quot;</span>);</span><br><span class="line">            Object o = aClass.newInstance();</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行后的顺序</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220301222222222.png" alt="image-20220301222222222"></p>
+<h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><p>综上所述,其中静态代码块可以写入恶意代码从而在”类初始化”的时候调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">exeCommand</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span>&#123;</span><br><span class="line">        Runtime runtime = Runtime.getRuntime();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            runtime.exec(<span class="string">&quot;cmd /C calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过加载该类就可以执行<code>static&#123;&#125;</code>中的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exe</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;com.reflect.test.exeCommand&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="调用类中的方法执行恶意代码"><a href="#调用类中的方法执行恶意代码" class="headerlink" title="调用类中的方法执行恶意代码"></a>调用类中的方法执行恶意代码</h3><p>在正常情况下，除了系统类，如果我们想拿到一个类，需要先 import 才能使用。而使用forName就不 需要，这样对于我们的攻击者来说就十分有利，我们可以加载任意类。</p>
+<p>ava的普通类 C1 中支持编写内部类 C2 ，而在编译的时候，会生成两个文件： C1.class 和 C1$C2.class ，我们可以把他们看作两个无关的类，通过 Class.forName(“C1$C2”) 即可加载这个内 部类。 </p>
+<p>获得类以后，我们可以继续使用反射来获取这个类中的属性、方法，也可以实例化这个类，并调用方 法。</p>
+<p><code>class.newInstance()</code> 的作用就是调用这个类的无参构造函数，这个比较好理解。不过，我们有时候 在写漏洞利用方法的时候，会发现使用 <code>newInstance</code> 总是不成功，这时候原因可能是：</p>
+<ul>
+<li>类没有无参构造函数</li>
+<li>类的构造函数是私有的</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">runtime</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">            aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(aClass.newInstance(),<span class="string">&quot;cmd /C whoami&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>会报一个这样的错</p>
+<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220302002903587.png" alt="image-20220302002903587"></p>
+<p>为什么会将构造方法设置为private呢</p>
+<p>很常见的一个设计模式就是”单例模式”</p>
+<p>比如对于web应用来说,数据库只需要建立一次连接,而不是每次用到数据库的时候再建立一个连接,此时就可以将数据库连接使用的类的构造方法设置为私有,再通过一个static方法来获取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">connection</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> connection instance=<span class="keyword">new</span> connection();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> connection <span class="title">getInstance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">connection</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;数据库连接建立&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样只有类初始化的时候会执行一个构造函数,后面只能通过<code>getInstance</code>获取这个对象,避免建立多个数据库连接</p>
+<p>Runtime类就是”单例模式”,只能通过<code>Runtime.getRuntime()</code>来获取到<code>Runtime</code>对象</p>
+<p>对代码做出修改之后成功执行命令</p>
+<p>其中<code>aClass.getMethod(&quot;getRuntime&quot;).invoke(aClass)</code>,用来获取Runtime对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">            Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">            aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(aClass.getMethod(<span class="string">&quot;getRuntime&quot;</span>).invoke(aClass),<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException | NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="两个问题"><a href="#两个问题" class="headerlink" title="两个问题"></a>两个问题</h3><h4 id="如果一个类没有无参构造方法-也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？"><a href="#如果一个类没有无参构造方法-也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？" class="headerlink" title="如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？"></a>如果一个类没有无参构造方法,也没有类似单例模式里的静态方法，我们怎样通过反射实例化该类呢？</h4><p>需要使用到getConstructor()方法获取无参构造函数,因为构造函数也支持重载,所以必须用参数列表类型才能唯一确定一个构造函数</p>
+<p>比如经常使用的另一种执行命令的类ProcessBuilder,使用反射来获取其有参的构造函数,然后调用<code>start()</code>来执行命令</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">processBuilder</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">        ((ProcessBuilder)aClass.getConstructor(List.class).newInstance(Arrays.asList(<span class="string">&quot;calc&quot;</span>))).start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果不能强制类型转换的时候,利用反射的getMethod和invoke来执行</p>
+<p>通过 getMethod(“start”) 获取到start方法，然后 invoke 执行， invoke 的第一个参数就是 ProcessBuilder Object了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aClass.getMethod(<span class="string">&quot;start&quot;</span>).invoke(aClass.getConstructor(List.class).newInstance(Arrays.asList(<span class="string">&quot;calc&quot;</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>那么，如果我们要使用 <code>public ProcessBuilder(String... command) </code>这个构造函数，需要怎样用反 射执行呢？</p>
+<p>这个<code>String... command</code>参数表示可变长参数,在Java中编译的时候会编译成一个数组</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Class clazz = Class.forName(<span class="string">&quot;java.lang.ProcessBuilder&quot;</span>);</span><br><span class="line">((ProcessBuilder)clazz.getConstructor(String[].class).newInstance(<span class="keyword">new</span> String[][]&#123;&#123;<span class="string">&quot;calc.exe&quot;</span>&#125;&#125;)).start();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aClass.getMethod(<span class="string">&quot;start&quot;</span>).invoke(aClass.getConstructor(String[].class).newInstance(<span class="keyword">new</span> String[][]&#123;&#123;<span class="string">&quot;calc&quot;</span>&#125;&#125;));</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="如果一个方法或构造方法是私有方法，我们是否能执行它呢？"><a href="#如果一个方法或构造方法是私有方法，我们是否能执行它呢？" class="headerlink" title="如果一个方法或构造方法是私有方法，我们是否能执行它呢？"></a>如果一个方法或构造方法是私有方法，我们是否能执行它呢？</h4><p>此时就需要getDeclared系列的反射了</p>
+<ul>
+<li><p>getMethod 系列方法获取的是当前类中所有公共方法，包括从父类继承的方法 </p>
+</li>
+<li><p>getDeclaredMethod 系列方法获取的是当前类中“声明”的方法，是实在写在这个类里的，包括私 有的方法，但从父类里继承来的就不包含了</p>
+</li>
+</ul>
+<p>之前提到过,Runtime的构造方法时私有的,现在可以通过getDeclaredConstructor来获取这个私有的构造方法,使用setAccessible(true)来设置私有方法的作用域来调用它</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">declar</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line">        Constructor&lt;?&gt; declaredConstructor = aClass.getDeclaredConstructor();</span><br><span class="line">        declaredConstructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        aClass.getMethod(<span class="string">&quot;exec&quot;</span>,String.class).invoke(declaredConstructor.newInstance(),<span class="string">&quot;calc&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/17/centos%E5%AE%89%E8%A3%85redis6.2.6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/02/17/centos%E5%AE%89%E8%A3%85redis6.2.6/" class="post-title-link" itemprop="url">Redis6.2.6在Centos7上的安装过程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-02-17 18:54:54 / 修改时间：14:51:53" itemprop="dateCreated datePublished" datetime="2022-02-17T18:54:54+08:00">2022-02-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/redis/" itemprop="url" rel="index"><span itemprop="name">redis</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/02/17/centos%E5%AE%89%E8%A3%85redis6.2.6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/02/17/centos%E5%AE%89%E8%A3%85redis6.2.6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Redis6-2-6在Centos7上的安装过程"><a href="#Redis6-2-6在Centos7上的安装过程" class="headerlink" title="Redis6.2.6在Centos7上的安装过程"></a>Redis6.2.6在Centos7上的安装过程</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/02/17/centos%E5%AE%89%E8%A3%85redis6.2.6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/01/MybatisPlus%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -923,192 +1200,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/21/PHP%E6%AD%A3%E5%88%99%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/21/PHP%E6%AD%A3%E5%88%99%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" class="post-title-link" itemprop="url">PHP正则绕过总结</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-01-21 16:58:25 / 修改时间：17:12:16" itemprop="dateCreated datePublished" datetime="2022-01-21T16:58:25+08:00">2022-01-21</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/php/" itemprop="url" rel="index"><span itemprop="name">php</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/01/21/PHP%E6%AD%A3%E5%88%99%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/21/PHP%E6%AD%A3%E5%88%99%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="PHP正则绕过总结"><a href="#PHP正则绕过总结" class="headerlink" title="PHP正则绕过总结"></a>PHP正则绕过总结</h2><h3 id="换行符绕过"><a href="#换行符绕过" class="headerlink" title="换行符绕过"></a>换行符绕过</h3><p>原理是preg_match()是单行匹配,添加%0a换行符后对第二行的内容会不做处理</p>
-<h3 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h3><p>preg_match()只能处理字符串,当传入数组时会返回false,当有时候if(!preg_match())时很好用</p>
-<h3 id="5c绕过"><a href="#5c绕过" class="headerlink" title="%5c绕过"></a>%5c绕过</h3><p>\的编码是%5c</p>
-<p>当匹配以数字,字母,下划线开头的值的时候,可以使用\绕过</p>
-<h3 id="preg-match-“-e”"><a href="#preg-match-“-e”" class="headerlink" title="preg_match(“/^$/e”)"></a>preg_match(“/^$/e”)</h3><p>(注：php版本需要小于5.5.0)</p>
-<p>preg_replace 使用了 /e 模式，导致可以代码执行</p>
-<h3 id="正则回溯"><a href="#正则回溯" class="headerlink" title="正则回溯"></a>正则回溯</h3><h5 id="正则匹配中贪婪模式和非贪婪模式的区别"><a href="#正则匹配中贪婪模式和非贪婪模式的区别" class="headerlink" title="正则匹配中贪婪模式和非贪婪模式的区别"></a>正则匹配中贪婪模式和非贪婪模式的区别</h5><p>我个人理解为,贪婪模式情况下,会尽可能多的进行每一次的匹配,非贪婪模式每一次进行匹配都会找尽可能短的满足<code>?</code>前条件的字符完成本次匹配</p>
-<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p>在贪婪模式下,php对于后面字符串的匹配次数有着限制,超过这个限制,preg_match就回返回false’</p>
-<p>一般通过python脚本实现,</p>
-<p>后面补上具体题目的操作过程</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/19/%E7%AC%AC%E4%B8%80%E5%91%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/19/%E7%AC%AC%E4%B8%80%E5%91%A8/" class="post-title-link" itemprop="url">第一周</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-19 19:27:27" itemprop="dateCreated datePublished" datetime="2022-01-19T19:27:27+08:00">2022-01-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/ctf/" itemprop="url" rel="index"><span itemprop="name">ctf</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/01/19/%E7%AC%AC%E4%B8%80%E5%91%A8/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/19/%E7%AC%AC%E4%B8%80%E5%91%A8/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本周实验室布置的有三道题目,都出的特别好,感谢!!!!
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/19/%E7%AC%AC%E4%B8%80%E5%91%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1180,7 +1271,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">67</span>
+          <span class="site-state-item-count">70</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1193,7 +1284,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">64</span>
+        <span class="site-state-item-count">67</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
