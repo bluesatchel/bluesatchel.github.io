@@ -27,16 +27,16 @@
 <meta property="og:site_name" content="blueSatchel&#39;s blog">
 <meta property="og:description" content="python并发简单学习">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220126221005962.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220126221037204.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220126221005962.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220126221037204.png">
 <meta property="article:published_time" content="2022-01-26T13:03:28.000Z">
-<meta property="article:modified_time" content="2022-03-25T09:18:46.947Z">
+<meta property="article:modified_time" content="2024-09-28T14:07:42.778Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="多线程">
 <meta property="article:tag" content="web">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220126221005962.png">
+<meta name="twitter:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220126221005962.png">
 
 <link rel="canonical" href="http://example.com/2022/01/26/python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0/">
 
@@ -227,7 +227,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
+                <time title="修改时间：2024-09-28 22:07:42" itemprop="dateModified" datetime="2024-09-28T22:07:42+08:00">2024-09-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -299,8 +299,8 @@
 <p>即便在多核心处理器上,使用GIL的解释器也只允许同一时间执行一个线程,遇到IO操作解锁GIL</p>
 <p>Python设计初期,为了规避并发问题引入了GIL,现在想去除却去不掉了</p>
 <p>为了解决多线程之间数据完整性和状态同步问题</p>
-<h5 id="如何规避GIL限制"><a href="#如何规避GIL限制" class="headerlink" title="如何规避GIL限制"></a>如何规避GIL限制</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220126221005962.png" alt="image-20220126221005962"></p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220126221037204.png" alt="image-20220126221037204"></p>
+<h5 id="如何规避GIL限制"><a href="#如何规避GIL限制" class="headerlink" title="如何规避GIL限制"></a>如何规避GIL限制</h5><p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220126221005962.png" alt="image-20220126221005962"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220126221037204.png" alt="image-20220126221037204"></p>
 <h2 id="python多线程实操"><a href="#python多线程实操" class="headerlink" title="python多线程实操"></a>python多线程实操</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>准备一个函数</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_func</span>(<span class="params">a,b</span>):</span></span><br><span class="line">    do_craw(a,b)</span><br><span class="line"><span class="number">2.</span>怎样创建一个线程</span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line">t=threading.Thread(target=my_func,args=(<span class="number">100</span>,<span class="number">200</span>))</span><br><span class="line"><span class="number">3.</span>启动线程</span><br><span class="line">t.start()</span><br><span class="line"><span class="number">4.</span>等待结束</span><br><span class="line">t.join()</span><br></pre></td></tr></table></figure>
 
 <p>技巧</p>

