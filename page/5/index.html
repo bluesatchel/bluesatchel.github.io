@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta property="og:type" content="website">
@@ -171,10 +171,8 @@
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -188,10 +186,499 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/01/MybatisPlus%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/02/01/MybatisPlus%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">MybatisPlus初步学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-01 23:30:36" itemprop="dateCreated datePublished" datetime="2022-02-01T23:30:36+08:00">2022-02-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-15 19:06:07" itemprop="dateModified" datetime="2022-11-15T19:06:07+08:00">2022-11-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/02/01/MybatisPlus%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/" class="post-meta-item leancloud_visitors" data-flag-title="MybatisPlus初步学习" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/02/01/MybatisPlus%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/02/01/MybatisPlus%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-概述"><a href="#1-概述" class="headerlink" title="1.概述"></a>1.概述</h2><p>​     MybatisPlus是一款Mybatis增强工具，用于简化开发，提高效率。  它在 MyBatis 的基础上只做增强不做改变，为简化开发、提高效率而生。
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/02/01/MybatisPlus%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/01/lombok%E5%B0%8F%E5%B7%A5%E5%85%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/02/01/lombok%E5%B0%8F%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">lombok小工具</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-01 20:21:01" itemprop="dateCreated datePublished" datetime="2022-02-01T20:21:01+08:00">2022-02-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/02/01/lombok%E5%B0%8F%E5%B7%A5%E5%85%B7/" class="post-meta-item leancloud_visitors" data-flag-title="lombok小工具" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/02/01/lombok%E5%B0%8F%E5%B7%A5%E5%85%B7/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/02/01/lombok%E5%B0%8F%E5%B7%A5%E5%85%B7/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用这款小工具可以通过添加注解来实现类的构造方法,set,get方法,让代码更简洁</p>
+<h3 id="导入maven依赖"><a href="#导入maven依赖" class="headerlink" title="导入maven依赖"></a>导入maven依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.projectlombok<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>lombok<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.18.16<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span>     <span class="comment">//添加get,set方法</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span><span class="comment">//无参构造</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span><span class="comment">//全参构造</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/02/01/lombok%E5%B0%8F%E5%B7%A5%E5%85%B7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/02/01/SpringBoot%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/02/01/SpringBoot%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">SpringBoot初步学习</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-02-01 18:54:54" itemprop="dateCreated datePublished" datetime="2022-02-01T18:54:54+08:00">2022-02-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-28 16:56:30" itemprop="dateModified" datetime="2022-12-28T16:56:30+08:00">2022-12-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/02/01/SpringBoot%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/" class="post-meta-item leancloud_visitors" data-flag-title="SpringBoot初步学习" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/02/01/SpringBoot%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/02/01/SpringBoot%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1-SpringBoot简介"><a href="#1-SpringBoot简介" class="headerlink" title="1. SpringBoot简介"></a>1. SpringBoot简介
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/02/01/SpringBoot%E5%88%9D%E6%AD%A5%E5%AD%A6%E4%B9%A0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/28/ctfshow%E5%88%B7%E9%A2%98-PHP%E7%89%B9%E6%80%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/28/ctfshow%E5%88%B7%E9%A2%98-PHP%E7%89%B9%E6%80%A7/" class="post-title-link" itemprop="url">ctfshow刷题-PHP特性</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-28 00:14:38" itemprop="dateCreated datePublished" datetime="2022-01-28T00:14:38+08:00">2022-01-28</time>
+            </span>
+
+          
+            <span id="/2022/01/28/ctfshow%E5%88%B7%E9%A2%98-PHP%E7%89%B9%E6%80%A7/" class="post-meta-item leancloud_visitors" data-flag-title="ctfshow刷题-PHP特性" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/01/28/ctfshow%E5%88%B7%E9%A2%98-PHP%E7%89%B9%E6%80%A7/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/28/ctfshow%E5%88%B7%E9%A2%98-PHP%E7%89%B9%E6%80%A7/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/28/SpringMVC%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/28/SpringMVC%E5%85%A5%E9%97%A8/" class="post-title-link" itemprop="url">SpringMVC入门</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-28 00:14:20" itemprop="dateCreated datePublished" datetime="2022-01-28T00:14:20+08:00">2022-01-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/01/28/SpringMVC%E5%85%A5%E9%97%A8/" class="post-meta-item leancloud_visitors" data-flag-title="SpringMVC入门" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/01/28/SpringMVC%E5%85%A5%E9%97%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/28/SpringMVC%E5%85%A5%E9%97%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="SpringMVC入门学习"><a href="#SpringMVC入门学习" class="headerlink" title="SpringMVC入门学习"></a>SpringMVC入门学习
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/28/SpringMVC%E5%85%A5%E9%97%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/26/python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -232,6 +719,13 @@
             </span>
 
           
+            <span id="/2022/01/26/python%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0/" class="post-meta-item leancloud_visitors" data-flag-title="python多线程学习" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -286,7 +780,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/21/%E5%91%BD%E4%BB%A4%E8%BF%9E%E6%8E%A5%E7%AC%A6%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -321,6 +815,13 @@
             </span>
 
           
+            <span id="/2022/01/21/%E5%91%BD%E4%BB%A4%E8%BF%9E%E6%8E%A5%E7%AC%A6%E6%80%BB%E7%BB%93/" class="post-meta-item leancloud_visitors" data-flag-title="命令连接符总结" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -346,18 +847,14 @@
 
       
           <h1 id="命令连接符总结"><a href="#命令连接符总结" class="headerlink" title="命令连接符总结"></a>命令连接符总结</h1><h3 id="Windows下的命令连接符"><a href="#Windows下的命令连接符" class="headerlink" title="Windows下的命令连接符"></a>Windows下的命令连接符</h3><h5 id="1-amp-命令连接符"><a href="#1-amp-命令连接符" class="headerlink" title="1)&amp;命令连接符"></a>1)&amp;命令连接符</h5><p>&amp;前面的语句为假,则直接执行&amp;后面的语句,&amp;前面的语句为真,则&amp;前后的语句都执行</p>
-<h5 id="2-amp-amp-命令连接符"><a href="#2-amp-amp-命令连接符" class="headerlink" title="2)&amp;&amp;命令连接符"></a>2)&amp;&amp;命令连接符</h5><p>&amp;&amp;前面的语句为假,则直接报错,&amp;&amp;后面的语句也不执行</p>
-<h5 id="3-命令连接符"><a href="#3-命令连接符" class="headerlink" title="3)|命令连接符"></a>3)|命令连接符</h5><p>|前面的语句为假,则直接报错,|后面的语句也不执行;</p>
-<p>|前面的语句为真,则执行|后面的语句</p>
-<h5 id="4-命令连接符"><a href="#4-命令连接符" class="headerlink" title="4)||命令连接符"></a>4)||命令连接符</h5><p>||前面的语句为假,则执行||后面的语句;</p>
-<p>||前面的语句为真,则只执行||前面的语句,不执行||后面的语句</p>
-<h3 id="linux下的命令连接符"><a href="#linux下的命令连接符" class="headerlink" title="linux下的命令连接符"></a>linux下的命令连接符</h3><h5 id="1-命令连接符"><a href="#1-命令连接符" class="headerlink" title="1);命令连接符"></a>1);命令连接符</h5><p>;使多个命令顺序执行,前面的命令和后面的命令都会执行</p>
-<h5 id="2-amp-命令连接符"><a href="#2-amp-命令连接符" class="headerlink" title="2)&amp;命令连接符"></a>2)&amp;命令连接符</h5><p>&amp;的作用是使命令在后台运行,这样就可以同时执行多条命令</p>
-<p>id&amp;whoami前后命令都会执行</p>
-<h5 id="3-amp-amp-命令连接符"><a href="#3-amp-amp-命令连接符" class="headerlink" title="3)&amp;&amp;命令连接符"></a>3)&amp;&amp;命令连接符</h5><p>&amp;&amp;的作用是:如果前面的命令执行成功,则执行后面的命令</p>
-<h5 id="4-命令连接符-管道符"><a href="#4-命令连接符-管道符" class="headerlink" title="4)|命令连接符(管道符)"></a>4)|命令连接符(管道符)</h5><p>|的作用是:将前面的命令的输出作为后面的命令的输入,前面的命令和后面的命令都会执行,但是只显示后面的命令的执行效果.</p>
-<h5 id="5-命令连接符"><a href="#5-命令连接符" class="headerlink" title="5||命令连接符"></a>5||命令连接符</h5><p>类似于if-else语句,前面执行后面不执行,前面执行失败后面执行</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/21/%E5%91%BD%E4%BB%A4%E8%BF%9E%E6%8E%A5%E7%AC%A6%E6%80%BB%E7%BB%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -379,7 +876,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/21/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -420,6 +917,13 @@
             </span>
 
           
+            <span id="/2022/01/21/php%E4%BC%AA%E5%8D%8F%E8%AE%AE/" class="post-meta-item leancloud_visitors" data-flag-title="php伪协议" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -474,7 +978,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/21/PHP%E6%AD%A3%E5%88%99%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -509,6 +1013,13 @@
             </span>
 
           
+            <span id="/2022/01/21/PHP%E6%AD%A3%E5%88%99%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/" class="post-meta-item leancloud_visitors" data-flag-title="PHP正则绕过总结" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -534,16 +1045,15 @@
 
       
           <h2 id="PHP正则绕过总结"><a href="#PHP正则绕过总结" class="headerlink" title="PHP正则绕过总结"></a>PHP正则绕过总结</h2><h3 id="换行符绕过"><a href="#换行符绕过" class="headerlink" title="换行符绕过"></a>换行符绕过</h3><p>原理是preg_match()是单行匹配,添加%0a换行符后对第二行的内容会不做处理</p>
-<h3 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h3><p>preg_match()只能处理字符串,当传入数组时会返回false,当有时候if(!preg_match())时很好用</p>
-<h3 id="5c绕过"><a href="#5c绕过" class="headerlink" title="%5c绕过"></a>%5c绕过</h3><p>\的编码是%5c</p>
-<p>当匹配以数字,字母,下划线开头的值的时候,可以使用\绕过</p>
-<h3 id="preg-match-“-e”"><a href="#preg-match-“-e”" class="headerlink" title="preg_match(“/^$/e”)"></a>preg_match(“/^$/e”)</h3><p>(注：php版本需要小于5.5.0)</p>
-<p>preg_replace 使用了 /e 模式，导致可以代码执行</p>
-<h3 id="正则回溯"><a href="#正则回溯" class="headerlink" title="正则回溯"></a>正则回溯</h3><h5 id="正则匹配中贪婪模式和非贪婪模式的区别"><a href="#正则匹配中贪婪模式和非贪婪模式的区别" class="headerlink" title="正则匹配中贪婪模式和非贪婪模式的区别"></a>正则匹配中贪婪模式和非贪婪模式的区别</h5><p>我个人理解为,贪婪模式情况下,会尽可能多的进行每一次的匹配,非贪婪模式每一次进行匹配都会找尽可能短的满足<code>?</code>前条件的字符完成本次匹配</p>
-<h5 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h5><p>在贪婪模式下,php对于后面字符串的匹配次数有着限制,超过这个限制,preg_match就回返回false’</p>
-<p>一般通过python脚本实现,</p>
-<p>后面补上具体题目的操作过程</p>
-
+<h3 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/21/PHP%E6%AD%A3%E5%88%99%E7%BB%95%E8%BF%87%E6%80%BB%E7%BB%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -565,7 +1075,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/19/%E7%AC%AC%E4%B8%80%E5%91%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -606,6 +1116,13 @@
             </span>
 
           
+            <span id="/2022/01/19/%E7%AC%AC%E4%B8%80%E5%91%A8/" class="post-meta-item leancloud_visitors" data-flag-title="第一周" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -634,507 +1151,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/01/19/%E7%AC%AC%E4%B8%80%E5%91%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/18/centos%E9%83%A8%E7%BD%B2tomcat/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/18/centos%E9%83%A8%E7%BD%B2tomcat/" class="post-title-link" itemprop="url">centos部署tomcat</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-18 19:15:09" itemprop="dateCreated datePublished" datetime="2022-01-18T19:15:09+08:00">2022-01-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-26 16:27:25" itemprop="dateModified" datetime="2022-03-26T16:27:25+08:00">2022-03-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/01/18/centos%E9%83%A8%E7%BD%B2tomcat/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/18/centos%E9%83%A8%E7%BD%B2tomcat/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>查看系统的位数,通过该命令就能查看
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/18/centos%E9%83%A8%E7%BD%B2tomcat/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/17/JDBC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/17/JDBC/" class="post-title-link" itemprop="url">JDBC</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-17 15:13:34" itemprop="dateCreated datePublished" datetime="2022-01-17T15:13:34+08:00">2022-01-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/01/17/JDBC/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/17/JDBC/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h2><p>java database connectivity</p>
-<p>JDBC保证了多种数据库不同操作的统一,(没有什么是加一层无法解决的哈哈哈)</p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117151840559.png" alt="image-20220117151840559" style="zoom:80%;" />
-
-<p>需要jar包的支持:用maven导包失败了,最后手动导入了mysql的jar包</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117154728636.png" alt="image-20220117154728636"></p>
-<p>在IDEA中连接mysql数据库的时候记得设定时区timeZone为ShangHai</p>
-<h5 id="简单尝试"><a href="#简单尝试" class="headerlink" title="简单尝试"></a>简单尝试</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117155711276.png" alt="image-20220117155711276"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.blue.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSet;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">testJdbc</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="comment">//配置信息</span></span><br><span class="line">        <span class="comment">//useUnicode=true&amp;characterEncoding=utf-8解决中文乱码</span></span><br><span class="line">        String url=<span class="string">&quot;jdbc:mysql://localhost:3306/jdbc?useUnicode=true&amp;characterEncoding=utf-8&quot;</span>;</span><br><span class="line">        String username=<span class="string">&quot;root&quot;</span>;</span><br><span class="line">        String password=<span class="string">&quot;root&quot;</span>;</span><br><span class="line">        <span class="comment">//1.加载驱动,(通过反射)</span></span><br><span class="line">        Class.forName(<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>);</span><br><span class="line">        <span class="comment">//2.连接数据库,代表数据表</span></span><br><span class="line">        Connection connection = DriverManager.getConnection(url,username,password);</span><br><span class="line">        <span class="comment">//3.向数据库发送SQL的对象Statement</span></span><br><span class="line">        <span class="comment">//此处可以使用PreparedStatement预编译,防止sql注入</span></span><br><span class="line">        Statement statement= connection.createStatement();</span><br><span class="line">        <span class="comment">//4.编写sql</span></span><br><span class="line">        String sql=(<span class="string">&quot;select * from users&quot;</span>);</span><br><span class="line">        <span class="comment">//5.执行sql,execute的选择根据要执行的操作而异</span></span><br><span class="line">        <span class="comment">//增删改都使用executeUpdate(sql)</span></span><br><span class="line">        ResultSet resultSet = statement.executeQuery(sql);<span class="comment">//返回一个resultSet</span></span><br><span class="line">        <span class="keyword">while</span> (resultSet.next())&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;id=&quot;</span>+resultSet.getObject(<span class="string">&quot;id&quot;</span>));</span><br><span class="line">            System.out.println(<span class="string">&quot;name=&quot;</span>+resultSet.getObject(<span class="string">&quot;name&quot;</span>));</span><br><span class="line">            System.out.println(<span class="string">&quot;password=&quot;</span>+resultSet.getObject(<span class="string">&quot;password&quot;</span>));</span><br><span class="line">            System.out.println(<span class="string">&quot;email=&quot;</span>+resultSet.getObject(<span class="string">&quot;email&quot;</span>));</span><br><span class="line">            System.out.println(<span class="string">&quot;birthday=&quot;</span>+resultSet.getObject(<span class="string">&quot;birthday&quot;</span>));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//6.关闭连接,释放资源(先开后关)</span></span><br><span class="line">        resultSet.close();</span><br><span class="line">        statement.close();</span><br><span class="line">        connection.close();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117155700032.png" alt="image-20220117155700032"></p>
-<h5 id="预编译"><a href="#预编译" class="headerlink" title="预编译"></a>预编译</h5><p>可以防止sql注入</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">String sql=<span class="string">&quot;insert into users(id,name,password,email,birthday) values (?,?,?,?,?)&quot;</span>;</span><br><span class="line">        PreparedStatement preparedStatement=connection.prepareStatement(sql);</span><br><span class="line">        preparedStatement.setInt(<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">        preparedStatement.setString(<span class="number">2</span>,<span class="string">&quot;张三&quot;</span>);</span><br><span class="line">		.........................................</span><br><span class="line">        preparedStatement.executeUpdate(sql);</span><br></pre></td></tr></table></figure>
-
-<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><p>要么都成功,要么都失败</p>
-<p>ACID原则:保证数据的安全</p>
-<p>开启事务</p>
-<p>事务提交    commit()</p>
-<p>事务回滚    rollback()</p>
-<p>关闭事务</p>
-<p>例子:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">转账:A和B</span><br><span class="line"></span><br><span class="line">如果A转账100给B,那么如果A-100和B+100就要绑定成一个事务,防止数据出现问题</span><br><span class="line">start transaction ;#开启事务</span><br><span class="line">update account set money=money-100 where name=&#x27;A&#x27;;</span><br><span class="line">update account set money=money+100 where name=&#x27;B&#x27;;</span><br><span class="line">commit ;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.blue.test;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.DriverManager;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Connection connection=<span class="keyword">null</span>;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//配置信息</span></span><br><span class="line">        <span class="comment">//useUnicode=true&amp;characterEncoding=utf-8解决中文乱码</span></span><br><span class="line">        String url = <span class="string">&quot;jdbc:mysql://localhost:3306/jdbc?useUnicode=true&amp;characterEncoding=utf-8&quot;</span>;</span><br><span class="line">        String username = <span class="string">&quot;root&quot;</span>;</span><br><span class="line">        String password = <span class="string">&quot;root&quot;</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//1.加载驱动,通过反射</span></span><br><span class="line">            Class.forName(<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>);</span><br><span class="line">            <span class="comment">//2.连接数据库,代表数据表</span></span><br><span class="line">            connection = DriverManager.getConnection(url, username, password);</span><br><span class="line">            <span class="comment">//3.通知数据库开启事务,false 开启</span></span><br><span class="line">            connection.setAutoCommit(<span class="keyword">false</span>);</span><br><span class="line">            String sql1 = <span class="string">&quot;update account set money=money-100 where name=&#x27;A&#x27;&quot;</span>;</span><br><span class="line">            connection.prepareStatement(sql1).executeUpdate();</span><br><span class="line">            <span class="comment">//制造错误</span></span><br><span class="line">            <span class="keyword">int</span> i = <span class="number">1</span> / <span class="number">0</span>;</span><br><span class="line">            String sql2 = <span class="string">&quot;update account set money=money+100 where name=&#x27;B&#x27;&quot;</span>;</span><br><span class="line">            connection.prepareStatement(sql2).executeUpdate();</span><br><span class="line">            <span class="comment">//上面两条都执行成功了,才能提交事务</span></span><br><span class="line">            connection.commit();</span><br><span class="line">            connection.close();</span><br><span class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="comment">//如果出现异常,就通知数据库回滚事务</span></span><br><span class="line">                connection.rollback();</span><br><span class="line">            &#125;<span class="keyword">catch</span> (Exception ex)&#123;</span><br><span class="line">                ex.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="Junit单元测试"><a href="#Junit单元测试" class="headerlink" title="Junit单元测试"></a>Junit单元测试</h4><p>依赖,pom.xml</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h5><p>@Test注解只在方法上有效,只要加了个这个注解的方法,就可以直接运行,不需要写main了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.blue.test;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="number">123</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/11/java-web/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/11/java-web/" class="post-title-link" itemprop="url">java_web</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-11 20:38:27" itemprop="dateCreated datePublished" datetime="2022-01-11T20:38:27+08:00">2022-01-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-25 17:18:47" itemprop="dateModified" datetime="2022-03-25T17:18:47+08:00">2022-03-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/01/11/java-web/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/11/java-web/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>http1.0:客户端与web服务器连接后,只能获得一个web资源,断开连接</p>
-<p>http2.0: 客户端与web服务器连接后,可以获得多个web资源</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/11/java-web/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/11/java%E6%B3%A8%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/11/java%E6%B3%A8%E8%A7%A3/" class="post-title-link" itemprop="url">java注解</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-11 13:12:36" itemprop="dateCreated datePublished" datetime="2022-01-11T13:12:36+08:00">2022-01-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/01/11/java%E6%B3%A8%E8%A7%A3/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/11/java%E6%B3%A8%E8%A7%A3/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="注解-Annotation"><a href="#注解-Annotation" class="headerlink" title="注解(Annotation)"></a>注解(Annotation)</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/11/java%E6%B3%A8%E8%A7%A3/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/01/11/java%E5%8F%8D%E5%B0%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/11/java%E5%8F%8D%E5%B0%84/" class="post-title-link" itemprop="url">java反射</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-11 13:02:55" itemprop="dateCreated datePublished" datetime="2022-01-11T13:02:55+08:00">2022-01-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-25 17:18:46" itemprop="dateModified" datetime="2022-03-25T17:18:46+08:00">2022-03-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/01/11/java%E5%8F%8D%E5%B0%84/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/11/java%E5%8F%8D%E5%B0%84/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>先认识一下动态和静态语言
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/11/java%E5%8F%8D%E5%B0%84/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1216,7 +1232,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="blueSatchel"
-      src="/../images/avatar.PNG">
+      src="/../images/luoqixi.png">
   <p class="site-author-name" itemprop="name">blueSatchel</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -1225,7 +1241,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1252,6 +1268,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -1310,6 +1330,8 @@
 
 <script src="/js/next-boot.js"></script>
 
+<script src="/js/bookmark.js"></script>
+
 
 
 
@@ -1329,6 +1351,26 @@
 
 
 
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
 
 
 
@@ -1356,10 +1398,10 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       avatar     : 'mm',
       meta       : guest,
       pageSize   : '10' || 10,
-      visitor    : false,
+      visitor    : true,
       lang       : '' || 'zh-cn',
       path       : location.pathname,
-      recordIP   : false,
+      recordIP   : true,
       serverURLs : ''
     });
   }, window.Valine);

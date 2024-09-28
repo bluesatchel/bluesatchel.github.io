@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":30,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":true},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta property="og:type" content="website">
@@ -171,10 +171,8 @@
     </header>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -188,10 +186,517 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="post-title-link" itemprop="url">java多线程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-23 23:24:47" itemprop="dateCreated datePublished" datetime="2021-12-23T23:24:47+08:00">2021-12-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-07 21:31:06" itemprop="dateModified" datetime="2022-01-07T21:31:06+08:00">2022-01-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="post-meta-item leancloud_visitors" data-flag-title="java多线程" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>java多线程</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/23/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/09/java%E6%AD%A3%E5%88%99%E8%AF%AD%E6%B3%95%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/09/java%E6%AD%A3%E5%88%99%E8%AF%AD%E6%B3%95%E8%A1%A8/" class="post-title-link" itemprop="url">java正则语法表</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-09 00:02:58" itemprop="dateCreated datePublished" datetime="2021-12-09T00:02:58+08:00">2021-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-07 21:31:06" itemprop="dateModified" datetime="2022-01-07T21:31:06+08:00">2022-01-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">正则表达式</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/12/09/java%E6%AD%A3%E5%88%99%E8%AF%AD%E6%B3%95%E8%A1%A8/" class="post-meta-item leancloud_visitors" data-flag-title="java正则语法表" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/09/java%E6%AD%A3%E5%88%99%E8%AF%AD%E6%B3%95%E8%A1%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/09/java%E6%AD%A3%E5%88%99%E8%AF%AD%E6%B3%95%E8%A1%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>java正则语法表</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/09/java%E6%AD%A3%E5%88%99%E8%AF%AD%E6%B3%95%E8%A1%A8/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/06/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/06/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="post-title-link" itemprop="url">java正则表达式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-06 21:43:24" itemprop="dateCreated datePublished" datetime="2021-12-06T21:43:24+08:00">2021-12-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-09 16:39:20" itemprop="dateModified" datetime="2021-12-09T16:39:20+08:00">2021-12-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/12/06/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="post-meta-item leancloud_visitors" data-flag-title="java正则表达式" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/06/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/06/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>java正则</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/06/java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/05/upload-labs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/05/upload-labs/" class="post-title-link" itemprop="url">upload-labs</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-05 13:30:37 / 修改时间：13:58:29" itemprop="dateCreated datePublished" datetime="2021-12-05T13:30:37+08:00">2021-12-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/upload/" itemprop="url" rel="index"><span itemprop="name">upload</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/12/05/upload-labs/" class="post-meta-item leancloud_visitors" data-flag-title="upload-labs" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/05/upload-labs/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/05/upload-labs/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>upload-labs笔记</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/05/upload-labs/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/04/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/../images/luoqixi.png">
+      <meta itemprop="name" content="blueSatchel">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blueSatchel's blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/04/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">hexo的next主题配置搜索功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-04 23:39:33" itemprop="dateCreated datePublished" datetime="2021-12-04T23:39:33+08:00">2021-12-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-01-19 17:12:35" itemprop="dateModified" datetime="2022-01-19T17:12:35+08:00">2022-01-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2021/12/04/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/" class="post-meta-item leancloud_visitors" data-flag-title="hexo的next主题配置搜索功能" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/04/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/04/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1.安装插件</p>
+<p><code>npm install hexo-generator-searchdb --save</code></p>
+<p>2.修改next主题的_config.yml配置文件,找到local_search,将其中的enable设置为true</p>
+<p>3.将下列参数添加到hexo的配置文件中(_config.yml)</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/04/hexo%E7%9A%84next%E4%B8%BB%E9%A2%98%E9%85%8D%E7%BD%AE%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/04/git%E6%96%B0%E5%BB%BA%E4%BB%93%E5%BA%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -232,6 +737,13 @@
             </span>
 
           
+            <span id="/2021/12/04/git%E6%96%B0%E5%BB%BA%E4%BB%93%E5%BA%93/" class="post-meta-item leancloud_visitors" data-flag-title="git新建仓库" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -286,7 +798,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/04/hexo%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -327,6 +839,13 @@
             </span>
 
           
+            <span id="/2021/12/04/hexo%E5%A4%9A%E8%AE%BE%E5%A4%87%E6%93%8D%E4%BD%9C/" class="post-meta-item leancloud_visitors" data-flag-title="hexo多设备操作" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -381,7 +900,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/03/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%8A%80%E5%B7%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -422,6 +941,13 @@
             </span>
 
           
+            <span id="/2021/12/03/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%8A%80%E5%B7%A7/" class="post-meta-item leancloud_visitors" data-flag-title="hexo的一些小技巧" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -449,14 +975,14 @@
           <h4 id="设置文章摘要"><a href="#设置文章摘要" class="headerlink" title="设置文章摘要"></a>设置文章摘要</h4><p>打开next配置文件</p>
 <p>将该项设置为true</p>
 <p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20211205134957202.png" alt="image-20211205134957202"></p>
-<p>显示文章摘要有两种方法</p>
-<p>1.在需要显示截断的地方添加<code>&lt;!--more--&gt;</code>标签</p>
-<p>2.在<code>front-matter</code>中添加<code>description</code>,<code>description</code>中的内容就会添加到首页上面,并且它的优先级高于<code>&lt;!--more--&gt;</code>标签</p>
-<h4 id="设置字体高亮"><a href="#设置字体高亮" class="headerlink" title="设置字体高亮"></a>设置字体高亮</h4><p><code>&lt;label style=&quot;background:yellow&quot;&gt;字体背景高亮&lt;/lable&gt;</code></p>
-<p><label style="background:yellow">字体背景高亮</lable></p>
-<p><code>&lt;label style=&quot;color:red&quot;&gt;修改字体颜色&lt;/lable&gt;</code></p>
-<p><label style="color:red">修改字体颜色</lable></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/03/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%8A%80%E5%B7%A7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -478,7 +1004,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/03/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -519,6 +1045,13 @@
             </span>
 
           
+            <span id="/2021/12/03/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/" class="post-meta-item leancloud_visitors" data-flag-title="hexo的一些使用技巧" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -546,11 +1079,14 @@
           <h5 id="配置文章摘要显示"><a href="#配置文章摘要显示" class="headerlink" title="配置文章摘要显示"></a>配置文章摘要显示</h5><p>打开next配置文件</p>
 <p>将该项设置为true</p>
 <p><img src="/images/hexo%E8%AE%BE%E7%BD%AE%E6%96%87%E7%AB%A0%E6%98%BE%E7%A4%BA%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9/image-20211205134957202.png" alt="image-20211205134957202"></p>
-<p>显示文章摘要有两种方法</p>
-<p>1.在需要显示截断的地方添加<code>&lt;!--more--&gt;</code>标签</p>
-<p>2.在<code>front-matter</code>中添加<code>description</code>,<code>description</code>中的内容就会添加到首页上面,并且它的优先级高于<code>&lt;!--more--&gt;</code>标签</p>
-<h5 id="配置评论邮件提醒"><a href="#配置评论邮件提醒" class="headerlink" title="配置评论邮件提醒"></a>配置评论邮件提醒</h5><p><a target="_blank" rel="noopener" href="https://blog.51cto.com/u_11378682/3661775">https://blog.51cto.com/u_11378682/3661775</a></p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/03/hexo%E7%9A%84%E4%B8%80%E4%BA%9B%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -572,7 +1108,7 @@
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/02/pic-hexo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
+      <meta itemprop="image" content="/../images/luoqixi.png">
       <meta itemprop="name" content="blueSatchel">
       <meta itemprop="description" content="">
     </span>
@@ -613,6 +1149,13 @@
             </span>
 
           
+            <span id="/2021/12/02/pic-hexo/" class="post-meta-item leancloud_visitors" data-flag-title="hexo上传图片" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -648,519 +1191,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/02/sqli-labs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/02/sqli-labs/" class="post-title-link" itemprop="url">sqli-labs</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-02 16:16:28" itemprop="dateCreated datePublished" datetime="2021-12-02T16:16:28+08:00">2021-12-02</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-07 21:31:06" itemprop="dateModified" datetime="2022-01-07T21:31:06+08:00">2022-01-07</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/sqli/" itemprop="url" rel="index"><span itemprop="name">sqli</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/02/sqli-labs/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/02/sqli-labs/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>sqli-labs记录</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/02/sqli-labs/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/22/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/22/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">EL表达式学习记录</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-09-22 18:25:41" itemprop="dateCreated datePublished" datetime="2021-09-22T18:25:41+08:00">2021-09-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-22 18:54:22" itemprop="dateModified" datetime="2022-09-22T18:54:22+08:00">2022-09-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/09/22/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/09/22/EL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h1><p>EL(expression language)是为了让JSP写起来更加方便，他提供了在jsp中简化表达式的方法，让jsp的代码更加简化</p>
-<h2 id="EL表达式语法"><a href="#EL表达式语法" class="headerlink" title="EL表达式语法"></a>EL表达式语法</h2><p>语法结构较为简单,就是${expression}</p>
-<h2 id="域的概念"><a href="#域的概念" class="headerlink" title="域的概念"></a>域的概念</h2><p>域对象的概念在jsp中共有4中,分别是<code>pageContext,request,session,application</code>  范围依次是: <code>本页面 -&gt;一次请求-&gt;一次会话-&gt;整个应用程序</code></p>
-<p>el表达式一般操作的都是域对象,操作不了局部变量</p>
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;EL表达式&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    pageContext.setAttribute(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;zhangsan&quot;</span>);</span><br><span class="line">    request.setAttribute(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;lisi&quot;</span>);</span><br><span class="line">    session.setAttribute(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;wangwu&quot;</span>);</span><br><span class="line">    application.setAttribute(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;zhaoliu&quot;</span>);</span><br><span class="line">%&gt;</span><br><span class="line">&lt;pre&gt;</span><br><span class="line">        获取作用域中username： $&#123;username&#125;&lt;br&gt;&lt;%-- 默认从小到大的范围中找，找到的第一个返回 --%&gt;</span><br><span class="line">        不在作用域中的： $&#123;password&#125;</span><br><span class="line">        &lt;%--获取request作用域中的username： $&#123;requestScope.username&#125;</span><br><span class="line">        获取session作用域中的username： $&#123;sessionScope.username&#125;</span><br><span class="line">        获取application作用域中的username： $&#123;applicationScope.username&#125;--%&gt;</span><br><span class="line">  &lt;/pre&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922183714222.png" alt="image-20220922183714222"></p>
-<p>不在作用域中,显示为空,而不是null</p>
-<h3 id="从指定范围取值-以及默认取值规则"><a href="#从指定范围取值-以及默认取值规则" class="headerlink" title="从指定范围取值,以及默认取值规则"></a>从指定范围取值,以及默认取值规则</h3><ul>
-<li><p>当需要从某个特定的域对象中查找数据的时候可以使用四个域对象对应的空间对象分别为:</p>
-<p><code>pageScope,requestScope,sessionScope,applicationScope</code></p>
-</li>
-<li><p>EL默认的查找方式为:从小到大查找,找到了即返回,若未查找到则返回空字符串</p>
-</li>
-</ul>
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;EL表达式&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    pageContext.setAttribute(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;zhangsan&quot;</span>);</span><br><span class="line">    request.setAttribute(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;lisi&quot;</span>);</span><br><span class="line">    session.setAttribute(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;wangwu&quot;</span>);</span><br><span class="line">    application.setAttribute(<span class="string">&quot;username&quot;</span>,<span class="string">&quot;zhaoliu&quot;</span>);</span><br><span class="line"></span><br><span class="line">%&gt;</span><br><span class="line">&lt;pre&gt;</span><br><span class="line">         获取pageContext作用域中的username:  $&#123;pageScope.username&#125;</span><br><span class="line">         获取request作用域中的username： $&#123;requestScope.username&#125;</span><br><span class="line">         获取session作用域中的username： $&#123;sessionScope.username&#125;</span><br><span class="line">         获取application作用域中的username： $&#123;applicationScope.username&#125;</span><br><span class="line">  &lt;/pre&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922184459693.png" alt="image-20220922184459693"></p>
-<h4 id="获取作用域中的集合"><a href="#获取作用域中的集合" class="headerlink" title="获取作用域中的集合"></a>获取作用域中的集合</h4><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.util.List&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.util.ArrayList&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;EL表达式&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;%</span><br><span class="line">      List&lt;String&gt; list=<span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">      list.add(<span class="string">&quot;aaa&quot;</span>);</span><br><span class="line">      list.add(<span class="string">&quot;bbb&quot;</span>);</span><br><span class="line">      list.add(<span class="string">&quot;ccc&quot;</span>);</span><br><span class="line">      request.setAttribute(<span class="string">&quot;list&quot;</span>,list);</span><br><span class="line">  %&gt;</span><br><span class="line">  &lt;pre&gt;</span><br><span class="line">           获取list中指定下标的数据：$&#123;list[<span class="number">1</span>]&#125;--$&#123;list[<span class="number">2</span>]&#125;</span><br><span class="line">           获取集合的长度：$&#123;list.size()&#125;</span><br><span class="line">           list代表的是存在域对象中的变量名(限域变量名)</span><br><span class="line">  &lt;/pre&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922184636850.png" alt="image-20220922184636850"></p>
-<h4 id="获取javaBean对象"><a href="#获取javaBean对象" class="headerlink" title="获取javaBean对象"></a>获取javaBean对象</h4><figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;com.test.User&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;EL表达式&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;%</span><br><span class="line">    User user=<span class="keyword">new</span> User();</span><br><span class="line">    user.setUsername(<span class="string">&quot;zhangsan&quot;</span>);</span><br><span class="line">    user.setSex(<span class="keyword">true</span>);</span><br><span class="line">    user.setUserId(<span class="number">1</span>);</span><br><span class="line">    request.setAttribute(<span class="string">&quot;user&quot;</span>,user);<span class="comment">//设置域对象属性</span></span><br><span class="line">%&gt;</span><br><span class="line">&lt;pre&gt;</span><br><span class="line">         获取JavaBean中的username  $&#123;user.username&#125;</span><br><span class="line">         获取JavaBean中的userId    $&#123;user.userId&#125;</span><br><span class="line">         获取JavaBean中的sex       $&#123;user.sex&#125;</span><br><span class="line">  &lt;/pre&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922185046439.png" alt="image-20220922185046439"></p>
-<h2 id="EL表达式运算"><a href="#EL表达式运算" class="headerlink" title="EL表达式运算"></a>EL表达式运算</h2><h4 id="判断是否为空"><a href="#判断是否为空" class="headerlink" title="判断是否为空"></a>判断是否为空</h4><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922185231903.png" alt="image-20220922185231903"></p>
-<h4 id="判断是否相等"><a href="#判断是否相等" class="headerlink" title="判断是否相等"></a>判断是否相等</h4><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922185319138.png" alt="image-20220922185319138"></p>
-<h4 id="算数运算"><a href="#算数运算" class="headerlink" title="算数运算"></a>算数运算</h4><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922185339887.png" alt="image-20220922185339887"></p>
-<h4 id="大小比较"><a href="#大小比较" class="headerlink" title="大小比较"></a>大小比较</h4><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922185400875.png" alt="image-20220922185400875"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/09/01/ubuntu%E5%AE%89%E8%A3%85Jdk11/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/09/01/ubuntu%E5%AE%89%E8%A3%85Jdk11/" class="post-title-link" itemprop="url">ubuntu安装Jdk11</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-09-01 18:10:47" itemprop="dateCreated datePublished" datetime="2021-09-01T18:10:47+08:00">2021-09-01</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-01 18:13:47" itemprop="dateModified" datetime="2022-09-01T18:13:47+08:00">2022-09-01</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/09/01/ubuntu%E5%AE%89%E8%A3%85Jdk11/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/09/01/ubuntu%E5%AE%89%E8%A3%85Jdk11/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h5 id="1-首先去官网下载jdk11"><a href="#1-首先去官网下载jdk11" class="headerlink" title="1.首先去官网下载jdk11"></a>1.首先去官网下载jdk11</h5><p><img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220901181241699.png" alt="image-20220901181241699"></p>
-<p>上传到linux服务器</p>
-<h5 id="2-在-usr-local-创建jdk目录，并解压到jdk目录，并改名为jdk11"><a href="#2-在-usr-local-创建jdk目录，并解压到jdk目录，并改名为jdk11" class="headerlink" title="2.在/usr/local/创建jdk目录，并解压到jdk目录，并改名为jdk11"></a>2.在/usr/local/创建jdk目录，并解压到jdk目录，并改名为jdk11</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/<span class="built_in">local</span>/jdk</span><br><span class="line"><span class="comment">#解压jdk11到jdk目录</span></span><br><span class="line">tar zxvf jdk-11.0.16_linux-x64_bin.tar.gz -C /usr/<span class="built_in">local</span>/jdk/</span><br><span class="line"><span class="comment">#改名进行区分</span></span><br><span class="line">mv /usr/<span class="built_in">local</span>/jdk/jdk-11.0.16 /usr/<span class="built_in">local</span>/jdk/jdk11</span><br></pre></td></tr></table></figure>
-
-<h5 id="3、使用update-alternatives对java版本进行管理，方便后续使用时需要切换"><a href="#3、使用update-alternatives对java版本进行管理，方便后续使用时需要切换" class="headerlink" title="3、使用update-alternatives对java版本进行管理，方便后续使用时需要切换"></a>3、使用update-alternatives对java版本进行管理，方便后续使用时需要切换</h5><p><strong>这个工具的使用知识需要补充一下,解决了传统的手工配置环境变量的麻烦</strong></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#添加java到update-alternatives进行管理(100这个值是可以调整的，越小越优先！！！)</span></span><br><span class="line">update-alternatives --install /usr/bin/java java /usr/<span class="built_in">local</span>/jdk/jdk11/bin/java 100</span><br><span class="line"><span class="comment">##这里是指导你怎么切换java版本，如果只有一个默认就是jdk11，就不用执行这条命令了</span></span><br><span class="line">update-alternatives --config java</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/13/nmap%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/13/nmap%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">nmap使用</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-13 18:49:35" itemprop="dateCreated datePublished" datetime="2021-01-13T18:49:35+08:00">2021-01-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-17 15:23:06" itemprop="dateModified" datetime="2022-01-17T15:23:06+08:00">2022-01-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%89%AB%E6%8F%8F/" itemprop="url" rel="index"><span itemprop="name">扫描</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/01/13/nmap%E4%BD%BF%E7%94%A8/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/01/13/nmap%E4%BD%BF%E7%94%A8/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="NMAP"><a href="#NMAP" class="headerlink" title="NMAP"></a>NMAP</h2><p>nmap，也就是Network Mapper，是Linux下的网络扫描和嗅探工具包。
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/13/nmap%E4%BD%BF%E7%94%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/13/centos7%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/../images/avatar.PNG">
-      <meta itemprop="name" content="blueSatchel">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blueSatchel's blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/13/centos7%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">centos7防火墙配置</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-13 18:25:11" itemprop="dateCreated datePublished" datetime="2021-01-13T18:25:11+08:00">2021-01-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-13 18:34:16" itemprop="dateModified" datetime="2022-01-13T18:34:16+08:00">2022-01-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/01/13/centos7%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/01/13/centos7%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="CentOS7-防火墙设置"><a href="#CentOS7-防火墙设置" class="headerlink" title="CentOS7 防火墙设置"></a>CentOS7 防火墙设置</h2><p>阿里云centos7中默认使用firewall,并且默认没有开启。</p>
-<p>使用阿里云服务器,先要在阿里云后台开放端口,然后关闭centos防火墙或者开放centos的对应端口,只开放centos端口,不设置阿里云端口设置,仍然不能访问!firewall配置</p>
-<h4 id="重启、关闭、开启firewalld服务"><a href="#重启、关闭、开启firewalld服务" class="headerlink" title="重启、关闭、开启firewalld服务"></a>重启、关闭、开启firewalld服务</h4><h5 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h5><p>systemctl start firewalld</p>
-<h5 id="开机启动"><a href="#开机启动" class="headerlink" title="开机启动"></a>开机启动</h5><p>systemctl enable firewalld</p>
-<h5 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h5><p>systemctl stop firewalld</p>
-<h5 id="取消开机启动"><a href="#取消开机启动" class="headerlink" title="取消开机启动"></a>取消开机启动</h5><p>systemctl disable firewalld</p>
-<h5 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h5><p>service firewalld restart</p>
-<h5 id="查看firewall的状态"><a href="#查看firewall的状态" class="headerlink" title="查看firewall的状态"></a>查看firewall的状态</h5><p>firewall-cmd –state</p>
-<h5 id="查看防火墙规则"><a href="#查看防火墙规则" class="headerlink" title="查看防火墙规则"></a>查看防火墙规则</h5><p>firewall-cmd –list-all</p>
-<h5 id="用户配置目录"><a href="#用户配置目录" class="headerlink" title="用户配置目录"></a>用户配置目录</h5><p>cd /etc/firewalld/命令行方式</p>
-<h5 id="常用的几个端口和配置语句"><a href="#常用的几个端口和配置语句" class="headerlink" title="常用的几个端口和配置语句"></a>常用的几个端口和配置语句</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">**<span class="comment"># web**</span></span><br><span class="line"></span><br><span class="line">firewall-cmd --zone=public --permanent --add-port=80/tcp</span><br><span class="line"></span><br><span class="line">**<span class="comment"># mysql**</span></span><br><span class="line"></span><br><span class="line">firewall-cmd --zone=public --permanent --add-port=3306/tcp</span><br><span class="line"></span><br><span class="line">**<span class="comment"># tomcat**</span></span><br><span class="line"></span><br><span class="line">firewall-cmd --zone=public --permanent --add-port=8080/tcp</span><br><span class="line"></span><br><span class="line">**<span class="comment"># redis**</span></span><br><span class="line"></span><br><span class="line">firewall-cmd --zone=public --permanent --add-port=6379/tcp</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">firewall-cmd：是Linux提供的操作firewall的一个工具； –permanent：表示设置为持久； –add-port：标识添加的端口； –zone=public：指定的zone为public；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h5 id="批量添加端口"><a href="#批量添加端口" class="headerlink" title="批量添加端口"></a>批量添加端口</h5><p>firewall-cmd –zone=public –permanent –add-port=8081-8200/tcp</p>
-<h5 id="生成的配置文件所在路径"><a href="#生成的配置文件所在路径" class="headerlink" title="生成的配置文件所在路径"></a>生成的配置文件所在路径</h5><p>vi /etc/firewalld/zones/public.xml</p>
-<h5 id="配置完成后重启"><a href="#配置完成后重启" class="headerlink" title="配置完成后重启"></a>配置完成后重启</h5><p>service firewalld restart配置文件方式</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><span class="tag">&lt;<span class="name">zone</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">short</span>&gt;</span>Public<span class="tag">&lt;/<span class="name">short</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">description</span>&gt;</span>For use in public areas.<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">rule</span> <span class="attr">family</span>=<span class="string">&quot;ipv4&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">source</span> <span class="attr">address</span>=<span class="string">&quot;122.10.70.234&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">port</span> <span class="attr">protocol</span>=<span class="string">&quot;udp&quot;</span> <span class="attr">port</span>=<span class="string">&quot;514&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">accept</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">rule</span> <span class="attr">family</span>=<span class="string">&quot;ipv4&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">source</span> <span class="attr">address</span>=<span class="string">&quot;123.60.255.14&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">port</span> <span class="attr">protocol</span>=<span class="string">&quot;tcp&quot;</span> <span class="attr">port</span>=<span class="string">&quot;10050-10051&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">accept</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">rule</span> <span class="attr">family</span>=<span class="string">&quot;ipv4&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">source</span> <span class="attr">address</span>=<span class="string">&quot;192.249.87.114&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">port</span> <span class="attr">protocol</span>=<span class="string">&quot;tcp&quot;</span> <span class="attr">port</span>=<span class="string">&quot;80&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">accept</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">rule</span> <span class="attr">family</span>=<span class="string">&quot;ipv4&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">port</span> <span class="attr">protocol</span>=<span class="string">&quot;tcp&quot;</span> <span class="attr">port</span>=<span class="string">&quot;9527&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">accept</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">zone</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><code>上面的对应的规则</code></p>
-<p><code>固定IP 固定协议 的固定端口访问</code></p>
-<p><code>固定IP 固定协议 的范围端口访问</code></p>
-<p><code>固定IP 固定协议 的固定端口访问</code></p>
-<p><code>任意IP 固定协议 的固定端口访问切换为iptables防火墙</code></p>
-<p><code>关闭firewall：</code></p>
-<h4 id="安装iptables防火墙"><a href="#安装iptables防火墙" class="headerlink" title="安装iptables防火墙"></a>安装iptables防火墙</h4><h5 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h5><p><code>yum install iptables-services</code></p>
-<h5 id="开启iptables"><a href="#开启iptables" class="headerlink" title="开启iptables"></a>开启iptables</h5><p><code>service iptables restart</code></p>
-<h5 id="设置防火墙开机启动"><a href="#设置防火墙开机启动" class="headerlink" title="设置防火墙开机启动"></a>设置防火墙开机启动</h5><p><code>systemctl enable iptables.service  或者chkconfig iptables on</code></p>
-<h5 id=""><a href="#" class="headerlink" title=""></a></h5><h5 id="查看已生效的规则"><a href="#查看已生效的规则" class="headerlink" title="查看已生效的规则"></a>查看已生效的规则</h5><p>iptables -L -n命令行方式</p>
-<p><code>iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 3306 -j ACCEPT</code></p>
-<h5 id="写入配置文件"><a href="#写入配置文件" class="headerlink" title="写入配置文件"></a>写入配置文件</h5><p><code>service iptables save</code></p>
-<p>这样下次重启依旧会生效配置文件方式</p>
-<h5 id="编辑iptables防火墙配置"><a href="#编辑iptables防火墙配置" class="headerlink" title="编辑iptables防火墙配置"></a>编辑iptables防火墙配置</h5><p>vi /etc/sysconfig/iptables</p>
-<p>下边是一个完整的配置文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">Firewall configuration written by system-config-firewall</span><br><span class="line"></span><br><span class="line">Manual customization of this file is not recommended.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">*filter</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">:INPUT ACCEPT [0:0]:FORWARD ACCEPT [0:0]:OUTPUT ACCEPT [0:0]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br><span class="line"></span><br><span class="line">-A INPUT -p icmp -j ACCEPT</span><br><span class="line"></span><br><span class="line">-A INPUT -i lo -j ACCEPT</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT</span><br><span class="line"></span><br><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT</span><br><span class="line"></span><br><span class="line">-A INPUT -m state --state NEW -m tcp -p tcp --dport 3306 -j ACCEPT</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-A INPUT -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line"></span><br><span class="line">-A FORWARD -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">COMMIT</span><br></pre></td></tr></table></figure>
-
-<p>保存退出</p>
-<p>:wq!</p>
-
       
     </div>
 
@@ -1237,7 +1267,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="blueSatchel"
-      src="/../images/avatar.PNG">
+      src="/../images/luoqixi.png">
   <p class="site-author-name" itemprop="name">blueSatchel</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -1246,7 +1276,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1273,6 +1303,10 @@
 
 
       </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
 
     </div>
   </aside>
@@ -1331,6 +1365,8 @@
 
 <script src="/js/next-boot.js"></script>
 
+<script src="/js/bookmark.js"></script>
+
 
 
 
@@ -1350,6 +1386,26 @@
 
 
 
+<script>
+document.querySelectorAll('.pdfobject-container').forEach(element => {
+  let url = element.dataset.target;
+  let pdfOpenParams = {
+    navpanes : 0,
+    toolbar  : 0,
+    statusbar: 0,
+    pagemode : 'thumbs',
+    view     : 'FitH'
+  };
+  let pdfOpenFragment = '#' + Object.entries(pdfOpenParams).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&');
+  let fullURL = `/lib/pdf/web/viewer.html?file=${encodeURIComponent(url)}${pdfOpenFragment}`;
+
+  if (NexT.utils.supportsPDFs()) {
+    element.innerHTML = `<embed class="pdfobject" src="${url + pdfOpenFragment}" type="application/pdf" style="height: ${element.dataset.height};">`;
+  } else {
+    element.innerHTML = `<iframe src="${fullURL}" style="height: ${element.dataset.height};" frameborder="0"></iframe>`;
+  }
+});
+</script>
 
 
 
@@ -1377,10 +1433,10 @@ NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
       avatar     : 'mm',
       meta       : guest,
       pageSize   : '10' || 10,
-      visitor    : false,
+      visitor    : true,
       lang       : '' || 'zh-cn',
       path       : location.pathname,
-      recordIP   : false,
+      recordIP   : true,
       serverURLs : ''
     });
   }, window.Valine);
