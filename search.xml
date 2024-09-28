@@ -81,32 +81,6 @@
       </tags>
   </entry>
   <entry>
-    <title>hexo上传图片</title>
-    <url>/2021/12/02/pic-hexo/</url>
-    <content><![CDATA[<p>参考文章:</p>
-<p><a href="https://yinyoupoet.github.io/2019/09/03/hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/">https://yinyoupoet.github.io/2019/09/03/hexo%E5%8D%9A%E5%AE%A2%E4%B8%AD%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87/</a></p>
-<p>所有的博客文件保存在_post目录下</p>
-<span id="more"></span>
-
-<p>在source下新建一个images文件夹</p>
-<p>打开Typora的 文件-&gt;偏好设置</p>
-<p><img src="/images/pic-hexo/image-20211203001406102.png"></p>
-<p>这样该文章中的图片都会保存在/source/images/文章名/图片名称</p>
-<p>现在的相对路径是基于当前md文件的,在服务器上可没有md文件,需要再typora中进一步设置</p>
-<p>在typora菜单栏点击 格式-&gt;图像-&gt;设置图片根目录，将hexo/source作为其根目录。</p>
-<p>会在md文件中会自动添加这一段</p>
-<p><img src="/images/pic-hexo/image-20211202174427901.png"></p>
-<p>然后在每次写文章时加上上面这句话,就能保证根目录正确了</p>
-<h4 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h4><p>这种方式还是很不稳定,最后采用了腾讯云COS+picgo+typora的方式</p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo上传图片</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sqli-labs</title>
     <url>/2021/12/02/sqli-labs/</url>
     <content><![CDATA[<p>sqli-labs</p>
