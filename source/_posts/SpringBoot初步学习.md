@@ -139,7 +139,7 @@ public class HelloController {
 
 启动的时候不需要去配置Tomcat,直接启动刚才配置的启动类的main方法即可
 
-![image-20220201190334027](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220201190334027.png)
+![image-20220201190334027](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220201190334027.png)
 
 ### 2.3 SpringBoot打包部署
 
@@ -160,7 +160,7 @@ public class HelloController {
 
 2.maven打包,运行package
 
-![image-20220201191519221](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220201191519221.png)
+![image-20220201191519221](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220201191519221.png)
 
 找到对应target目录下生成的jar包
 
@@ -472,7 +472,7 @@ public class TestController {
 
 今天SpringBoot配置文件部署时,发出警告`Spring Boot Configuration Annotation Processor not configured`但是不影响运行
 
-![image-20220201205503274](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220201205503274.png)
+![image-20220201205503274](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220201205503274.png)
 
 解决方法
 
@@ -616,7 +616,7 @@ class Dog {
 
 ​	 在idea中的setting做下面配置 
 
-![自动编译配置](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/%E8%87%AA%E5%8A%A8%E7%BC%96%E8%AF%91%E9%85%8D%E7%BD%AE.png)
+![自动编译配置](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/%E8%87%AA%E5%8A%A8%E7%BC%96%E8%AF%91%E9%85%8D%E7%BD%AE.png)
 
 
 
@@ -624,7 +624,7 @@ class Dog {
 
 ​	 ctrl + shift + alt + / 这组快捷键后会有一个小弹窗，点击Registry 就会进入下面的界面，找到下面的配置项并勾选，勾选后直接点close 
 
-![允许运行时自动启动](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/%E5%85%81%E8%AE%B8%E8%BF%90%E8%A1%8C%E6%97%B6%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8.png)
+![允许运行时自动启动](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/%E5%85%81%E8%AE%B8%E8%BF%90%E8%A1%8C%E6%97%B6%E8%87%AA%E5%8A%A8%E5%90%AF%E5%8A%A8.png)
 
 
 
@@ -725,7 +725,7 @@ public class ApplicationTest {
 
 ​	先看一张图：
 
- ![img](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/junit5.jpeg) 
+ ![img](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/junit5.jpeg) 
 
 ​	从上图可以看出  **JUnit 5 = JUnit Platform + JUnit Jupiter + JUnit Vintage**
 
@@ -1540,7 +1540,7 @@ public class CorsConfig implements WebMvcConfigurer {
 
 新建utils包,下面新建JwtUtil类
 
-![image-20220206224426968](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220206224426968.png)		
+![image-20220206224426968](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220206224426968.png)		
 
 然后可以使用下面的工具类来生成和解析token,因为是静态方法,直接调用即可
 
@@ -1628,6 +1628,14 @@ public class JwtUtil {
 以token拦截器为例
 
 ```java
+import io.jsonwebtoken.Claims;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
     @Override
@@ -1659,7 +1667,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 在config包下新建拦截器配置类
 
-![image-20220206235455580](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220206235455580.png)
+![image-20220206235455580](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220206235455580.png)
 
 ```java
 @Configuration
@@ -1676,6 +1684,41 @@ public class InterceptorConfig implements WebMvcConfigurer {
 }
 
 ```
+
+#### uuid工具类
+
+```java
+import org.springframework.stereotype.Component;
+
+import java.util.UUID;
+
+@Component//添加到Spring容器中
+public class UUIDUtil {
+    //生成一个32位的uuid
+    public static String getUUID32(){
+        return UUID.randomUUID().toString().replace("-","").toLowerCase();
+    }
+    //生成指定数量的uuid
+    public static String[] getUUID(int num){
+
+        if(num<=0){
+            return null;
+        }
+        String[] uuidArray=new String[num];
+
+
+        for(int i=0;i<uuidArray.length;i++){
+            uuidArray[i]=getUUID32();
+        }
+        return uuidArray;
+    }
+}
+
+```
+
+
+
+
 
 ### 4.7 异常统一处理
 

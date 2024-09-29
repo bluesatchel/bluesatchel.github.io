@@ -66,11 +66,11 @@ springBoot用过之后觉得这配置好麻烦......
 
 大体目录结构
 
-![image-20220422002418321](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220422002418321.png)
+![image-20220422002418321](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220422002418321.png)
 
 配置文件自定义,右键new选择spring Config
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220422002516259.png" alt="image-20220422002516259" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220422002516259.png" alt="image-20220422002516259" style="zoom:80%;" />
 
 spring配置文件,命名自定义,后面在web.xml中写对应就行
 
@@ -180,37 +180,37 @@ springMVC配置文件
 1. RequestMappingInfo类，对RequestMapping注解封装。里面包含http请求头的相关信息。如uri、method、params、header等参数。一个对象对应一个RequestMapping注解
 2. HandlerMethod类，是对Controller的处理请求方法的封装。里面包含了该方法所属的bean对象、该方法对应的method对象、该方法的参数等。
 
-![image-20220421174514491](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421174514491.png)
+![image-20220421174514491](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421174514491.png)
 
 
 
 SpringMVC初始化的时候,对每个容器中的Bean的构造方法和属性设置之后,将会调用` InitializingBean`接口的`afterPropertiesSet`方法
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421174800350.png" alt="image-20220421174800350" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421174800350.png" alt="image-20220421174800350" style="zoom:67%;" />
 
 其中实现类 RequestMappingHandlerMapping 用来处理具有 `@Controller` 注解类中的方法级别的 `@RequestMapping`
 
-![image-20220421175523028](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421175523028.png)
+![image-20220421175523028](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421175523028.png)
 
 它的`afterPropertiesSet`先是对静态内部配置类进行了初始化,然后调用了其抽象父类的`afterPropertiesSet`方法
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421180801171.png" alt="image-20220421180801171" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421180801171.png" alt="image-20220421180801171" style="zoom:80%;" />
 
 其抽象父类的对应方法中又调用了`initHandlerMethods`方法
 
-![image-20220421180923594](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421180923594.png)
+![image-20220421180923594](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421180923594.png)
 
 这个方法调用了 initHandlerMethods 方法，首先获取了 Spring 中注册的 Bean，然后循环遍历，调用 `processCandidateBean` 方法处理 Bean。
 
-![image-20220421181210684](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421181210684.png)
+![image-20220421181210684](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421181210684.png)
 
 processCandidateBean中获取bean的类型并且符合isHandler要求就进行方法检测`detectHandlerMethods()`
 
-![image-20220421181317837](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421181317837.png)
+![image-20220421181317837](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421181317837.png)
 
 isHandler调用的是其方法实现类`RequestMappingHandlerMapping`中的isHandler,它判断了该bean的定义是否带有`@Controller`或`@RequestMapping`注解
 
-![image-20220421182037996](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421182037996.png)
+![image-20220421182037996](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421182037996.png)
 
 这关过去之后,就开始查找handler methods并注册,
 
@@ -218,15 +218,15 @@ isHandler调用的是其方法实现类`RequestMappingHandlerMapping`中的isHan
 
 有一说一,这段代码还真不好理解
 
-![image-20220421183153513](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421183153513.png)
+![image-20220421183153513](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421183153513.png)
 
 这部分有两个关键功能，一个是 `getMappingForMethod` 方法根据 handler method 创建`RequestMappingInfo` 对象，一个是 `registerHandlerMethod` 方法将 handler method 与创建 `RequestMappingInfo `进行相关映射。
 
-![image-20220421184453462](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421184453462.png)
+![image-20220421184453462](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421184453462.png)
 
 注册完成之后的信息都存在这样一个类中
 
-![image-20220421184720102](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421184720102.png)
+![image-20220421184720102](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421184720102.png)
 
 [详细请求调用流程](https://www.cnblogs.com/w-y-c-m/p/8416630.html)
 
@@ -238,7 +238,7 @@ lookupPath就是请求的相对地址,比如/user/login
 
 最后,获取最佳匹配的 RequestMappingInfo 对应的 HandlerMethod
 
-![image-20220421185007532](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220421185007532.png)
+![image-20220421185007532](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421185007532.png)
 
 大概原理跟着顺了一遍
 
@@ -279,9 +279,9 @@ org.springframework.web.context.WebApplicationContext context =(org.springframew
 
 下面两图分别是方法一和方法四获取到的context的区别,具体原因我猜测是因为在法一这个命名空间下没有RMSM这个bean的定义
 
-![image-20220422141432909](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422141432909.png)
+![image-20220422141432909](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422141432909.png)
 
-![image-20220422141533441](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422141533441.png)
+![image-20220422141533441](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422141533441.png)
 
 ##### 方法二 
 
@@ -301,15 +301,15 @@ org.springframework.web.context.WebApplicationContext context =(org.springframew
 
 在不同的类中都可以拿到同一个对象实例，但不同的线程取到的实例不同我们将这种数据称之为**线程本地变量**，这种操作叫做**线程绑定**。(类似于针对线程将对象进行个性化定制)
 
-![image-20220422201339819](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422201339819.png)
+![image-20220422201339819](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422201339819.png)
 
 使用`RequestContextHolder#getRequestAttributes()`方法返回一个reqeust的Attributes
 
-![image-20220422201815223](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422201815223.png)
+![image-20220422201815223](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422201815223.png)
 
 从它的Attributes中获得对应的`WebApplicationContext`,并且命名空间也正常,可以使用
 
-![image-20220422202640251](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422202640251.png)
+![image-20220422202640251](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422202640251.png)
 
 
 
@@ -321,7 +321,7 @@ org.springframework.web.context.WebApplicationContext context =(org.springframew
 
 `LiveBeansView`这个类中有一个applicationContext集合
 
-![image-20220422203055508](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422203055508.png)
+![image-20220422203055508](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422203055508.png)
 
 直接通过反射获取即可,唯一说的一点就是static变量反射get的时候可以传null进去,原因呢就是static是所有对象共享的变量,大概这样理解吧
 
@@ -333,7 +333,7 @@ java.lang.reflect.Field filed = Class.forName("org.springframework.context.suppo
 
 > 对这个类的理解
 
-![image-20220422203515764](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422203515764.png)
+![image-20220422203515764](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422203515764.png)
 
 看了这个类源码中的注释,大概意思呢就是
 
@@ -359,7 +359,7 @@ RequestMappingHandlerMapping requestMappingHandlerMapping = context.getBean(Requ
 
 获取到`RequestMappingHandlerMapping`对象就可以开始构造`RequestMappingInfo`了,将写好的恶意内部类和恶意方法同构造好的`RequestMappingInfo`一起使用`requestMappingHandlerMapping#registerMapping`注册到`requestMappingHandlerMapping`中
 
-![image-20220422112630154](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422112630154.png)
+![image-20220422112630154](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422112630154.png)
 
 代码
 
@@ -434,7 +434,7 @@ public class evilController {
 
 `AbstractHandlerMapping#adaptedInterceptors`中存储了HandlerInterceptor
 
-![image-20220422121240656](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422121240656.png)
+![image-20220422121240656](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422121240656.png)
 
 所以流程就很清晰了,首先获取到`AbstractHandlerMapping`,然后通过反射获取到`adaptedInterceptors`列表,往里面添加写好的恶意`interceptor`即可
 
@@ -451,17 +451,17 @@ WebApplicationContext context = (WebApplicationContext) RequestContextHolder.cur
 
 > 在期间有个坑
 
-![image-20220422123659126](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422123659126.png)
+![image-20220422123659126](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422123659126.png)
 
 就是看似我获取到的是向上转型得到的AbstractHandlerMapping对象,但是我这里使用了getClass是错误的,
 
 当前AbstractHandlerMapping对应的正在运行中的对象是RequestMappingHandlerMapping对象
 
-![image-20220422123824924](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422123824924.png)
+![image-20220422123824924](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422123824924.png)
 
 一般呢子类是可以获取到父类的变量的,但是`adaptedInterceptors`是private修饰的,不能被子类继承,也就是说,子类中根本就没有这个字段,所以在这里需要通过`AbstractHandlerMapping.class`来获取`field`
 
-![image-20220422124507783](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220422124507783.png)
+![image-20220422124507783](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422124507783.png)
 
 ```java
 @RestController

@@ -62,15 +62,15 @@ public class helloServlet extends HttpServlet {
 
 目录结构
 
-![image-20220113162720716](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113162720716.png)
+![image-20220113162720716](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220113162720716.png)
 
 ##### 编写Servlet映射
 
 写的是java程序,但是要通过浏览器访问,而浏览器需要连接web服务器,所以我们需要在web服务中注册我们写的servlet,还需要给它一个浏览器能够访问的路径
 
-![image-20220113162502747](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113162502747.png)
+![image-20220113162502747](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220113162502747.png)
 
-![image-20220113162617543](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113162617543.png)
+![image-20220113162617543](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220113162617543.png)
 
 请求/hello后,会在web.xml中找/hello对应的servlet-name  hello,然后再向上找hello对应的servlet-class
 
@@ -78,7 +78,7 @@ public class helloServlet extends HttpServlet {
 
 本质上就是requset调用servlet中的service抽象类中我们自己实现的方法,再返回给servlet
 
-![image-20220113163642745](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113163642745.png)
+![image-20220113163642745](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220113163642745.png)
 
 ##### Mapping问题
 
@@ -127,13 +127,13 @@ web容器在启动的时候,它会为每个web程序都创建一个对应的Serv
 
 有一说一,java万物皆对象的思想确实牛逼,继承了直接就可以用父类方法,不同子类还能互动
 
-![image-20220113173732922](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113173732922.png)
+![image-20220113173732922](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220113173732922.png)
 
-![image-20220113173739121](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113173739121.png)
+![image-20220113173739121](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220113173739121.png)
 
-![image-20220113173749274](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113173749274.png)
+![image-20220113173749274](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220113173749274.png)
 
-![image-20220113173756430](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113173756430.png)
+![image-20220113173756430](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220113173756430.png)
 
 注意点:因为setAttribute写在了helloServlet中的doGet里面,所以要先请求一下/hello,再去请求/getname
 
@@ -182,7 +182,7 @@ public class dispatcher extends HttpServlet {
 
 
 
-![image-20220113222128264](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113222128264.png)
+![image-20220113222128264](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220113222128264.png)
 
 ##### 读取资源(配置)文件
 
@@ -257,7 +257,7 @@ int SC_CONTINUE = 100;
 
 getWriter(),getOutputStream()
 
-![image-20220113224928187](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220113224928187.png)
+![image-20220113224928187](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220113224928187.png)
 
 ##### 2.下载文件
 
@@ -373,7 +373,7 @@ JAVA Server Pages
 
 JSP本质上就是Servlet
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220114211237653.png" alt="image-20220114211237653"  />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220114211237653.png" alt="image-20220114211237653"  />
 
 ##### jsp与对应jsp.java转换关系
 
@@ -468,7 +468,7 @@ private int globalVar = 0;
 </html>
 ```
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220115211903441.png" alt="image-20220115211903441" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220115211903441.png" alt="image-20220115211903441" style="zoom:80%;" />
 
 ### JSP指令
 
@@ -476,7 +476,7 @@ private int globalVar = 0;
 
 ##### 方法1
 
-![image-20220115215532167](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220115215532167.png)
+![image-20220115215532167](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220115215532167.png)
 
 ```jsp
 <%@page errorPage="error/500.jsp" %>
@@ -486,7 +486,7 @@ private int globalVar = 0;
 
 修改web.xml
 
-![image-20220115215913478](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220115215913478.png)
+![image-20220115215913478](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220115215913478.png)
 
 ##### <%@include file=""%>
 
@@ -552,7 +552,7 @@ application:客户端向服务器发送请求,产生的数据,一个用户用完
 
 比如获取表单中的数据${param.参数名}
 
-![image-20220116002754237](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220116002754237.png)
+![image-20220116002754237](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220116002754237.png)
 
 - ~~调用java方法~~
 
@@ -603,7 +603,7 @@ application:客户端向服务器发送请求,产生的数据,一个用户用完
 </c:forEach>
 ```
 
-![image-20220116130300211](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220116130300211.png)
+![image-20220116130300211](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220116130300211.png)
 
 在使用jstl的过程中出现了诸多问题,对于notFoundclass这一类的问题的同意解决办法就是手动导入jstl1.2和standard1.1.2包到WEB-INF目录下的lib目录和tomcat的lib目录下,切记,不能2.0的包和1.2的包混着用
 
@@ -631,7 +631,7 @@ javaBean有特定的写法
 
 Model  View  Controller 模型,视图,控制器
 
-![image-20220116213212850](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220116213212850.png)
+![image-20220116213212850](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220116213212850.png)
 
 Model
 
@@ -719,15 +719,15 @@ public class CharacterEncodingFilter implements Filter {
 
 ```
 
-![image-20220116223839656](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220116223839656.png)
+![image-20220116223839656](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220116223839656.png)
 
 没过滤之前乱码
 
-![image-20220116223824121](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220116223824121.png)
+![image-20220116223824121](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220116223824121.png)
 
 过滤后
 
-![image-20220116223932653](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220116223932653.png)
+![image-20220116223932653](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220116223932653.png)
 
 ### 监听器
 

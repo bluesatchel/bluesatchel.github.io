@@ -19,17 +19,17 @@ description: 写第一个vue项目时遇到的一些问题和解决方法
 
 在该组件中的`<el-main>`组件里嵌套`<router-view></router-view>`标签用来作为整个单页面应用（spa）的显示窗口
 
-![image-20220718204211612](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220718204211612.png)
+![image-20220718204211612](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220718204211612.png)
 
 同时头部和footer都自定义组件并引入从而实现统一性,需要注意的是引入组件后标签需要采用小写和-的方式来替代驼峰命名
 
-![image-20220718204332102](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220718204332102.png)
+![image-20220718204332102](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220718204332102.png)
 
 比如原来是`CommonHeader`现在就需要写成`<common-header></common-header>`
 
 #### 默认页面
 
-![image-20220718204613496](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220718204613496.png)
+![image-20220718204613496](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220718204613496.png)
 
 由于本项目是单页面应用,只需要通过路由跳转让主页面的`<router-view></router-view>`替换内容即可,但是由于`/`需要引入`Main.vue`这个总的布局模板,而`<router-view>`就写在`Main.vue`中,所以不能直接在`Main.vue`中写主页面的内容,这时候就需要给`/`这个路由添加一个重定向属性'redirect'让其重定向到`/`的子路由`/index`
 
@@ -94,7 +94,7 @@ module.exports = {
 }
 ```
 
-![image-20220719185901835](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220719185901835.png)
+![image-20220719185901835](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220719185901835.png)
 
 axios配置传统的post键值对传值方式
 
@@ -111,7 +111,7 @@ Vue.prototype.$qs = qs
 
 接下来就可以使用`this.$qs.stringify({})`将值包裹再传递给data,这样发送的就不再是json数据了
 
-![image-20220719190156526](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220719190156526.png)
+![image-20220719190156526](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220719190156526.png)
 
 ### 在vue中使用md5等哈希函数
 

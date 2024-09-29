@@ -86,9 +86,9 @@ Python设计初期,为了规避并发问题引入了GIL,现在想去除却去不
 
 ##### 如何规避GIL限制
 
-![image-20220126221005962](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220126221005962.png)
+![image-20220126221005962](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220126221005962.png)
 
-![image-20220126221037204](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220126221037204.png)
+![image-20220126221037204](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220126221037204.png)
 
 ## python多线程实操
 

@@ -104,7 +104,7 @@ codeql database create D:\TOOLS\codeql\database\commons-collection3.2 --language
 
 接着在最下面的plugins中添加这两个
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220512154819016.png" alt="image-20220512154819016" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220512154819016.png" alt="image-20220512154819016" style="zoom:80%;" />
 
 ```xml
 <plugin>

@@ -9,7 +9,7 @@ description: ''
 keywords:
 author: blueSatchel
 language: zh-CN
-timezone: ''
+timezone: 'Asia/Shanghai'
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
@@ -111,3 +111,20 @@ deploy:
   type: git
   repository: git@github.com:bluesatchel/bluesatchel.github.io.git
   branch: master 
+#自动生成摘要
+excerpt:
+  depth:   4
+  excerpt_excludes: []
+  more_excludes: []
+  hideWholePostExcerpts: true
+
+Plugins:
+- hexo-generator-baidu-sitemap
+- hexo-generator-sitemap
+
+baidusitemap:
+    path: baidusitemap.xml
+sitemap:
+    path: sitemap.xml
+
+

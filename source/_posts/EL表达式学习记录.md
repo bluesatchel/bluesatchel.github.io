@@ -45,7 +45,7 @@ el表达式一般操作的都是域对象,操作不了局部变量
 </html>
 ```
 
-![image-20220922183714222](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922183714222.png)
+![image-20220922183714222](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922183714222.png)
 
 不在作用域中,显示为空,而不是null
 
@@ -81,7 +81,7 @@ el表达式一般操作的都是域对象,操作不了局部变量
 </html>
 ```
 
-![image-20220922184459693](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922184459693.png)
+![image-20220922184459693](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922184459693.png)
 
 
 
@@ -112,7 +112,7 @@ el表达式一般操作的都是域对象,操作不了局部变量
 </html>
 ```
 
-![image-20220922184636850](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922184636850.png)
+![image-20220922184636850](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922184636850.png)
 
 #### 获取javaBean对象
 
@@ -140,22 +140,22 @@ el表达式一般操作的都是域对象,操作不了局部变量
 </html>
 ```
 
-![image-20220922185046439](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922185046439.png)
+![image-20220922185046439](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922185046439.png)
 
 ## EL表达式运算
 
 #### 判断是否为空
 
-![image-20220922185231903](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922185231903.png)
+![image-20220922185231903](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922185231903.png)
 
 #### 判断是否相等
 
-![image-20220922185319138](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922185319138.png)
+![image-20220922185319138](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922185319138.png)
 
 #### 算数运算
 
-![image-20220922185339887](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922185339887.png)
+![image-20220922185339887](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922185339887.png)
 
 #### 大小比较
 
-![image-20220922185400875](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922185400875.png)
+![image-20220922185400875](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922185400875.png)

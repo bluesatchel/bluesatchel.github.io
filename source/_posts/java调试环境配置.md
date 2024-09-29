@@ -15,12 +15,12 @@ java代码调试环境配置<!--more-->
 
 解压jdk中的src压缩包
 
-![image-20220311225711001](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220311225711001.png)
+![image-20220311225711001](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220311225711001.png)
 
 将`openjdk`中`src\share\classes`目录下的sun文件夹复制到`jdk`src目录中
 
-![image-20220311225744162](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220311225744162.png)
+![image-20220311225744162](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220311225744162.png)
 
 接着在idea中将`src`目录添加到
 
-![image-20220311230642856](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220311230642856.png)
+![image-20220311230642856](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220311230642856.png)

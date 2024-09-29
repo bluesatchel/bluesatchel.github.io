@@ -30,7 +30,7 @@ java agent使用方式
 
 JVM会优先加载带`Instrumentation`签名的方法,加载成功则忽略不带签名的,如果没有带签名的,则加载不带签名的,这个逻辑在`InstrumentationImpl`中
 
-![image-20220425142219666](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220425142219666.png)
+![image-20220425142219666](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220425142219666.png)
 
 Instrumentation接口定义
 
@@ -113,7 +113,7 @@ public interface Instrumentation {
 
 项目结构如图
 
-![image-20220426090315058](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220426090315058.png)
+![image-20220426090315058](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220426090315058.png)
 
 没有建立包的原因是为了后面命令行执行的时候方便操作
 
@@ -154,15 +154,15 @@ Premain-Class: AgentTest
 
 将项目以Artifacts模式打包为jar包,(其实主要打包的是premain的类)
 
-![image-20220426090634611](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220426090634611.png)
+![image-20220426090634611](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220426090634611.png)
 
-![image-20220426092321902](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220426092321902.png)
+![image-20220426092321902](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220426092321902.png)
 
-![image-20220426092334442](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220426092334442.png)
+![image-20220426092334442](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220426092334442.png)
 
 打包为jar包在out目录下
 
-![image-20220426092359077](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220426092359077.png)
+![image-20220426092359077](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220426092359077.png)
 
 这个时候不写包名的作用就体现出来了,将刚才打包的jar和javaagent作为参数去运行MainTest
 
@@ -172,7 +172,7 @@ java -javaagent:E:\java\rubbish\test1\out\artifacts\test1_jar\test1.jar MainTest
 
 虽然成功执行了,但是乱码了,很烦
 
-![image-20220426093144597](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220426093144597.png)
+![image-20220426093144597](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220426093144597.png)
 
 premain的这种方式需要在启动时用`-javaagent`参数绑定,存在一定的局限性,在实际环境中,目标的JVM通常是已经启动的状态,无法预先加载premain,相比之下,agentmain更加实用
 
@@ -216,7 +216,7 @@ premain的这种方式需要在启动时用`-javaagent`参数绑定,存在一定
 
 其中list()返回的是一个`VirtualMachineDescriptor`列表,`VirtualMachineDescriptor`类其中的成员有下面几个,id应该是jvm对应的pid
 
-![image-20220426115600828](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220426115600828.png)
+![image-20220426115600828](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220426115600828.png)
 
 所以在使用attach方法前先使用list获取到id
 
@@ -224,7 +224,7 @@ premain的这种方式需要在启动时用`-javaagent`参数绑定,存在一定
 
 项目结构一样
 
-![image-20220426122014335](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220426122014335.png)
+![image-20220426122014335](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220426122014335.png)
 
 首先把agent打包成jar
 
@@ -277,7 +277,7 @@ public class AgentMain {
 
 这里有个问题,就是jvm的id需要小猜一下
 
-![image-20220426164713688](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220426164713688.png)
+![image-20220426164713688](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220426164713688.png)
 
 ### instrumentation
 
@@ -318,7 +318,7 @@ public class AgentMainTest {
 
 ```
 
-![image-20220426165933108](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220426165933108.png)
+![image-20220426165933108](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220426165933108.png)
 
 ##### addTransformer()和retransformClasses()
 
@@ -561,7 +561,7 @@ public class HelloWorld {
 
 ```
 
-![image-20220426220901529](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220426220901529.png)
+![image-20220426220901529](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220426220901529.png)
 
 
 
@@ -579,7 +579,7 @@ public class HelloWorld {
 
 使用idea的evaluate expression来运行得到报错信息,是类未找到,也就是说,没有找到对应的.calss文件,解决了好久,尝试了自己写类加载器,但是还是失败了
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220427143235362.png" alt="image-20220427143235362" style="zoom: 67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220427143235362.png" alt="image-20220427143235362" style="zoom: 67%;" />
 
 
 
@@ -587,7 +587,7 @@ public class HelloWorld {
 
 > 打包之前,需要先删除已有的artifacts,否则会把这个javassist继续打包成jar,只需要按照最上面的设置重新整一个artifacts就行了
 
-![image-20220429105814605](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220429105814605.png)
+![image-20220429105814605](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220429105814605.png)
 
 这样完美解决了找不到类的问题
 
@@ -731,6 +731,6 @@ public class TransformerDemo implements ClassFileTransformer {
 
 插入代码这里通过txt文件读取的代码总是因为格式原因报错,直接写的打开计算器的代码可以正常插入并执行
 
-![image-20220429110139169](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220429110139169.png)
+![image-20220429110139169](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220429110139169.png)
 
 对于txt文件内代码格式问题还需要再稍微研究一下

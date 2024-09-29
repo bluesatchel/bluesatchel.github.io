@@ -13,4 +13,4 @@ win+r输入regedit打开注册表
 
 找到对应位置添加aotorun值为chcp 65001 这样每次打开cmd都会自动运行chcp 65001更改为utf-8
 
-![Image](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/Image1111.png)
+![Image](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/Image1111.png)

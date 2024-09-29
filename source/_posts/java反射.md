@@ -46,7 +46,7 @@ reflection是java被视为动态语言的关键,反射机制允许程序在执�
 - java.lang.reflect.Annotation 类表示注解
 - ...............
 
-![image-20220228144001904](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220228144001904.png)
+![image-20220228144001904](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220228144001904.png)
 
 #### Class类
 
@@ -62,7 +62,7 @@ reflection是java被视为动态语言的关键,反射机制允许程序在执�
 
 #### 获取Class类的方法
 
-![image-20220111164508670](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220111164508670.png)
+![image-20220111164508670](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220111164508670.png)
 
 此时hashCode相等,说明三种方法获得的都是同一个class
 
@@ -121,7 +121,7 @@ public class test2 {
 
 <label style="background:yellow">只要元素类型与维度一样,就是同一个Class</label>
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220111170812325.png" alt="image-20220111170812325" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220111170812325.png" alt="image-20220111170812325" style="zoom:80%;" />
 
 #### 类加载内存分析
 

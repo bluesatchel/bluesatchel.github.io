@@ -7,7 +7,7 @@ tags:
 
 ##### 1.首先去官网下载jdk11
 
-![image-20220901181241699](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220901181241699.png)
+![image-20220901181241699](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220901181241699.png)
 
 上传到linux服务器
 

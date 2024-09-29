@@ -14,7 +14,7 @@ categories: php
 
 PHP带有很多内置URL风格的封装协议,可用于fopen,copy,file_exists和filesize等文件系统函数.除了这些内置封装协议,还能通过stream_wrapper_register注册自定义的封装协议,这些协议都被称为伪协议<!--more-->
 
-![image-20220121184629529](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220121184629529.png)
+![image-20220121184629529](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220121184629529.png)
 
 常见的php伪协议如下:
 
@@ -38,7 +38,7 @@ PHP带有很多内置URL风格的封装协议,可用于fopen,copy,file_exists和
 
 ##### 参数列表
 
-![image-20220121183621592](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220121183621592.png)
+![image-20220121183621592](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220121183621592.png)
 
 示例代码:
 
@@ -82,7 +82,7 @@ include($filename);
 ?>
 ```
 
-![image-20220121184145894](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220121184145894.png)
+![image-20220121184145894](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220121184145894.png)
 
 访问shell.php即可查看是否写入成功
 
@@ -101,7 +101,7 @@ include($filename);
 ?>
 ```
 
-![image-20220121184329051](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220121184329051.png)
+![image-20220121184329051](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220121184329051.png)
 
 ### 2.file://伪协议
 
@@ -141,7 +141,7 @@ data://伪协议示例代码如下
 
 `?filename=data://text/plain;base64,PD9waHAgcGhwaW5mbygpOz8%2b`
 
-注意点:要对`+`进行手动url编码为%2b![img](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/Image(17).png)
+注意点:要对`+`进行手动url编码为%2b![img](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/Image(17).png)
 
 
 
@@ -172,7 +172,7 @@ include($filename);
 
 利用步骤:通常phar://伪协议用在有上传功能的网站中,写一个木马文件shell.php,然后用zip://伪协议压缩为shell.zip,
 
-![image-20220121183215673](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220121183215673.png)
+![image-20220121183215673](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220121183215673.png)
 
 phar://伪协议把shell.png当做zip文件解压并访问其中的shell.php文件,执行了shell.php文件中的代码
 
@@ -195,7 +195,7 @@ include($filename);
 ?>
 ```
 
-![image-20220121184409047](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220121184409047.png)
+![image-20220121184409047](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220121184409047.png)
 
 ### 6.expect://伪协议
 

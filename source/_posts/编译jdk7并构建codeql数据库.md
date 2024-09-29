@@ -42,7 +42,7 @@ yum install libstdc++-static
 
 >链接https://www.oracle.com/java/technologies/javase-java-archive-javase6-downloads.html
 
-![image-20220516125517310](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220516125517310.png)
+![image-20220516125517310](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220516125517310.png)
 
 下载下来通过ssh工具传到usr/local目录下
 
@@ -92,7 +92,7 @@ export PATH=$JAVA_HOME/bin:$ANT_HOME/bin:$CLASSPATH:$JRE_HOME/bin:$PATH
 
 我们需要编译的是jdk7u21,在生成好的jdk7u仓库里面通过标签找到对应版本下载即可
 
-![image-20220516132045787](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220516132045787.png)
+![image-20220516132045787](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220516132045787.png)
 
 通过ssh上传到centos的任意位置
 
@@ -170,7 +170,7 @@ make sanity
 
 就在当前终端中输入`make`进行编译
 
-![image-20220516124540997](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220516124540997.png)
+![image-20220516124540997](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220516124540997.png)
 
 最终在经过大概15分钟的等待之后,出现这段字符就表示编译成功了,我这里两分钟是因为已经编译过一次了
 

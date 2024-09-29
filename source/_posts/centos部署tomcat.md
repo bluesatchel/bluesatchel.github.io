@@ -12,7 +12,7 @@ categories: linux
 
 `getconf LONG_BIT`
 
-![image-20220119161624050](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119161624050.png)
+![image-20220119161624050](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220119161624050.png)
 
 #### 安装JDK
 
@@ -55,7 +55,7 @@ export PATH=$PATH:$JAVA_HOME/bin
 
 出现如下显示,表示安装成功
 
-![image-20220119173528732](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119173528732.png)
+![image-20220119173528732](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220119173528732.png)
 
 #### 安装tomcat
 
@@ -85,7 +85,7 @@ export PATH=$PATH:$JAVA_HOME/bin
 
 修改端口
 
-![image-20220119175609053](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119175609053.png)
+![image-20220119175609053](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220119175609053.png)
 
 进入tomcat/bin目录下启动tomcat服务
 
@@ -97,7 +97,7 @@ export PATH=$PATH:$JAVA_HOME/bin
 
 `netstat -tlun`,3306也是开放的
 
-![image-20220119180956606](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119180956606.png)
+![image-20220119180956606](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220119180956606.png)
 
 查看防火墙端口开放情况
 
@@ -105,11 +105,11 @@ export PATH=$PATH:$JAVA_HOME/bin
 
 也是开放的
 
-![image-20220119181250440](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119181250440.png)
+![image-20220119181250440](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220119181250440.png)
 
 使用`lsof -i:3306`,查看3306占用情况,才发现自己忘记了Mysql在3306运行,把端口改成3333就行了,确实蠢驴一个呜呜呜
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/tomcat_emoji.jpg" alt="tomcat_emoji" style="zoom: 33%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/tomcat_emoji.jpg" alt="tomcat_emoji" style="zoom: 33%;" />
 
 ##### 访问管理页面managerApp
 
@@ -132,6 +132,6 @@ export PATH=$PATH:$JAVA_HOME/bin
 
 这里为了方便,把value注释掉
 
-![image-20220119184223964](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220119184223964.png)
+![image-20220119184223964](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220119184223964.png)
 
 现在访问管理页面,按照上面role的账号和密码输入就能访问了

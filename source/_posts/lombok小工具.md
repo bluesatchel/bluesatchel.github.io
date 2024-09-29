@@ -43,4 +43,4 @@ https://plugins.jetbrains.com/files/6317/100775/lombok-plugin-0.33-2020.1.zip?up
 
 按下alt+7即可看到已经生成了对应的构造器和get,set方法
 
-![image-20220201204237651](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220201204237651.png)
+![image-20220201204237651](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220201204237651.png)

@@ -70,7 +70,7 @@ java中的线程分为用户线程与守护线程
 | TIMED_WAITING    | 一般调用Thread.sleep或者Object.wait()方法进入,与WAITING有点像,但是这个状态如果超过指定的时间范围,就会自动转换为RUNNABLE |
 | TERMINATED       | 线程结束,处于终止状态                                        |
 
-![image-20220805135545694](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220805135545694.png)
+![image-20220805135545694](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220805135545694.png)
 
 ### 多线程存在的问题与风险
 
@@ -231,7 +231,7 @@ JIT编译器,处理器,存储子系统是按照一定的规则对指令内存操
 
 
 
-![image-20220805225223525](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220805225223525.png)
+![image-20220805225223525](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220805225223525.png)
 
 ## 3.线程同步
 
@@ -373,7 +373,7 @@ public class test1 {
 }
 ```
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812155935083.png" alt="image-20220812155935083" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220812155935083.png" alt="image-20220812155935083" style="zoom:67%;" />
 
 ```java
 ///改为synchronized即可保证原子性
@@ -399,7 +399,7 @@ public class test1 {
 }
 ```
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812160208655.png" alt="image-20220812160208655" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220812160208655.png" alt="image-20220812160208655" style="zoom:67%;" />
 
 ### CAS(Compare And Swap)原理
 
@@ -415,7 +415,7 @@ i++自增包括三个子操作
 
 CAS原理:在把数据更新到主内存时,再次读取主内存变量的值,如果现在变量的值与期望的值(操作起始时读取的值)一样就更新
 
-![image-20220812164219675](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812164219675.png)
+![image-20220812164219675](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220812164219675.png)
 
 使用代码模拟CAS算法
 
@@ -570,7 +570,7 @@ public class test {
 }
 ```
 
-![image-20220812224758071](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812224758071.png)
+![image-20220812224758071](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220812224758071.png)
 
 ##### 使用AtomicStampReference中的版本号来解决ABA问题
 
@@ -617,7 +617,7 @@ public class test {
 }
 ```
 
-![image-20220812224743210](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220812224743210.png)
+![image-20220812224743210](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220812224743210.png)
 
 ## 4.线程间的通信
 
@@ -708,7 +708,7 @@ public class test1 {
     }
 ```
 
-![image-20220815175756390](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220815175756390.png)
+![image-20220815175756390](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220815175756390.png)
 
 ##### notify不会立即释放锁对象
 
@@ -756,7 +756,7 @@ public class test2 {
 }
 ```
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220816003428991.png" alt="image-20220816003428991" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220816003428991.png" alt="image-20220816003428991" style="zoom:80%;" />
 
 ##### interrupt()方法会中断wait()
 
@@ -789,7 +789,7 @@ public class test3 {
 }
 ```
 
-![image-20220816140527344](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220816140527344.png)
+![image-20220816140527344](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220816140527344.png)
 
 ##### notify()与notifyAll()
 
@@ -884,11 +884,11 @@ public class test4 {
 }
 ```
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220817201024794.png" alt="image-20220817201024794" style="zoom: 80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220817201024794.png" alt="image-20220817201024794" style="zoom: 80%;" />
 
 当等待的线程被唤醒后,需要再判断一次集合中是否有数据可取,即需要把subtract()方法中的if判断改为while,改完后上述代码执行结果发生如下转变
 
-![image-20220817201159396](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220817201159396.png)
+![image-20220817201159396](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220817201159396.png)
 
 #### 生产者消费者设计模式
 
@@ -994,7 +994,7 @@ public static void main(String[] args) {
     }
 ```
 
-![image-20220818165125092](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220818165125092.png)
+![image-20220818165125092](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220818165125092.png)
 
 但是上述代码可能会出现线程假死的状态,所有线程一直处于等待状态
 
@@ -1191,7 +1191,7 @@ public class test1 {
 
 一个简单的例子
 
-![image-20220818221028397](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220818221028397.png)
+![image-20220818221028397](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220818221028397.png)
 
 #### ReentrantLock
 
@@ -1249,7 +1249,7 @@ public class test2 {
 }
 ```
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220818222217922.png" alt="image-20220818222217922" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220818222217922.png" alt="image-20220818222217922" style="zoom:67%;" />
 
 只要锁对象是同一个,就可以实现同步
 
@@ -1288,7 +1288,7 @@ public class test3 extends Thread {
 }
 ```
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220818224401783.png" alt="image-20220818224401783" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220818224401783.png" alt="image-20220818224401783" style="zoom:67%;" />
 
 ##### lockInterruptibly()
 
@@ -1340,7 +1340,7 @@ public class test4 {
 }
 ```
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220819011214242.png" alt="image-20220819011214242" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220819011214242.png" alt="image-20220819011214242" style="zoom:67%;" />
 
 ##### lockInterruptibly()可以解决死锁问题
 
@@ -1385,7 +1385,7 @@ public class test5 {
 }
 ```
 
-![image-20220819221602805](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220819221602805.png)
+![image-20220819221602805](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220819221602805.png)
 
 上述的执行结果中,Thread0先获得锁执行耗时4秒的任务,Thread1尝试获得锁,但是超过3秒之后Thread1就不在等待,直接放弃获得锁
 
@@ -1481,7 +1481,7 @@ public class test6 {
 }
 ```
 
-![image-20220820000504397](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220820000504397.png)
+![image-20220820000504397](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220820000504397.png)
 
 实际上等了蛮长时间的,但是使用trylock()确实可以避免死锁
 
@@ -1617,7 +1617,7 @@ public class test9 {
 
 在这个例子中个让线程获得锁对象的顺序一开始是什么样,之后就是不断的轮回
 
-![image-20220821012121602](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220821012121602.png)
+![image-20220821012121602](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220821012121602.png)
 
 >公平锁看起来很公平,但是要实现公平锁必须要求系统维护一个有序队列,公平锁的实现成本较高,性能也较低,因此默认情况下锁是非公平的,不是特别的需求,一般不适用公平锁
 
@@ -1722,7 +1722,7 @@ public class test1 {
 }
 ```
 
-![image-20220821143804836](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220821143804836.png)
+![image-20220821143804836](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220821143804836.png)
 
 ##### 写写互斥
 
@@ -1755,7 +1755,7 @@ public class test2 {
 }
 ```
 
-![image-20220821144443967](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220821144443967.png)
+![image-20220821144443967](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220821144443967.png)
 
 等待上一个线程释放写锁之后下一个线程才能得到写锁
 
@@ -1802,7 +1802,7 @@ public class test2 {
 
 
 
-![image-20220821144933171](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220821144933171.png)
+![image-20220821144933171](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220821144933171.png)
 
 等待上一个写线程执行完毕释放写锁之后才能获得读锁
 
@@ -1853,7 +1853,7 @@ public class test {
 }
 ```
 
-![image-20220821152550460](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220821152550460.png)
+![image-20220821152550460](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220821152550460.png)
 
 ##### 线程组的基本操作
 
@@ -1929,7 +1929,7 @@ public class test2 {
 
 例子中,main线程5秒结束,守护线程组中的非守护线程需要10秒结束,在main线程结束后,他们还是继续运行,直到三个线程都结束,守护线程组才自动销毁
 
-![image-20220821160517628](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220821160517628.png)
+![image-20220821160517628](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220821160517628.png)
 
 #### 捕获线程的执行异常
 
@@ -1962,7 +1962,7 @@ public class test1 {
 }
 ```
 
-![image-20220822151634663](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220822151634663.png)
+![image-20220822151634663](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220822151634663.png)
 
 如果设置了自己线程的UncaughtExceptionHandler就就调用自己的UncaughtExceptionHandler
 
@@ -2016,11 +2016,11 @@ public class test1 {
 
 
 
-![image-20220822154013314](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220822154013314.png)
+![image-20220822154013314](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220822154013314.png)
 
 如果.lock文件没有删除运行则报错
 
-![image-20220822154050264](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220822154050264.png)
+![image-20220822154050264](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220822154050264.png)
 
 #### 线程池
 
@@ -2032,7 +2032,7 @@ public class test1 {
 
 JDK提供了一套Executor框架,可以帮助开发人员有效的使用线程池
 
-![image-20220822160953591](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220822160953591.png)
+![image-20220822160953591](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220822160953591.png)
 
 ##### 线程池的基本使用
 
@@ -2062,7 +2062,7 @@ public class test1 {
 
 以5个为一轮,固定的5个线程执行任务
 
-![image-20220822161546596](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220822161546596.png)
+![image-20220822161546596](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220822161546596.png)
 
 ##### 线程池的关闭
 
@@ -2087,7 +2087,7 @@ shutdownNow()
 
 查看Executors工具类中`newFixedThreadPool`,`newFixedThreadPool`,`newSingleThreadExecutor`等方法,都调用了`ThreadPoolExecutor`这个构造方法
 
-![image-20220822163534233](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220822163534233.png)
+![image-20220822163534233](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220822163534233.png)
 
 各个参数含义
 
@@ -2114,7 +2114,7 @@ workQueue工作队列是指提交未执行的任务队列,它是BlockingQueue接
 
 如果队列已满则无法加入,在线程数小于`maximumPoolSize`指定的最大线程数前提下会创建新的线程来执行,如果线程数大于`maximumPoolSize`最大线程数则执行拒绝策略
 
-![image-20220822172950757](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220822172950757.png)
+![image-20220822172950757](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220822172950757.png)
 
 3.无界任务队列
 
@@ -2206,7 +2206,7 @@ public class test3 {
 }
 ```
 
-![image-20220822191225957](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220822191225957.png)
+![image-20220822191225957](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220822191225957.png)
 
 在提交完成后,只收到了15个任务,因为创建的线程池最大线程数为5,最大容量为5,同时等待队列最大容量为5,每半秒提交一个任务,所以30个总共耗时15秒,理论上来说15秒内后面15个线程都没地方可去,执行拒绝策略`DiscardPolicy`都将其抛弃
 
@@ -2268,7 +2268,7 @@ public class test4 {
 }
 ```
 
-![image-20220822232958662](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220822232958662.png)
+![image-20220822232958662](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220822232958662.png)
 
 ##### 优化线程池数量
 
@@ -2327,7 +2327,7 @@ public class test5 {
 }
 ```
 
-![image-20220823000927977](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220823000927977.png)
+![image-20220823000927977](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220823000927977.png)
 
 ##### ForkJoinPool线程池
 
@@ -2335,7 +2335,7 @@ public class test5 {
 
 系统对ForkJoinPool线程池进行了优化,提交的任务数量与线程的数量不一定是一对一关系,在多数情况下,一个物理线程实际上需要处理多个逻辑任务
 
-![image-20220823105618999](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220823105618999.png)
+![image-20220823105618999](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220823105618999.png)
 
 ###### 小例子
 
@@ -2467,7 +2467,7 @@ Java运行时空间可以分为栈区,堆区与方法区(非堆空间)
 
 ​	在java.util.Collections工具类中提供了一组synchronizedXXX(xxx)方法可以把不是线程安全的xxx集合转换为线程安全的集合,它就是采用了这种装饰器模式,这个方法返回值就是指定集合的外包装对象,这类集合又称为同步集合.
 
-![image-20220823123326082](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220823123326082.png)
+![image-20220823123326082](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220823123326082.png)
 
 ​	使用装饰器模式的一个好处就是实现关注点分离,在这种设计中,实现同一组功能的对象的两个版本:非线程安全的对象与线程安全的对象.
 

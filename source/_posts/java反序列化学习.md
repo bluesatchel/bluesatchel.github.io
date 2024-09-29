@@ -99,11 +99,11 @@ Java反序列化的很多操作,是需要开发者深入参与的,所以你会�
 
 其实`writeObject`和`readObject`方法默认都支持重写,重写之后就不会执行到try catch了
 
-![image-20220323004013073](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220323004013073.png)
+![image-20220323004013073](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220323004013073.png)
 
 它调用的`writeObjectOverride`方法这样描述
 
-![image-20220323004127574](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220323004127574.png)
+![image-20220323004127574](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220323004127574.png)
 
 该方法就是给子类重写默认writeObject方法准备的
 
@@ -149,7 +149,7 @@ public class Person implements java.io.Serializable {
 
 ```
 
-![serializeDu](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/serializeDu.png)
+![serializeDu](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/serializeDu.png)
 
 可以在objectAnnotation中看到 This is a object
 
@@ -266,7 +266,7 @@ public static byte[] hexStringToBytes(String hexString) {
 
 #### 代理模式
 
-![image-20220307121128637](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220307121128637.png)
+![image-20220307121128637](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220307121128637.png)
 
 ##### 代理模式优点
 

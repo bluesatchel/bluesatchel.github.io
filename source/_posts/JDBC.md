@@ -13,11 +13,11 @@ java database connectivity
 
 JDBC保证了多种数据库不同操作的统一,(没有什么是加一层无法解决的哈哈哈)
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117151840559.png" alt="image-20220117151840559" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220117151840559.png" alt="image-20220117151840559" style="zoom:80%;" />
 
 需要jar包的支持:用maven导包失败了,最后手动导入了mysql的jar包
 
-![image-20220117154728636](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117154728636.png)
+![image-20220117154728636](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220117154728636.png)
 
 
 
@@ -25,7 +25,7 @@ JDBC保证了多种数据库不同操作的统一,(没有什么是加一层无�
 
 ##### 简单尝试
 
-![image-20220117155711276](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117155711276.png)
+![image-20220117155711276](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220117155711276.png)
 
 ```java
 package com.blue.test;
@@ -71,7 +71,7 @@ public class testJdbc {
 
 ```
 
-![image-20220117155700032](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220117155700032.png)
+![image-20220117155700032](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220117155700032.png)
 
 ##### 预编译
 

@@ -38,7 +38,7 @@ public static HttpURLConnection getHttpURLConnection(String url,long startPos,lo
     }
 ```
 
-![image-20220901175702361](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220901175702361.png)
+![image-20220901175702361](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220901175702361.png)
 
 ### 下载信息的获取
 

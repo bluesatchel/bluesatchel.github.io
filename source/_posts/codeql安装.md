@@ -16,25 +16,25 @@ categories: codeql
 
 在其中搜索并安装CodeQl拓展
 
-![image-20220506121927675](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506121927675.png)
+![image-20220506121927675](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506121927675.png)
 
 #### 下载codeql引擎
 
 接着下载codeql引擎,选择对应版本即可
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506121845766.png" alt="image-20220506121845766" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506121845766.png" alt="image-20220506121845766" style="zoom:80%;" />
 
 点击小齿轮,Extension Settings 打开拓展设置
 
-![image-20220506121953523](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506121953523.png)
+![image-20220506121953523](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506121953523.png)
 
 把刚才下载并解压的ql引擎文件中的`codeql.exe`的路径填写上去
 
-![image-20220506122124707](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506122124707.png)
+![image-20220506122124707](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506122124707.png)
 
 同时把codeql.exe的路径配置到环境变量`path`中去,这一步是为了后面使用命令行构建数据库做准备
 
-![image-20220506122629448](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506122629448.png)
+![image-20220506122629448](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506122629448.png)
 
 #### 设置workspace
 
@@ -84,27 +84,27 @@ codeql database create D:\TOOLS\codeql\database\jndi --language="java" --command
 
 这样就成功引入了workspace
 
-![image-20220506124421164](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124421164.png)
+![image-20220506124421164](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506124421164.png)
 
-![image-20220506124308766](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124308766.png)
+![image-20220506124308766](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506124308766.png)
 
 接着在vsCode的侧边栏
 
-![image-20220506124042825](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124042825.png)
+![image-20220506124042825](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506124042825.png)
 
 点击这个QL,进去之后,就可以添加数据库了
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124111095.png" alt="image-20220506124111095" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506124111095.png" alt="image-20220506124111095" style="zoom:67%;" />
 
 通过目录引入刚才新建好的数据库
 
-![image-20220506124535532](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124535532.png)
+![image-20220506124535532](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506124535532.png)
 
 接着在custom这个目录下新建test.ql文件,编写ql语句,进行第一次查询
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124610207.png" alt="image-20220506124610207" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506124610207.png" alt="image-20220506124610207" style="zoom:80%;" />
 
-![image-20220506124647783](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124647783.png)
+![image-20220506124647783](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506124647783.png)
 
 ```sql
 from int x, int y
@@ -115,8 +115,8 @@ as res order by  res desc
 
 右键在当前数据库Run query
 
-![image-20220506124801886](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124801886.png)
+![image-20220506124801886](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506124801886.png)
 
-![image-20220506124822269](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220506124822269.png)
+![image-20220506124822269](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220506124822269.png)
 
 成功执行了

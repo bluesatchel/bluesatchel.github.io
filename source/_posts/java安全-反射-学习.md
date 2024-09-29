@@ -89,7 +89,7 @@ public class TrainPrint {
     }
 ```
 
-![image-20220301221808194](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220301221808194.png)
+![image-20220301221808194](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220301221808194.png)
 
 
 
@@ -97,7 +97,7 @@ public class TrainPrint {
 
 
 
-![image-20220307130344019](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220307130344019.png)
+![image-20220307130344019](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220307130344019.png)
 
 剩下两个"初始化方法"必须在实例化的时候才会调用
 
@@ -122,7 +122,7 @@ public class TrainPrint {
 
 运行后的顺序
 
-![image-20220301222222222](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220301222222222.png)
+![image-20220301222222222](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220301222222222.png)
 
 #### 实践
 
@@ -189,7 +189,7 @@ ava的普通类 C1 中支持编写内部类 C2 ，而在编译的时候，会生
 
 会报一个这样的错
 
-![image-20220302002903587](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220302002903587.png)
+![image-20220302002903587](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220302002903587.png)
 
 为什么会将构造方法设置为private呢
 

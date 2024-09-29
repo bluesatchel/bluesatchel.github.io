@@ -127,7 +127,7 @@ public class UserController {
 
 ### SpringMVC的执行流程
 
-![image-20220129160149808](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220129160149808.png)
+![image-20220129160149808](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220129160149808.png)
 
 1.用户发请求至前端控制器DispatcherServlet
 
@@ -276,11 +276,11 @@ public class UserController {
 
 期间出现了报错
 
-![image-20220129222455211](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220129222455211.png)
+![image-20220129222455211](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220129222455211.png)
 
 原因是需要将原来类中的属性设置为public或者提供get方法
 
-![image-20220129222727835](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220129222727835.png)
+![image-20220129222727835](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220129222727835.png)
 
 - 返回对象或者集合
 

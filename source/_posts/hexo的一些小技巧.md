@@ -13,7 +13,7 @@ typora-root-url: ..
 
 将该项设置为true
 
-![image-20211205134957202](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20211205134957202.png)
+![image-20211205134957202](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20211205134957202.png)
 
 显示文章摘要有两种方法
 

@@ -69,7 +69,7 @@ LDAP的限制中不对`javaSerializedData`验证,所以可以打本地`gadget`
 
 就会请求reference中的codebase得到class内容并使用类加载器加载,之后通过默认构造函数构造对象
 
-![image-20220922165932132](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922165932132.png)
+![image-20220922165932132](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922165932132.png)
 
 #### 什么是codebase
 
@@ -81,7 +81,7 @@ codebase是一个地址，告诉Java虚拟机我们应该从哪个地方去搜�
 
 在`VersionHelper12.loadClass`中加了一个对于trustURLCodebase的判断来控制是否允许请求codebase下载对应的class文件,其默认为false
 
-![image-20220922172036555](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922172036555.png)
+![image-20220922172036555](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922172036555.png)
 
 可以手动开启trustURLCodebase
 
@@ -97,7 +97,7 @@ codebase是一个地址，告诉Java虚拟机我们应该从哪个地方去搜�
 
 - javaFactory有两个来源:来自codebase(ldap返回的codebase地址),或者来自本地(ldap返回对应javaFactory的类地址)
 
-  ![image-20220922174055442](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922174055442.png)
+  ![image-20220922174055442](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922174055442.png)
 
   - ​	对于来自codeabse的Factory:和低版本中的逻辑一样,我们需要请求Codebase获取其class文件,然后加载该Factory类,并使用默认构造函数实例化出Factory实例
 
@@ -106,7 +106,7 @@ codebase是一个地址，告诉Java虚拟机我们应该从哪个地方去搜�
 - 得到javaFactory实例后,我们需要构建通过javaFactory实例构建出JavaClassName指定的对象
 - log4j2通过javaFactory得到对应的对象之后,会调用其toString方法将其转换为字符串,然后用该字符串替换日志中的${...}内容,并且打印出来
 
-![image-20220922180330569](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220922180330569.png)
+![image-20220922180330569](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220922180330569.png)
 
 ### 高版本如何利用ldap实现攻击
 
@@ -118,17 +118,17 @@ codebase是一个地址，告诉Java虚拟机我们应该从哪个地方去搜�
 
 参考文章中提到了tomcat携带的org.apache.naming.factory.BeanFactory类就是一个存在风险的ObjectFactory子类。通过该Factory我们可以通过默认构造函数实例化任意一个类，并调用其任意的只有一个String入参的公共方法，且其方法名可以不用是标准setter的名称，而可以是任意名称。因为我们可以通过forceString来制定某个String变量的setter方法名称。
 
-![image-20220923135856558](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923135856558.png)
+![image-20220923135856558](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923135856558.png)
 
 在红框中会强制替换setterName和对应的param名称
 
-![image-20220923140033950](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923140033950.png)
+![image-20220923140033950](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923140033950.png)
 
 之后将param和param对应的setter方法放到map  `forced`中
 
 并在接下来的代码中进行调用
 
-![image-20220923140150754](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923140150754.png)
+![image-20220923140150754](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923140150754.png)
 
 基于此能力,我们就可利用`javax.el.ELProcessor`类,因为其有默认公开的无参构造方法,还有个eval方法,只有一个String入参,其可以执行EL表达式,从而执行任意指令
 
@@ -165,11 +165,11 @@ public class EvilRMIServerNew {
 
 最后执行的el表达式长这样
 
-![image-20220923191015111](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923191015111.png)
+![image-20220923191015111](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923191015111.png)
 
 通过""的string类型获取到String的class,所有class都继承于Class类,隐含这forName这个加载方法加载类
 
-![image-20220923191700911](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220923191700911.png)
+![image-20220923191700911](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220923191700911.png)
 
 client
 

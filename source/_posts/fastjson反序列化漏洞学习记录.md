@@ -53,7 +53,7 @@ public class test {
 
 ```
 
-![image-20220606212042046](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220606212042046.png)
+![image-20220606212042046](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220606212042046.png)
 
 可以看到,序列化的时候调用了get,反序列化的时候调用了无参构造方法,set和get方法
 
@@ -134,31 +134,31 @@ public static class evil{
 AbstractTranslet translet = (AbstractTranslet) _class[_transletIndex].newInstance();
 ```
 
-![image-20220607213128139](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220607213128139.png)
+![image-20220607213128139](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220607213128139.png)
 
 根本原因在`Class.newInstance`的调用链这里
 
 按理说我定义的类的包和它就是一致的呀,明明代码都写在一个包下面,但是根据调试发现,javassist生成的class它是不带包名的
 
-![image-20220607221426566](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220607221426566.png)
+![image-20220607221426566](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220607221426566.png)
 
 所以这个判断的地方输出false,而只有它的修饰符是public才能进入下面的代码并且返回true最后实现实例化
 
-![image-20220607220335886](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220607220335886.png)
+![image-20220607220335886](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220607220335886.png)
 
-![image-20220607220315641](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220607220315641.png)
+![image-20220607220315641](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220607220315641.png)
 
 这里对于利用条件是有要求的，Fastjson默认只会反序列化public属性，而outputProperties和_bytecodes由private修饰，所以受害端的parseObject必须设置Feature.portNonPublicField，而Feature.portNonPublicField在1.22才被引入，所以这条利用链条件过于苛刻
 
 #### JdbcRowSetImpl调用链
 
-![image-20220608005810266](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220608005810266.png)
+![image-20220608005810266](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220608005810266.png)
 
 在`JdbcRowSetImpl#connect`方法中调用了参数名可控的`InitialContext.lookup()`方法
 
 这里有一个基础知识点,就是子类虽然可以继承父类的private属性,但是**必须通过父类中定义的get和set才能访问到**
 
-![image-20220608005043003](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220608005043003.png)
+![image-20220608005043003](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220608005043003.png)
 
 共有三处调用了`connect()`方法
 
@@ -182,7 +182,7 @@ public class Server {
 
 开启http服务并将静态代码块有恶意代码的恶意类放上去
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220608011811781.png" alt="image-20220608011811781" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220608011811781.png" alt="image-20220608011811781" style="zoom:67%;" />
 
 exp
 
@@ -202,7 +202,7 @@ public static void main(String[] args) {
 
 黑名单的实现在`com.alibaba.fastjson.parser.ParserConfig`的`denyList`属性中
 
-![image-20220607234636647](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220607234636647.png)
+![image-20220607234636647](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220607234636647.png)
 
 ##### checkAutoType函数分析
 
@@ -214,17 +214,17 @@ public static void main(String[] args) {
 
 开启之后让autoTypeSupport为true才能有机会进去这段代码
 
-![image-20220609204549908](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220609204549908.png)
+![image-20220609204549908](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220609204549908.png)
 
 在这段代码中判断,如果在白名单`acceptList`中则调用`TypeUtils.loadClass`,不在白名单里面进入下面是否在黑名单中的判断,如果不在黑名单才能接着往下走
 
 直到源码的861行,调用`TypeUtils.loadClass`去加载类
 
-![image-20220610152821158](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610152821158.png)
+![image-20220610152821158](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220610152821158.png)
 
 这个loadClass方法会将以L开头和;结尾的类名去除L和;再去递归调用加载
 
-![image-20220610152802367](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610152802367.png)
+![image-20220610152802367](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220610152802367.png)
 
 这里涉及到一个叫做JNI字段描述符的东西
 
@@ -236,7 +236,7 @@ https://blog.csdn.net/m0_37537867/article/details/124137225
 
 由于Java支持函数重载，因此仅仅根据函数名是没法找到对应的JNI函数。为了解决这个问题，JNI将参数类型和返回值类型作为函数的签名信息。
 
-![image-20220610162925861](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610162925861.png)
+![image-20220610162925861](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220610162925861.png)
 
 **JNI常用的数据类型及对应字符**
 
@@ -267,21 +267,21 @@ ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
 
 1.2.42版本将黑名单进行了hash处理
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610190544304.png" alt="image-20220610190544304" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220610190544304.png" alt="image-20220610190544304" style="zoom:80%;" />
 
 在checkAutoType函数中
 
 先进行一次判断并截取掉了L和;
 
-![image-20220610223234128](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610223234128.png)
+![image-20220610223234128](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220610223234128.png)
 
 接下来的代码就是之前检查黑白名单的hash版
 
-![image-20220610223337297](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610223337297.png)
+![image-20220610223337297](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220610223337297.png)
 
 到loadClass这里还是递归调用
 
-![image-20220610223441375](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610223441375.png)
+![image-20220610223441375](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220610223441375.png)
 
 综上所述,可以使用双写L和;的方式绕过
 
@@ -294,7 +294,7 @@ ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
 
 该版本对于双写LL的poc进行了判断和限制
 
-![image-20220610231237572](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220610231237572.png)
+![image-20220610231237572](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220610231237572.png)
 
 
 
@@ -309,7 +309,7 @@ JSON.parseObject({"@type":"[com.sun.rowset.JdbcRowSetImpl"[{,"dataSourceName":"r
 
 关于fastjson中token的解析https://blog.csdn.net/qq_45854465/article/details/120626835
 
-![image-20220611160647239](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220611160647239.png)
+![image-20220611160647239](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220611160647239.png)
 
 ## <=1.2.45
 
@@ -319,15 +319,15 @@ JSON.parseObject({"@type":"[com.sun.rowset.JdbcRowSetImpl"[{,"dataSourceName":"r
 
 该类中的`setProperties()`方法存在Jndi注入的问题
 
-![image-20220611174720213](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220611174720213.png)
+![image-20220611174720213](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220611174720213.png)
 
 新建一个LDAP服务,并且将远程对象引用绑定上去
 
-![image-20220611170739137](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220611170739137.png)
+![image-20220611170739137](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220611170739137.png)
 
 写段代码测试一下
 
-![image-20220611174751726](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220611174751726.png)
+![image-20220611174751726](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220611174751726.png)
 
 利用fastjson构造
 
@@ -348,23 +348,23 @@ JSON.parseObject("[{"@type":"java.lang.Class","val":"com.sun.rowset.JdbcRowSetIm
 
 默认使用的是`DefaultJSONParser.parser`
 
-![image-20220614181358097](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614181358097.png)
+![image-20220614181358097](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220614181358097.png)
 
 使用lexer这个词法分析器检测到`@type`之后,会调用`checkAutoType`
 
-![image-20220614181943820](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614181943820.png)
+![image-20220614181943820](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220614181943820.png)
 
 主要的点还是在`checkAutoType`中
 
-![image-20220614185549671](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614185549671.png)
+![image-20220614185549671](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220614185549671.png)
 
 经过前面对poc的基础判断之后,会进入`deserializers.findClass`,这里实际上是去一个桶里面找有没有对应的类,如果类名equal则返回这个类
 
-![image-20220614183113141](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614183113141.png)
+![image-20220614183113141](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220614183113141.png)
 
 桶里面存了一堆类
 
-![image-20220614185937978](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614185937978.png)
+![image-20220614185937978](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220614185937978.png)
 
 获取到java.long.Class类之后会返回到
 
@@ -372,27 +372,27 @@ DefaultJSONParser中继续执行
 
 获取到`MiscCodec`这个类之后,调用`deserialize`方法
 
-![image-20220614190503311](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614190503311.png)
+![image-20220614190503311](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220614190503311.png)
 
 在这个方法中,获取到了val对应的值`com.sun.rowset.JdbcRowSetImpl`
 
 并且在这个if中进行了类加载
 
-![image-20220614191433526](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614191433526.png)
+![image-20220614191433526](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220614191433526.png)
 
-![image-20220614192231949](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614192231949.png)
+![image-20220614192231949](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220614192231949.png)
 
-![image-20220614192924962](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614192924962.png)
+![image-20220614192924962](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220614192924962.png)
 
 这里的第三个参数`cache`为`true`很重要,这样加载完的类就会存储到之前的`mapping`中,此时`com.sun.rowset.JdbcRowSetImpl`就存储在了`getClassFromMapping`这个方法对应的`mapping`中
 
 接下来继续解析字符串,检测到左侧大括号,调用`paseObject`,实际上还是调用的`DefaultJSONParser#parseObject`
 
-![image-20220614193252144](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614193252144.png)
+![image-20220614193252144](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220614193252144.png)
 
 继续到`checkAutoType`的时候,就可以直接从这里获取到`com.sun.rowset.JdbcRowSetImpl`类了
 
-![image-20220614193532234](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220614193532234.png)
+![image-20220614193532234](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220614193532234.png)
 
 走的这个if还不需要开启`AutoType`从而绕过了checkAutoType
 
@@ -417,7 +417,7 @@ DefaultJSONParser中继续执行
 
 大多数时候调用`ParserConfig#checkAutoType()` 进行安全校验时，参数`expectClass`的位置传入的都是`null`。
 
-![image-20220615153348640](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220615153348640.png)
+![image-20220615153348640](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220615153348640.png)
 
 有两个反序列化器的地方调用了传递expectClass的`checkAutoType`方法
 
@@ -476,25 +476,25 @@ fastjson支持[循环引用](https://github.com/alibaba/fastjson/wiki/%E5%BE%AA%
 
 在fastjson中，在对某个类型反序列化前，先要进行一次`ParserConfig#checkAutoType()`检查，然后才是获取相应类型的反序列化器进行反序列化。
 
-![image-20220615210559920](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220615210559920.png)
+![image-20220615210559920](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220615210559920.png)
 
 在它的反序列化器`ThrowableDeserializer`里面继续进行词法分析
 
 检测到`@type`之后,就调用到了`expectClass`为`Throwable.class`的`checkAutoType方法`
 
-![image-20220615210807185](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220615210807185.png)
+![image-20220615210807185](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220615210807185.png)
 
 在这次的checkAutoType方法调用中会走到这里,并且返回`CalcException.class`给`exClass`
 
-![image-20220615211602310](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220615211602310.png)
+![image-20220615211602310](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220615211602310.png)
 
 最后在这里创建这个自定义的异常类,虽然报了一个由于没有toString方法导致的异常,但是并不影响后面setValue
 
-![image-20220615212234939](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220615212234939.png)
+![image-20220615212234939](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220615212234939.png)
 
 最终在setValue这里调用set方法实现set方法调用由于循环引用调用到getMessage从而弹出计算器
 
-![image-20220615212151886](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220615212151886.png)
+![image-20220615212151886](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220615212151886.png)
 
 虽然Throwable这个点可以利用,但是实际环境中的异常类很少有比较危险的set或者get方法
 
@@ -530,7 +530,7 @@ fastjson支持[循环引用](https://github.com/alibaba/fastjson/wiki/%E5%BE%AA%
 原理上，它跟ThrowableDeserializer#deserialze() 这个利用点是一样的，也是通过利用期望类expectClass去绕过`checkAutoType()`的安全校验。区别在于`JavaBeanDeserializer#deserialze()`中的expectClass参数是用户可控的，所以漏洞利用可发挥的空间更大。
 为什么要选择这个接口,其一是因为这个接口和Throwable一样在`TypeUtils#mapping`中,其二是实现了这个接口的一些类往往和流有关,可能可以操作文件
 
-![image-20220623191250838](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220623191250838.png)
+![image-20220623191250838](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220623191250838.png)
 
 
 
@@ -540,7 +540,7 @@ fastjson在调用`JavaBeanDeserializer#deserialze()`进行反序列化的过程�
 
 根据上面这条规则,使用的是划红线的构造方法,所以在提供参数的时候需要再多提供一个`append`
 
-![image-20220623202904340](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220623202904340.png)
+![image-20220623202904340](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220623202904340.png)
 
 ##### java.io.FileOutputStream
 
@@ -552,13 +552,13 @@ fastjson在调用`JavaBeanDeserializer#deserialze()`进行反序列化的过程�
 
 fastjson 在通过带参构造函数进行[反序列化](https://so.csdn.net/so/search?q=反序列化&spm=1001.2101.3001.7020)时，会检查参数是否有参数名，只有含有参数名的带参构造函数才会被认可。只有当这个类 class 字节码带有调试信息且其中包含有变量信息时才会有。
 
-![image-20220623230704398](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220623230704398.png)
+![image-20220623230704398](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220623230704398.png)
 
 使用`javap -l java.io.FileOutputStream`显示出行号和本地变量表
 
 分别使用jdk11和jdk1.8执行
 
-![image-20220623230339199](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220623230339199.png)
+![image-20220623230339199](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220623230339199.png)
 
 可以明显看出,jdk11的字节码存储了参数的名字,而jdk8只会使用var0,var1这样的符号来表示,也就是说fastjson读取不到参数名
 
@@ -595,7 +595,7 @@ fastjson 在通过带参构造函数进行[反序列化](https://so.csdn.net/so/
 
 它的构造方法当`targetPath`不存在且`tempPath`存在时，便会进行文件复制
 
-![image-20220623235104501](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220623235104501.png)
+![image-20220623235104501](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220623235104501.png)
 
 poc
 

@@ -39,6 +39,20 @@ insert  into `user`(`id`,`user_name`,`password`,`name`,`age`,`address`) values (
 ##### 1.创建SpringBoot工程并添加依赖
 
 ```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.example</groupId>
+    <artifactId>springBoot</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.3</version>
+    </parent>
 <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -198,7 +212,7 @@ public class HelloApplication {
 
 测试类的所在位置
 
-![image-20220202000821862](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220202000821862.png)
+![image-20220202000821862](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220202000821862.png)
 
 ```java
 @SpringBootTest
@@ -466,7 +480,7 @@ mybatis-plus:
 
 ​	其继承体系如下：
 
-​	![image-20210823105447044](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/wrapper%E7%BB%A7%E6%89%BF%E4%BD%93%E7%B3%BB%E5%9B%BE.png)
+​	![image-20210823105447044](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/wrapper%E7%BB%A7%E6%89%BF%E4%BD%93%E7%B3%BB%E5%9B%BE.png)
 
 ​	在其子类`AbstractWrapper`中提供了很多用于构造Where条件的方法。
 

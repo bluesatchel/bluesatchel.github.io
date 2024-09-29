@@ -22,7 +22,7 @@ description: 对springBoot防御xss的一般方法的学习
 
 该方法可以将字符串中的一些特殊字符进行转义,进行转义处理后再存入数据库,这样前端请求之后获取到的字符串中可能会导致xss的特殊字符都会转义成html实体编码
 
-![image-20220901174343546](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220901174343546.png)
+![image-20220901174343546](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220901174343546.png)
 
 ### [mica-xss](https://gitee.com/596392912/mica/tree/master/mica-xss)
 
@@ -30,7 +30,7 @@ description: 对springBoot防御xss的一般方法的学习
 
 ##### 对应springboot版本信息
 
-![image-20220831191455575](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220831191455575.png)
+![image-20220831191455575](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220831191455575.png)
 
 使用起来也及其简单,只需要两步
 

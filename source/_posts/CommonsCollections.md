@@ -90,9 +90,9 @@ setValue调用了checkSetValue方法,checkSetValue方法又调用了transform方
 
 因为TransformedMap继承了`AbstractInputCheckedMapDecorator`这个抽象类,这个抽象类中checkSetValue是抽象方法,被`TransformedMap`实现,所以setValue中`parent.checkSetValue`调用的就是这个被实现的方法
 
-![image-20220310150430013](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220310150430013.png)
+![image-20220310150430013](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220310150430013.png)
 
-![image-20220310150131340](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220310150131340.png)
+![image-20220310150131340](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220310150131340.png)
 
 ```java
 InvokerTransformer invokerTransformer = new InvokerTransformer("exec",new Class[]{String.class},new String[]{"calc"});
@@ -301,7 +301,7 @@ Transformer[] transformers= new Transformer[]{
 
 还得是`AnnotationInvocationHandler`类
 
-![image-20220312160852089](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220312160852089.png)
+![image-20220312160852089](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220312160852089.png)
 
 readObject中的memberTypes是注解的成员变量,无法控制
 
@@ -315,7 +315,7 @@ readObject中的memberTypes是注解的成员变量,无法控制
 
 这里其实是我的理解出了问题,经过多次调试,只要通过动态代理调用`AnnotationInvocationHandler`中的方法,就能执行代码,并且传入到LazyMap中的key参数虽然跟着变化,但是还能执行
 
-![image-20220313155923303](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220313155923303.png)
+![image-20220313155923303](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220313155923303.png)
 
 最后找到了原因,因为上一cc链中为了不让AnnotationInvocationHandler改变第一个Transformer中的值,使用了new ConstantTransformer(Runtime.class)在链式调用的时候给下一个Transformer传递值,如果保持这一修改不变,不管外部调用transform方法传递进来的参数是什么,都会被修改为Runtime.class从而执行下去
 
@@ -327,9 +327,9 @@ readObject中的memberTypes是注解的成员变量,无法控制
 
 这条链使用了TiedMapEntry.hashCode中对于getValue的调用而调用的get方法
 
-![image-20220313175136879](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220313175136879.png)
+![image-20220313175136879](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220313175136879.png)
 
-![image-20220313175144689](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220313175144689.png)
+![image-20220313175144689](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220313175144689.png)
 
 这里调用get传递的参数是key,所以还是使用`new ConstantTransformer(Runtime.class)`修改传递进去的参数即可,所以实例化的时候key随便传递一个就行了
 
@@ -398,11 +398,11 @@ ClassLoader中有一个defineClass方法,该方法可以从字节码文件加载
 
 ClassLoader中有好多defineClass方法,挨个findUsages,找到一个defineClass在其他包内不是private的调用
 
-![image-20220314151530097](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220314151530097.png)
+![image-20220314151530097](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220314151530097.png)
 
 接着找,找到一个方法能进行实例化
 
-![image-20220314152458340](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220314152458340.png)
+![image-20220314152458340](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220314152458340.png)
 
 在newTransformer这个public方法中调用了它,所以入口找到了,思路就是通过newTransformer
 
@@ -443,7 +443,7 @@ private static String ABSTRACT_TRANSLET
     = "com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet";
 ```
 
-![image-20220314160724089](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220314160724089.png)
+![image-20220314160724089](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220314160724089.png)
 
 所以给要加载的类继承该类就行了
 
@@ -535,11 +535,11 @@ public static void main(String[] args) throws Exception{
 
 再往上找,找到一个叫`TrAXFilter`的类的构造方法中调用了newTransformer,但是这个类是不可序列化的,所以需要改装,比如说找一个类中的`transform`方法,这个方法可以调用传入的对象的构造方法
 
-![image-20220314173150015](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220314173150015.png)
+![image-20220314173150015](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220314173150015.png)
 
 还真有一个这样的类`InstantiateTransformer`并且它是可以序列化的,它的`transform`方法调用是Class子类的构造方法
 
-![image-20220314175651000](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220314175651000.png)
+![image-20220314175651000](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220314175651000.png)
 
 对代码稍作修改,就可以实现和InvokeTransformer相同的效果了
 
@@ -559,7 +559,7 @@ Transformer[] transformers= new Transformer[]{
 
 首先根据`transform`方法找调用`transform`方法的类,找到一个`TransformingComparator`类,并且该类实现了`serializeable`接口可序列化,它里面的`compare`方法调用了`transfom`方法
 
-![image-20220315233629253](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220315233629253.png)
+![image-20220315233629253](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220315233629253.png)
 
 接着找一个类的`readObject`方法调用compare方法
 
@@ -567,7 +567,7 @@ Transformer[] transformers= new Transformer[]{
 
 根据调用链先尝试序列化,报错
 
-![image-20220316001101815](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220316001101815.png)
+![image-20220316001101815](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220316001101815.png)
 
 找到原因是`InstantiateTransformer`类在commons-collection4.4版本中取消了对Serializeable接口的继承,让其无法反序列化
 
@@ -575,7 +575,7 @@ Transformer[] transformers= new Transformer[]{
 
 按照一步步添加进去进行反序列化,发现有个问题,就是size必须大于2,因为`heapify`进行了无符号位右移是否大于0的判断
 
-![image-20220316003358028](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220316003358028.png)
+![image-20220316003358028](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220316003358028.png)
 
 ```java
 public static void main(String[] args) throws Exception {
@@ -615,7 +615,7 @@ public static void main(String[] args) throws Exception {
 
 在add的时候会调用到`offer`--->`siftUp`--->`siftUpUsingComparator`从而调用到`compare`方法
 
-![image-20220316003551221](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220316003551221.png)
+![image-20220316003551221](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220316003551221.png)
 
 所以效仿之前可以在add之前将TransformingComparator的参数随便弄一个,然后add之后再通过反射来修改
 
@@ -665,7 +665,7 @@ public static void main(String[] args) throws Exception {
 
 在学习过程中,对于java的反射,代理,接口,等等基础知识有了更深刻的理解,尤其是在抽象类的部分,也感受到了什么叫"基础不牢,地动山摇",后序还有几条链没有复现,现在虽然都跟着做了一遍,但也仅仅是做了一遍,要是自己找反序列化链的话,估计没戏,所以接下来自己跟着思维导图,将每一种可能都模仿一层层找的方式复现一遍
 
-![image-20220401003902537](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220401003902537.png)
+![image-20220401003902537](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220401003902537.png)
 
 ### CC2
 
@@ -716,7 +716,7 @@ public static void main(String[] args) throws Exception{
 
 基本没有啥可以说的东西,我感觉是最简单的一条链了,唯一需要修改的地方就是在`BadAttributeValueExpException`的构造函数中会直接调用`toString`,需要先传递null然后等序列化之前再利用反射改回来
 
-![image-20220316155807311](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220316155807311.png)
+![image-20220316155807311](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220316155807311.png)
 
 ```java
 public static void main(String[] args) throws Exception{
@@ -776,6 +776,6 @@ ArrayList arrayList = new ArrayList();
         SerializeTest.serialize(arrayList);
 ```
 
-![image-20220330231216877](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220330231216877.png)
+![image-20220330231216877](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220330231216877.png)
 
 生成的序列化流也十分`壮观`,鼠标滚了半天

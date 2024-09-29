@@ -49,7 +49,7 @@ categories: java
 
 能传递多个参数源自于其源码中的最后一行
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220111133538313.png" alt="image-20220111133538313" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220111133538313.png" alt="image-20220111133538313" style="zoom:80%;" />
 
 - .......
 

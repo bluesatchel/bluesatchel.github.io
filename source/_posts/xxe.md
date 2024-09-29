@@ -186,7 +186,7 @@ dtd文件内容
 
 #### 协议支持
 
-![image-20220108211411539](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220108211411539.png)
+![image-20220108211411539](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220108211411539.png)
 
 ##### XInclude(命名空间)
 
@@ -210,7 +210,7 @@ dtd文件内容
 
 使用Apache中的Batik库解析矢量图,可以解析xml文档
 
-![image-20220109171338198](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220109171338198.png)
+![image-20220109171338198](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220109171338198.png)
 
 ##### 对大佬写的xxe fuzz的阅读理解
 

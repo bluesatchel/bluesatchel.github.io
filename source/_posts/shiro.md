@@ -12,9 +12,9 @@ tags:
 
 分析其中包含的依赖（使用maven helper插件），只有runtime和compile的依赖会在项目运行时存在于项目中，其他test的则无法访问到
 
-![image-20220319180339512](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220319180339512.png)
+![image-20220319180339512](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220319180339512.png)
 
-![image-20220319180428213](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220319180428213.png)
+![image-20220319180428213](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220319180428213.png)
 
 所以一般情况下commons-collections中的链无法利用
 
@@ -39,7 +39,7 @@ public static void main(String[] args) throws Exception {
 
 shiro该版本中AES加密秘钥是固定的
 
-![image-20220319203412860](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220319203412860.png)
+![image-20220319203412860](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220319203412860.png)
 
 ```python
 import sys
@@ -162,29 +162,29 @@ if __name__ == '__main__':
 
 首先,在idea中通过双击`shift`查找关键字,cookie有关的类,找到一个`CookieRememberMeManager`类
 
-![image-20220319234114164](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220319234114164.png)
+![image-20220319234114164](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220319234114164.png)
 
 其中有一个`getRemeberedSerializedIdentity`方法,它的作用是获取cookie中的base64解码后的bytes,调用它的是`getRememberedPrincipals`方法
 
-![image-20220319235731776](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220319235731776.png)
+![image-20220319235731776](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220319235731776.png)
 
 先获得base64解码后的bytes,然后再调用convertBytesToPrincipals方法,它里面再调用decrypt进行解码
 
-![image-20220320001010886](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220320001010886.png)
+![image-20220320001010886](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220320001010886.png)
 
-![image-20220320001030875](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220320001030875.png)
+![image-20220320001030875](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220320001030875.png)
 
 再调用cipherService接口的decrypt进行解密,解密后得到序列化字符串的bytes
 
 然后对其调用`deserialize`进行反序列化
 
-![image-20220320001504004](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220320001504110.png)
+![image-20220320001504004](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220320001504110.png)
 
 ois.readObject会调用`resolveClass`方法
 
 这里需要注意的是Shiro并不是使用原生的反序列化，而是重写了ObjectInputStream,重写后的resolveClass方法最终调用的可以理解为findClass去加载类,而findClass是加载不了数组类的
 
-![image-20220320003813486](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220320003813486.png)
+![image-20220320003813486](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220320003813486.png)
 
 #### 为什么findClass加载不了数组类?
 
@@ -210,11 +210,11 @@ Commons-beanutils依赖中有一个叫`PropertyUtils`的类,它有一个`getProp
 
 descriptor中包含属性值和其get set方法的名字,然后在invokeMethod中进行调用
 
-![image-20220321143032661](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220321143032661.png)
+![image-20220321143032661](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220321143032661.png)
 
 恰好`TemplatesImpl`中有一个叫做`getOutputProperties()`的无参方法,它调用了cc3中需要调用的`newTransformer`方法
 
-![image-20220321143749765](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220321143749765.png)
+![image-20220321143749765](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220321143749765.png)
 
 试一下能不能调用,要注意大小写,get方法采用的是驼峰命名方法
 
@@ -245,7 +245,7 @@ public static void main(String[] args) throws Exception{
 
 在`BeanComparator`中的`compare`方法中有调用getProperty
 
-![image-20220321144513243](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220321144513243.png)
+![image-20220321144513243](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220321144513243.png)
 
 从这里开始就和CC2前半部分一样了,通过`PriorityQueue`类的`readObject`会调用到`compare`方法,
 
@@ -255,7 +255,7 @@ public static void main(String[] args) throws Exception{
 
 但是我在偶然的尝试中发现初始化的时候传入`Beancomparator`,只需要在反射之后再次设置`comparator`参数为`beanComparator`,还是能继续触发,但是这个时候队列add的时候需要第二个是templates,而不是第一个是templates,完事自己探究一下
 
-![image-20220321225636931](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220321225636931.png)
+![image-20220321225636931](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220321225636931.png)
 
 
 
@@ -299,11 +299,11 @@ TemplatesImpl templates=new TemplatesImpl();
 
 加密编码后尝试,发现服务端报了这样一个错误,为什么Commons-utils会去加载CC里面的类呢
 
-![image-20220321231216837](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220321231216837.png)
+![image-20220321231216837](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220321231216837.png)
 
 原因是BeanComparator方法的初始化方法调用了`ComparableComparator.getInstance()`
 
-![image-20220321231636548](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220321231636548.png)
+![image-20220321231636548](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220321231636548.png)
 
 不过它还有另一个构造方法,可以自己传入一个满足要求的`Comparator`,这个Comparator需要满足两点:1.在shiro默认依赖中或者jdk中存在2.由于需要反序列化,所以需要继承`Serializeable`接口还有`Comparator`接口
 
@@ -327,7 +327,7 @@ for i in sers:
         print(i)
 ```
 
-![image-20220321234935305](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220321234935305.png)
+![image-20220321234935305](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220321234935305.png)
 
 找到了如上这些满足条件的类,第一个`AttrCompare`就很好用,它只有默认的无参构造方法
 

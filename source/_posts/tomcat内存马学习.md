@@ -80,11 +80,11 @@ description: tomcat内存马原理学习记录
 
 首先进入doFilter方法中,会直接进入`internalDoFilter()`方法中,这个才是Tomcat中真正实现过滤的类
 
-![image-20220417184815764](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417184815764.png)
+![image-20220417184815764](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220417184815764.png)
 
 当到最后一个Filter,就会调用对应servlet的service方法
 
-![image-20220417185013757](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/image-20220417185013757.png)
+![image-20220417185013757](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220417185013757.png)
 
 总而言之,所有Filter就是一条独木桥上面的木板,少了哪一块都会导致后面的Filter的doFilter方法调用不到从而导致调用不到对应Servlet的service方法
 
@@ -146,7 +146,7 @@ FilterConfigs:存放FilterConfig的数组,FilterConfig主要存放FilterDef和Fi
 
 FilterMaps:存放FilterMap数组,在FilterMap中主要存放了FilterName和对应的URLPattern	
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418151626862.png" alt="image-20220418151626862" style="zoom:50%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418151626862.png" alt="image-20220418151626862" style="zoom:50%;" />
 
 FilterChain: 过滤器链,该对象上的doFilter方法能依次调用链上的Filter
 
@@ -158,15 +158,15 @@ StandardWrapperValve: 一个Wrapper的标准实现类,一个Wrapper代表一个S
 
 在StandardWrapperValue中会利用ApplicationFilterFactory来创建filterChain
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418152549816.png" alt="image-20220418152549816" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418152549816.png" alt="image-20220418152549816" style="zoom:67%;" />
 
 在`ApplicationFilterFactory`中的createFilterChain方法中,首先通过getParent获取当前wrapper的爹,也就是Context,然后获取到当前context中的所有filterMap,我自己写的是testFilter1和testFilter2两个
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418153140872.png" alt="image-20220418153140872" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418153140872.png" alt="image-20220418153140872" style="zoom:80%;" />
 
 接下来
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418153636868.png" alt="image-20220418153636868" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418153636868.png" alt="image-20220418153636868" style="zoom:80%;" />
 
 会对FilterMap进行遍历,如果当前请求中的url与遍历中的filterMap相对应,则把filterMap对应的FilterConfig添加到filterChain中去
 
@@ -176,17 +176,17 @@ StandardWrapperValve: 一个Wrapper的标准实现类,一个Wrapper代表一个S
 
 doFilter方法会调用internalDoFilter方法,该方法会依次从filters中取出filterConfig,调用filter的doFilter方法,从而调用到过滤器中重写的doFilter方法,触发自定义的代码
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418154301503.png" alt="image-20220418154301503" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418154301503.png" alt="image-20220418154301503" style="zoom:80%;" />
 
 
 
 要想实现动态添加filter,首先要获取到context,因为根据前面的分析,filterMaps是通过context获取到的
 
-![image-20220418155818702](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418155818702.png)
+![image-20220418155818702](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418155818702.png)
 
 按照大佬的方法,首先web容器启动的时候会为每个web应用创建一个ServletContext对象,代表当前应用,而有一个类很特殊,就是`ApplicationContext`类,它是ServletContext的实现类,并且它的成员变量中包含了`context`的标准实现类`StandardContext`
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418160009434.png" alt="image-20220418160009434" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418160009434.png" alt="image-20220418160009434" style="zoom:67%;" />
 
 可以通过反射来获取到它的这个成员变量,即为当前的context,然后就可以添加filterMaps,进行一系列操作了
 
@@ -218,15 +218,15 @@ FilterConfigs
 
 翻译的有点奇怪....,反正就是注意声明类型和实际类型的问题
 
-![image-20220420112130648](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420112130648.png)
+![image-20220420112130648](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420112130648.png)
 
 ServletContext接口当前正在运行的对象所对应的类就是ApplicationContextFacade
 
-![image-20220418232736182](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418232736182.png)
+![image-20220418232736182](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418232736182.png)
 
 而这个类中的Context的类型是ApplicationContext
 
-![image-20220418233017639](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220418233017639.png)
+![image-20220418233017639](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220418233017639.png)
 
 `ApplicationContext`中有`StandardContext`类型的成员变量`context`,通过这样就能获取到对应的`context`
 
@@ -291,7 +291,7 @@ filterMap.setDispatcher(DispatcherType.REQUEST.name());//添加的是当前diepa
 
 
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220419132233195.png" alt="image-20220419132233195" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220419132233195.png" alt="image-20220419132233195" style="zoom:67%;" />
 
 最后是filterConfig这个东西了
 
@@ -470,17 +470,17 @@ ServletContext servletContext = request.getSession().getServletContext();
 
 在jsp中可以直接写的request对象的类型是HttpServletRequest,HttpServletRequest是一个接口,通过它,getClass(),获取到当前正在运行的它的对应对象的类是RequestFacade
 
-![image-20220420101423176](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420101423176.png)
+![image-20220420101423176](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420101423176.png)
 
 RequestFacade中有一个成员变量Request
 
-![image-20220420102024626](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420102024626.png)
+![image-20220420102024626](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420102024626.png)
 
 
 
 通过该Request中的getContext()方法可以获取到当前request对应的context
 
-![image-20220420101210413](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420101210413.png)
+![image-20220420101210413](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420101210413.png)
 
 ```java
 Field declaredField = request.getClass().getDeclaredField("request");
@@ -497,9 +497,9 @@ ThreadLocal是什么呢,顾名思义,就是它里面存的是当前线程才才�
 
 看大佬说的是因为在internalDoFilter方法调用中，将request赋值给了ThreadLocal。所以可以获取到request从而像方法二一样获取到context对象,但是这里就出现了一个令我有点不解的点,就是Filter的添加是在internalDoFilter之后,为什么可以在添加Filter之前就获取到ThreadLocal这个对象呢
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220421121651249.png" alt="image-20220421121651249" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421121651249.png" alt="image-20220421121651249" style="zoom:67%;" />
 
-![image-20220421121832745](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220421121832745.png)
+![image-20220421121832745](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421121832745.png)
 
 
 
@@ -519,7 +519,7 @@ tomcat的类加载机制和双亲委派机制是相反它,它是先用webappClas
 
 webappClassLoader显然就是这样一个ContextClassLoader
 
-![image-20220421144335949](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220421144335949.png)
+![image-20220421144335949](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421144335949.png)
 
 采用`Thread.currentThread().getContextClassLoader()`获取到的CLassLoader是ParalleWebappClassLoader,它是`WebappClassLoaderBase`的子类,由于contextClassLoader的特性,它可以加载`WebappClassLoaderBase`的内容
 
@@ -537,9 +537,9 @@ StandardContext standardContext = (StandardContext)webappClassLoaderBase.getReso
 
 threads[16]->target->endpoint->handler->proto->adapter->connector->service->engine->children(map)->map("localhost")->StandardEngine->children(map)->map('')->standardContext
 
-![image-20220420180444920](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420180444920.png)
+![image-20220420180444920](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420180444920.png)
 
-![image-20220420182450812](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420182450812.png)
+![image-20220420182450812](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420182450812.png)
 
 总之知道在哪里可以获取到context后过程其实并不难,主要的是细心一层层往下慢慢剥开,还有个问题就是说有的成员变量是在父类中的,需要多次`getSuperclass()`
 
@@ -703,15 +703,15 @@ threads[16]->target->endpoint->handler->proto->adapter->connector->service->engi
 
 使用context#createWrapper新建一个wrapper对象,设置启动优先级,servlet的name,设置了servlet的Class
 
-![image-20220420121557998](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420121557998.png)
+![image-20220420121557998](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420121557998.png)
 
 并且通过addChild将其添加到context当中,
 
-![image-20220420121642666](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420121642666.png)
+![image-20220420121642666](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420121642666.png)
 
 然后循环遍历servletmapping添加路径和name的对应关系
 
-![image-20220420122055271](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420122055271.png)
+![image-20220420122055271](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420122055271.png)
 
 
 
@@ -810,11 +810,11 @@ Servlet servlet = new Servlet(){
 
 在继承了这个接口的对象中,有一个ServletRequestListener,它用于监听ServletRequest的生成和销毁,也就是说,只要访问该网站资源,就会触发requestInitialized方法
 
-<img src="https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420140012800.png" alt="image-20220420140012800" style="zoom: 50%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420140012800.png" alt="image-20220420140012800" style="zoom: 50%;" />
 
 在`StandardContext#fireRequestInitEvent`方法中,进行了对listener中初始化方法的调用
 
-![image-20220420140848773](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220420140848773.png)
+![image-20220420140848773](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220420140848773.png)
 
 综上所述,只需要创建一个`ServletRequestListener`并且将其添加到`StandardContext`中的`ApplicationEventListeners`就行了
 
@@ -887,11 +887,11 @@ Tomcat定义了两个接口Pipeline(管道)和Valve(阀门)
 
 Pipeline接口的实现类是`StandardPipeline`
 
-![image-20220423172150621](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172150621.png)
+![image-20220423172150621](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423172150621.png)
 
 Valve一般直接使用其实现类ValveBase
 
-![image-20220423172202365](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172202365.png)
+![image-20220423172202365](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423172202365.png)
 
 Pipeline 中会有一个最基础的 Valve（basic），它始终位于末端（最后执行），封装了具体的请求处理和输出响应的过程。Pipeline 提供了 `addValve` 方法，可以添加新 Valve 在 基础Valve之前，并按照添加顺序执行。
 
@@ -907,7 +907,7 @@ Pipeline 中会有一个最基础的 Valve（basic），它始终位于末端（
 
 这些`Valve`会将接收到的数据扔给下一个`Container`的`Pipeline`
 
-![image-20220423172536815](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423172536815.png)
+![image-20220423172536815](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423172536815.png)
 
 Pipeline就像一个工厂中的生产线，负责调配工人（valve）的位置，valve则是生产线上负责不同操作的工人。
 一个生产线的完成需要两步：
@@ -924,11 +924,11 @@ Adapter连接了Tomcat连接器`Connector`和容器`Container`它的实现类是
 
 在`CoyoteAdapter`的`service`方法中调用了valve的invoke方法
 
-![image-20220423173023450](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423173023450.png)
+![image-20220423173023450](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423173023450.png)
 
 这里调用的是StandardEngineValve的invoke方法
 
-![image-20220423173256592](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423173256592.png)
+![image-20220423173256592](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423173256592.png)
 
 它在最后调用了Host容器的第一个Valve的invoke方法,如此像一条链一样走到之前写恶意valve的地方
 
@@ -936,9 +936,9 @@ Adapter连接了Tomcat连接器`Connector`和容器`Container`它的实现类是
 
 在获取pipeline的时候有个小坑,我看见StandardContext在调试的时候有pipeline属性就以为它里面有这个属性,但是其实是在他继承的ContainerBase类里面呢
 
-![image-20220423171315008](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423171315008.png)
+![image-20220423171315008](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423171315008.png)
 
-![image-20220423171440443](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423171440443.png)
+![image-20220423171440443](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423171440443.png)
 
 同时代码稍作修改,也可以往host或者wrapper中添加恶意Valve
 

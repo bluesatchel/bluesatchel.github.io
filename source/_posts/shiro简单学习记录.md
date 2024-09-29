@@ -11,7 +11,7 @@ categories: java
 
 编一个ini文件模拟数据库中获取的数据
 
-![image-20220927171547699](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220927171547699.png)
+![image-20220927171547699](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220927171547699.png)
 
 ```java
 import org.apache.shiro.SecurityUtils;

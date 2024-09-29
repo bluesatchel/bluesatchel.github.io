@@ -16,7 +16,7 @@ categories: java
 
  甚至，开发者可以用类似Scala、Kotlin这样的语言编写代码，只要你的编译器能够将代码编译成.class文 件，都可以在JVM虚拟机中运行：
 
-![image-20220323213706173](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220323213706173.png)
+![image-20220323213706173](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220323213706173.png)
 
 通常所说的“字节码”，可以理解的更广义一些——所有能够恢复成一个类并在JVM虚拟机里加 载的字节序列
 
@@ -119,13 +119,13 @@ public class TestClassLoader extends ClassLoader{
 
 字节数组中存的数据对应的类代码:
 
-![image-20220423154839887](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423154839887.png)
+![image-20220423154839887](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423154839887.png)
 
 
 
 当前对应包名下面真正的类代码
 
-![image-20220423154723513](https://picture-1304716932.cos.ap-chengdu.myqcloud.com/img/image-20220423154723513.png)
+![image-20220423154723513](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220423154723513.png)
 
 newInstance出来对应的是后者,变量名也都存在,这里存在被修改的可能
 
