@@ -11,7 +11,7 @@ categories: java
 
 <!--more-->
 
-![image-20220401002812718](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220401002812718.png)
+![image-20220401002812718](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220401002812718.png)
 
 之前的链都是看的别人的讲解,剩的这条链要自己分析一下
 
@@ -60,9 +60,9 @@ private void writeObject(java.io.ObjectOutputStream s)
     }
 ```
 
-![image-20220331000545609](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331000545609.png)
+![image-20220331000545609](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331000545609.png)
 
-![image-20220331000314892](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331000314892.png)
+![image-20220331000314892](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331000314892.png)
 
 使用zkar分析后的确如此,序列化后是反的,但是后面反序列化的时候并没有再反一次让它正过来
 
@@ -136,17 +136,17 @@ private void reconstitutionPut(Entry<?,?>[] tab, K key, V value)
 
 首先需要满足Hashtable中的两个元素的hashCode相等,那么这里是怎么计算hashCode的呢
 
-<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331224615938.png" alt="image-20220331224615938" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331224615938.png" alt="image-20220331224615938" style="zoom:67%;" />
 
 起初tab是空的,反序列化取出第一个元素后才会进入for循环,其中e.hash是第一个元素的hash值,这里的hash来自于key的hashCode,而Hashtable的key是构造好的lazyMap,由于if语句中执行顺序的关系,需要先满足第一个条件才会接着执行下一个条件的语句
 
 由于此时求得是lazyMap的hashCode,所以直接去看lazyMap的hashCode方法,但是lazyMap没有hashCode方法,找到它继承的抽象父类`AbstractMapDecorator`里面有hashCode方法,和equls一样,它也调用的是当前map的方法
 
-<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331225017982.png" alt="image-20220331225017982" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331225017982.png" alt="image-20220331225017982" style="zoom:67%;" />
 
 由于map实际上是`HashMap`类型的,所以直接去看`HashMap`的`hashCode`,它里面也没有`hashCode`方法,在它的抽象父类`AbstractMap`中找到了`hashCode`方法
 
-<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331225222273.png" alt="image-20220331225222273" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331225222273.png" alt="image-20220331225222273" style="zoom:67%;" />
 
 这里的i.next().hashCode调用了Object的hashCode分别计算key和value的hash并做异或
 
@@ -214,13 +214,13 @@ for i in letter:
 
 首先通过Hashtable的readObject触发`Hashtable.reconstitutionPut`,由于`yy`和`zZ`的hashCode相等,所以触发`equals`方法,LazyMap是没有equals方法的,但是它继承的抽象类`AbstractMapDecorator`实现了`equals`方法
 
-![image-20220331011008494](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331011008494.png)
+![image-20220331011008494](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331011008494.png)
 
 它只要判断传入的对象不是当前对象,则调用map的equals方法,这里的map就是lazyMap中的map属性,由于起初lazyMap初始化的时候map传递的是`HashMap`,所以会调用`HashMap`的`equals`方法,但是HashMap并没有`equals`方法,但是它继承的抽象父类`AbstractMap`有,map属性需要满足3条就可以,`1.不是同一对象2.实现了Map接口3.o和当前map 的元素个数相等`
 
-![image-20220331011543850](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331011543850.png)
+![image-20220331011543850](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331011543850.png)
 
-接着就会调用map的get,虽然o被转型为了Map,但是其本质上还是LazyMap,所以这里调用`m.get`就相当于调用了`lazyMap2.get`至于这里调用的是第二个lazyMap的get但是为什么key是"yy"而不是"zz"原因还是序列化的时候的那一波出入栈操作![image-20220331012704699](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331012704699.png)
+接着就会调用map的get,虽然o被转型为了Map,但是其本质上还是LazyMap,所以这里调用`m.get`就相当于调用了`lazyMap2.get`至于这里调用的是第二个lazyMap的get但是为什么key是"yy"而不是"zz"原因还是序列化的时候的那一波出入栈操作![image-20220331012704699](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331012704699.png)
 
 
 
@@ -273,17 +273,17 @@ public static void main(String[] args)throws Exception {
 
 hashTable在put的时候会调用
 
-<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331180337409.png" alt="image-20220331180337409" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331180337409.png" alt="image-20220331180337409" style="zoom:80%;" />
 
 entry.key.equals(key),  entry.key是lazyMap1, key也就是lazyMap2,然后会调用到`AbstractMap.equals`(lazyMap2)
 
-![image-20220331172723005](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331172723005.png)
+![image-20220331172723005](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331172723005.png)
 
 在里面会调用到lazyMap2的get方法,这里传进去的参数`key`是第一个lazyMap的key, `m`代表的是lazyMap2,调用了第二个`lazyMap的get("yy")`,由于`"yy"`在lazyMap2中不存在,所以会调用`ChainedTransformer.transform("yy")`
 
-![image-20220331173811180](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331173811180.png)
+![image-20220331173811180](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331173811180.png)
 
-![image-20220331173729480](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331173729480.png)
+![image-20220331173729480](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331173729480.png)
 
 由于当前的itransform数组长度为0,所以返回的是"yy",
 
@@ -297,7 +297,7 @@ entry.key.equals(key),  entry.key是lazyMap1, key也就是lazyMap2,然后会调�
 
 接着上面的分析,最后给下面画红线的地方中equals()中的值就是上面最后transform返回的结果,value是Hashtable中第一个entry的value,也就是1,所以这块是`1.equals(  )`,只要不是1就满足结果
 
-![image-20220331182218564](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331182218564.png)
+![image-20220331182218564](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331182218564.png)
 
 
 
@@ -313,4 +313,4 @@ entry.key.equals(key),  entry.key是lazyMap1, key也就是lazyMap2,然后会调�
 
 因为在调用到`AbstractMap.equals`的时候,会判断两个map的长度是否一致,如果不一致则不会进行下面的get调用了
 
-![image-20220331174106161](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220331174106161.png)
+![image-20220331174106161](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220331174106161.png)

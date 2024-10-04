@@ -561,7 +561,7 @@ public class HelloWorld {
 
 ```
 
-![image-20220426220901529](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220426220901529.png)
+![image-20220426220901529](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220426220901529.png)
 
 
 

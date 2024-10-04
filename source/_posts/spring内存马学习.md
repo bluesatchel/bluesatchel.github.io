@@ -66,11 +66,11 @@ springBoot用过之后觉得这配置好麻烦......
 
 大体目录结构
 
-![image-20220422002418321](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220422002418321.png)
+![image-20220422002418321](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422002418321.png)
 
 配置文件自定义,右键new选择spring Config
 
-<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220422002516259.png" alt="image-20220422002516259" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220422002516259.png" alt="image-20220422002516259" style="zoom:80%;" />
 
 spring配置文件,命名自定义,后面在web.xml中写对应就行
 
@@ -180,37 +180,37 @@ springMVC配置文件
 1. RequestMappingInfo类，对RequestMapping注解封装。里面包含http请求头的相关信息。如uri、method、params、header等参数。一个对象对应一个RequestMapping注解
 2. HandlerMethod类，是对Controller的处理请求方法的封装。里面包含了该方法所属的bean对象、该方法对应的method对象、该方法的参数等。
 
-![image-20220421174514491](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421174514491.png)
+![image-20220421174514491](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421174514491.png)
 
 
 
 SpringMVC初始化的时候,对每个容器中的Bean的构造方法和属性设置之后,将会调用` InitializingBean`接口的`afterPropertiesSet`方法
 
-<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421174800350.png" alt="image-20220421174800350" style="zoom:67%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421174800350.png" alt="image-20220421174800350" style="zoom:67%;" />
 
 其中实现类 RequestMappingHandlerMapping 用来处理具有 `@Controller` 注解类中的方法级别的 `@RequestMapping`
 
-![image-20220421175523028](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421175523028.png)
+![image-20220421175523028](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421175523028.png)
 
 它的`afterPropertiesSet`先是对静态内部配置类进行了初始化,然后调用了其抽象父类的`afterPropertiesSet`方法
 
-<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421180801171.png" alt="image-20220421180801171" style="zoom:80%;" />
+<img src="https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421180801171.png" alt="image-20220421180801171" style="zoom:80%;" />
 
 其抽象父类的对应方法中又调用了`initHandlerMethods`方法
 
-![image-20220421180923594](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421180923594.png)
+![image-20220421180923594](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421180923594.png)
 
 这个方法调用了 initHandlerMethods 方法，首先获取了 Spring 中注册的 Bean，然后循环遍历，调用 `processCandidateBean` 方法处理 Bean。
 
-![image-20220421181210684](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421181210684.png)
+![image-20220421181210684](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421181210684.png)
 
 processCandidateBean中获取bean的类型并且符合isHandler要求就进行方法检测`detectHandlerMethods()`
 
-![image-20220421181317837](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421181317837.png)
+![image-20220421181317837](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421181317837.png)
 
 isHandler调用的是其方法实现类`RequestMappingHandlerMapping`中的isHandler,它判断了该bean的定义是否带有`@Controller`或`@RequestMapping`注解
 
-![image-20220421182037996](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421182037996.png)
+![image-20220421182037996](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421182037996.png)
 
 这关过去之后,就开始查找handler methods并注册,
 
@@ -218,15 +218,15 @@ isHandler调用的是其方法实现类`RequestMappingHandlerMapping`中的isHan
 
 有一说一,这段代码还真不好理解
 
-![image-20220421183153513](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421183153513.png)
+![image-20220421183153513](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421183153513.png)
 
 这部分有两个关键功能，一个是 `getMappingForMethod` 方法根据 handler method 创建`RequestMappingInfo` 对象，一个是 `registerHandlerMethod` 方法将 handler method 与创建 `RequestMappingInfo `进行相关映射。
 
-![image-20220421184453462](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421184453462.png)
+![image-20220421184453462](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421184453462.png)
 
 注册完成之后的信息都存在这样一个类中
 
-![image-20220421184720102](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421184720102.png)
+![image-20220421184720102](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421184720102.png)
 
 [详细请求调用流程](https://www.cnblogs.com/w-y-c-m/p/8416630.html)
 
@@ -238,7 +238,7 @@ lookupPath就是请求的相对地址,比如/user/login
 
 最后,获取最佳匹配的 RequestMappingInfo 对应的 HandlerMethod
 
-![image-20220421185007532](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220421185007532.png)
+![image-20220421185007532](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220421185007532.png)
 
 大概原理跟着顺了一遍
 
