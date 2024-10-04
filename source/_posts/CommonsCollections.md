@@ -665,7 +665,7 @@ public static void main(String[] args) throws Exception {
 
 在学习过程中,对于java的反射,代理,接口,等等基础知识有了更深刻的理解,尤其是在抽象类的部分,也感受到了什么叫"基础不牢,地动山摇",后序还有几条链没有复现,现在虽然都跟着做了一遍,但也仅仅是做了一遍,要是自己找反序列化链的话,估计没戏,所以接下来自己跟着思维导图,将每一种可能都模仿一层层找的方式复现一遍
 
-![image-20220401003902537](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220401003902537.png)
+![image-20220401003902537](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220401003902537.png)
 
 ### CC2
 
@@ -763,7 +763,7 @@ public static void main(String[] args) throws Exception{
 
 参考https://mp.weixin.qq.com/s/wvKfe4xxNXWEgtQE4PdTaQ
 
-通过ArrayList添加大量垃圾数据进去,因为ArrayList的`readObject`方法存在会对List中的每一项除了transient的所有数据序列化,所以可以利用ArrayList实现简单的垃圾数据添加
+通过ArrayList添加大量垃圾数据进去,因为ArrayList的`readObject`方法存在会对List中的每一项除了transient(暂时的)的所有数据序列化,所以可以利用ArrayList实现简单的垃圾数据添加
 
 ```java
 ArrayList arrayList = new ArrayList();
@@ -776,6 +776,6 @@ ArrayList arrayList = new ArrayList();
         SerializeTest.serialize(arrayList);
 ```
 
-![image-20220330231216877](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220330231216877.png)
+![image-20220330231216877](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220330231216877.png)
 
 生成的序列化流也十分`壮观`,鼠标滚了半天

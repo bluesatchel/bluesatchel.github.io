@@ -21,7 +21,7 @@ servlet和filter类型的内存马如何防止被删除呢<!--more-->
 
 我的思路可能比较简单
 
-![image-20220424001711544](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220424001711544.png)
+![image-20220424001711544](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220424001711544.png)
 
 之前在context中调用了这个addFilterDef方法往filterDefs这个MAP中存入了filter的name和def这个类,我觉得可以通过检测context中该属性是否contains对应的Filter的name来判断是否被destory了,然后让该线程一直运行,直到服务关闭
 
@@ -191,25 +191,25 @@ servlet和filter类型的内存马如何防止被删除呢<!--more-->
 
 filter的destory好像是在服务器关闭的时候调用的?
 
-![image-20220424103747041](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220424103747041.png)
+![image-20220424103747041](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220424103747041.png)
 
 destory方法确实是在关闭tomcat的时候调用了
 
 因为是关闭服务器调用的,所以代码调试断点没用,使用find Usages找到在`ApplicationFilterConfig#release`方法中调用了destory方法
 
-![image-20220424104205259](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220424104205259.png)
+![image-20220424104205259](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220424104205259.png)
 
 在`StandardContext#filterStop`方法中调用了release方法,这个方法的作用呢就是释放当前context的所有过滤器
 
-![image-20220424104347716](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220424104347716.png)
+![image-20220424104347716](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220424104347716.png)
 
 在standardContext中调用stopInternal(),其中调用到了stop
 
-![image-20220424105554811](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220424105554811.png)
+![image-20220424105554811](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220424105554811.png)
 
 在lifeCycle的实现类lifeCycleBase中的stop方法中   调用`stopInternal()`让组件自行实现关闭
 
-![image-20220424105659039](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220424105659039.png)
+![image-20220424105659039](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220424105659039.png)
 
 综上大概就是我自己找的filter.destory的调用链
 
@@ -398,7 +398,7 @@ destory方法确实是在关闭tomcat的时候调用了
 
 用上面的代码,运行之后发现问题很大,首先调用`StandardContext#filterStop`方法确实调用到了destory方法,但是呢,里面剩余的注册新的filter方法并没有调用
 
-![image-20220424111840905](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/image-20220424111840905.png)
+![image-20220424111840905](https://blue-satchel.oss-cn-chengdu.aliyuncs.com/img/image-20220424111840905.png)
 
 在别的jsp页面获取StandardContext调用filterStop并没有调用到这个filter的destory方法
 
