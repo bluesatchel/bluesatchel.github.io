@@ -7,7 +7,7 @@ tags:
 categories: java
 ---
 
-servlet和filter类型的内存马如何防止被删除呢<!--more-->
+servlet和filter类型的内存马如何防止被删除呢
 
 一种思路就是在servlet和filter的destory中加入再次注册内存马的代码
 
